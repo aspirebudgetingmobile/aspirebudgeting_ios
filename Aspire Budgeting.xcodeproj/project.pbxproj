@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
 		06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */; };
 		06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A66235A908E009BA6A7 /* ContentView.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aspire Budgeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A62235A908E009BA6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06A0DAA6235BF98100AEF9FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				06A0DAA7235BF99400AEF9FE /* credentials.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		06ED8A56235A908E009BA6A7 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +89,7 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				06A0DAA6235BF98100AEF9FE /* Resources */,
 				06ED8A62235A908E009BA6A7 /* AppDelegate.swift */,
 				06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */,
 				06ED8A66235A908E009BA6A7 /* ContentView.swift */,
@@ -189,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
+				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
 				06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */,
 				06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */,
 			);
