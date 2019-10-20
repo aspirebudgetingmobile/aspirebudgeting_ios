@@ -8,7 +8,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello World")
+      VStack {
+        Image("logo")
+        Spacer()
+        GoogleSignInButton().frame(height: 50).padding()
+        Spacer()
+      }.background(BackgroundColorView().edgesIgnoringSafeArea(.all))
     }
 }
 

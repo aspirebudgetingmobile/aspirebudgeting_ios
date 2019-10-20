@@ -6,8 +6,8 @@ target 'Aspire Budgeting' do
   use_frameworks!
 
   # Pods for Aspire Budgeting
-  pod 'GoogleAPIClientForREST/Sheets', '~>1.3'
-  pod 'GoogleSignIn', '~>4.4'
+  pod 'GoogleAPIClientForREST/Sheets'
+  pod 'GoogleSignIn'
   target 'Aspire BudgetingTests' do
     inherit! :search_paths
     # Pods for testing
