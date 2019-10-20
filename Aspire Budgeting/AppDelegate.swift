@@ -4,14 +4,16 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+    if let credentials = GoogleSDKCredentials.getCredentials() {
+      GIDSignIn.sharedInstance().clientID = credentials.CLIENT_ID
+      GIDSignIn.sharedInstance().delegate = self
+    }
     return true
   }
 
@@ -32,3 +34,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: GIDSignInDelegate {
+  func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    if let error = error {
+      if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
+        print("The user has not signed in before or they have since signed out.")
+      } else {
+        print("\(error.localizedDescription)")
+      }
+      return
+    }
+  }
+}

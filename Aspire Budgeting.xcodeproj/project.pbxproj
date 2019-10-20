@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
+		066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */; };
+		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
+		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
 		06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */; };
 		06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A66235A908E009BA6A7 /* ContentView.swift */; };
@@ -14,6 +18,8 @@
 		06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */; };
 		06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6D235A9090009BA6A7 /* LaunchScreen.storyboard */; };
 		06ED8A7A235A9091009BA6A7 /* Aspire_BudgetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */; };
+		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
+		8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +33,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
+		066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorView.swift; sourceTree = "<group>"; };
+		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
+		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
 		06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aspire Budgeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A62235A908E009BA6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +48,12 @@
 		06ED8A75235A9091009BA6A7 /* Aspire BudgetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aspire BudgetingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aspire_BudgetingTests.swift; sourceTree = "<group>"; };
 		06ED8A7B235A9091009BA6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
+		4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.debug.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.debug.xcconfig"; sourceTree = "<group>"; };
+		68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_BudgetingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.release.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.release.xcconfig"; sourceTree = "<group>"; };
+		8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_Budgeting.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0FA6DC926B65B023CE63596 /* Pods-Aspire Budgeting.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.release.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,18 +69,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		066EF457235CE05100E94CE4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
+				066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		06A0DAA6235BF98100AEF9FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				06A0DAA7235BF99400AEF9FE /* credentials.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		06A0DAAA235BFE4F00AEF9FE /* Facilities */ = {
+			isa = PBXGroup;
+			children = (
+				06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */,
+			);
+			path = Facilities;
+			sourceTree = "<group>";
+		};
 		06ED8A56235A908E009BA6A7 = {
 			isa = PBXGroup;
 			children = (
 				06ED8A61235A908E009BA6A7 /* Aspire Budgeting */,
 				06ED8A78235A9091009BA6A7 /* Aspire BudgetingTests */,
 				06ED8A60235A908E009BA6A7 /* Products */,
+				17855E1954464947EED0C1EA /* Pods */,
+				1D6BB61583BB29144F606872 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +124,9 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				066EF457235CE05100E94CE4 /* Views */,
+				06A0DAAA235BFE4F00AEF9FE /* Facilities */,
+				06A0DAA6235BF98100AEF9FE /* Resources */,
 				06ED8A62235A908E009BA6A7 /* AppDelegate.swift */,
 				06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */,
 				06ED8A66235A908E009BA6A7 /* ContentView.swift */,
@@ -107,6 +155,26 @@
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
 		};
+		17855E1954464947EED0C1EA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */,
+				D0FA6DC926B65B023CE63596 /* Pods-Aspire Budgeting.release.xcconfig */,
+				4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */,
+				847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		1D6BB61583BB29144F606872 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */,
+				68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -114,9 +182,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06ED8A7E235A9091009BA6A7 /* Build configuration list for PBXNativeTarget "Aspire Budgeting" */;
 			buildPhases = (
+				06A0DAAD235C02D600AEF9FE /* ShellScript */,
+				D45E3E65DF7C04ACC7FA80C0 /* [CP] Check Pods Manifest.lock */,
 				06ED8A5B235A908E009BA6A7 /* Sources */,
 				06ED8A5C235A908E009BA6A7 /* Frameworks */,
 				06ED8A5D235A908E009BA6A7 /* Resources */,
+				AED55A22A1B77F3741A38403 /* [CP] Embed Pods Frameworks */,
+				6CBB4FCC30CC67673AFBA684 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -131,6 +203,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06ED8A81235A9091009BA6A7 /* Build configuration list for PBXNativeTarget "Aspire BudgetingTests" */;
 			buildPhases = (
+				15A677D33393EF9692542420 /* [CP] Check Pods Manifest.lock */,
 				06ED8A71235A9091009BA6A7 /* Sources */,
 				06ED8A72235A9091009BA6A7 /* Frameworks */,
 				06ED8A73235A9091009BA6A7 /* Resources */,
@@ -189,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
+				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
 				06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */,
 				06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */,
 			);
@@ -203,13 +277,114 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		06A0DAAD235C02D600AEF9FE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BuildPhases/set_google_credentials.sh\n";
+		};
+		15A677D33393EF9692542420 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Aspire BudgetingTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6CBB4FCC30CC67673AFBA684 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AED55A22A1B77F3741A38403 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D45E3E65DF7C04ACC7FA80C0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Aspire Budgeting-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		06ED8A5B235A908E009BA6A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
+				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
+				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +535,7 @@
 		};
 		06ED8A7F235A9091009BA6A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -371,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "in.teramolabs..Aspire-Budgeting";
+				PRODUCT_BUNDLE_IDENTIFIER = "in.teramolabs.Aspire-Budgeting";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -380,6 +556,7 @@
 		};
 		06ED8A80235A9091009BA6A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0FA6DC926B65B023CE63596 /* Pods-Aspire Budgeting.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -391,7 +568,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "in.teramolabs..Aspire-Budgeting";
+				PRODUCT_BUNDLE_IDENTIFIER = "in.teramolabs.Aspire-Budgeting";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -400,6 +577,7 @@
 		};
 		06ED8A82235A9091009BA6A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -422,6 +600,7 @@
 		};
 		06ED8A83235A9091009BA6A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
