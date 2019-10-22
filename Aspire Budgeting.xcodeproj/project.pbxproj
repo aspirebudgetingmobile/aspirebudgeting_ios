@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
 		066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */; };
+		066EF45E235CF74500E94CE4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45D235CF74500E94CE4 /* User.swift */; };
+		066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* UserManager.swift */; };
+		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
 		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
@@ -35,6 +38,9 @@
 /* Begin PBXFileReference section */
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorView.swift; sourceTree = "<group>"; };
+		066EF45D235CF74500E94CE4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		066EF45F235D3D6000E94CE4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
 		06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aspire Budgeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,8 +87,17 @@
 			children = (
 				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
 				066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */,
+				066EF461235D4FBD00E94CE4 /* SignInView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		066EF45C235CF72700E94CE4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				066EF45D235CF74500E94CE4 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
@@ -97,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */,
+				066EF45F235D3D6000E94CE4 /* UserManager.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -124,6 +140,7 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				066EF45C235CF72700E94CE4 /* Models */,
 				066EF457235CE05100E94CE4 /* Views */,
 				06A0DAAA235BFE4F00AEF9FE /* Facilities */,
 				06A0DAA6235BF98100AEF9FE /* Resources */,
@@ -380,12 +397,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
+				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
+				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

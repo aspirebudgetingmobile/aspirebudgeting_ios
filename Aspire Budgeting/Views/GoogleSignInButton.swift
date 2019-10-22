@@ -12,8 +12,9 @@ import GoogleSignIn
 struct GoogleSignInButton: UIViewRepresentable {
   
   private var presentingViewController: UIViewController? {
-    return UIApplication.shared.windows.last?.rootViewController
+    UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
   }
+  
   
   func updateUIView(_ signInButton: GIDSignInButton, context: UIViewRepresentableContext<GoogleSignInButton>) {
     guard let presentingVC = presentingViewController else {

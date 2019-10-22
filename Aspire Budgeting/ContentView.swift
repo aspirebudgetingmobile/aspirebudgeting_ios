@@ -7,18 +7,24 @@
 import SwiftUI
 
 struct ContentView: View {
+  @ObservedObject var userManager: UserManager
+  
     var body: some View {
       VStack {
-        Image("logo")
-        Spacer()
-        GoogleSignInButton().frame(height: 50).padding()
-        Spacer()
-      }.background(BackgroundColorView().edgesIgnoringSafeArea(.all))
+        if userManager.user == nil {
+          SignInView()
+        } else {
+          Button("Sign Out") {
+            self.userManager.signOut()
+          }
+        }
+      }
+      
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(userManager: UserManager())
     }
 }
