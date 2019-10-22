@@ -8,24 +8,51 @@
 
 import Foundation
 
-struct GoogleSDKCredentials: Codable {
-  var CLIENT_ID: String
-  var REVERSED_CLIENT_ID: String
+enum GoogleSDKCredentialsError: Error {
+  case missingCredentialsPLIST
+  case couldNotCreate
   
-  static func getCredentials() -> GoogleSDKCredentials? {
-    let credentialsFileName = "credentials"
-    let credentialsFileType = "plist"
-    let bundle = Bundle.main
+  public static func ==(lhs: GoogleSDKCredentialsError, rhs: GoogleSDKCredentialsError) -> Bool{
+    switch(lhs, rhs) {
+    case (missingCredentialsPLIST, missingCredentialsPLIST):
+      return true
     
-    guard let credentialsURL = bundle.url(forResource: credentialsFileName,
-                                          withExtension: credentialsFileType),
-      let credentialsData = try? Data(contentsOf: credentialsURL)
+    case (couldNotCreate, couldNotCreate):
+      return true
+      
+    default:
+      return false
+  }
+  }
+}
+
+struct GoogleSDKCredentials: Codable {
+  let CLIENT_ID: String
+  let REVERSED_CLIENT_ID: String
+  
+  static func getCredentials(from fileName: String = "credentials",
+                             type: String = "plist",
+                             bundle: Bundle = Bundle.main,
+                             decoder: PropertyListDecoder = PropertyListDecoder()) throws -> GoogleSDKCredentials {
+    
+    var credentialsData: Data
+    var credentials: GoogleSDKCredentials
+    
+    guard let credentialsURL = bundle.url(forResource: fileName,
+                                          withExtension: type)
       else {
-        return nil
+        throw GoogleSDKCredentialsError.missingCredentialsPLIST
     }
     
-    let decoder = PropertyListDecoder()
-    return try? decoder.decode(GoogleSDKCredentials.self,
-                                          from: credentialsData)
+    do {
+      credentialsData = try Data(contentsOf: credentialsURL)
+      credentials = try decoder.decode(GoogleSDKCredentials.self, from: credentialsData)
+      
+    } catch {
+      print("Exception thrown while trying to create GoogleSDKCredentials: \(error.localizedDescription)")
+      throw GoogleSDKCredentialsError.couldNotCreate
+    }
+    
+    return credentials
   }
 }

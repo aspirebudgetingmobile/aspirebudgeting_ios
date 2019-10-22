@@ -9,18 +9,26 @@
 import Foundation
 import GoogleSignIn
 import Combine
+import GoogleAPIClientForREST
+import GTMSessionFetcher
 
 class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
   private var isGoogleSDKSetup = false
   private let gidSignInInstance: GIDSignIn! = GIDSignIn.sharedInstance()
+  private let credentials: GoogleSDKCredentials
   
   @Published public private(set) var user: User?
   
+  init(credentials: GoogleSDKCredentials) {
+    self.credentials = credentials
+  }
+  
   func fetchUser() {
-    if !isGoogleSDKSetup,
-      let credentials = GoogleSDKCredentials.getCredentials() {
+    if !isGoogleSDKSetup
+      {
       GIDSignIn.sharedInstance().clientID = credentials.CLIENT_ID
       GIDSignIn.sharedInstance().delegate = self
+      GIDSignIn.sharedInstance()?.scopes = [kGTLRAuthScopeDrive, kGTLRAuthScopeSheetsDrive]
       GIDSignIn.sharedInstance()?.restorePreviousSignIn()
       isGoogleSDKSetup.toggle()
     }
@@ -38,7 +46,7 @@ class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
       return
     }
     
-    self.user = User(authToken: user.authentication.accessToken)
+    self.user = User(googleUser: user)
   }
   
   func signOut() {

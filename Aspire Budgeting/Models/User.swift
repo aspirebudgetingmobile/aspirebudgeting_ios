@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import GoogleSignIn
 
 class User {
-  let authToken: String
+  let googleUser: GIDGoogleUser
   
-  init(authToken: String) {
-    self.authToken = authToken
+  init(googleUser: GIDGoogleUser) {
+    self.googleUser = googleUser
   }
 }
