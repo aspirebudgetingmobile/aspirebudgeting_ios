@@ -3,5 +3,5 @@ language: objective-c
 osx_image: xcode11.2
 
 xcode_workspace: "Aspire Budgeting.xcworkspace"
-xcode_scheme: "Aspire BudgetingTests"
+xcode_scheme: "Aspire Budgeting"
 xcode_destination: platform=iOS Simulator,OS=13.1,name=iPhone 11 Pro Max
