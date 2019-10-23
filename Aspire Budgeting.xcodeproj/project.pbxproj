@@ -9,8 +9,17 @@
 /* Begin PBXBuildFile section */
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
 		066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */; };
+		066EF45E235CF74500E94CE4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45D235CF74500E94CE4 /* User.swift */; };
+		066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* UserManager.swift */; };
+		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
+		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
 		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
+		06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */; };
+		06A9604C235FC27D0058EE64 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A9604B235FC27D0058EE64 /* credentials.plist */; };
+		06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A9604F235FC9F50058EE64 /* bad_credentials.plist */; };
+		06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96051235FD2A60058EE64 /* ObjectFactory.swift */; };
+		06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96053235FF2620058EE64 /* UserManagerTests.swift */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
 		06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */; };
 		06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A66235A908E009BA6A7 /* ContentView.swift */; };
@@ -35,8 +44,17 @@
 /* Begin PBXFileReference section */
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorView.swift; sourceTree = "<group>"; };
+		066EF45D235CF74500E94CE4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		066EF45F235D3D6000E94CE4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
 		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
+		06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentialsTests.swift; sourceTree = "<group>"; };
+		06A9604B235FC27D0058EE64 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
+		06A9604F235FC9F50058EE64 /* bad_credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bad_credentials.plist; sourceTree = "<group>"; };
+		06A96051235FD2A60058EE64 /* ObjectFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectFactory.swift; sourceTree = "<group>"; };
+		06A96053235FF2620058EE64 /* UserManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagerTests.swift; sourceTree = "<group>"; };
 		06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aspire Budgeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A62235A908E009BA6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,8 +99,17 @@
 			children = (
 				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
 				066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */,
+				066EF461235D4FBD00E94CE4 /* SignInView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		066EF45C235CF72700E94CE4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				066EF45D235CF74500E94CE4 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
@@ -97,8 +124,20 @@
 			isa = PBXGroup;
 			children = (
 				06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */,
+				066EF45F235D3D6000E94CE4 /* UserManager.swift */,
+				066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */,
+				06A96051235FD2A60058EE64 /* ObjectFactory.swift */,
 			);
 			path = Facilities;
+			sourceTree = "<group>";
+		};
+		06A9604A235FC26E0058EE64 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				06A9604F235FC9F50058EE64 /* bad_credentials.plist */,
+				06A9604B235FC27D0058EE64 /* credentials.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		06ED8A56235A908E009BA6A7 = {
@@ -124,6 +163,7 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				066EF45C235CF72700E94CE4 /* Models */,
 				066EF457235CE05100E94CE4 /* Views */,
 				06A0DAAA235BFE4F00AEF9FE /* Facilities */,
 				06A0DAA6235BF98100AEF9FE /* Resources */,
@@ -149,8 +189,11 @@
 		06ED8A78235A9091009BA6A7 /* Aspire BudgetingTests */ = {
 			isa = PBXGroup;
 			children = (
+				06A9604A235FC26E0058EE64 /* Resources */,
 				06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */,
 				06ED8A7B235A9091009BA6A7 /* Info.plist */,
+				06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */,
+				06A96053235FF2620058EE64 /* UserManagerTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -272,6 +315,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06A9604C235FC27D0058EE64 /* credentials.plist in Resources */,
+				06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,12 +425,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
+				06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
+				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
+				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
+				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +443,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
+				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
 				06ED8A7A235A9091009BA6A7 /* Aspire_BudgetingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

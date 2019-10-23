@@ -7,18 +7,32 @@
 import SwiftUI
 
 struct ContentView: View {
+  @ObservedObject var userManager: UserManager
+  let driveManager = GoogleDriveManager()
+  
     var body: some View {
       VStack {
-        Image("logo")
-        Spacer()
-        GoogleSignInButton().frame(height: 50).padding()
-        Spacer()
-      }.background(BackgroundColorView().edgesIgnoringSafeArea(.all))
+        if userManager.user == nil {
+          SignInView()
+        } else {
+          VStack {
+            Button("Sign Out") {
+              self.userManager.signOut()
+            }
+            
+            Button("Get List") {
+              
+              self.driveManager.getFileList(user: self.userManager.user!.googleUser)
+            }
+          }
+        }
+      }
+      
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+      ContentView(userManager: ObjectFactory().userManager)
     }
 }
