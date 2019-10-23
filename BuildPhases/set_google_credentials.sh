@@ -21,5 +21,6 @@ if [[ $REVERSED_CLIENT_ID == *"com.google"* ]]; then
   exit 0
 fi
 
+echo "error: Failed to add credentials to Info.plist"
 exit 1
 
