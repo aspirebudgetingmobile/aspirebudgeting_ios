@@ -226,7 +226,7 @@
 			buildConfigurationList = 06ED8A7E235A9091009BA6A7 /* Build configuration list for PBXNativeTarget "Aspire Budgeting" */;
 			buildPhases = (
 				D45E3E65DF7C04ACC7FA80C0 /* [CP] Check Pods Manifest.lock */,
-				06A0DAAD235C02D600AEF9FE /* ShellScript */,
+				06A0DAAD235C02D600AEF9FE /* Inject Credentials */,
 				06ED8A5B235A908E009BA6A7 /* Sources */,
 				06ED8A5C235A908E009BA6A7 /* Frameworks */,
 				06ED8A5D235A908E009BA6A7 /* Resources */,
@@ -323,7 +323,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		06A0DAAD235C02D600AEF9FE /* ShellScript */ = {
+		06A0DAAD235C02D600AEF9FE /* Inject Credentials */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -332,6 +332,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Inject Credentials";
 			outputFileListPaths = (
 			);
 			outputPaths = (
