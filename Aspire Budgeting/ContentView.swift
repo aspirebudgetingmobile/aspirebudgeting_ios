@@ -31,8 +31,8 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView(userManager: UserManager())
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+      ContentView(userManager: ObjectFactory().userManager)
+    }
+}
