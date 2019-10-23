@@ -7,5 +7,5 @@ xcode_scheme: "Aspire Budgeting"
 xcode_destination: platform=iOS Simulator,OS=13.2,name=iPhone 11 Pro Max
 
 #script:
-- cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cd ..
+- cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cd .. ;
 #- xcodebuild -workspace Aspire\ Budgeting.xcworkspace -scheme Aspire\ Budgeting -destination platform\=iOS\ Simulator,OS\=13.2,name\=iPhone\ 11\ Pro\ Max build test
