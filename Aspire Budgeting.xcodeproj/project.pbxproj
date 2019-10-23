@@ -182,8 +182,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06ED8A7E235A9091009BA6A7 /* Build configuration list for PBXNativeTarget "Aspire Budgeting" */;
 			buildPhases = (
-				06A0DAAD235C02D600AEF9FE /* ShellScript */,
 				D45E3E65DF7C04ACC7FA80C0 /* [CP] Check Pods Manifest.lock */,
+				06A0DAAD235C02D600AEF9FE /* ShellScript */,
 				06ED8A5B235A908E009BA6A7 /* Sources */,
 				06ED8A5C235A908E009BA6A7 /* Frameworks */,
 				06ED8A5D235A908E009BA6A7 /* Resources */,
@@ -293,7 +293,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BuildPhases/set_google_credentials.sh\n";
+			shellScript = "\"$SRCROOT\"/BuildPhases/set_google_credentials.sh\n";
 		};
 		15A677D33393EF9692542420 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
