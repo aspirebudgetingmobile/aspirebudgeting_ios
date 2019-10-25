@@ -19,9 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let userManager = objectFactory.userManager
     userManager.fetchUser()
+    
+    let driveManager = GoogleDriveManager()
 
     // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView(userManager: userManager)
+    let contentView = ContentView(userManager: userManager, driveManager: driveManager)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
