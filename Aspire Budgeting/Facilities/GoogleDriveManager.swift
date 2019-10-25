@@ -33,11 +33,11 @@ class GoogleDriveManager: ObservableObject {
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
-          for file in files {
-            let name = file.name ?? "no file name"
-            let identifier = file.identifier ?? ""
-            self.fileList.append(File(name: name, identifier: identifier))
-          }
+          self.fileList = files.map({ (driveFile) -> File in
+            let name = driveFile.name ?? "no file name"
+            let identifier = driveFile.identifier ?? ""
+            return File(name: name, identifier: identifier)
+          })
         }
       }
     })
