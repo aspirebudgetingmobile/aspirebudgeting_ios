@@ -8,7 +8,7 @@ import SwiftUI
 
 struct ContentView: View {
   @ObservedObject var userManager: UserManager
-  let driveManager = GoogleDriveManager()
+  @ObservedObject var driveManager: GoogleDriveManager
   
     var body: some View {
       VStack {
@@ -20,8 +20,11 @@ struct ContentView: View {
               self.userManager.signOut()
             }
             
+            List(self.driveManager.fileList) { file in
+              Text(file.name)
+            }
+            
             Button("Get List") {
-              
               self.driveManager.getFileList(user: self.userManager.user!.googleUser)
             }
           }
@@ -31,8 +34,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-      ContentView(userManager: ObjectFactory().userManager)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//      ContentView(userManager: ObjectFactory().userManager)
+//    }
+//}

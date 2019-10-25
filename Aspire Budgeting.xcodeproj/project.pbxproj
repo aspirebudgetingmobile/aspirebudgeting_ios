@@ -20,6 +20,7 @@
 		06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A9604F235FC9F50058EE64 /* bad_credentials.plist */; };
 		06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96051235FD2A60058EE64 /* ObjectFactory.swift */; };
 		06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96053235FF2620058EE64 /* UserManagerTests.swift */; };
+		06AB2C8223627B2D0076516E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AB2C8123627B2D0076516E /* File.swift */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
 		06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */; };
 		06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A66235A908E009BA6A7 /* ContentView.swift */; };
@@ -55,6 +56,7 @@
 		06A9604F235FC9F50058EE64 /* bad_credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bad_credentials.plist; sourceTree = "<group>"; };
 		06A96051235FD2A60058EE64 /* ObjectFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectFactory.swift; sourceTree = "<group>"; };
 		06A96053235FF2620058EE64 /* UserManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagerTests.swift; sourceTree = "<group>"; };
+		06AB2C8123627B2D0076516E /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aspire Budgeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A62235A908E009BA6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				066EF45D235CF74500E94CE4 /* User.swift */,
+				06AB2C8123627B2D0076516E /* File.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
+				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */,

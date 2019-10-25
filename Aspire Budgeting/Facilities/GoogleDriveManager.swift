@@ -10,19 +10,35 @@ import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
 
-class GoogleDriveManager {
-  let driveService = GTLRDriveService()
+class GoogleDriveManager: ObservableObject {
+  private let driveService = GTLRDriveService()
   
-  var ticket: GTLRServiceTicket?
+  private var ticket: GTLRServiceTicket?
+  
+  @Published var fileList = [File]()
+  @Published var error: Error?
   
   func getFileList(user: GIDGoogleUser) {
+    fileList.removeAll()
+    
     let query = GTLRDriveQuery_FilesList.query()
     driveService.authorizer = user.authentication.fetcherAuthorizer()
+    driveService.shouldFetchNextPages = true
+    driveService.maxRetryInterval = 3
+    
     query.fields = "kind,nextPageToken,files(mimeType,id,kind,name,webViewLink,thumbnailLink,trashed)"
-    ticket = driveService.executeQuery(query, completionHandler: { (ticket, list, error) in
-      let x = list as! GTLRDrive_FileList
-      for file in x.files! {
-        print(file.name, file.identifier)
+    ticket = driveService.executeQuery(query, completionHandler: { [unowned self] (ticket, driveFileList, error) in
+      if let error = error {
+        self.error = error
+      } else {
+        if let driveFileList = driveFileList as? GTLRDrive_FileList,
+          let files = driveFileList.files {
+          for file in files {
+            let name = file.name ?? "no file name"
+            let identifier = file.identifier ?? ""
+            self.fileList.append(File(name: name, identifier: identifier))
+          }
+        }
       }
     })
   }
