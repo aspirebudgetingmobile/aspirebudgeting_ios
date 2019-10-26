@@ -10,7 +10,7 @@ import XCTest
 import GTMSessionFetcher
 import GoogleAPIClientForREST
 import GoogleSignIn
-
+import Combine
 
 @testable import Aspire_Budgeting
 class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
@@ -38,6 +38,7 @@ class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
   
   
 }
+
 class GoogleDriveManagerTests: XCTestCase {
   
   lazy var mockGTLRFileList: GTLRDrive_FileList = {
@@ -55,6 +56,8 @@ class GoogleDriveManagerTests: XCTestCase {
   }
   
   lazy var mockDriveService = GTLRService.mockService(withFakedObject: mockGTLRFileList, fakedError: nil)
+  
+  var sinkCancellable: AnyCancellable?
   
   func createFile(name: String, identifier: String) -> GTLRDrive_File {
     let file = GTLRDrive_File()
@@ -77,10 +80,14 @@ class GoogleDriveManagerTests: XCTestCase {
     driveManager.getFileList(authorizer: mockAuthorizer)
     
     let expectation = XCTestExpectation()
-    _ = driveManager.$fileList.dropFirst().sink(receiveValue: { (fileList) in
-      XCTAssertEqual(fileList, self.mockFileList)
+  
+    self.sinkCancellable = driveManager.$fileList.collect(2).sink(receiveValue: { (listOfFileList) in
+      XCTAssertTrue(listOfFileList[0].isEmpty)
+      XCTAssertEqual(listOfFileList[1], self.mockFileList)
       expectation.fulfill()
       })
+    
     XCTAssertEqual(mockQuery.fields, GoogleDriveManager.queryFields)
+    wait(for: [expectation], timeout: 5)
   }
 }

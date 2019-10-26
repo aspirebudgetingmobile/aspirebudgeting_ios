@@ -18,8 +18,8 @@ class GoogleDriveManager: ObservableObject {
   private var ticket: GTLRServiceTicket?
   private let query: GTLRDriveQuery_FilesList
   
-  @Published var fileList = [File]()
-  @Published var error: Error?
+  @Published public private(set) var fileList = [File]()
+  @Published public private(set) var error: Error?
   
   init(driveService: GTLRService = GTLRDriveService(),
        query: GTLRDriveQuery_FilesList = GTLRDriveQuery_FilesList.query()) {
