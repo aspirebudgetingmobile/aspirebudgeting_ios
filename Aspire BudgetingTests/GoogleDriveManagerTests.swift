@@ -55,7 +55,13 @@ class GoogleDriveManagerTests: XCTestCase {
     return mockGTLRFileList.files!.map({File(driveFile: $0)})
   }
   
-  lazy var mockDriveService = GTLRService.mockService(withFakedObject: mockGTLRFileList, fakedError: nil)
+  var mockQuery: GTLRDriveQuery_FilesList {
+    return GTLRDriveQuery_FilesList.query()
+  }
+  
+  var mockAuthorizer: MockAuthorizer {
+    return MockAuthorizer()
+  }
   
   var sinkCancellable: AnyCancellable?
   
@@ -65,16 +71,37 @@ class GoogleDriveManagerTests: XCTestCase {
     file.identifier = identifier
     return file
   }
+  
   override func setUp() {
   }
   
   override func tearDown() {
   }
   
-  func testGetFileList() {
+  func testGetFileListError() {
+    let mockError = NSError(domain: "aspire_tests", code: 42, userInfo: nil)
+    let mockDriveService = GTLRService.mockService(withFakedObject: nil, fakedError: mockError)
+    let driveManager = GoogleDriveManager(driveService: mockDriveService, query: mockQuery)
     
-    let mockQuery = GTLRDriveQuery_FilesList.query()
-    let mockAuthorizer = MockAuthorizer()
+    driveManager.getFileList(authorizer: mockAuthorizer)
+    
+    let errorExpectation = XCTestExpectation()
+    self.sinkCancellable = driveManager.$error.dropFirst().sink(receiveValue: { (error) in
+      XCTAssertNotNil(error)
+      XCTAssertNotNil(error as NSError?)
+      
+      let nsError = error as NSError?
+      XCTAssertEqual(mockError.code, nsError!.code)
+      errorExpectation.fulfill()
+    })
+    
+    wait(for: [errorExpectation], timeout: 5)
+  }
+  
+  func testGetFileList() {
+  
+    let mockQuery = self.mockQuery
+    let mockDriveService = GTLRService.mockService(withFakedObject: mockGTLRFileList, fakedError: nil)
     let driveManager = GoogleDriveManager(driveService: mockDriveService, query: mockQuery)
     
     driveManager.getFileList(authorizer: mockAuthorizer)
@@ -84,6 +111,7 @@ class GoogleDriveManagerTests: XCTestCase {
     self.sinkCancellable = driveManager.$fileList.collect(2).sink(receiveValue: { (listOfFileList) in
       XCTAssertTrue(listOfFileList[0].isEmpty)
       XCTAssertEqual(listOfFileList[1], self.mockFileList)
+      XCTAssertFalse(mockQuery.isQueryInvalid)
       expectation.fulfill()
       })
     

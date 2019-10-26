@@ -28,8 +28,9 @@ class GoogleDriveManager: ObservableObject {
   }
   
   func getFileList(authorizer: GTMFetcherAuthorizationProtocol) {
+    
+    let backupFileList = fileList
     fileList.removeAll()
-    query.isQueryInvalid = false
     
     driveService.authorizer = authorizer
     driveService.shouldFetchNextPages = true
@@ -39,8 +40,11 @@ class GoogleDriveManager: ObservableObject {
       guard let weakSelf = self else {
         return
       }
+      weakSelf.query.isQueryInvalid = false
+      
       if let error = error {
         weakSelf.error = error
+        weakSelf.fileList = backupFileList
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
