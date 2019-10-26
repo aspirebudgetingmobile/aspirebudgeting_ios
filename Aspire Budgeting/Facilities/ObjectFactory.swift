@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class ObjectFactory {
   private let credentialsFileName = "credentials"
   
@@ -29,5 +30,10 @@ class ObjectFactory {
   
   lazy var userManager: UserManager =  {
     return UserManager(credentials: googleSDKCredentials)
+  }()
+  
+  lazy var driveManager: GoogleDriveManager = {
+    let driveManager = GoogleDriveManager()
+    return driveManager
   }()
 }

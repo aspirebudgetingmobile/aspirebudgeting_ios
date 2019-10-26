@@ -25,7 +25,7 @@ struct ContentView: View {
             }
             
             Button("Get List") {
-              self.driveManager.getFileList(user: self.userManager.user!.googleUser)
+              self.driveManager.getFileList(authorizer: self.userManager.user!.googleUser.authentication.fetcherAuthorizer())
             }
           }
         }

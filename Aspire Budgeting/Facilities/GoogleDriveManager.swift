@@ -9,35 +9,42 @@
 import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
+import GTMSessionFetcher
 
 class GoogleDriveManager: ObservableObject {
-  private let driveService = GTLRDriveService()
+  static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name,webViewLink,thumbnailLink,trashed)"
   
+  private let driveService: GTLRService
   private var ticket: GTLRServiceTicket?
+  private let query: GTLRDriveQuery_FilesList
   
   @Published var fileList = [File]()
   @Published var error: Error?
   
-  func getFileList(user: GIDGoogleUser) {
+  init(driveService: GTLRService = GTLRDriveService(),
+       query: GTLRDriveQuery_FilesList = GTLRDriveQuery_FilesList.query()) {
+    self.driveService = driveService
+    self.query = query
+  }
+  
+  func getFileList(authorizer: GTMFetcherAuthorizationProtocol) {
     fileList.removeAll()
+    query.isQueryInvalid = false
     
-    let query = GTLRDriveQuery_FilesList.query()
-    driveService.authorizer = user.authentication.fetcherAuthorizer()
+    driveService.authorizer = authorizer
     driveService.shouldFetchNextPages = true
-    driveService.maxRetryInterval = 3
     
-    query.fields = "kind,nextPageToken,files(mimeType,id,kind,name,webViewLink,thumbnailLink,trashed)"
-    ticket = driveService.executeQuery(query, completionHandler: { [unowned self] (ticket, driveFileList, error) in
+    query.fields = GoogleDriveManager.queryFields
+    ticket = driveService.executeQuery(query, completionHandler: { [weak self] (ticket, driveFileList, error) in
+      guard let weakSelf = self else {
+        return
+      }
       if let error = error {
-        self.error = error
+        weakSelf.error = error
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
-          self.fileList = files.map({ (driveFile) -> File in
-            let name = driveFile.name ?? "no file name"
-            let identifier = driveFile.identifier ?? ""
-            return File(name: name, identifier: identifier)
-          })
+          weakSelf.fileList = files.map({ File(driveFile: $0)})
         }
       }
     })

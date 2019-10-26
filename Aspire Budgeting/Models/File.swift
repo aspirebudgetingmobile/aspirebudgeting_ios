@@ -7,14 +7,21 @@
 //
 
 import Foundation
+import GoogleAPIClientForREST
 
 class File: Identifiable {
   let name: String
   let identifier: String
   
   
-  init(name: String, identifier: String) {
-    self.name = name
-    self.identifier = identifier
+  init(driveFile: GTLRDrive_File) {
+    self.name = driveFile.name ?? "no file name"
+    self.identifier = driveFile.identifier ?? ""
+  }
+}
+
+extension File: Equatable {
+  static func == (lhs: File, rhs: File) -> Bool {
+    return (lhs.name == rhs.name) && (lhs.identifier == rhs.identifier)
   }
 }
