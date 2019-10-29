@@ -23,6 +23,6 @@ end
 platform :ios do
   desc 'Runs the unit tests in Aspire BudgetingTests'
   lane :unit_test do
-    scan(scheme: "Aspire BudgetingTests")
+    scan(scheme: "Aspire Budgeting")
   end
 end
