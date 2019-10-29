@@ -23,7 +23,7 @@ jobs:
       script:
         - bundle exec danger
 
-    - stage "Test"
+    - stage: "Test"
       name: "Unit Tests"
       script:
         - bundle exec fastlane unit_test
