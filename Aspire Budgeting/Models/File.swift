@@ -9,19 +9,18 @@
 import Foundation
 import GoogleAPIClientForREST
 
-class File: Identifiable {
+struct File: Identifiable {
+  let id: String
   let name: String
-  let identifier: String
-  
   
   init(driveFile: GTLRDrive_File) {
     self.name = driveFile.name ?? "no file name"
-    self.identifier = driveFile.identifier ?? ""
+    self.id = driveFile.identifier ?? ""
   }
 }
 
 extension File: Equatable {
   static func == (lhs: File, rhs: File) -> Bool {
-    return (lhs.name == rhs.name) && (lhs.identifier == rhs.identifier)
+    return (lhs.name == rhs.name) && (lhs.id == rhs.id)
   }
 }

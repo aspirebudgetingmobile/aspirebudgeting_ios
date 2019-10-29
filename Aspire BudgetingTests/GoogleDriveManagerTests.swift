@@ -6,14 +6,14 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import XCTest
-import GTMSessionFetcher
-import GoogleAPIClientForREST
-import GoogleSignIn
 import Combine
+import GoogleSignIn
+import GoogleAPIClientForREST
+import GTMSessionFetcher
+import XCTest
 
 @testable import Aspire_Budgeting
-class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
+final class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
   func authorizeRequest(_ request: NSMutableURLRequest?, delegate: Any, didFinish sel: Selector) {
     
   }
@@ -39,7 +39,7 @@ class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
   
 }
 
-class GoogleDriveManagerTests: XCTestCase {
+final class GoogleDriveManagerTests: XCTestCase {
   
   lazy var mockGTLRFileList: GTLRDrive_FileList = {
     let file1 = createFile(name: "file1", identifier: "id1")

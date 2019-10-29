@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ObjectFactory {
+final class ObjectFactory {
   private let credentialsFileName = "credentials"
   
   lazy var googleSDKCredentials: GoogleSDKCredentials! = {
@@ -28,7 +28,7 @@ class ObjectFactory {
     return sdkCredentials!
   }()
   
-  lazy var userManager: UserManager =  {
+  lazy var userManager: UserManager = {
     return UserManager(credentials: googleSDKCredentials)
   }()
   

@@ -11,7 +11,7 @@ import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
 
-class GoogleDriveManager: ObservableObject {
+final class GoogleDriveManager: ObservableObject {
   static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name,webViewLink,thumbnailLink,trashed)"
   
   private let driveService: GTLRService
@@ -36,7 +36,7 @@ class GoogleDriveManager: ObservableObject {
     driveService.shouldFetchNextPages = true
     
     query.fields = GoogleDriveManager.queryFields
-    ticket = driveService.executeQuery(query, completionHandler: { [weak self] (ticket, driveFileList, error) in
+    ticket = driveService.executeQuery(query, completionHandler: { [weak self] (_, driveFileList, error) in
       guard let weakSelf = self else {
         return
       }
