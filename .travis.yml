@@ -1,13 +1,38 @@
-language: objective-c
-
+# environment setup
+language: swift
 osx_image: xcode11.1
 
-xcode_workspace: "Aspire Budgeting.xcworkspace"
-xcode_scheme: "Aspire Budgeting"
-xcode_destination: platform=iOS Simulator,OS=13.1,name=iPhone 11 Pro Max
+# caching of dependencies
+cache:
+  bundler: true
 
+# prepare dependency managers
 before_install:
-- cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cat Resources/credentials.plist; cd ..
+  - gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
+  - cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cat Resources/credentials.plist; cd ..
+
+# install dependencies
+install:
+  - bundle install
+
+# jobs and stages to run
+jobs:
+  include:
+    - stage: "Code validation"
+      name: "Code validation"
+      script:
+        - bundle exec danger
+
+    - stage: "Test"
+      name: "Unit Tests"
+      script:
+        - bundle exec fastlane unit_test
+#xcode_workspace: "Aspire Budgeting.xcworkspace"
+#xcode_scheme: "Aspire Budgeting"
+#xcode_destination: platform=iOS Simulator,OS=13.1,name=iPhone 11 Pro Max
+
+#before_install:
+#- cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cat Resources/credentials.plist; cd ..
 
 #script:
 #- xcodebuild -workspace Aspire\ Budgeting.xcworkspace -scheme Aspire\ Budgeting -destination platform\=iOS\ Simulator,OS\=13.1,name\=iPhone\ 11\ Pro\ Max build test
