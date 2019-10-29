@@ -18,6 +18,7 @@ default_platform(:ios)
 
 before_all do
   xcversion(version: "11.1")
+  sh 'pod install'
 end
 
 platform :ios do
