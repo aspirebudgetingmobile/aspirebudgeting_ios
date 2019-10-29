@@ -7,8 +7,8 @@
 //
 
 import Combine
-import GoogleSignIn
 import GoogleAPIClientForREST
+import GoogleSignIn
 import GTMSessionFetcher
 import XCTest
 
