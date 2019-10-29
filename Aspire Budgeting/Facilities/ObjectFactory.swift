@@ -20,8 +20,7 @@ final class ObjectFactory {
       type: "plist",
       bundle: Bundle.main,
       decoder: PropertyListDecoder())
-    }
-    catch {
+    } catch {
       fatalError("Unable to instantiate GoogleSDKCredentials.")
     }
     

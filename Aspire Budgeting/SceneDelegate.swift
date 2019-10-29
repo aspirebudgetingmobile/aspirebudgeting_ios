@@ -3,11 +3,11 @@
 //  Aspire Budgeting
 //
 
-import UIKit
-import SwiftUI
 import Combine
+import SwiftUI
+import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
   let objectFactory = ObjectFactory()

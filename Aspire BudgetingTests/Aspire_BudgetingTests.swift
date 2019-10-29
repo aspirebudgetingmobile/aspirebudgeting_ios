@@ -6,8 +6,8 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import XCTest
 @testable import Aspire_Budgeting
+import XCTest
 
 class Aspire_BudgetingTests: XCTestCase {
 

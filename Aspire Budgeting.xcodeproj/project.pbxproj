@@ -238,6 +238,7 @@
 				06ED8A5D235A908E009BA6A7 /* Resources */,
 				AED55A22A1B77F3741A38403 /* [CP] Embed Pods Frameworks */,
 				6CBB4FCC30CC67673AFBA684 /* [CP] Copy Pods Resources */,
+				06C5C6A62368FFF900862196 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -346,6 +347,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT\"/BuildPhases/set_google_credentials.sh\n";
+		};
+		06C5C6A62368FFF900862196 /* Swift Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		15A677D33393EF9692542420 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

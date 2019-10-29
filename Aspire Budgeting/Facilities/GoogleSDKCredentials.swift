@@ -27,8 +27,10 @@ enum GoogleSDKCredentialsError: Error {
 }
 
 struct GoogleSDKCredentials: Codable {
+  // swiftlint:disable identifier_name
   let CLIENT_ID: String
   let REVERSED_CLIENT_ID: String
+  // swiftlint:enable identifier_name
   
   static func getCredentials(from fileName: String = "credentials",
                              type: String = "plist",

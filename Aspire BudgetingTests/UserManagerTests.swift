@@ -6,15 +6,15 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import XCTest
-import GoogleSignIn
 import GoogleAPIClientForREST
+import GoogleSignIn
+import XCTest
 
 @testable import Aspire_Budgeting
 
 class MockGIDSignIn: AspireSignInInstance {
   var clientID: String!
-  var delegate: GIDSignInDelegate!
+  weak var delegate: GIDSignInDelegate!
   var scopes: [Any]!
   
   var restoreCalled = false
@@ -56,7 +56,7 @@ class UserManagerTests: XCTestCase {
       if user == nil {
         expectation.fulfill()
       } else {
-        XCTFail()
+        XCTFail("Expected \"user\" to be nil")
       }
     }
   }
@@ -71,7 +71,7 @@ class UserManagerTests: XCTestCase {
       if user != nil {
         expectation.fulfill()
       } else {
-        XCTFail()
+        XCTFail("Expected \"user\" to ba a valid instance")
       }
     }
   }
@@ -101,7 +101,7 @@ class UserManagerTests: XCTestCase {
       if user == nil {
         expectation.fulfill()
       } else {
-        XCTFail()
+        XCTFail("Expected \"user\" to be nil")
       }
     }
   }

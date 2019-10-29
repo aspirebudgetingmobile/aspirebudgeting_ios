@@ -6,10 +6,10 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import Foundation
-import GoogleSignIn
 import Combine
+import Foundation
 import GoogleAPIClientForREST
+import GoogleSignIn
 import GTMSessionFetcher
 
 protocol AspireSignInInstance: AnyObject {
