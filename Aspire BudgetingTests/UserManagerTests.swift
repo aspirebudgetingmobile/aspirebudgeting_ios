@@ -48,7 +48,7 @@ class UserManagerTests: XCTestCase {
     XCTAssertEqual(mockGIDSignIn.clientID, mockGoogleCredentials.CLIENT_ID)
     XCTAssertTrue(userManager === mockGIDSignIn.delegate)
     XCTAssertNotNil(mockGIDSignIn.scopes as? [String])
-    XCTAssertEqual(mockGIDSignIn.scopes as! [String], [kGTLRAuthScopeDrive, kGTLRAuthScopeSheetsDrive])
+    XCTAssertEqual(mockGIDSignIn.scopes as! [String], [kGTLRAuthScopeSheetsSpreadsheets])
     XCTAssertTrue(mockGIDSignIn.restoreCalled)
     
     let expectation = XCTestExpectation()

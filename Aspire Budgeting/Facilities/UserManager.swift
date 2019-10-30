@@ -39,7 +39,7 @@ class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
   func fetchUser() {
     gidSignInInstance.clientID = credentials.CLIENT_ID
     gidSignInInstance.delegate = self
-    gidSignInInstance.scopes = [kGTLRAuthScopeDrive, kGTLRAuthScopeSheetsDrive]
+    gidSignInInstance.scopes = [kGTLRAuthScopeSheetsSpreadsheets]
     gidSignInInstance.restorePreviousSignIn()
   }
   
