@@ -23,32 +23,27 @@ enum GoogleDriveManagerError: Error {
     
     private let driveService: GTLRService
     private let googleFilesListQuery: GTLRDriveQuery_FilesList
-    private let googleGetSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet
-    private let sheetsServie: GTLRSheetsService
+    
+    
     private var authorizer: GTMFetcherAuthorizationProtocol?
-    private var authorizerObserver: NSObjectProtocol?
+    private var authorizerNotificationObserver: NSObjectProtocol?
     
     private var ticket: GTLRServiceTicket?
     
     @Published public private(set) var fileList = [File]()
     @Published public private(set) var error: Error?
-    @Published public private(set) var aspireVersion: String?
     
     init(driveService: GTLRService = GTLRDriveService(),
-         googleFilesListQuery: GTLRDriveQuery_FilesList = GTLRDriveQuery_FilesList.query(),
-         googleGetSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet =  GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
-         sheetsService: GTLRSheetsService = GTLRSheetsService()) {
+         googleFilesListQuery: GTLRDriveQuery_FilesList = GTLRDriveQuery_FilesList.query()) {
       self.driveService = driveService
       self.googleFilesListQuery = googleFilesListQuery
-      self.googleGetSpreadsheetsQuery = googleGetSpreadsheetsQuery
-      self.sheetsServie = sheetsService
       
       subscribeToAuthorizerNotification()
       
     }
     
     private func subscribeToAuthorizerNotification() {
-      authorizerObserver = NotificationCenter.default.addObserver(forName: .authorizerUpdated, object: nil, queue: nil) { [weak self] (notification) in
+      authorizerNotificationObserver = NotificationCenter.default.addObserver(forName: .authorizerUpdated, object: nil, queue: nil) { [weak self] (notification) in
         guard let weakSelf = self else {
             return
         }
@@ -64,35 +59,6 @@ enum GoogleDriveManagerError: Error {
       }
       
       self.authorizer = authorizer
-    }
-    
-    func verifySheet(spreadsheet: File) {
-      guard let authorizer = self.authorizer else {
-        self.error = GoogleDriveManagerError.nilAuthorizer
-        return
-      }
-      
-      sheetsServie.authorizer = authorizer
-      googleGetSpreadsheetsQuery.isQueryInvalid = false
-      
-      googleGetSpreadsheetsQuery.spreadsheetId = spreadsheet.id
-      googleGetSpreadsheetsQuery.range = "BackendData!AC2"
-      ticket = sheetsServie.executeQuery(googleGetSpreadsheetsQuery, completionHandler: { (ticket, data, error) in
-        if let range = data as? GTLRSheets_ValueRange,
-          let version = range.values?.first?.first as? String{
-          self.error = nil
-          self.aspireVersion = version
-          print(self.aspireVersion)
-        }
-        
-        if let error = error as NSError? {
-          if error.domain == kGTLRErrorObjectDomain {
-            self.error = GoogleDriveManagerError.invalidSheet
-          } else {
-            self.error = GoogleDriveManagerError.noInternet
-          }
-        }
-      })
     }
     
     func clearFileList() {

@@ -63,25 +63,6 @@ final class GoogleDriveManagerTests: XCTestCase {
     NotificationCenter.default.post(notification)
   }
   
-//  func testVerifySheet() {
-//    
-//    let properties = GTLRSheets_SheetProperties()
-//    properties.title = "test_sheet"
-//    
-//    let sheet = GTLRSheets_Sheet()
-//    sheet.properties = properties
-//    
-//    let spreadsheet = GTLRSheets_Spreadsheet()
-//    spreadsheet.sheets = [sheet]
-//    
-//    let mockQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "42")
-//    let sheetService = GTLRSheetsService.mockService(withFakedObject: spreadsheet, fakedError: nil)
-//    let driveManager = GoogleDriveManager(googleGetSpreadsheetsQuery: mockQuery, sheetsService: sheetService)
-//    
-//    driveManager.authorizer = mockAuthorizer
-//    driveManager.verifySheet(spreadsheet: File(driveFile: createFile(name: "test_file", identifier: "21")))
-//  }
-  
   func testGetFileListErrorWithoutAuthorizer() {
     let mockDriveService = createMockGTLRService(with: nil, error: nil)
     let driveManager = GoogleDriveManager(driveService: mockDriveService, googleFilesListQuery: mockQuery)

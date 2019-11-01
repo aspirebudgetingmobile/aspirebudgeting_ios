@@ -9,11 +9,18 @@
 import Foundation
 import GoogleAPIClientForREST
 
+protocol AspireFile {
+  var name: String? { get }
+  var identifier: String? { get }
+}
+
+extension GTLRDrive_File: AspireFile {}
+
 struct File: Identifiable {
   let id: String
   let name: String
   
-  init(driveFile: GTLRDrive_File) {
+  init(driveFile: AspireFile) {
     self.name = driveFile.name ?? "no file name"
     self.id = driveFile.identifier ?? ""
   }

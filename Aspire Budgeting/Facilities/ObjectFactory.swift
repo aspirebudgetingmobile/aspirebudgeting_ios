@@ -35,4 +35,9 @@ final class ObjectFactory {
     let driveManager = GoogleDriveManager()
     return driveManager
   }()
+  
+  lazy var sheetsManager: GoogleSheetsManager = {
+    let sheetsManager = GoogleSheetsManager()
+    return sheetsManager
+  }()
 }

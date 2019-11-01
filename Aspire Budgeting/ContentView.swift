@@ -9,6 +9,7 @@ import SwiftUI
 struct ContentView: View {
   @EnvironmentObject var userManager: UserManager
   @EnvironmentObject var driveManager: GoogleDriveManager
+  @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
   var body: some View {
     VStack {

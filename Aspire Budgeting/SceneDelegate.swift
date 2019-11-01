@@ -10,28 +10,31 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
-  let objectFactory = ObjectFactory()
+  private let objectFactory = ObjectFactory()
+  
+  private var driveManager: GoogleDriveManager!
+  private var sheetsManager: GoogleSheetsManager!
   
   lazy var userManager = {
     return objectFactory.userManager
-  } ()
-  
-  lazy var driveManager = {
-    return objectFactory.driveManager
-  } ()
+  }()
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    if driveManager == nil {
+      driveManager = objectFactory.driveManager
+    }
     
-//    let userManager = objectFactory.userManager
+    if sheetsManager == nil {
+      sheetsManager = objectFactory.sheetsManager
+    }
+    
     userManager.fetchUser()
     
-//    let driveManager = objectFactory.driveManager
-
     // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView().environmentObject(userManager).environmentObject(driveManager)
+    let contentView = ContentView().environmentObject(userManager).environmentObject(driveManager).environmentObject(sheetsManager)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {

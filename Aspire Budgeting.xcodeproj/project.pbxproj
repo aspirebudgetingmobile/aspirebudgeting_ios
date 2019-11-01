@@ -28,6 +28,8 @@
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */; };
 		06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */; };
+		06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4F236CC8F900D70CC9 /* GoogleSheetsManager.swift */; };
+		06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
 		06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */; };
 		06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A66235A908E009BA6A7 /* ContentView.swift */; };
@@ -71,6 +73,8 @@
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationCenter.swift; sourceTree = "<group>"; };
 		06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthorizer.swift; sourceTree = "<group>"; };
+		06EA7A4F236CC8F900D70CC9 /* GoogleSheetsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSheetsManager.swift; sourceTree = "<group>"; };
+		06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSheetsManagerTests.swift; sourceTree = "<group>"; };
 		06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aspire Budgeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A62235A908E009BA6A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 				066EF45F235D3D6000E94CE4 /* UserManager.swift */,
 				066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */,
 				06A96051235FD2A60058EE64 /* ObjectFactory.swift */,
+				06EA7A4F236CC8F900D70CC9 /* GoogleSheetsManager.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 				06EA7A49236CC64000D70CC9 /* MockUser.swift */,
 				06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */,
 				06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */,
+				06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -483,6 +489,7 @@
 				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
+				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +499,7 @@
 			files = (
 				06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */,
 				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
+				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
 				06ED8A7A235A9091009BA6A7 /* Aspire_BudgetingTests.swift in Sources */,
