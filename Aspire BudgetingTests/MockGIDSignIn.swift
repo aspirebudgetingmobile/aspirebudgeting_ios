@@ -10,7 +10,7 @@
 import Foundation
 import GoogleSignIn
 
-class MockGIDSignIn: AspireSignInInstance {
+final class MockGIDSignIn: AspireSignInInstance {
   var clientID: String!
   weak var delegate: GIDSignInDelegate!
   var scopes: [Any]!

@@ -11,7 +11,7 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
-class GoogleSheetsManagerTests: XCTestCase {
+final class GoogleSheetsManagerTests: XCTestCase {
   
   var sinkCancellable: AnyCancellable?
   
@@ -41,7 +41,7 @@ class GoogleSheetsManagerTests: XCTestCase {
     return spreadsheet
   }
   
-  class MockFile: AspireFile {
+  final class MockFile: AspireFile {
     var name: String?
     var identifier: String?
   }

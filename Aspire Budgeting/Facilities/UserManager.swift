@@ -32,7 +32,7 @@ protocol AspireNotificationCenter: AnyObject {
 
 extension NotificationCenter: AspireNotificationCenter {}
 
-class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
+final class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
   private var isGoogleSDKSetup = false
   private let gidSignInInstance: AspireSignInInstance
   private let credentials: GoogleSDKCredentials

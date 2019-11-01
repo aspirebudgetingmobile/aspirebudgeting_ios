@@ -10,7 +10,7 @@
 import Foundation
 import GTMSessionFetcher
 
-class MockUser: AspireUser {
+final class MockUser: AspireUser {
   typealias Profile = MockProfile
   
   typealias Authentication = MockAuthentication
@@ -20,11 +20,11 @@ class MockUser: AspireUser {
   
 }
 
-class MockProfile: AspireProfile {
+final class MockProfile: AspireProfile {
   var name: String! = "First Last"
 }
 
-class MockAuthentication: AspireAuthentication {
+final class MockAuthentication: AspireAuthentication {
   var authorizer: GTMFetcherAuthorizationProtocol! = nil
   func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
     if authorizer == nil {
