@@ -8,6 +8,7 @@
 
 import GoogleAPIClientForREST
 import GoogleSignIn
+import GTMSessionFetcher
 import XCTest
 
 @testable import Aspire_Budgeting
@@ -28,11 +29,46 @@ class MockGIDSignIn: AspireSignInInstance {
   }
 }
 
+class MockNotificationCenter: AspireNotificationCenter {
+  var notificationName = Notification.Name("")
+  
+  func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable : Any]?) {
+    notificationName = aName
+  }
+}
+
+class MockUser: AspireUser {
+  typealias Profile = MockProfile
+  
+  typealias Authentication = MockAuthentication
+  
+  var profile: Profile! = MockProfile()
+  var authentication: Authentication! = MockAuthentication()
+  
+}
+
+class MockProfile: AspireProfile {
+  var name: String! = "First Last"
+}
+
+class MockAuthentication: AspireAuthentication {
+  var authorizer: GTMFetcherAuthorizationProtocol! = nil
+  func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
+    if authorizer == nil {
+      authorizer = MockAuthorizer()
+    }
+    return authorizer
+  }
+}
+
 class UserManagerTests: XCTestCase {
   let mockGoogleCredentials = GoogleSDKCredentials(CLIENT_ID: "dummy_client", REVERSED_CLIENT_ID: "client_dummy")
   let mockGIDSignIn = MockGIDSignIn()
+  let mockNotificationCenter = MockNotificationCenter()
   
-  lazy var userManager = UserManager(credentials: mockGoogleCredentials, gidSignInInstance: mockGIDSignIn)
+  lazy var userManager = UserManager(credentials: mockGoogleCredentials,
+                                     gidSignInInstance: mockGIDSignIn,
+                                     notificationCenter: mockNotificationCenter)
   
   override func setUp() {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -48,7 +84,7 @@ class UserManagerTests: XCTestCase {
     XCTAssertEqual(mockGIDSignIn.clientID, mockGoogleCredentials.CLIENT_ID)
     XCTAssertTrue(userManager === mockGIDSignIn.delegate)
     XCTAssertNotNil(mockGIDSignIn.scopes as? [String])
-    XCTAssertEqual(mockGIDSignIn.scopes as! [String], [kGTLRAuthScopeSheetsSpreadsheets])
+    XCTAssertEqual(mockGIDSignIn.scopes as! [String], [kGTLRAuthScopeDrive, kGTLRAuthScopeSheetsDrive])
     XCTAssertTrue(mockGIDSignIn.restoreCalled)
     
     let expectation = XCTestExpectation()
@@ -62,13 +98,15 @@ class UserManagerTests: XCTestCase {
   }
   
   func testSignIn() {
-    let dummyUser = GIDGoogleUser()
-    
-    userManager.sign(nil, didSignInFor: dummyUser, withError: nil)
+    let dummyUser = MockUser()
+    userManager.signIn(user: dummyUser)
     
     let expectation = XCTestExpectation()
     _ = userManager.$user.sink { (user) in
       if user != nil {
+        XCTAssertEqual(dummyUser.profile.name, user!.name)
+        XCTAssertTrue(user!.authorizer === dummyUser.authentication.fetcherAuthorizer())
+        XCTAssertEqual(self.mockNotificationCenter.notificationName, Notification.Name.authorizerUpdated)
         expectation.fulfill()
       } else {
         XCTFail("Expected \"user\" to ba a valid instance")
@@ -88,7 +126,7 @@ class UserManagerTests: XCTestCase {
       XCTAssertNotNil(error)
       XCTAssertEqual(GIDSignInErrorCode.hasNoAuthInKeychain.rawValue, (error! as NSError).code)
       expectation.fulfill()
-  }
+    }
   }
   
   func testSignOut() {
