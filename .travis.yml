@@ -27,6 +27,10 @@ jobs:
       name: "Unit Tests"
       script:
         - bundle exec fastlane unit_test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 #xcode_workspace: "Aspire Budgeting.xcworkspace"
 #xcode_scheme: "Aspire Budgeting"
 #xcode_destination: platform=iOS Simulator,OS=13.1,name=iPhone 11 Pro Max
