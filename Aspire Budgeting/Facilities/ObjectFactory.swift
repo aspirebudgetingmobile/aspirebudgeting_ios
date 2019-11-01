@@ -8,7 +8,8 @@
 
 import Foundation
 
-class ObjectFactory {
+
+final class ObjectFactory {
   private let credentialsFileName = "credentials"
   
   lazy var googleSDKCredentials: GoogleSDKCredentials! = {
@@ -19,15 +20,24 @@ class ObjectFactory {
       type: "plist",
       bundle: Bundle.main,
       decoder: PropertyListDecoder())
-    }
-    catch {
+    } catch {
       fatalError("Unable to instantiate GoogleSDKCredentials.")
     }
     
     return sdkCredentials!
   }()
   
-  lazy var userManager: UserManager =  {
+  lazy var userManager: UserManager = {
     return UserManager(credentials: googleSDKCredentials)
+  }()
+  
+  lazy var driveManager: GoogleDriveManager = {
+    let driveManager = GoogleDriveManager()
+    return driveManager
+  }()
+  
+  lazy var sheetsManager: GoogleSheetsManager = {
+    let sheetsManager = GoogleSheetsManager()
+    return sheetsManager
   }()
 }

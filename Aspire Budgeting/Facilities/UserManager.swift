@@ -6,10 +6,10 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import Foundation
-import GoogleSignIn
 import Combine
+import Foundation
 import GoogleAPIClientForREST
+import GoogleSignIn
 import GTMSessionFetcher
 
 protocol AspireSignInInstance: AnyObject {
@@ -22,18 +22,31 @@ protocol AspireSignInInstance: AnyObject {
 
 extension GIDSignIn: AspireSignInInstance {}
 
-class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
+extension Notification.Name {
+  static let authorizerUpdated = Notification.Name("authorizerUpdated")
+}
+
+protocol AspireNotificationCenter: AnyObject {
+  func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable: Any]?)
+}
+
+extension NotificationCenter: AspireNotificationCenter {}
+
+final class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
   private var isGoogleSDKSetup = false
   private let gidSignInInstance: AspireSignInInstance
   private let credentials: GoogleSDKCredentials
+  private let notificationCenter: AspireNotificationCenter
   
   @Published public private(set) var user: User?
   @Published public private(set) var error: Error?
   
   init(credentials: GoogleSDKCredentials,
-       gidSignInInstance: AspireSignInInstance = GIDSignIn.sharedInstance()) {
+       gidSignInInstance: AspireSignInInstance = GIDSignIn.sharedInstance(),
+       notificationCenter: AspireNotificationCenter = NotificationCenter.default) {
     self.credentials = credentials
     self.gidSignInInstance = gidSignInInstance
+    self.notificationCenter = notificationCenter
   }
   
   func fetchUser() {
@@ -56,7 +69,12 @@ class UserManager: NSObject, GIDSignInDelegate, ObservableObject {
       return
     }
     
+    self.signIn(user: user)
+  }
+  
+  func signIn<U: AspireUser>(user: U) {
     self.user = User(googleUser: user)
+    notificationCenter.post(name: Notification.Name.authorizerUpdated, object: self, userInfo: [Notification.Name.authorizerUpdated: self.user!.authorizer])
   }
   
   func signOut() {

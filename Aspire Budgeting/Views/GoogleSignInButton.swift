@@ -6,8 +6,8 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import SwiftUI
 import GoogleSignIn
+import SwiftUI
 
 struct GoogleSignInButton: UIViewRepresentable {
   

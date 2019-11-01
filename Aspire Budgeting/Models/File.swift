@@ -7,14 +7,27 @@
 //
 
 import Foundation
+import GoogleAPIClientForREST
 
-class File: Identifiable {
+protocol AspireFile {
+  var name: String? { get }
+  var identifier: String? { get }
+}
+
+extension GTLRDrive_File: AspireFile {}
+
+struct File: Identifiable {
+  let id: String
   let name: String
-  let identifier: String
   
-  
-  init(name: String, identifier: String) {
-    self.name = name
-    self.identifier = identifier
+  init(driveFile: AspireFile) {
+    self.name = driveFile.name ?? "no file name"
+    self.id = driveFile.identifier ?? ""
+  }
+}
+
+extension File: Equatable {
+  static func == (lhs: File, rhs: File) -> Bool {
+    return (lhs.name == rhs.name) && (lhs.id == rhs.id)
   }
 }

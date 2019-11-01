@@ -6,8 +6,8 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import XCTest
 @testable import Aspire_Budgeting
+import XCTest
 
 class GoogleSDKCredentialsTests: XCTestCase {
   
@@ -72,12 +72,4 @@ class GoogleSDKCredentialsTests: XCTestCase {
     XCTAssertEqual(GoogleSDKCredentialsError.couldNotCreate, GoogleSDKCredentialsError.couldNotCreate)
     XCTAssertNotEqual(GoogleSDKCredentialsError.missingCredentialsPLIST, GoogleSDKCredentialsError.couldNotCreate)
   }
-  
-  func testPerformanceExample() {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
-    }
-  }
-  
 }

@@ -6,33 +6,21 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import XCTest
-import GoogleSignIn
 import GoogleAPIClientForREST
+import GoogleSignIn
+import GTMSessionFetcher
+import XCTest
 
 @testable import Aspire_Budgeting
-
-class MockGIDSignIn: AspireSignInInstance {
-  var clientID: String!
-  var delegate: GIDSignInDelegate!
-  var scopes: [Any]!
-  
-  var restoreCalled = false
-  func restorePreviousSignIn() {
-    restoreCalled = true
-  }
-  
-  var signOutCalled = false
-  func signOut() {
-    signOutCalled = true
-  }
-}
 
 class UserManagerTests: XCTestCase {
   let mockGoogleCredentials = GoogleSDKCredentials(CLIENT_ID: "dummy_client", REVERSED_CLIENT_ID: "client_dummy")
   let mockGIDSignIn = MockGIDSignIn()
+  let mockNotificationCenter = MockNotificationCenter()
   
-  lazy var userManager = UserManager(credentials: mockGoogleCredentials, gidSignInInstance: mockGIDSignIn)
+  lazy var userManager = UserManager(credentials: mockGoogleCredentials,
+                                     gidSignInInstance: mockGIDSignIn,
+                                     notificationCenter: mockNotificationCenter)
   
   override func setUp() {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -56,22 +44,24 @@ class UserManagerTests: XCTestCase {
       if user == nil {
         expectation.fulfill()
       } else {
-        XCTFail()
+        XCTFail("Expected \"user\" to be nil")
       }
     }
   }
   
   func testSignIn() {
-    let dummyUser = GIDGoogleUser()
-    
-    userManager.sign(nil, didSignInFor: dummyUser, withError: nil)
+    let dummyUser = MockUser()
+    userManager.signIn(user: dummyUser)
     
     let expectation = XCTestExpectation()
     _ = userManager.$user.sink { (user) in
       if user != nil {
+        XCTAssertEqual(dummyUser.profile.name, user!.name)
+        XCTAssertTrue(user!.authorizer === dummyUser.authentication.fetcherAuthorizer())
+        XCTAssertEqual(self.mockNotificationCenter.notificationName, Notification.Name.authorizerUpdated)
         expectation.fulfill()
       } else {
-        XCTFail()
+        XCTFail("Expected \"user\" to ba a valid instance")
       }
     }
   }
@@ -88,7 +78,7 @@ class UserManagerTests: XCTestCase {
       XCTAssertNotNil(error)
       XCTAssertEqual(GIDSignInErrorCode.hasNoAuthInKeychain.rawValue, (error! as NSError).code)
       expectation.fulfill()
-  }
+    }
   }
   
   func testSignOut() {
@@ -101,16 +91,8 @@ class UserManagerTests: XCTestCase {
       if user == nil {
         expectation.fulfill()
       } else {
-        XCTFail()
+        XCTFail("Expected \"user\" to be nil")
       }
     }
   }
-  
-  func testPerformanceExample() {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
-    }
-  }
-  
 }

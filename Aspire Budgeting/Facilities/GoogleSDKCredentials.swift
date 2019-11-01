@@ -11,24 +11,13 @@ import Foundation
 enum GoogleSDKCredentialsError: Error {
   case missingCredentialsPLIST
   case couldNotCreate
-  
-  public static func ==(lhs: GoogleSDKCredentialsError, rhs: GoogleSDKCredentialsError) -> Bool{
-    switch(lhs, rhs) {
-    case (missingCredentialsPLIST, missingCredentialsPLIST):
-      return true
-    
-    case (couldNotCreate, couldNotCreate):
-      return true
-      
-    default:
-      return false
-  }
-  }
 }
 
 struct GoogleSDKCredentials: Codable {
+  // swiftlint:disable identifier_name
   let CLIENT_ID: String
   let REVERSED_CLIENT_ID: String
+  // swiftlint:enable identifier_name
   
   static func getCredentials(from fileName: String = "credentials",
                              type: String = "plist",
