@@ -13,54 +13,6 @@ import XCTest
 
 @testable import Aspire_Budgeting
 
-class MockGIDSignIn: AspireSignInInstance {
-  var clientID: String!
-  weak var delegate: GIDSignInDelegate!
-  var scopes: [Any]!
-  
-  var restoreCalled = false
-  func restorePreviousSignIn() {
-    restoreCalled = true
-  }
-  
-  var signOutCalled = false
-  func signOut() {
-    signOutCalled = true
-  }
-}
-
-class MockNotificationCenter: AspireNotificationCenter {
-  var notificationName = Notification.Name("")
-  
-  func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable : Any]?) {
-    notificationName = aName
-  }
-}
-
-class MockUser: AspireUser {
-  typealias Profile = MockProfile
-  
-  typealias Authentication = MockAuthentication
-  
-  var profile: Profile! = MockProfile()
-  var authentication: Authentication! = MockAuthentication()
-  
-}
-
-class MockProfile: AspireProfile {
-  var name: String! = "First Last"
-}
-
-class MockAuthentication: AspireAuthentication {
-  var authorizer: GTMFetcherAuthorizationProtocol! = nil
-  func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
-    if authorizer == nil {
-      authorizer = MockAuthorizer()
-    }
-    return authorizer
-  }
-}
-
 class UserManagerTests: XCTestCase {
   let mockGoogleCredentials = GoogleSDKCredentials(CLIENT_ID: "dummy_client", REVERSED_CLIENT_ID: "client_dummy")
   let mockGIDSignIn = MockGIDSignIn()

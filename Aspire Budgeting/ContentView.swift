@@ -7,35 +7,23 @@
 import SwiftUI
 
 struct ContentView: View {
-  @ObservedObject var userManager: UserManager
-  @ObservedObject var driveManager: GoogleDriveManager
+  @EnvironmentObject var userManager: UserManager
+  @EnvironmentObject var driveManager: GoogleDriveManager
   
-    var body: some View {
-      VStack {
-        if userManager.user == nil {
-          SignInView()
-        } else {
-          VStack {
-            Button("Sign Out") {
-              self.userManager.signOut()
-            }
-            
-            List(self.driveManager.fileList) { file in
-              Text(file.name)
-            }
-            
-            Button("Get List") {
-              self.driveManager.getFileList(authorizer: self.userManager.user!.googleUser.authentication.fetcherAuthorizer())
-            }
-          }
-        }
+  var body: some View {
+    VStack {
+      if userManager.user == nil {
+        SignInView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+      } else {
+        FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
-      
-    }
+    }.background(BackgroundColorView())
+  }
 }
 
 //struct ContentView_Previews: PreviewProvider {
+//  static let objectFactory = ObjectFactory()
 //    static var previews: some View {
-//      ContentView(userManager: ObjectFactory().userManager)
+//      ContentView(userManager: objectFactory.userManager, driveManager: objectFactory.driveManager)
 //    }
 //}

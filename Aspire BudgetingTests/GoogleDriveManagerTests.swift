@@ -13,31 +13,7 @@ import GTMSessionFetcher
 import XCTest
 
 @testable import Aspire_Budgeting
-final class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
-  func authorizeRequest(_ request: NSMutableURLRequest?, delegate: Any, didFinish sel: Selector) {
-    
-  }
-  
-  func stopAuthorization() {
-    
-  }
-  
-  func stopAuthorization(for request: URLRequest) {
-    
-  }
-  
-  func isAuthorizingRequest(_ request: URLRequest) -> Bool {
-    return false
-  }
-  
-  func isAuthorizedRequest(_ request: URLRequest) -> Bool {
-    return false
-  }
-  
-  var userEmail: String?
-  
-  
-}
+
 
 final class GoogleDriveManagerTests: XCTestCase {
   
@@ -72,18 +48,63 @@ final class GoogleDriveManagerTests: XCTestCase {
     return file
   }
   
+  func createMockGTLRService(with fakedObject: Any?, error: Error?) -> GTLRService {
+    return GTLRService.mockService(withFakedObject: fakedObject, fakedError: error)
+  }
+  
   override func setUp() {
   }
   
   override func tearDown() {
   }
   
-  func testGetFileListError() {
-    let mockError = NSError(domain: "aspire_tests", code: 42, userInfo: nil)
-    let mockDriveService = GTLRService.mockService(withFakedObject: nil, fakedError: mockError)
-    let driveManager = GoogleDriveManager(driveService: mockDriveService, query: mockQuery)
+  func postNotification() {
+    let notification = Notification(name: .authorizerUpdated, object: nil, userInfo: [Notification.Name.authorizerUpdated: MockAuthorizer()])
+    NotificationCenter.default.post(notification)
+  }
+  
+//  func testVerifySheet() {
+//    
+//    let properties = GTLRSheets_SheetProperties()
+//    properties.title = "test_sheet"
+//    
+//    let sheet = GTLRSheets_Sheet()
+//    sheet.properties = properties
+//    
+//    let spreadsheet = GTLRSheets_Spreadsheet()
+//    spreadsheet.sheets = [sheet]
+//    
+//    let mockQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "42")
+//    let sheetService = GTLRSheetsService.mockService(withFakedObject: spreadsheet, fakedError: nil)
+//    let driveManager = GoogleDriveManager(googleGetSpreadsheetsQuery: mockQuery, sheetsService: sheetService)
+//    
+//    driveManager.authorizer = mockAuthorizer
+//    driveManager.verifySheet(spreadsheet: File(driveFile: createFile(name: "test_file", identifier: "21")))
+//  }
+  
+  func testGetFileListErrorWithoutAuthorizer() {
+    let mockDriveService = createMockGTLRService(with: nil, error: nil)
+    let driveManager = GoogleDriveManager(driveService: mockDriveService, googleFilesListQuery: mockQuery)
     
-    driveManager.getFileList(authorizer: mockAuthorizer)
+    driveManager.getFileList()
+    
+    let errorExpectation = XCTestExpectation()
+    self.sinkCancellable = driveManager.$error.sink(receiveValue: { (error) in
+      let e = error as? GoogleDriveManagerError
+      XCTAssertNotNil(e)
+      XCTAssertEqual(e!, GoogleDriveManagerError.nilAuthorizer)
+      errorExpectation.fulfill()
+    })
+    wait(for: [errorExpectation], timeout: 5)
+  }
+  
+  func testGetFileListErrorWithFakeError() {
+    let mockError = NSError(domain: "aspire_tests", code: 42, userInfo: nil)
+    let mockDriveService = createMockGTLRService(with: nil, error: mockError)
+    let driveManager = GoogleDriveManager(driveService: mockDriveService, googleFilesListQuery: mockQuery)
+    
+    postNotification()
+    driveManager.getFileList()
     
     let errorExpectation = XCTestExpectation()
     self.sinkCancellable = driveManager.$error.dropFirst().sink(receiveValue: { (error) in
@@ -101,10 +122,11 @@ final class GoogleDriveManagerTests: XCTestCase {
   func testGetFileList() {
   
     let mockQuery = self.mockQuery
-    let mockDriveService = GTLRService.mockService(withFakedObject: mockGTLRFileList, fakedError: nil)
-    let driveManager = GoogleDriveManager(driveService: mockDriveService, query: mockQuery)
+    let mockDriveService = createMockGTLRService(with: mockGTLRFileList, error: nil)
+    let driveManager = GoogleDriveManager(driveService: mockDriveService, googleFilesListQuery: mockQuery)
     
-    driveManager.getFileList(authorizer: mockAuthorizer)
+    postNotification()
+    driveManager.getFileList()
     
     let expectation = XCTestExpectation()
   
@@ -116,6 +138,7 @@ final class GoogleDriveManagerTests: XCTestCase {
       })
     
     XCTAssertEqual(mockQuery.fields, GoogleDriveManager.queryFields)
+    XCTAssertEqual(mockQuery.q, "mimeType='\(GoogleDriveManager.spreadsheetMIME)'")
     wait(for: [expectation], timeout: 5)
   }
 }
