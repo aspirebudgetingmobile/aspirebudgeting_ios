@@ -11,10 +11,10 @@ import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
 
-enum GoogleDriveManagerError: Error {
-  case nilAuthorizer
-  case invalidSheet
-  case noInternet
+enum GoogleDriveManagerError: String, Error {
+  case nilAuthorizer = "nilAuthorizer"
+  case invalidSheet = "Please select a valid Aspire Sheet"
+  case noInternet = "No Internet connection available"
 }
   
   final class GoogleDriveManager: ObservableObject {

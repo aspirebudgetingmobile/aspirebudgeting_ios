@@ -21,7 +21,7 @@ final class GoogleSheetsManager: ObservableObject {
   private var ticket: GTLRServiceTicket?
   
   @Published public private(set) var aspireVersion: String?
-  @Published public private(set) var error: Error?
+  @Published public private(set) var error: GoogleDriveManagerError?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet =  GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: "")) {

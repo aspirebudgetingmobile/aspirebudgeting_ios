@@ -31,7 +31,6 @@ struct FileSelectorView: View {
           })
         }.onAppear {
           if self.driveManager.fileList.isEmpty {
-//            self.driveManager.authorizer = self.userManager.user?.googleUser.authentication.fetcherAuthorizer()
             self.driveManager.getFileList()
           }
         }
