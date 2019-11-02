@@ -28,12 +28,12 @@ struct GroupsAndCategories {
   let groups: [String]
   let groupedCategoryRows: [[CategoryRow]]
   
-  init(rows:[[String]]) {
+  init(rows: [[String]]) {
     var lastIndex = -1
     var tempGroups = [String]()
     var tempGroupedCategoryRow = [[CategoryRow]]()
     for row in rows {
-      if row.count == 1  {
+      if row.count == 1 {
         lastIndex += 1
         tempGroups.append(row[0])
         tempGroupedCategoryRow.append([CategoryRow]())
