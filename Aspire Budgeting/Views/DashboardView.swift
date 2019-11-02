@@ -11,19 +11,36 @@ import SwiftUI
 struct DashboardView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
-//  @State var fetchedData = true
   let file: File
+  
+  func categoryRows(for group: String) -> [CategoryRow] {
+    let index = self.sheetsManager.groupsAndCategories!.groups.firstIndex(of: group)
+    return self.sheetsManager.groupsAndCategories!.groupedCategoryRows[index!]
+  }
     var body: some View {
       VStack {
         if self.sheetsManager.error == nil {
-          Text(file.name)
+          if self.sheetsManager.groupsAndCategories?.groups != nil {
+            List {
+              ForEach(self.sheetsManager.groupsAndCategories!.groups, id: \.self) { group in
+                Section(header: Text(group)) {
+                  ForEach(self.categoryRows(for: group), id: \.self) { row in
+                    DashboardRow(categoryRow: row)
+                  }
+                }
+              }
+            }.listStyle(GroupedListStyle())
+          } else {
+            Text("Fetching data")
+          }
         } else {
           ErrorBannerView(error: self.sheetsManager.error!)
         }
         
       }.onAppear {
           self.sheetsManager.verifySheet(spreadsheet: self.file)
-      }
+        self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
+      }.navigationBarTitle("Dashboard")
   }
 }
 
