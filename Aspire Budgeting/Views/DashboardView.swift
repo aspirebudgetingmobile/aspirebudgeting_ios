@@ -18,7 +18,7 @@ struct DashboardView: View {
         if self.sheetsManager.error == nil {
           Text(file.name)
         } else {
-          Text("Could not fetch data")
+          ErrorBannerView(error: self.sheetsManager.error!)
         }
         
       }.onAppear {

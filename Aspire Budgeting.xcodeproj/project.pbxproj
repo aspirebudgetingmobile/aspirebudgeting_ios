@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
 		066EF45B235CF2C900E94CE4 /* BackgroundColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */; };
 		066EF45E235CF74500E94CE4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45D235CF74500E94CE4 /* User.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		066EF45A235CF2C900E94CE4 /* BackgroundColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorView.swift; sourceTree = "<group>"; };
 		066EF45D235CF74500E94CE4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				066EF461235D4FBD00E94CE4 /* SignInView.swift */,
 				06C5C6A723690AEB00862196 /* FileSelectorView.swift */,
 				0694C2222369EDB90039528A /* DashboardView.swift */,
+				065F03CF236DEF78005AED12 /* ErrorBannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
+				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
 				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
