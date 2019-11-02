@@ -2,7 +2,6 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Icon.png",
       "scale" : "1x"
     },
     {
@@ -11,15 +10,12 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "1024.png",
       "scale" : "3x"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
-  },
-  "properties" : {
-    "template-rendering-intent" : "template",
-    "preserves-vector-representation" : true
   }
 }
