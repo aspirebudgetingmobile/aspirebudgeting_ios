@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import GoogleSignIn
 
 final class ObjectFactory {
   private let credentialsFileName = "credentials"
@@ -28,7 +28,7 @@ final class ObjectFactory {
   }()
   
   lazy var userManager: UserManager = {
-    return UserManager(credentials: googleSDKCredentials)
+    return UserManager<GIDGoogleUser>(credentials: googleSDKCredentials)
   }()
   
   lazy var driveManager: GoogleDriveManager = {

@@ -4,10 +4,11 @@
 //
 //
 
+import GoogleSignIn
 import SwiftUI
 
 struct ContentView: View {
-  @EnvironmentObject var userManager: UserManager
+  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   

@@ -6,10 +6,11 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
+import GoogleSignIn
 import SwiftUI
 
 struct FileSelectorView: View {
-  @EnvironmentObject var userManager: UserManager
+  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
