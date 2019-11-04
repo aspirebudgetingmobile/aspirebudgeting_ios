@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */; };
 		06002500236F9A8000A20C96 /* DashboardGroupsAndCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* DashboardGroupsAndCategories.swift */; };
+		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCategoryRow.swift; sourceTree = "<group>"; };
 		060024FF236F9A8000A20C96 /* DashboardGroupsAndCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardGroupsAndCategories.swift; sourceTree = "<group>"; };
+		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */,
 				06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */,
 				06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */,
+				06002501236F9D9500A20C96 /* MockFile.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */,
 				06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */,
 				06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */,
+				06002502236F9D9500A20C96 /* MockFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
