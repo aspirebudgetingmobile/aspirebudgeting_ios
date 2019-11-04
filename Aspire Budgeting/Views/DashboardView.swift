@@ -13,7 +13,7 @@ struct DashboardView: View {
   
   let file: File
   
-  func categoryRows(for group: String) -> [CategoryRow] {
+  func categoryRows(for group: String) -> [DashboardCategoryRow] {
     let index = self.sheetsManager.groupsAndCategories!.groups.firstIndex(of: group)
     return self.sheetsManager.groupsAndCategories!.groupedCategoryRows[index!]
   }
