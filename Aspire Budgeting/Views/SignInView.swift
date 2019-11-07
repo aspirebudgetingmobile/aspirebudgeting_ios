@@ -12,6 +12,7 @@ struct SignInView: View {
     var body: some View {
         VStack {
           Image("logo")
+          Text("Aspire").font(.custom("Nunito-Regular", size: 50)).foregroundColor(.white)
           Spacer()
           GoogleSignInButton().frame(height: 50).padding()
           Spacer()
