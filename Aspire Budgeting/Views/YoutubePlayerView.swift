@@ -9,7 +9,7 @@
 import SwiftUI
 import WebKit
 
-struct YoutubePlayerView: UIViewRepresentable{
+struct YoutubePlayerView: UIViewRepresentable {
 
   func updateUIView(_ uiView: WKWebView, context: UIViewRepresentableContext<YoutubePlayerView>) {
     
