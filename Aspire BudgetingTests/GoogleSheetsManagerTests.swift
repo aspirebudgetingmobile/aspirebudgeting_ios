@@ -41,9 +41,34 @@ final class GoogleSheetsManagerTests: XCTestCase {
     return spreadsheet
   }
   
-  final class MockFile: AspireFile {
-    var name: String?
-    var identifier: String?
+  func testFetchCategoriesAndGroups() {
+    let mockValueRange = GTLRSheets_ValueRange()
+    mockValueRange.values = [["G1"],
+                             ["G1:C1", "1", "2", "3", "4", "5", "6", "7"],
+                             ["G1:C2", "8", "9", "10", "11", "12", "13", "14"],
+                             ["G2"],
+                             ["G2:C1", "15", "16", "17", "18", "19", "20", "21"]]
+    
+    let mockQuery = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "42", range: "range")
+    
+    let sheetsService = GTLRSheetsService.mockService(withFakedObject: mockValueRange, fakedError: nil)
+    
+    let sheetsManager = GoogleSheetsManager(sheetsService: sheetsService, getSpreadsheetsQuery: mockQuery)
+    
+    postNotification()
+    sheetsManager.fetchCategoriesAndGroups(spreadsheet: File(driveFile: MockFile()))
+    
+    let expectation = XCTestExpectation()
+    sinkCancellable = sheetsManager.$groupsAndCategories.dropFirst().sink(receiveValue: { (dGroupsAndCategories) in
+      XCTAssertEqual(dGroupsAndCategories?.groups, ["G1", "G2"])
+      XCTAssertEqual(dGroupsAndCategories?.groupedCategoryRows[0][0].categoryName, "G1:C1")
+      XCTAssertEqual(dGroupsAndCategories?.groupedCategoryRows[0][0].available, "1")
+      XCTAssertEqual(dGroupsAndCategories?.groupedCategoryRows[0][0].spent, "4")
+      XCTAssertEqual(dGroupsAndCategories?.groupedCategoryRows[0][0].budgeted, "7")
+      expectation.fulfill()
+    })
+    
+    wait(for: [expectation], timeout: 5)
   }
   
   func testVerifySheet() {

@@ -13,12 +13,12 @@ import XCTest
 
 @testable import Aspire_Budgeting
 
-class UserManagerTests: XCTestCase {
+final class UserManagerTests: XCTestCase {
   let mockGoogleCredentials = GoogleSDKCredentials(CLIENT_ID: "dummy_client", REVERSED_CLIENT_ID: "client_dummy")
   let mockGIDSignIn = MockGIDSignIn()
   let mockNotificationCenter = MockNotificationCenter()
   
-  lazy var userManager = UserManager(credentials: mockGoogleCredentials,
+  lazy var userManager = UserManager<MockUser>(credentials: mockGoogleCredentials,
                                      gidSignInInstance: mockGIDSignIn,
                                      notificationCenter: mockNotificationCenter)
   
