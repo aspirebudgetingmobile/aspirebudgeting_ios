@@ -11,9 +11,14 @@ import SwiftUI
 struct SignInView: View {
     var body: some View {
         VStack {
-          Image("logo")
+          Image("logo").resizable().aspectRatio(contentMode: .fit)
+          Text("Aspire").font(.custom("Nunito-Regular", size: 50)).foregroundColor(.white)
+          YoutubePlayerView().padding()
           Spacer()
+          Text("Link your Google Account").font(.title).foregroundColor(.white)
+          Text("Why? Aspire Budgeting requires access to your Google Sheets in order to be able to display your budgeting sheet.").foregroundColor(.white).font(.footnote).padding(.horizontal)
           GoogleSignInButton().frame(height: 50).padding()
+          
           Spacer()
         }.background(BackgroundColorView().edgesIgnoringSafeArea(.all))
     }

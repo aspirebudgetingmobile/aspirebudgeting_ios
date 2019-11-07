@@ -10,6 +10,8 @@
 		060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */; };
 		06002500236F9A8000A20C96 /* DashboardGroupsAndCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* DashboardGroupsAndCategories.swift */; };
 		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
+		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
+		060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060025052373C08700A20C96 /* YoutubePlayerView.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
@@ -60,6 +62,8 @@
 		060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCategoryRow.swift; sourceTree = "<group>"; };
 		060024FF236F9A8000A20C96 /* DashboardGroupsAndCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardGroupsAndCategories.swift; sourceTree = "<group>"; };
 		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
+		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
+		060025052373C08700A20C96 /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 				0694C2222369EDB90039528A /* DashboardView.swift */,
 				065F03CF236DEF78005AED12 /* ErrorBannerView.swift */,
 				065F03D1236E2385005AED12 /* DashboardRow.swift */,
+				060025052373C08700A20C96 /* YoutubePlayerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				060025032373BB5C00A20C96 /* Nunito-Regular.ttf */,
 				06A0DAA7235BF99400AEF9FE /* credentials.plist */,
 			);
 			path = Resources;
@@ -350,6 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */,
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
 				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
 				06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */,
@@ -501,6 +508,7 @@
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
+				060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
