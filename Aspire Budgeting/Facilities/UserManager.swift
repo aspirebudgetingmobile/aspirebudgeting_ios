@@ -98,8 +98,9 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   }
   
   func signOut() {
-    subscription.cancel()
     gidSignInInstance.signOut()
+    localAuthManager.signOut()
+    userAuthenticated = false
     self.user = nil
   }
 }

@@ -14,6 +14,10 @@ class LocalAuthorizationManager: ObservableObject {
   
   let context = LAContext()
   
+  func signOut() {
+    isAuthorized = false
+  }
+  
   func authenticateUserLocally() {
     context.localizedCancelTitle = "Cancel"
     
