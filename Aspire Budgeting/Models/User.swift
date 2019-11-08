@@ -35,9 +35,11 @@ extension GIDProfileData: AspireProfile {}
 struct User {
   let name: String
   let authorizer: GTMFetcherAuthorizationProtocol
+  let isFreshUser: Bool
   
-  init<U>(googleUser: U) where U: AspireUser {
+  init<U>(googleUser: U, isFresh: Bool) where U: AspireUser {
     name = googleUser.profile.name
     authorizer = googleUser.authentication.fetcherAuthorizer()
+    isFreshUser = isFresh
   }
 }

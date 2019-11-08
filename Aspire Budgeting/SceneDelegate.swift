@@ -14,6 +14,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   private var driveManager: GoogleDriveManager!
   private var sheetsManager: GoogleSheetsManager!
+  private var localAuthorizationManager: LocalAuthorizationManager!
   
   lazy var userManager = {
     return objectFactory.userManager
@@ -31,10 +32,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       sheetsManager = objectFactory.sheetsManager
     }
     
-    userManager.fetchUser()
+    if localAuthorizationManager == nil {
+      localAuthorizationManager = objectFactory.localAuthorizationManager
+    }
+    
+    userManager.authenticate()
     
     // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView().environmentObject(userManager).environmentObject(driveManager).environmentObject(sheetsManager)
+    let contentView = ContentView()
+      .environmentObject(userManager)
+      .environmentObject(driveManager)
+      .environmentObject(sheetsManager)
+      .environmentObject(localAuthorizationManager)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {

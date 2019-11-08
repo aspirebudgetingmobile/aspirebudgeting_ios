@@ -40,4 +40,9 @@ final class ObjectFactory {
     let sheetsManager = GoogleSheetsManager()
     return sheetsManager
   }()
+  
+  lazy var localAuthorizationManager: LocalAuthorizationManager = {
+    let localAuthManager = LocalAuthorizationManager()
+    return localAuthManager
+  }()
 }
