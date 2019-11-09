@@ -64,7 +64,6 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     }
     
     fetchUser()
-//    localAuthManager.authenticateUserLocally()
   }
   
   private func fetchUser() {
