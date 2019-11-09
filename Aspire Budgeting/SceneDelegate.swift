@@ -15,6 +15,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   private var driveManager: GoogleDriveManager!
   private var sheetsManager: GoogleSheetsManager!
   private var localAuthorizationManager: LocalAuthorizationManager!
+  private var stateManager: StateManager!
+  
+  private var stateManagerSubscription: AnyCancellable!
   
   lazy var userManager = {
     return objectFactory.userManager
@@ -36,7 +39,30 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       localAuthorizationManager = objectFactory.localAuthorizationManager
     }
     
-    userManager.authenticate()
+    if stateManager == nil {
+      stateManager = objectFactory.stateManager
+    }
+    
+    stateManagerSubscription = stateManager.$currentState.sink(receiveValue: { [weak self] (currentState) in
+      guard let weakSelf = self else {return}
+      
+      switch currentState {
+      case .loggedOut:
+        weakSelf.userManager.authenticateWithGoogle()
+        
+      case .verifiedGoogleUser:
+        weakSelf.userManager.authenticateLocally()
+        
+      case .authenticatedLocally:
+        print("Authenticated Locally")
+        
+      default:
+        fatalError()
+      }
+    })
+    
+//    userManager.authenticate()
+    print(UserDefaults.standard.string(forKey: "aspire_sheet"))
     
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()
@@ -44,6 +70,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       .environmentObject(driveManager)
       .environmentObject(sheetsManager)
       .environmentObject(localAuthorizationManager)
+      .environmentObject(stateManager)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {

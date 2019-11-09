@@ -23,7 +23,7 @@ struct FileSelectorView: View {
               Text(file.name)
             }
           }
-          .navigationBarTitle("Welcome, \(self.userManager.user!.name)")
+          .navigationBarTitle("Link your Aspire sheet")
           .navigationBarItems(leading: Button("Sign Out") {
             self.userManager.signOut()
             self.driveManager.clearFileList()

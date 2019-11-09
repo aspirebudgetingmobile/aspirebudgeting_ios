@@ -45,4 +45,8 @@ final class ObjectFactory {
     let localAuthManager = LocalAuthorizationManager()
     return localAuthManager
   }()
+  
+  lazy var stateManager: StateManager = {
+    return StateManager()
+  }()
 }

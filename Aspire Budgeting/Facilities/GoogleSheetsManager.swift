@@ -79,11 +79,16 @@ final class GoogleSheetsManager: ObservableObject {
     })
   }
   
+  func persistSheetID(spreadsheet: File) {
+    UserDefaults.standard.set(spreadsheet.id, forKey: "aspire_sheet")
+  }
+  
   func verifySheet(spreadsheet: File) {
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!AC2") { (valueRange) in
       if let version = valueRange.values?.first?.first as? String {
         self.aspireVersion = version
+        self.persistSheetID(spreadsheet: spreadsheet)
       }
     }
   }

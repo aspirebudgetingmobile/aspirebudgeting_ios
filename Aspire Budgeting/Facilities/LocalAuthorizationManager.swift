@@ -9,6 +9,10 @@
 import Foundation
 import LocalAuthentication
 
+extension Notification.Name {
+  static let authorizedLocally = Notification.Name("authorizedLocally")
+}
+
 final class LocalAuthorizationManager: ObservableObject {
   @Published public private(set) var isAuthorized = false
   
@@ -30,15 +34,15 @@ final class LocalAuthorizationManager: ObservableObject {
         }
         
         DispatchQueue.main.async {
-          if success {
-            print("Success")
-            weakSelf.isAuthorized = true
-          } else {
-            print(error?.localizedDescription ?? "Failed")
-            weakSelf.isAuthorized = false
-          }
+          weakSelf.isAuthorized = success
+          weakSelf.postNotification()
         }
       }
     }
+  }
+  
+  private func postNotification() {
+    let userInfo = [Notification.Name.authorizedLocally: isAuthorized]
+    NotificationCenter.default.post(name: .authorizedLocally, object: nil, userInfo: userInfo)
   }
 }
