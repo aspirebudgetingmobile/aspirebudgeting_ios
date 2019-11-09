@@ -9,7 +9,7 @@
 import Foundation
 import LocalAuthentication
 
-class LocalAuthorizationManager: ObservableObject {
+final class LocalAuthorizationManager: ObservableObject {
   @Published public private(set) var isAuthorized = false
   
   let context = LAContext()
