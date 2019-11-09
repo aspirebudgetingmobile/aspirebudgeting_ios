@@ -21,9 +21,10 @@ struct ContentView: View {
     VStack {
       if stateManager.currentState == StateManager.State.loggedOut {
         SignInView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
-      } else if stateManager.currentState == StateManager.State.verifiedGoogleUser {
-        Text("For your safety")
-        Spacer()
+      } else if stateManager.currentState == StateManager.State.verifiedGoogleUser ||
+      stateManager.currentState == StateManager.State.localAuthFailed ||
+      stateManager.currentState == StateManager.State.needsLocalAuthentication {
+        FaceIDView()
       } else {
         
         FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
