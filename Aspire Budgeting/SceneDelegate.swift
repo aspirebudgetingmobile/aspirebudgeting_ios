@@ -17,7 +17,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   private var localAuthorizationManager: LocalAuthorizationManager!
   private var stateManager: StateManager!
   
-  private var stateManagerSubscription: AnyCancellable!
+  private var stateManagerSink: AnyCancellable!
   
   lazy var userManager = {
     return objectFactory.userManager
@@ -43,9 +43,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       stateManager = objectFactory.stateManager
     }
     
-    stateManagerSubscription = stateManager.$currentState.sink(receiveValue: { [weak self] (currentState) in
+    stateManagerSink = stateManager.$currentStatePublisher.sink(receiveValue: { [weak self] (currentState) in
       guard let weakSelf = self else {return}
-      
+
       switch currentState {
       case .loggedOut:
         weakSelf.userManager.authenticateWithGoogle()
@@ -53,13 +53,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       case .verifiedGoogleUser:
         weakSelf.userManager.authenticateLocally()
         
+      case .authenticatedLocally:
+        weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
+        
       default:
         print("The current state is \(currentState)")
       }
     })
-    
-//    userManager.authenticate()
-    print(UserDefaults.standard.string(forKey: "aspire_sheet"))
     
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()

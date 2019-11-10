@@ -16,7 +16,7 @@ protocol AspireFile {
 
 extension GTLRDrive_File: AspireFile {}
 
-struct File: Identifiable {
+struct File: Identifiable, Codable {
   let id: String
   let name: String
   

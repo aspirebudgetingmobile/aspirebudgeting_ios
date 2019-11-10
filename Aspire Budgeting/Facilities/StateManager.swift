@@ -16,13 +16,16 @@ final class StateManager: ObservableObject {
     case localAuthFailed
     case hasFullAccess
     case needsLocalAuthentication
+    case hasDefaultSheet
   }
   
-  @Published var currentState: State = .loggedOut
+  @Published var currentStatePublisher: State = .loggedOut
+  var currentState: State = .loggedOut
   
   private var authorizerObserver: NSObjectProtocol?
   private var localAuthObserver: NSObjectProtocol?
   private var backgroundObserver: NSObjectProtocol?
+  private var defaultSheetObserver: NSObjectProtocol?
   
   init() {
     authorizerObserver =
@@ -30,20 +33,26 @@ final class StateManager: ObservableObject {
         .addObserver(forName: .authorizerUpdated,
                      object: nil,
                      queue: nil,
-                     using: { _ in self.currentState = .verifiedGoogleUser})
+                     using: { _ in
+                      self.currentState = .verifiedGoogleUser
+                      self.currentStatePublisher = .verifiedGoogleUser
+                      
+        })
     
     localAuthObserver =
       NotificationCenter.default
         .addObserver(forName: .authorizedLocally,
                      object: nil,
-                     queue: nil, using: { notification in
+                     queue: OperationQueue.main, using: { notification in
                       guard let userInfo = notification.userInfo,
                         let success = userInfo[Notification.Name.authorizedLocally] as? Bool else {return}
                       
                       if success {
                         self.currentState = .authenticatedLocally
+                        self.currentStatePublisher = .authenticatedLocally
                       } else {
                         self.currentState = .localAuthFailed
+                        self.currentStatePublisher = .localAuthFailed
                       }
                       
         })
@@ -51,6 +60,12 @@ final class StateManager: ObservableObject {
     backgroundObserver =
       NotificationCenter.default.addObserver(forName: Notification.Name("background"), object: nil, queue: nil, using: { _ in
         self.currentState = .needsLocalAuthentication
+        self.currentStatePublisher = .needsLocalAuthentication
       })
+    
+    defaultSheetObserver = NotificationCenter.default.addObserver(forName: .hasSheetInDefaults, object: nil, queue: nil, using: { _ in
+      self.currentState = .hasDefaultSheet
+      self.currentStatePublisher = .hasDefaultSheet
+    })
   }
 }

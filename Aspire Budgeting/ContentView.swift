@@ -15,18 +15,33 @@ struct ContentView: View {
   @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
   @EnvironmentObject var stateManager: StateManager
   
-  @State private var cancellable: AnyCancellable!
+  @State var cancellable: AnyCancellable!
+  
+  var needsLocalAuth: Bool {
+    return stateManager.currentState == StateManager.State.verifiedGoogleUser ||
+    stateManager.currentState == StateManager.State.localAuthFailed ||
+    stateManager.currentState == StateManager.State.needsLocalAuthentication
+  }
+  
+  var isLoggedOut: Bool {
+    return stateManager.currentState == StateManager.State.loggedOut
+  }
+  
+  var hasDefaultSheet: Bool {
+    stateManager.currentState == StateManager.State.hasDefaultSheet
+  }
   
   var body: some View {
     VStack {
-      if stateManager.currentState == StateManager.State.loggedOut {
+      if isLoggedOut {
         SignInView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
-      } else if stateManager.currentState == StateManager.State.verifiedGoogleUser ||
-      stateManager.currentState == StateManager.State.localAuthFailed ||
-      stateManager.currentState == StateManager.State.needsLocalAuthentication {
+      } else if needsLocalAuth {
         FaceIDView()
+      } else if hasDefaultSheet {
+        NavigationView {
+          DashboardView(file: sheetsManager.defaultFile!).navigationBarTitle("Dashboard")
+        }
       } else {
-        
         FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
     }.background(BackgroundColorView())
