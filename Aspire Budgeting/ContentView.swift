@@ -13,31 +13,38 @@ struct ContentView: View {
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
+  @EnvironmentObject var stateManager: StateManager
   
-  @State private var cancellable: AnyCancellable!
+  @State var cancellable: AnyCancellable!
+  
+  var needsLocalAuth: Bool {
+    return stateManager.currentState == StateManager.State.verifiedGoogleUser ||
+    stateManager.currentState == StateManager.State.localAuthFailed ||
+    stateManager.currentState == StateManager.State.needsLocalAuthentication
+  }
+  
+  var isLoggedOut: Bool {
+    return stateManager.currentState == StateManager.State.loggedOut
+  }
+  
+  var hasDefaultSheet: Bool {
+    stateManager.currentState == StateManager.State.hasDefaultSheet
+  }
   
   var body: some View {
     VStack {
-      if !userManager.userAuthenticated {
+      if isLoggedOut {
         SignInView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+      } else if needsLocalAuth {
+        FaceIDView()
+      } else if hasDefaultSheet {
+        NavigationView {
+          DashboardView(file: sheetsManager.defaultFile!).navigationBarTitle("Dashboard")
+        }
       } else {
-        
         FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
-//      else {
-//        Button("Try again") {
-//          self.localAuthorizationManager.authenticateUserLocally()
-//        }
-//      }
-    }.background(BackgroundColorView()).onAppear {
-      self.cancellable = self.userManager.$user.sink { (user) in
-        if let user = user {
-          if user.isFreshUser == false {
-//            self.localAuthorizationManager.authenticateUserLocally()
-          }
-        }
-      }
-    }
+    }.background(BackgroundColorView())
   }
 }
 

@@ -10,7 +10,13 @@ import Foundation
 import GoogleAPIClientForREST
 import GTMSessionFetcher
 
+extension Notification.Name {
+  static let hasSheetInDefaults = Notification.Name("hasSheetInDefaults")
+}
+
 final class GoogleSheetsManager: ObservableObject {
+  
+  static let defaultsSheetsKey = "Aspire_Sheet"
   
   private let sheetsService: GTLRService
   private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet
@@ -19,6 +25,8 @@ final class GoogleSheetsManager: ObservableObject {
   private var authorizerNotificationObserver: NSObjectProtocol?
   
   private var ticket: GTLRServiceTicket?
+  
+  public var defaultFile: File?
   
   @Published public private(set) var aspireVersion: String?
   @Published public private(set) var error: GoogleDriveManagerError?
@@ -79,11 +87,31 @@ final class GoogleSheetsManager: ObservableObject {
     })
   }
   
+  func persistSheetID(spreadsheet: File) {
+    do {
+      let data = try JSONEncoder().encode(spreadsheet)
+      UserDefaults.standard.set(data, forKey: GoogleSheetsManager.defaultsSheetsKey)
+    } catch {
+      fatalError("This should've never happened!!")
+    }
+  }
+  
+  func checkDefaultsForSpreadsheet() {
+    guard let data = UserDefaults.standard.data(forKey: GoogleSheetsManager.defaultsSheetsKey),
+      let file = try? JSONDecoder().decode(File.self, from: data) else {
+        return
+    }
+    
+    defaultFile = file
+    NotificationCenter.default.post(name: .hasSheetInDefaults, object: nil, userInfo: [Notification.Name.hasSheetInDefaults: file])
+  }
+  
   func verifySheet(spreadsheet: File) {
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!AC2") { (valueRange) in
       if let version = valueRange.values?.first?.first as? String {
         self.aspireVersion = version
+        self.persistSheetID(spreadsheet: spreadsheet)
       }
     }
   }

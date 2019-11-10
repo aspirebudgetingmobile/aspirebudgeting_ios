@@ -41,6 +41,25 @@ final class GoogleSheetsManagerTests: XCTestCase {
     return spreadsheet
   }
   
+  func testFetchHandlesError() {
+    let mockQuery = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: "")
+    let mockError = NSError(domain: kGTLRErrorObjectDomain, code: 42, userInfo: nil)
+    let sheetsService = GTLRSheetsService.mockService(withFakedObject: nil, fakedError: mockError)
+    let sheetsManager = GoogleSheetsManager(sheetsService: sheetsService, getSpreadsheetsQuery: mockQuery)
+    
+    postNotification()
+    sheetsManager.fetchCategoriesAndGroups(spreadsheet: File(driveFile: MockFile()))
+    
+    let expectation = XCTestExpectation()
+    
+    sinkCancellable = sheetsManager.$error.dropFirst().sink(receiveValue: { (error) in
+      XCTAssertEqual(error!, GoogleDriveManagerError.invalidSheet)
+      expectation.fulfill()
+    })
+    
+    wait(for: [expectation], timeout: 5)
+  }
+  
   func testFetchCategoriesAndGroups() {
     let mockValueRange = GTLRSheets_ValueRange()
     mockValueRange.values = [["G1"],

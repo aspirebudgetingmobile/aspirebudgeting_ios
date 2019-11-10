@@ -33,13 +33,10 @@ protocol AspireNotificationCenter: AnyObject {
 extension NotificationCenter: AspireNotificationCenter {}
 
 final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableObject {
-  private var isGoogleSDKSetup = false
   private let gidSignInInstance: AspireSignInInstance
   private let credentials: GoogleSDKCredentials
   private let notificationCenter: AspireNotificationCenter
   private let localAuthManager = LocalAuthorizationManager()
-  
-  private var isFreshSignIn = false
   
   @Published public private(set) var userAuthenticated = false
   @Published public private(set) var user: User?
@@ -55,15 +52,12 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   
   var subscription: AnyCancellable!
   
-  func authenticate() {
-    
-    subscription = Publishers.Zip($user, localAuthManager.$isAuthorized).sink { (user, authorizedLocally) in
-      if user != nil && authorizedLocally {
-        self.userAuthenticated = true
-      }
-    }
-    
+  func authenticateWithGoogle() {
     fetchUser()
+  }
+  
+  func authenticateLocally() {
+    localAuthManager.authenticateUserLocally()
   }
   
   private func fetchUser() {
@@ -79,7 +73,6 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     if let error = error {
       self.error = error
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
-        isFreshSignIn = true
         print("The user has not signed in before or they have since signed out.")
       } else {
         print("\(error.localizedDescription)")
@@ -91,14 +84,12 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   }
   
   func signIn<U: AspireUser>(user: U) {
-    self.user = User(googleUser: user, isFresh: isFreshSignIn)
-    localAuthManager.authenticateUserLocally()
+    self.user = User(googleUser: user)
     notificationCenter.post(name: Notification.Name.authorizerUpdated, object: self, userInfo: [Notification.Name.authorizerUpdated: self.user!.authorizer])
   }
   
   func signOut() {
     gidSignInInstance.signOut()
-    localAuthManager.signOut()
     userAuthenticated = false
     self.user = nil
   }

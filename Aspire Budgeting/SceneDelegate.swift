@@ -15,6 +15,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   private var driveManager: GoogleDriveManager!
   private var sheetsManager: GoogleSheetsManager!
   private var localAuthorizationManager: LocalAuthorizationManager!
+  private var stateManager: StateManager!
+  
+  private var stateManagerSink: AnyCancellable!
   
   lazy var userManager = {
     return objectFactory.userManager
@@ -36,7 +39,27 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       localAuthorizationManager = objectFactory.localAuthorizationManager
     }
     
-    userManager.authenticate()
+    if stateManager == nil {
+      stateManager = objectFactory.stateManager
+    }
+    
+    stateManagerSink = stateManager.$currentStatePublisher.sink(receiveValue: { [weak self] (currentState) in
+      guard let weakSelf = self else {return}
+
+      switch currentState {
+      case .loggedOut:
+        weakSelf.userManager.authenticateWithGoogle()
+        
+      case .verifiedGoogleUser:
+        weakSelf.userManager.authenticateLocally()
+        
+      case .authenticatedLocally:
+        weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
+        
+      default:
+        print("The current state is \(currentState)")
+      }
+    })
     
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()
@@ -44,6 +67,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       .environmentObject(driveManager)
       .environmentObject(sheetsManager)
       .environmentObject(localAuthorizationManager)
+      .environmentObject(stateManager)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
@@ -80,6 +104,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Called as the scene transitions from the foreground to the background.
     // Use this method to save data, release shared resources, and store enough scene-specific state information
     // to restore the scene back to its current state.
+    
+    NotificationCenter.default.post(name: Notification.Name("background"), object: nil, userInfo: nil)
   }
 
 
