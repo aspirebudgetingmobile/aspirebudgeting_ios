@@ -16,20 +16,29 @@ extension Notification.Name {
 final class LocalAuthorizationManager: ObservableObject {
   private var isAuthorized = false
   
-  let context = LAContext()
+  private var context: LAContext {
+    return LAContext()
+  }
   
   func authenticateUserLocally() {
+    let context = self.context
+    
     context.localizedCancelTitle = "Cancel"
     
     var error: NSError?
     if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
       let reason = "Log in to your account"
-      context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { [weak self] (success, _) in
+      context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { [weak self] (success, error) in
         guard let weakSelf = self else {
           return
         }
+        
+        if let error = error {
+          print(error.localizedDescription)
+        }
         weakSelf.isAuthorized = success
         weakSelf.postNotification()
+        context.invalidate()
       }
     }
   }
