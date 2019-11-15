@@ -14,6 +14,12 @@ extension Notification.Name {
   static let hasSheetInDefaults = Notification.Name("hasSheetInDefaults")
 }
 
+protocol AspireUserDefaults {
+  func data(forKey defaultName: String) -> Data?
+}
+
+extension UserDefaults: AspireUserDefaults {}
+
 final class GoogleSheetsManager: ObservableObject {
   
   static let defaultsSheetsKey = "Aspire_Sheet"
@@ -26,6 +32,8 @@ final class GoogleSheetsManager: ObservableObject {
   
   private var ticket: GTLRServiceTicket?
   
+  private var userDefaults: AspireUserDefaults
+  
   public var defaultFile: File?
   
   @Published public private(set) var aspireVersion: String?
@@ -33,9 +41,11 @@ final class GoogleSheetsManager: ObservableObject {
   @Published public private(set) var groupsAndCategories: DashboardGroupsAndCategories?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
-       getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: "")) {
+       getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
+       userDefaults: AspireUserDefaults = UserDefaults.standard) {
     self.sheetsService = sheetsService
     self.getSpreadsheetsQuery = getSpreadsheetsQuery
+    self.userDefaults = userDefaults
     
     subscribeToAuthorizerNotification()
   }
@@ -97,7 +107,7 @@ final class GoogleSheetsManager: ObservableObject {
   }
   
   func checkDefaultsForSpreadsheet() {
-    guard let data = UserDefaults.standard.data(forKey: GoogleSheetsManager.defaultsSheetsKey),
+    guard let data = userDefaults.data(forKey: GoogleSheetsManager.defaultsSheetsKey),
       let file = try? JSONDecoder().decode(File.self, from: data) else {
         return
     }

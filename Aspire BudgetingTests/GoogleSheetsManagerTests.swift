@@ -11,6 +11,13 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
+struct MockUserDefaults: AspireUserDefaults {
+  let data: Data?
+  func data(forKey defaultName: String) -> Data? {
+    return data
+  }
+}
+
 final class GoogleSheetsManagerTests: XCTestCase {
   
   var sinkCancellable: AnyCancellable?
@@ -39,6 +46,23 @@ final class GoogleSheetsManagerTests: XCTestCase {
     spreadsheet.sheets = [sheet]
     
     return spreadsheet
+  }
+  
+  func testDefaultsForSpreadSheet() {
+    var sheetsManager = GoogleSheetsManager(userDefaults: MockUserDefaults(data: nil))
+    sheetsManager.checkDefaultsForSpreadsheet()
+    
+    XCTAssertNil(sheetsManager.defaultFile)
+    
+    let mockFile = MockFile(name: "Test", identifier: "id")
+    let data = try? JSONEncoder().encode(File(driveFile: mockFile))
+
+    sheetsManager = GoogleSheetsManager(userDefaults: MockUserDefaults(data: data))
+    
+    sheetsManager.checkDefaultsForSpreadsheet()
+    
+    XCTAssertNotNil(sheetsManager.defaultFile)
+
   }
   
   func testFetchHandlesError() {
