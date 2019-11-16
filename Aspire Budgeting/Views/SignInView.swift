@@ -28,14 +28,14 @@ struct SignInView: View {
         Text("Aspire Budgeting requires you to either link your existing budget sheet or create a new budget sheet in your Google Drive").font(.caption).foregroundColor(.white).padding(10).multilineTextAlignment(.center)
       }
       
-      YoutubePlayerView().padding(.horizontal).frame(minHeight: 80)
+      YoutubePlayerView().padding(.horizontal).frame(minHeight: 80).shadow(radius: 5)
       
       
       AspireButton(type: .green, action: {
         self.userManager.signInWithGoogle(in: self.rootVC)
       }) {
         Text("Connect to Google account")
-      }.frame(height: 50).padding()
+        }.frame(height: 50).padding().shadow(radius: 5)
       
       
       HStack {
@@ -54,7 +54,7 @@ struct SignInView: View {
         
       }) {
         Text("Copy Aspire sheet to your Google Drive")
-      }.frame(height: 50).padding()
+        }.frame(height: 50).padding().shadow(radius: 5)
       Button("Privacy Policy", action: {
         
       })
