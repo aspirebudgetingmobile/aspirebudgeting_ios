@@ -11,6 +11,12 @@ import Foundation
 import GoogleSignIn
 
 final class MockGIDSignIn: AspireSignInInstance {
+  var presentingViewController: UIViewController!
+  
+  func signIn() {
+    
+  }
+  
   var clientID: String!
   weak var delegate: GIDSignInDelegate!
   var scopes: [Any]!
