@@ -15,9 +15,11 @@ import GTMSessionFetcher
 protocol AspireSignInInstance: AnyObject {
   var clientID: String! {get set}
   var delegate: GIDSignInDelegate! { get set }
+  var presentingViewController: UIViewController! { get set }
   var scopes: [Any]! { get set }
   func restorePreviousSignIn()
   func signOut()
+  func signIn()
 }
 
 extension GIDSignIn: AspireSignInInstance {}
@@ -54,6 +56,15 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   
   func authenticateWithGoogle() {
     fetchUser()
+  }
+  
+  func signInWithGoogle(in presentingViewController: UIViewController?) {
+    guard let presentingVC = presentingViewController else {
+      return
+    }
+    
+    self.gidSignInInstance.presentingViewController = presentingVC
+    self.gidSignInInstance.signIn()
   }
   
   func authenticateLocally() {

@@ -31,6 +31,16 @@ final class UserManagerTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
   
+  func testSignInWithGoogle() {
+    userManager.signInWithGoogle(in: nil)
+    XCTAssertNil(mockGIDSignIn.presentingViewController)
+    
+    let dummyVC = UIViewController()
+    userManager.signInWithGoogle(in: dummyVC)
+    XCTAssertTrue(dummyVC === mockGIDSignIn.presentingViewController)
+    XCTAssertTrue(mockGIDSignIn.signInCalled)
+  }
+  
   func testFetchUser() {
     userManager.authenticateWithGoogle()
     XCTAssertEqual(mockGIDSignIn.clientID, mockGoogleCredentials.CLIENT_ID)

@@ -44,7 +44,7 @@ struct ContentView: View {
       } else {
         FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
-    }.background(BackgroundColorView())
+    }.background(BackgroundSplitColorView())
   }
 }
 
