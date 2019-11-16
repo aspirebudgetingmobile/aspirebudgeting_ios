@@ -9,7 +9,7 @@
 @testable import Aspire_Budgeting
 import XCTest
 
-class StateManagerTests: XCTestCase {
+final class StateManagerTests: XCTestCase {
   let stateManager = StateManager()
   
   func postNotification(notificationName: Notification.Name, userInfo: [AnyHashable: Any]? = nil) {
