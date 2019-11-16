@@ -10,13 +10,15 @@
 import XCTest
 
 final class StateManagerTests: XCTestCase {
-  let stateManager = StateManager()
   
   func postNotification(notificationName: Notification.Name, userInfo: [AnyHashable: Any]? = nil) {
     let notification = Notification(name: notificationName, object: nil, userInfo: userInfo)
     NotificationCenter.default.post(notification)
   }
+  
   func testStateManager() {
+    let stateManager = StateManager()
+    
     XCTAssertEqual(stateManager.currentState, StateManager.State.loggedOut)
     
     postNotification(notificationName: Notification.Name("background"))
