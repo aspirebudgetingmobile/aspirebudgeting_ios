@@ -12,6 +12,8 @@ import SwiftUI
 struct SignInView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   
+  private let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+  
   var body: some View {
     VStack {
       
@@ -30,7 +32,7 @@ struct SignInView: View {
       
       
       AspireButton(type: .green, action: {
-        self.userManager.signInWithGoogle()
+        self.userManager.signInWithGoogle(in: self.rootVC)
       }) {
         Text("Connect to Google account")
       }.frame(height: 50).padding()

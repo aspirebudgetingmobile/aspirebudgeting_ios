@@ -44,10 +44,6 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   @Published public private(set) var user: User?
   @Published public private(set) var error: Error?
   
-  private var presentingViewController: UIViewController? {
-    UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
-  }
-  
   init(credentials: GoogleSDKCredentials,
        gidSignInInstance: AspireSignInInstance = GIDSignIn.sharedInstance(),
        notificationCenter: AspireNotificationCenter = NotificationCenter.default) {
@@ -62,8 +58,8 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     fetchUser()
   }
   
-  func signInWithGoogle() {
-    guard let presentingVC = self.presentingViewController else {
+  func signInWithGoogle(in presentingViewController: UIViewController?) {
+    guard let presentingVC = presentingViewController else {
       return
     }
     
