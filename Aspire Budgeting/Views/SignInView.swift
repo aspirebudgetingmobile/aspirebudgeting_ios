@@ -6,9 +6,12 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
+import GoogleSignIn
 import SwiftUI
 
 struct SignInView: View {
+  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
+  
   var body: some View {
     VStack {
       
@@ -25,13 +28,13 @@ struct SignInView: View {
       
       YoutubePlayerView().padding(.horizontal).frame(minHeight: 80)
       
-      Group {
-        Text("Step 1")
-        GoogleSignInButton().frame(height: 50).padding(.horizontal)
-      }
       
-      Text("Step 2")
-      GoogleSignInButton().frame(height: 50).padding(.horizontal)
+      AspireButton(type: .green, action: {
+        self.userManager.signInWithGoogle()
+      }) {
+        Text("Connect to Google account")
+      }.frame(height: 50).padding()
+      
       
       HStack {
         VStack {
@@ -44,7 +47,12 @@ struct SignInView: View {
           Divider().padding(.horizontal, 20)
         }
       }
-      GoogleSignInButton().frame(height: 50).padding(.horizontal)
+      
+      AspireButton(type: .red, action: {
+        
+      }) {
+        Text("Copy Aspire sheet to your Google Drive")
+      }.frame(height: 50).padding()
       Button("Privacy Policy", action: {
         
       })

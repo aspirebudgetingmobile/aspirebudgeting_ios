@@ -15,6 +15,7 @@
 		0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002509237511C300A20C96 /* LocalAuthorizationManager.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
+		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
@@ -70,6 +71,7 @@
 		06002509237511C300A20C96 /* LocalAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationManager.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
+		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				065F03D1236E2385005AED12 /* DashboardRow.swift */,
 				060025052373C08700A20C96 /* YoutubePlayerView.swift */,
 				061F10392377801600089D11 /* FaceIDView.swift */,
+				065C7152237FAC3200DB46B2 /* AspireButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */,
+				065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */,
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,

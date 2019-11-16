@@ -15,9 +15,11 @@ import GTMSessionFetcher
 protocol AspireSignInInstance: AnyObject {
   var clientID: String! {get set}
   var delegate: GIDSignInDelegate! { get set }
+  var presentingViewController: UIViewController! { get set }
   var scopes: [Any]! { get set }
   func restorePreviousSignIn()
   func signOut()
+  func signIn()
 }
 
 extension GIDSignIn: AspireSignInInstance {}
@@ -42,6 +44,10 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   @Published public private(set) var user: User?
   @Published public private(set) var error: Error?
   
+  private var presentingViewController: UIViewController? {
+    UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+  }
+  
   init(credentials: GoogleSDKCredentials,
        gidSignInInstance: AspireSignInInstance = GIDSignIn.sharedInstance(),
        notificationCenter: AspireNotificationCenter = NotificationCenter.default) {
@@ -54,6 +60,15 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   
   func authenticateWithGoogle() {
     fetchUser()
+  }
+  
+  func signInWithGoogle() {
+    guard let presentingVC = self.presentingViewController else {
+      return
+    }
+    
+    self.gidSignInInstance.presentingViewController = presentingVC
+    self.gidSignInInstance.signIn()
   }
   
   func authenticateLocally() {
