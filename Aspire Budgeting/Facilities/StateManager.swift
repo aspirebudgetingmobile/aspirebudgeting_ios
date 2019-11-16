@@ -19,7 +19,7 @@ final class StateManager: ObservableObject {
   }
   
   @Published var currentStatePublisher: State = .loggedOut
-  var currentState: State = .loggedOut
+  public private(set) var currentState: State = .loggedOut
   
   private var authorizerObserver: NSObjectProtocol?
   private var localAuthObserver: NSObjectProtocol?
