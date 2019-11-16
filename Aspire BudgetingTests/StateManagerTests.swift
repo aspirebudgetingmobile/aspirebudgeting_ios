@@ -12,7 +12,7 @@ import XCTest
 class StateManagerTests: XCTestCase {
   let stateManager = StateManager()
   
-  func postNotification(notificationName: Notification.Name, userInfo: [AnyHashable : Any]? = nil) {
+  func postNotification(notificationName: Notification.Name, userInfo: [AnyHashable: Any]? = nil) {
     let notification = Notification(name: notificationName, object: nil, userInfo: userInfo)
     NotificationCenter.default.post(notification)
   }
