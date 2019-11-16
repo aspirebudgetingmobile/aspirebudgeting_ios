@@ -14,7 +14,6 @@ final class StateManager: ObservableObject {
     case verifiedGoogleUser
     case authenticatedLocally
     case localAuthFailed
-    case hasFullAccess
     case needsLocalAuthentication
     case hasDefaultSheet
   }
@@ -27,6 +26,19 @@ final class StateManager: ObservableObject {
   private var backgroundObserver: NSObjectProtocol?
   private var defaultSheetObserver: NSObjectProtocol?
   
+  private lazy var transitions: [State: Set<State>] = {
+    var transitions = [State: Set<State>]()
+    
+    transitions[.loggedOut] = [.verifiedGoogleUser]
+    transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
+    transitions[.authenticatedLocally] = [.localAuthFailed, .hasDefaultSheet, .needsLocalAuthentication]
+    transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut]
+    transitions[.needsLocalAuthentication] = [.authenticatedLocally, .localAuthFailed]
+    transitions[.localAuthFailed] = [.authenticatedLocally]
+    
+    return transitions
+  }()
+  
   init() {
     authorizerObserver =
       NotificationCenter.default
@@ -34,9 +46,7 @@ final class StateManager: ObservableObject {
                      object: nil,
                      queue: nil,
                      using: { _ in
-                      self.currentState = .verifiedGoogleUser
-                      self.currentStatePublisher = .verifiedGoogleUser
-                      
+                      self.transition(to: .verifiedGoogleUser)
         })
     
     localAuthObserver =
@@ -48,24 +58,35 @@ final class StateManager: ObservableObject {
                         let success = userInfo[Notification.Name.authorizedLocally] as? Bool else {return}
                       
                       if success {
-                        self.currentState = .authenticatedLocally
-                        self.currentStatePublisher = .authenticatedLocally
+                        self.transition(to: .authenticatedLocally)
                       } else {
-                        self.currentState = .localAuthFailed
-                        self.currentStatePublisher = .localAuthFailed
+                        self.transition(to: .localAuthFailed)
                       }
                       
         })
     
     backgroundObserver =
       NotificationCenter.default.addObserver(forName: Notification.Name("background"), object: nil, queue: nil, using: { _ in
-        self.currentState = .needsLocalAuthentication
-        self.currentStatePublisher = .needsLocalAuthentication
+        self.transition(to: .needsLocalAuthentication)
       })
     
     defaultSheetObserver = NotificationCenter.default.addObserver(forName: .hasSheetInDefaults, object: nil, queue: nil, using: { _ in
-      self.currentState = .hasDefaultSheet
-      self.currentStatePublisher = .hasDefaultSheet
+      self.transition(to: .hasDefaultSheet)
     })
+  }
+  
+  func transition(to nextState: State) {
+    if canTransition(to: nextState) {
+      self.currentState = nextState
+      self.currentStatePublisher = nextState
+    }
+  }
+  
+  func canTransition(to nextState: State) -> Bool {
+    guard let validTransitions = transitions[currentState] else {
+      return false
+    }
+    
+    return validTransitions.contains(nextState)
   }
 }
