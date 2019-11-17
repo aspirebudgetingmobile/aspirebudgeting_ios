@@ -17,6 +17,7 @@
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71562380B80D00DB46B2 /* StateManagerTests.swift */; };
+		065C717A2381ED1D00DB46B2 /* DashboardGroupsAndCategoriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardGroupsAndCategoriesTests.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
@@ -74,6 +75,7 @@
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065C71562380B80D00DB46B2 /* StateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagerTests.swift; sourceTree = "<group>"; };
+		065C71792381ED1D00DB46B2 /* DashboardGroupsAndCategoriesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardGroupsAndCategoriesTests.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */,
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
+				065C71792381ED1D00DB46B2 /* DashboardGroupsAndCategoriesTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */,
 				065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */,
 				06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */,
+				065C717A2381ED1D00DB46B2 /* DashboardGroupsAndCategoriesTests.swift in Sources */,
 				06002502236F9D9500A20C96 /* MockFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
