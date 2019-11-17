@@ -10,19 +10,23 @@ import Foundation
 struct DashboardGroupsAndCategories {
   let groups: [String]
   let groupedCategoryRows: [[DashboardCategoryRow]]
-  let groupedAvailableTotals: [Decimal]
+  let groupedAvailableTotals: [String]
+  let groupedBudgetedTotals: [String]
   
   init(rows: [[String]]) {
-    (groups, groupedCategoryRows, groupedAvailableTotals) = DashboardGroupsAndCategories.parse(rows: rows)
+    (groups, groupedCategoryRows, groupedAvailableTotals, groupedBudgetedTotals) = DashboardGroupsAndCategories.parse(rows: rows)
   }
   
-  private static func parse(rows: [[String]]) -> ([String], [[DashboardCategoryRow]], [Decimal]) {
+  private static func parse(rows: [[String]]) -> ([String], [[DashboardCategoryRow]], [String], [String]) {
     var lastIndex = -1
     var tempGroups = [String]()
     var tempGroupedCategoryRow = [[DashboardCategoryRow]]()
-    var tempAvailableTotals = [Decimal]()
+    var tempAvailableTotals = [String]()
+    var tempBudgetedTotals = [String]()
     
     var availableTotal = Decimal(0.0)
+    var budgetedTotal = Decimal(0.0)
+    
     let numFormatter = NumberFormatter()
     numFormatter.numberStyle = .currency
     
@@ -31,15 +35,19 @@ struct DashboardGroupsAndCategories {
         lastIndex += 1
         tempGroups.append(row[0])
         tempGroupedCategoryRow.append([DashboardCategoryRow]())
-        tempAvailableTotals.append(0)
+        tempAvailableTotals.append("")
+        tempBudgetedTotals.append("")
         availableTotal = 0
       } else {
         let categoryRow = DashboardCategoryRow(row: row)
         tempGroupedCategoryRow[lastIndex].append(categoryRow)
         availableTotal += numFormatter.number(from: categoryRow.available)?.decimalValue ?? 0
-        tempAvailableTotals[lastIndex] = availableTotal
+        budgetedTotal += numFormatter.number(from: categoryRow.budgeted)?.decimalValue ?? 0
+        
+        tempAvailableTotals[lastIndex] = numFormatter.string(from: availableTotal as NSDecimalNumber) ?? ""
+        tempBudgetedTotals[lastIndex] = numFormatter.string(from: budgetedTotal as NSDecimalNumber) ?? ""
       }
     }
-    return (tempGroups, tempGroupedCategoryRow, tempAvailableTotals)
+    return (tempGroups, tempGroupedCategoryRow, tempAvailableTotals, tempBudgetedTotals)
   }
 }
