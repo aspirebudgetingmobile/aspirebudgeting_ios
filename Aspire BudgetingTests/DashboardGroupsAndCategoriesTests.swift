@@ -23,7 +23,8 @@ class DashboardGroupsAndCategoriesTests: XCTestCase {
   
   func testDashboardGroupsAndCategoriesParser() {
     let dgc = DashboardGroupsAndCategories(rows: sampleData)
-    XCTAssertEqual(dgc.groupedAvailableTotals, [10010, 9990.67])
+    XCTAssertEqual(dgc.groupedAvailableTotals, ["$10,010.00", "$9,990.67"])
+    XCTAssertEqual(dgc.groupedBudgetedTotals, ["$15,715.00", "$15,715.00"])
   }
     
 }

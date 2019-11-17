@@ -38,6 +38,7 @@ struct DashboardGroupsAndCategories {
         tempAvailableTotals.append("")
         tempBudgetedTotals.append("")
         availableTotal = 0
+        budgetedTotal = 0
       } else {
         let categoryRow = DashboardCategoryRow(row: row)
         tempGroupedCategoryRow[lastIndex].append(categoryRow)
