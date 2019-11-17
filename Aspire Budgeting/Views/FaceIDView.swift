@@ -14,11 +14,15 @@ struct FaceIDView: View {
   
     var body: some View {
       VStack {
-        Image("logo").resizable().aspectRatio(contentMode: .fit)
-        Text("Aspire").font(.custom("Nunito-Regular", size: 50)).foregroundColor(.black)
-        
+        Group {
+          Image("logo").resizable().aspectRatio(contentMode: .fit).frame(maxHeight: 150)
+          Text("Aspire").font(.custom("Nunito-Regular", size: 30)).foregroundColor(.white).padding(-20)
+          Divider().background(Color.white).padding(.horizontal, 20)
+        }
+        Spacer()
+
         if stateManager.currentState == StateManager.State.localAuthFailed {
-          Text("Authenticate face")
+          Text("Continue by Using FaceID, TouchID or your Passcode").padding().multilineTextAlignment(.center)
         }
       }.onAppear {
         if self.stateManager.currentState == StateManager.State.needsLocalAuthentication {
