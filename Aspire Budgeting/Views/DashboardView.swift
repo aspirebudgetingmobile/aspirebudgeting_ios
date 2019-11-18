@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct DashboardView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
@@ -23,6 +24,7 @@ struct DashboardView: View {
     let index = self.sheetsManager.groupsAndCategories!.groups.firstIndex(of: group)
     return self.sheetsManager.groupsAndCategories!.groupedCategoryRows[index!]
   }
+  
     var body: some View {
       VStack {
         if self.sheetsManager.error == nil {
@@ -44,10 +46,13 @@ struct DashboardView: View {
           ErrorBannerView(error: self.sheetsManager.error!)
         }
         
-        }.onAppear {
+      }.navigationBarTitle("Dashboard").background(Color(red: 53/255, green: 55/255, blue: 72/255).edgesIgnoringSafeArea(.all)).onAppear {
+          UITableView.appearance().backgroundColor = .clear
+          UITableViewCell.appearance().backgroundColor = .clear
+          UITableView.appearance().separatorColor = .clear
           self.sheetsManager.verifySheet(spreadsheet: self.file)
         self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
-        }.navigationBarTitle("Dashboard")
+        }
   }
 }
 

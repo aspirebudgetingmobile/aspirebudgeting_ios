@@ -29,7 +29,7 @@ struct DashboardCardView: View {
         Text(totals.availableTotal).font(.largeTitle).foregroundColor(.clear).padding([.trailing]).overlay(lg.mask(Text(totals.availableTotal).font(.largeTitle).scaledToFill()))
         Text("Available").font(.caption)
       }
-    }.background(Color.gray)
+    }.background(Color.gray.opacity(0.2))
       .cornerRadius(10)
       .shadow(radius: 5)
       .padding()
