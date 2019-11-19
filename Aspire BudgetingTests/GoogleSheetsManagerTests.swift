@@ -102,7 +102,7 @@ final class GoogleSheetsManagerTests: XCTestCase {
     sheetsManager.fetchCategoriesAndGroups(spreadsheet: File(driveFile: MockFile()))
     
     let expectation = XCTestExpectation()
-    sinkCancellable = sheetsManager.$groupsAndCategories.dropFirst().sink(receiveValue: { (dGroupsAndCategories) in
+    sinkCancellable = sheetsManager.$dashboardMetadata.dropFirst().sink(receiveValue: { (dGroupsAndCategories) in
       XCTAssertEqual(dGroupsAndCategories?.groups, ["G1", "G2"])
       XCTAssertEqual(dGroupsAndCategories?.groupedCategoryRows[0][0].categoryName, "G1:C1")
       XCTAssertEqual(dGroupsAndCategories?.groupedCategoryRows[0][0].available, "1")

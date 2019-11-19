@@ -13,34 +13,33 @@ struct DashboardView: View {
   
   let file: File
   
-  func categoryRows(for group: String) -> [DashboardCategoryRow] {
-    let index = self.sheetsManager.groupsAndCategories!.groups.firstIndex(of: group)
-    return self.sheetsManager.groupsAndCategories!.groupedCategoryRows[index!]
+  func availableTotals(for group: String) -> DashboardCardView.Totals {
+    let index = self.sheetsManager.dashboardMetadata!.groups.firstIndex(of: group)
+    let availableTotal = self.sheetsManager.dashboardMetadata!.groupedAvailableTotals[index!]
+    let budgetedTotal = self.sheetsManager.dashboardMetadata!.groupedBudgetedTotals[index!]
+    return DashboardCardView.Totals(availableTotal: availableTotal, budgetedTotal: budgetedTotal)
   }
-    var body: some View {
-      VStack {
-        if self.sheetsManager.error == nil {
-          if self.sheetsManager.groupsAndCategories?.groups != nil {
-            List {
-              ForEach(self.sheetsManager.groupsAndCategories!.groups, id: \.self) { group in
-                Section(header: Text(group)) {
-                  ForEach(self.categoryRows(for: group), id: \.self) { row in
-                    DashboardRow(categoryRow: row)
-                  }
-                }
-              }
-            }.listStyle(GroupedListStyle())
-          } else {
-            Text("Fetching data")
+  
+  var body: some View {
+    VStack {
+      if self.sheetsManager.error == nil {
+        if self.sheetsManager.dashboardMetadata?.groups != nil {
+          List {
+            ForEach(self.sheetsManager.dashboardMetadata!.groups, id: \.self) { group in
+              DashboardCardView(categoryName: group, totals: self.availableTotals(for: group))
+            }
           }
         } else {
-          ErrorBannerView(error: self.sheetsManager.error!)
+          Text("Fetching data")
         }
-        
-      }.onAppear {
-          self.sheetsManager.verifySheet(spreadsheet: self.file)
-        self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
-      }.navigationBarTitle("Dashboard")
+      } else {
+        ErrorBannerView(error: self.sheetsManager.error!)
+      }
+    }.navigationBarTitle("Dashboard").background(Colors.aspireGray).edgesIgnoringSafeArea(.all).onAppear {
+
+      self.sheetsManager.verifySheet(spreadsheet: self.file)
+      self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
+    }
   }
 }
 
