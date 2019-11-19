@@ -29,6 +29,7 @@
 		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
+		069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FDF912383A1C60023E86A /* AspireNavigationBar.swift */; };
 		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
 		06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */; };
@@ -89,6 +90,7 @@
 		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		069FDF912383A1C60023E86A /* AspireNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNavigationBar.swift; sourceTree = "<group>"; };
 		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
 		06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentialsTests.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				061F10392377801600089D11 /* FaceIDView.swift */,
 				065C7152237FAC3200DB46B2 /* AspireButton.swift */,
 				065C717B2382075200DB46B2 /* DashboardCardView.swift */,
+				069FDF912383A1C60023E86A /* AspireNavigationBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				065C718023838E9100DB46B2 /* Colors.swift in Sources */,
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
 				060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */,
+				069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
