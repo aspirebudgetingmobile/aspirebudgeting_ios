@@ -9,7 +9,7 @@
 @testable import Aspire_Budgeting
 import XCTest
 
-class DashboardGroupsAndCategoriesTests: XCTestCase {
+final class DashboardMetadataTests: XCTestCase {
   var sampleData = [[String]]()
   
   override func setUp() {

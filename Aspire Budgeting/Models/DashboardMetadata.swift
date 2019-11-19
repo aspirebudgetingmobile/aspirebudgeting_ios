@@ -7,14 +7,14 @@
 //
 import Foundation
 
-struct DashboardGroupsAndCategories {
+struct DashboardMetadata {
   let groups: [String]
   let groupedCategoryRows: [[DashboardCategoryRow]]
   let groupedAvailableTotals: [String]
   let groupedBudgetedTotals: [String]
   
   init(rows: [[String]]) {
-    (groups, groupedCategoryRows, groupedAvailableTotals, groupedBudgetedTotals) = DashboardGroupsAndCategories.parse(rows: rows)
+    (groups, groupedCategoryRows, groupedAvailableTotals, groupedBudgetedTotals) = DashboardMetadata.parse(rows: rows)
   }
   
   private static func parse(rows: [[String]]) -> ([String], [[DashboardCategoryRow]], [String], [String]) {

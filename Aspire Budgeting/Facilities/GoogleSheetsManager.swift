@@ -38,7 +38,7 @@ final class GoogleSheetsManager: ObservableObject {
   
   @Published public private(set) var aspireVersion: String?
   @Published public private(set) var error: GoogleDriveManagerError?
-  @Published public private(set) var groupsAndCategories: DashboardGroupsAndCategories?
+  @Published public private(set) var dashboardMetadata: DashboardMetadata?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
@@ -129,7 +129,7 @@ final class GoogleSheetsManager: ObservableObject {
   func fetchCategoriesAndGroups(spreadsheet: File) {
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "Dashboard!H4:O") { (valueRange) in
       if let values = valueRange.values as? [[String]] {
-        self.groupsAndCategories = DashboardGroupsAndCategories(rows: values)
+        self.dashboardMetadata = DashboardMetadata(rows: values)
       }
     }
   }

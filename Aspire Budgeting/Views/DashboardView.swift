@@ -7,52 +7,39 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct DashboardView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
   let file: File
+  
   func availableTotals(for group: String) -> DashboardCardView.Totals {
-    let index = self.sheetsManager.groupsAndCategories!.groups.firstIndex(of: group)
-    let availableTotal = self.sheetsManager.groupsAndCategories!.groupedAvailableTotals[index!]
-    let budgetedTotal = self.sheetsManager.groupsAndCategories!.groupedBudgetedTotals[index!]
+    let index = self.sheetsManager.dashboardMetadata!.groups.firstIndex(of: group)
+    let availableTotal = self.sheetsManager.dashboardMetadata!.groupedAvailableTotals[index!]
+    let budgetedTotal = self.sheetsManager.dashboardMetadata!.groupedBudgetedTotals[index!]
     return DashboardCardView.Totals(availableTotal: availableTotal, budgetedTotal: budgetedTotal)
   }
   
-  func categoryRows(for group: String) -> [DashboardCategoryRow] {
-    let index = self.sheetsManager.groupsAndCategories!.groups.firstIndex(of: group)
-    return self.sheetsManager.groupsAndCategories!.groupedCategoryRows[index!]
-  }
-  
-    var body: some View {
-      VStack {
-        if self.sheetsManager.error == nil {
-          if self.sheetsManager.groupsAndCategories?.groups != nil {
-            List {
-              ForEach(self.sheetsManager.groupsAndCategories!.groups, id: \.self) { group in
-                DashboardCardView(categoryName: group, totals: self.availableTotals(for: group))
-//                Section(header: Text(group)) {
-//                  ForEach(self.categoryRows(for: group), id: \.self) { row in
-//                    DashboardRow(categoryRow: row)
-//                  }
-//                }
-              }
+  var body: some View {
+    VStack {
+      if self.sheetsManager.error == nil {
+        if self.sheetsManager.dashboardMetadata?.groups != nil {
+          List {
+            ForEach(self.sheetsManager.dashboardMetadata!.groups, id: \.self) { group in
+              DashboardCardView(categoryName: group, totals: self.availableTotals(for: group))
             }
-          } else {
-            Text("Fetching data")
           }
         } else {
-          ErrorBannerView(error: self.sheetsManager.error!)
+          Text("Fetching data")
         }
-        
-      }.navigationBarTitle("Dashboard").background(Color(red: 53/255, green: 55/255, blue: 72/255).edgesIgnoringSafeArea(.all)).onAppear {
-          UITableView.appearance().backgroundColor = .clear
-          UITableViewCell.appearance().backgroundColor = .clear
-          UITableView.appearance().separatorColor = .clear
-          self.sheetsManager.verifySheet(spreadsheet: self.file)
-        self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
-        }
+      } else {
+        ErrorBannerView(error: self.sheetsManager.error!)
+      }
+    }.navigationBarTitle("Dashboard").background(Colors.aspireGray).edgesIgnoringSafeArea(.all).onAppear {
+
+      self.sheetsManager.verifySheet(spreadsheet: self.file)
+      self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
+    }
   }
 }
 
