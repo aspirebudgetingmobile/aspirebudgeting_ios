@@ -36,7 +36,10 @@ struct DashboardView: View {
       } else {
         ErrorBannerView(error: self.sheetsManager.error!)
       }
-    }.navigationBarTitle("Dashboard").background(Colors.aspireGray).edgesIgnoringSafeArea(.all).onAppear {
+    }.navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
+      .background(Colors.aspireGray)
+      .edgesIgnoringSafeArea(.all).onAppear {
 
       self.sheetsManager.verifySheet(spreadsheet: self.file)
       self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
