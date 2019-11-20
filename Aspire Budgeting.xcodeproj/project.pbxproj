@@ -30,6 +30,9 @@
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
 		069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FDF912383A1C60023E86A /* AspireNavigationBar.swift */; };
+		069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF932384F3840023E86A /* Rubik-Medium.ttf */; };
+		069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF952384F43E0023E86A /* Rubik-Regular.ttf */; };
+		069FDF982384F4AC0023E86A /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF972384F4AC0023E86A /* Rubik-Light.ttf */; };
 		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
 		06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */; };
@@ -91,6 +94,9 @@
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		069FDF912383A1C60023E86A /* AspireNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNavigationBar.swift; sourceTree = "<group>"; };
+		069FDF932384F3840023E86A /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
+		069FDF952384F43E0023E86A /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		069FDF972384F4AC0023E86A /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
 		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
 		06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentialsTests.swift; sourceTree = "<group>"; };
@@ -179,6 +185,9 @@
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				069FDF972384F4AC0023E86A /* Rubik-Light.ttf */,
+				069FDF952384F43E0023E86A /* Rubik-Regular.ttf */,
+				069FDF932384F3840023E86A /* Rubik-Medium.ttf */,
 				060025032373BB5C00A20C96 /* Nunito-Regular.ttf */,
 				06A0DAA7235BF99400AEF9FE /* credentials.plist */,
 			);
@@ -384,8 +393,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */,
+				069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */,
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
 				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
+				069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */,
+				069FDF982384F4AC0023E86A /* Rubik-Light.ttf in Resources */,
 				06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */,
 				06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */,
 			);
