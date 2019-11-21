@@ -24,10 +24,6 @@ struct FaceIDView: View {
         if stateManager.currentState == StateManager.State.localAuthFailed {
           Text("Continue by Using FaceID, TouchID or your Passcode").padding().multilineTextAlignment(.center)
         }
-      }.onAppear {
-        if self.stateManager.currentState == StateManager.State.needsLocalAuthentication {
-          self.localAuthorizationManager.authenticateUserLocally()
-        }
       }
   }
 }
