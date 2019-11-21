@@ -11,5 +11,7 @@ import SwiftUI
 struct Colors {
   static let greenGradient = LinearGradient(gradient: Gradient(colors: [Color(red: 95/255, green: 224/255, blue: 170/255), Color(red: 32/255, green: 172/255, blue: 122/255)]), startPoint: .top, endPoint: .bottom)
   
+  static let redGradient = LinearGradient(gradient: Gradient(colors: [Color(red: 249/255, green: 121/255, blue: 124/255), Color(red: 213/255, green: 103/255, blue: 106/255)]), startPoint: .top, endPoint: .bottom)
+  
   static let aspireGray = Color(red: 53/255, green: 55/255, blue: 72/255)
 }
