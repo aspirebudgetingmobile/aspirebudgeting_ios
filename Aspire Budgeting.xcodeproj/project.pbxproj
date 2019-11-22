@@ -33,6 +33,7 @@
 		069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF932384F3840023E86A /* Rubik-Medium.ttf */; };
 		069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF952384F43E0023E86A /* Rubik-Regular.ttf */; };
 		069FDF982384F4AC0023E86A /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF972384F4AC0023E86A /* Rubik-Light.ttf */; };
+		069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FDF9923878CD10023E86A /* AspireNumber.swift */; };
 		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
 		06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */; };
@@ -97,6 +98,7 @@
 		069FDF932384F3840023E86A /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		069FDF952384F43E0023E86A /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		069FDF972384F4AC0023E86A /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
+		069FDF9923878CD10023E86A /* AspireNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNumber.swift; sourceTree = "<group>"; };
 		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
 		06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentialsTests.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				06AB2C8123627B2D0076516E /* File.swift */,
 				060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */,
 				060024FF236F9A8000A20C96 /* DashboardMetadata.swift */,
+				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
 				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
+				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
 				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,

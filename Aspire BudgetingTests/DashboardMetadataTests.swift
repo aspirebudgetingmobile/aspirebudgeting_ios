@@ -23,8 +23,12 @@ final class DashboardMetadataTests: XCTestCase {
   
   func testDashboardGroupsAndCategoriesParser() {
     let dgc = DashboardMetadata(rows: sampleData)
-    XCTAssertEqual(dgc.groupedAvailableTotals, ["$10,010.00", "$9,990.67"])
-    XCTAssertEqual(dgc.groupedBudgetedTotals, ["$15,715.00", "$15,715.00"])
+    XCTAssertEqual(dgc.groupedAvailableTotals, [AspireNumber(stringValue: "$10,010.00", decimalValue: 10010),
+                                                AspireNumber(stringValue: "$9,990.67", decimalValue: 9990.67)])
+
+    XCTAssertEqual(dgc.groupedBudgetedTotals, [AspireNumber(stringValue: "$15,715.00", decimalValue: 15715),
+                                               AspireNumber(stringValue: "$15,715.00", decimalValue: 15715)])
+    
   }
     
 }
