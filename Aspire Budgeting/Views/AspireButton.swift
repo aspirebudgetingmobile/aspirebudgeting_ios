@@ -56,13 +56,13 @@ struct AspireButton: View {
     var body: some View {
       Button(action: action) {
         if imageName == nil {
-          Text(title).modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
+          Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16)).modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
         } else {
           HStack {
             Spacer()
             Image(imageName!).resizable().aspectRatio(contentMode: .fit)
             Spacer()
-            Text(title)
+            Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16))
             Spacer()
           }.modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
         }
