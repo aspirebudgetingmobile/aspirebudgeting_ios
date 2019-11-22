@@ -8,36 +8,65 @@
 
 import SwiftUI
 
-struct AspireButton<Content: View>: View {
+struct AspireButton: View {
   enum `Type` {
     case red
     case green
   }
   
+  struct ButtonBackgroundView: ViewModifier {
+    let fillGradient: LinearGradient
+    
+    init(fillGradient: LinearGradient) {
+      self.fillGradient = fillGradient
+    }
+    
+    func body(content: Content) -> some View {
+      content.padding().frame(minWidth: 0, maxWidth: .infinity)
+      .background(Capsule().fill(fillGradient))
+      .foregroundColor(.white)
+    }
+  }
+  
+  let title: String
   let action: () -> Void
-  let content: Content
   let type: Type
+  
+  let imageName: String?
   
   func gradient(for type: `Type`) -> LinearGradient {
     switch type {
     case .green:
-      return LinearGradient(gradient: Gradient(colors: [Color(red: 95/255, green: 224/255, blue: 170/255), Color(red: 32/255, green: 172/255, blue: 122/255)]), startPoint: .top, endPoint: .bottom)
+      return Colors.greenGradient
     default:
-      return LinearGradient(gradient: Gradient(colors: [Color(red: 249/255, green: 121/255, blue: 124/255), Color(red: 213/255, green: 103/255, blue: 106/255)]), startPoint: .top, endPoint: .bottom)
+      return Colors.redGradient
     }
   }
   
-  init(type: `Type`, action: @escaping () -> Void, @ViewBuilder content: () -> Content) {
-    self.action = action
-    self.content = content()
+  init(title: String,
+       type: `Type`,
+       imageName: String? = nil,
+       action: @escaping () -> Void) {
+    self.title = title
     self.type = type
+    self.imageName = imageName
+    self.action = action
   }
   
     var body: some View {
       Button(action: action) {
-        content.padding().frame(minWidth: 0, maxWidth: .infinity)
-          .background(Capsule().fill(self.gradient(for: self.type)))
-          .foregroundColor(.white)
+        if imageName == nil {
+          Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16)).modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
+        } else {
+          HStack {
+            Spacer()
+            Image(imageName!).resizable().aspectRatio(contentMode: .fit)
+            Spacer()
+            Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16))
+            Spacer()
+          }.modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
+        }
+
       }
     }
 }
