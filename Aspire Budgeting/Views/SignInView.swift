@@ -30,12 +30,9 @@ struct SignInView: View {
       
       YoutubePlayerView().padding(.horizontal).frame(minHeight: 80).shadow(radius: 5)
       
-      
-      AspireButton(type: .green, action: {
+      AspireButton(title: "Connect your Google account", type: .green, imageName: "google") {
         self.userManager.signInWithGoogle(in: self.rootVC)
-      }) {
-        Text("Connect to Google account")
-        }.frame(height: 50).padding().shadow(radius: 5)
+      }.frame(height: 50).padding().shadow(radius: 5)
       
       
       HStack {
@@ -50,14 +47,10 @@ struct SignInView: View {
         }
       }
       
-      AspireButton(type: .red, action: {
+      AspireButton(title: "Copy Aspire sheet to your Google Drive", type: .red) {
         
-      }) {
-        Text("Copy Aspire sheet to your Google Drive")
-        }.frame(height: 50).padding().shadow(radius: 5)
-      Button("Privacy Policy", action: {
-        
-      })
+      }.frame(height: 50).padding().shadow(radius: 5)
+      
       Spacer()
     }.background(BackgroundSplitColorView().edgesIgnoringSafeArea(.all))
   }
