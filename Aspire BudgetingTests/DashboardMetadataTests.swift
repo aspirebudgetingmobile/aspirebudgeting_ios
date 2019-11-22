@@ -28,6 +28,7 @@ final class DashboardMetadataTests: XCTestCase {
 
     XCTAssertEqual(dgc.groupedBudgetedTotals, [AspireNumber(stringValue: "$15,715.00", decimalValue: 15715),
                                                AspireNumber(stringValue: "$15,715.00", decimalValue: 15715)])
+    
   }
     
 }
