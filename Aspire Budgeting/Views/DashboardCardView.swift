@@ -55,7 +55,7 @@ struct DashboardCardView: View {
       }
       if self.expanded {
         ForEach(self.categoryRows, id: \.self) { row in
-          DashboardRow(categoryRow: row).padding()
+          DashboardRow(categoryRow: row).padding().transition(.identity)
         }
       }
     }.background(Color.white.opacity(0.07))
@@ -63,7 +63,9 @@ struct DashboardCardView: View {
       .shadow(radius: 5)
       .padding()
       .gesture(TapGesture().onEnded({ (_) in
-        self.expanded.toggle()
+        withAnimation {
+          self.expanded.toggle()
+        }
       }))
   }
 }
