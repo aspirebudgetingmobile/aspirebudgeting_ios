@@ -17,7 +17,8 @@ struct DashboardView: View {
     let index = getIndex(for: group)
     let availableTotal = self.sheetsManager.dashboardMetadata!.groupedAvailableTotals[index]
     let budgetedTotal = self.sheetsManager.dashboardMetadata!.groupedBudgetedTotals[index]
-    return DashboardCardView.Totals(availableTotal: availableTotal, budgetedTotal: budgetedTotal)
+    let spentTotal = self.sheetsManager.dashboardMetadata!.groupedSpentTotals[index]
+    return DashboardCardView.Totals(availableTotal: availableTotal, budgetedTotal: budgetedTotal, spentTotals: spentTotal)
   }
   
   func getIndex(for group: String) -> Int {

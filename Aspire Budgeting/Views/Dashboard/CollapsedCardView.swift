@@ -26,8 +26,8 @@ struct CollapsedCardView: View {
     HStack {
       VStack(alignment: .leading) {
         Text(categoryName).tracking(1).font(.custom("Rubik-Regular", size: 20)).padding([.top]).foregroundColor(.white)
-        Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 13)).padding([.top]).foregroundColor(.white)
-        Text(totals.budgetedTotal.stringValue).tracking(1.18).font(.custom("Rubik-Medium", size: 15)).padding([.top], 5).padding([.bottom]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(totals.budgetedTotal.stringValue).tracking(1.18).font(.custom("Rubik-Medium", size: 15)).scaledToFill()))
+        Text("Spent").tracking(1).font(.custom("Rubik-Light", size: 13)).padding([.top]).foregroundColor(.white)
+        Text(totals.spentTotals.stringValue).tracking(1.18).font(.custom("Rubik-Medium", size: 15)).padding([.top], 5).padding([.bottom]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(totals.spentTotals.stringValue).tracking(1.18).font(.custom("Rubik-Medium", size: 15)).scaledToFill()))
       }.padding([.horizontal])
       
       Spacer()

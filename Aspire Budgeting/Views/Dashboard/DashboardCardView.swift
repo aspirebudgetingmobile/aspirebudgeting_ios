@@ -12,6 +12,7 @@ struct DashboardCardView: View {
   struct Totals {
     var availableTotal: AspireNumber
     var budgetedTotal: AspireNumber
+    var spentTotals: AspireNumber
   }
   
   let categoryName: String
