@@ -26,9 +26,7 @@ struct DashboardCardView: View {
       if !self.expanded {
         CollapsedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
       } else {
-        ForEach(self.categoryRows, id: \.self) { row in
-          DashboardRow(categoryRow: row).padding().transition(.identity)
-        }
+        ExpandedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
       }
     }.background(Color.white.opacity(0.07))
       .cornerRadius(10)

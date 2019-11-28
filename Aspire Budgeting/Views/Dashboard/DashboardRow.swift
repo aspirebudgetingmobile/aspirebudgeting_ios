@@ -12,13 +12,26 @@ struct DashboardRow: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text(categoryRow.categoryName).font(.headline)
+      Text(categoryRow.categoryName).tracking(1).font(.custom("Rubik-Regular", size: 18)).padding([.horizontal]).padding(.bottom, 5).foregroundColor(.white)
+      
       HStack {
-        Text(categoryRow.available).font(.subheadline)
+        VStack {
+          Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          
+          Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+        }
         Spacer()
-        Text(categoryRow.spent).font(.subheadline)
+        VStack {
+          Text(categoryRow.available).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.greenGradient.mask(Text(categoryRow.available).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          
+          Text("Available").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.greenGradient.mask(Text("Available").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+        }
         Spacer()
-        Text(categoryRow.budgeted).font(.subheadline)
+        VStack {
+          Text(categoryRow.spent).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(categoryRow.spent).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          
+          Text("Spent").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text("Spent").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+        }
       }
     }
   }
