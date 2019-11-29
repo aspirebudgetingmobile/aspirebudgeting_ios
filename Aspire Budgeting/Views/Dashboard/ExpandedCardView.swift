@@ -18,7 +18,7 @@ struct ExpandedCardView: View {
       Text(categoryName).tracking(1).font(.custom("Rubik-Regular", size: 20)).padding(.vertical).foregroundColor(.white)
       HStack {
         VStack {
-          Text(totals.budgetedTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(totals.budgetedTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).scaledToFill()))
+          Text(totals.budgetedTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.yellowGradient.mask(Text(totals.budgetedTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).scaledToFill()))
           Text("Budgeted").tracking(0.5).font(.custom("Rubik-Light", size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
         }
         VStack {

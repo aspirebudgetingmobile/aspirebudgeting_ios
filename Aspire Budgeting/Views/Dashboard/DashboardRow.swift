@@ -16,9 +16,9 @@ struct DashboardRow: View {
       
       HStack {
         VStack {
-          Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.yellowGradient.mask(Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
           
-          Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+          Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.yellowGradient.mask(Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
         }
         Spacer()
         VStack {
