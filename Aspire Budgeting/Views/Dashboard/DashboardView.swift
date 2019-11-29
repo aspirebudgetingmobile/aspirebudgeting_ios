@@ -36,10 +36,16 @@ struct DashboardView: View {
             }
           }
         } else {
-          Text("Fetching data")
+          ZStack {
+            Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
+            Text("Fetching data...").font(.custom("Rubik-Light", size: 18)).foregroundColor(.white).opacity(0.6)
+          }
         }
       } else {
-        ErrorBannerView(error: self.sheetsManager.error!)
+        ZStack {
+          Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
+          ErrorBannerView(error: self.sheetsManager.error!)
+        }
       }
     }.navigationBarHidden(true)
       .navigationBarBackButtonHidden(true)
