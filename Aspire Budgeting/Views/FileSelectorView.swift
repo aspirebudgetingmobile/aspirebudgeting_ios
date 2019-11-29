@@ -14,25 +14,28 @@ struct FileSelectorView: View {
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
+  @State var selectedFile: File?
+  
   var body: some View {
     ZStack {
       if self.userManager.user != nil {
-        NavigationView {
-          List(self.driveManager.fileList) { file in
-            NavigationLink(destination: DashboardView(file: file)) {
-              Text(file.name)
+        ZStack {
+          NavigationView {
+            List(self.driveManager.fileList) { file in
+              Button(action: {
+                self.selectedFile = file
+              }) {
+                Text(file.name)
+              }
+            }
+            .navigationBarTitle("Link your Aspire sheet")
+          }.onAppear {
+            if self.driveManager.fileList.isEmpty {
+              self.driveManager.getFileList()
             }
           }
-          .navigationBarTitle("Link your Aspire sheet")
-          .navigationBarItems(leading: Button("Sign Out") {
-            self.userManager.signOut()
-            self.driveManager.clearFileList()
-            }, trailing: Button("Get List") {
-              
-          })
-        }.onAppear {
-          if self.driveManager.fileList.isEmpty {
-            self.driveManager.getFileList()
+          if self.selectedFile != nil {
+            DashboardView(file: self.selectedFile!)
           }
         }
       }
