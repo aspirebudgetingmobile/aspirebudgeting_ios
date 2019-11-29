@@ -13,16 +13,13 @@ struct FaceIDView: View {
   @EnvironmentObject var stateManager: StateManager
   
     var body: some View {
-      VStack {
-        Group {
+      ZStack {
+        Rectangle().edgesIgnoringSafeArea(.all).foregroundColor(Colors.aspireGray)
+        VStack {
           Image("logo").resizable().aspectRatio(contentMode: .fit).frame(maxHeight: 150)
           Text("Aspire").font(.custom("Nunito-Regular", size: 30)).foregroundColor(.white).padding(-20)
-          Divider().background(Color.white).padding(.horizontal, 20)
-        }
-        Spacer()
-
-        if stateManager.currentState == StateManager.State.localAuthFailed {
-          Text("Continue by Using FaceID, TouchID or your Passcode").padding().multilineTextAlignment(.center)
+          Spacer()
+          Text("Continue by using FaceID, TouchID or your Passcode").font(.custom("Rubik-Light", size: 18)).padding().multilineTextAlignment(.center).foregroundColor(Color.white).opacity(0.6)
         }
       }
   }
