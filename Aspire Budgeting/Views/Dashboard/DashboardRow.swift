@@ -11,7 +11,7 @@ struct DashboardRow: View {
   var categoryRow: DashboardCategoryRow
   
   var body: some View {
-    VStack(alignment: .leading) {
+    VStack (alignment: .leading) {
       Text(categoryRow.categoryName).tracking(1).font(.custom("Rubik-Regular", size: 18)).padding([.horizontal]).padding(.bottom, 5).foregroundColor(.white)
       
       HStack {
