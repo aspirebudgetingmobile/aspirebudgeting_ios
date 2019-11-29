@@ -12,7 +12,7 @@ struct ErrorBannerView: View {
   var error: GoogleDriveManagerError
   
     var body: some View {
-      Text(error.rawValue).padding().background(Color.red)
+      Text(error.rawValue).font(.custom("Rubik-Light", size: 18)).foregroundColor(.white).opacity(0.6)
   }
 }
 
