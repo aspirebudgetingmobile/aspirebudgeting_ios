@@ -14,10 +14,15 @@ struct DashboardView: View {
   let file: File
   
   func availableTotals(for group: String) -> DashboardCardView.Totals {
-    let index = self.sheetsManager.dashboardMetadata!.groups.firstIndex(of: group)
-    let availableTotal = self.sheetsManager.dashboardMetadata!.groupedAvailableTotals[index!]
-    let budgetedTotal = self.sheetsManager.dashboardMetadata!.groupedBudgetedTotals[index!]
-    return DashboardCardView.Totals(availableTotal: availableTotal, budgetedTotal: budgetedTotal)
+    let index = getIndex(for: group)
+    let availableTotal = self.sheetsManager.dashboardMetadata!.groupedAvailableTotals[index]
+    let budgetedTotal = self.sheetsManager.dashboardMetadata!.groupedBudgetedTotals[index]
+    let spentTotal = self.sheetsManager.dashboardMetadata!.groupedSpentTotals[index]
+    return DashboardCardView.Totals(availableTotal: availableTotal, budgetedTotal: budgetedTotal, spentTotals: spentTotal)
+  }
+  
+  func getIndex(for group: String) -> Int {
+    return self.sheetsManager.dashboardMetadata!.groups.firstIndex(of: group)!
   }
   
   var body: some View {
@@ -27,7 +32,7 @@ struct DashboardView: View {
         if self.sheetsManager.dashboardMetadata?.groups != nil {
           List {
             ForEach(self.sheetsManager.dashboardMetadata!.groups, id: \.self) { group in
-              DashboardCardView(categoryName: group, totals: self.availableTotals(for: group))
+              DashboardCardView(categoryName: group, totals: self.availableTotals(for: group), categoryRows: self.sheetsManager.dashboardMetadata!.groupedCategoryRows[self.getIndex(for: group)])
             }
           }
         } else {

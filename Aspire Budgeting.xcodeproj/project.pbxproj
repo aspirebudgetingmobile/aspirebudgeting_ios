@@ -13,6 +13,8 @@
 		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
 		060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060025052373C08700A20C96 /* YoutubePlayerView.swift */; };
 		0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002509237511C300A20C96 /* LocalAuthorizationManager.swift */; };
+		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
+		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
@@ -78,6 +80,8 @@
 		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		060025052373C08700A20C96 /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
 		06002509237511C300A20C96 /* LocalAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationManager.swift; sourceTree = "<group>"; };
+		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
+		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
@@ -154,20 +158,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060CDA6B238F75F6005CD74B /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				0694C2222369EDB90039528A /* DashboardView.swift */,
+				065F03D1236E2385005AED12 /* DashboardRow.swift */,
+				065C717B2382075200DB46B2 /* DashboardCardView.swift */,
+				060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */,
+				060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		066EF457235CE05100E94CE4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				060CDA6B238F75F6005CD74B /* Dashboard */,
 				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
 				066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */,
 				066EF461235D4FBD00E94CE4 /* SignInView.swift */,
 				06C5C6A723690AEB00862196 /* FileSelectorView.swift */,
-				0694C2222369EDB90039528A /* DashboardView.swift */,
 				065F03CF236DEF78005AED12 /* ErrorBannerView.swift */,
-				065F03D1236E2385005AED12 /* DashboardRow.swift */,
 				060025052373C08700A20C96 /* YoutubePlayerView.swift */,
 				061F10392377801600089D11 /* FaceIDView.swift */,
 				065C7152237FAC3200DB46B2 /* AspireButton.swift */,
-				065C717B2382075200DB46B2 /* DashboardCardView.swift */,
 				069FDF912383A1C60023E86A /* AspireNavigationBar.swift */,
 			);
 			path = Views;
@@ -543,6 +557,8 @@
 				065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */,
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
+				060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */,
+				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
