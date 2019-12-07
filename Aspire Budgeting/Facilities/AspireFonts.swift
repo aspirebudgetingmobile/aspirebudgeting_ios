@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct AspireFonts {
+extension Font {
   static func rubikRegular(size: CGFloat) -> Font {
     return Font.custom("Rubik-Regular", size: size)
   }
