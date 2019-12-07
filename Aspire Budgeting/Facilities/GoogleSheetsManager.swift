@@ -118,8 +118,8 @@ final class GoogleSheetsManager: ObservableObject {
   
   func verifySheet(spreadsheet: File) {
     
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!AC2") { (valueRange) in
-      if let version = valueRange.values?.first?.first as? String {
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { (valueRange) in
+      if let version = valueRange.values?.first?.last as? String {
         self.aspireVersion = version
         self.persistSheetID(spreadsheet: spreadsheet)
       }
