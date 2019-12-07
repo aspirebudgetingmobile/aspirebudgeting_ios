@@ -20,6 +20,7 @@ enum GoogleDriveManagerError: String, Error {
   final class GoogleDriveManager: ObservableObject {
     static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name)"
     static let spreadsheetMIME: String = "application/vnd.google-apps.spreadsheet"
+    static let orderBy: String = "recency desc"
     
     private let driveService: GTLRService
     private let googleFilesListQuery: GTLRDriveQuery_FilesList
@@ -79,6 +80,8 @@ enum GoogleDriveManagerError: String, Error {
       
       googleFilesListQuery.fields = GoogleDriveManager.queryFields
       googleFilesListQuery.q = "mimeType='\(GoogleDriveManager.spreadsheetMIME)'"
+      googleFilesListQuery.orderBy = GoogleDriveManager.orderBy
+      
       ticket = driveService.executeQuery(googleFilesListQuery, completionHandler: { [weak self] (_, driveFileList, error) in
         guard let weakSelf = self else {
           return
