@@ -16,4 +16,8 @@ struct AspireFonts {
   static func rubikLight(size: CGFloat) -> Font {
     return Font.custom("Rubik-Light", size: size)
   }
+  
+  static func rubikMedium(size: CGFloat) -> Font {
+    return Font.custom("Rubik-Medium", size: size)
+  }
 }
