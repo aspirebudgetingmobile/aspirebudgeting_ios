@@ -27,7 +27,6 @@ struct DashboardView: View {
   
   var body: some View {
     VStack {
-      AspireNavigationBar().edgesIgnoringSafeArea(.all).frame(maxHeight: 120)
       if self.sheetsManager.error == nil {
         if self.sheetsManager.dashboardMetadata?.groups != nil {
           List {

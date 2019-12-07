@@ -20,22 +20,25 @@ struct FileSelectorView: View {
     ZStack {
       if self.userManager.user != nil {
         ZStack {
-          NavigationView {
-            List(self.driveManager.fileList) { file in
-              Button(action: {
-                self.selectedFile = file
-              }) {
-                Text(file.name)
+          if self.selectedFile == nil {
+            NavigationView {
+              List(self.driveManager.fileList) { file in
+                Button(action: {
+                  self.sheetsManager.defaultFile = file
+                  self.selectedFile = file
+                }) {
+                  Text(file.name)
+                }
               }
-            }
-            .navigationBarTitle("Link your Aspire sheet")
-          }.onAppear {
-            if self.driveManager.fileList.isEmpty {
-              self.driveManager.getFileList()
+              .navigationBarTitle("Link your Aspire sheet")
+            }.onAppear {
+              if self.driveManager.fileList.isEmpty {
+                self.driveManager.getFileList()
+              }
             }
           }
           if self.selectedFile != nil {
-            DashboardView(file: self.selectedFile!)
+            AspireMasterView()
           }
         }
       }
