@@ -21,6 +21,10 @@ protocol AspireUserDefaults {
 extension UserDefaults: AspireUserDefaults {}
 
 final class GoogleSheetsManager: ObservableObject {
+  enum SupportedAspireVersions: String {
+    case twoEight = "2.8"
+    case three = "3.0"
+  }
   
   static let defaultsSheetsKey = "Aspire_Sheet"
   
@@ -36,9 +40,10 @@ final class GoogleSheetsManager: ObservableObject {
   
   public var defaultFile: File?
   
-  @Published public private(set) var aspireVersion: String?
+  @Published public private(set) var aspireVersion: SupportedAspireVersions?
   @Published public private(set) var error: GoogleDriveManagerError?
   @Published public private(set) var dashboardMetadata: DashboardMetadata?
+  @Published public private(set) var transactionCategories: [String]?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
@@ -116,12 +121,36 @@ final class GoogleSheetsManager: ObservableObject {
     NotificationCenter.default.post(name: .hasSheetInDefaults, object: nil, userInfo: [Notification.Name.hasSheetInDefaults: file])
   }
   
+  func getTransactionCategories(spreadsheet: File) {
+    guard let version = self.aspireVersion else {
+      fatalError("Aspire Version is nil")
+    }
+    
+    let range: String
+    switch version {
+    case .twoEight:
+      range = "BackendData!B2:B"
+    case .three:
+      range = "BackendData!F2:F"
+    }
+    
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
+      guard let values = valueRange.values as? [[String]] else {
+        fatalError("Values from Google sheet is nil")
+      }
+      
+      self.transactionCategories = values.map {$0.first!}
+      
+    }
+  }
+  
   func verifySheet(spreadsheet: File) {
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { (valueRange) in
       if let version = valueRange.values?.first?.last as? String {
-        self.aspireVersion = version
+        self.aspireVersion = SupportedAspireVersions(rawValue: version)
         self.persistSheetID(spreadsheet: spreadsheet)
+        self.getTransactionCategories(spreadsheet: spreadsheet)
       }
     }
   }
