@@ -15,19 +15,22 @@ struct ExpandedCardView: View {
   
   var body: some View {
     VStack {
-      Text(categoryName).tracking(1).font(.custom("Rubik-Regular", size: 20)).padding(.vertical).foregroundColor(.white)
+      Text(categoryName).tracking(1).font(.rubikRegular(size: 20)).padding(.vertical).foregroundColor(.white)
       HStack {
         VStack {
-          Text(totals.budgetedTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.yellowGradient.mask(Text(totals.budgetedTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).scaledToFill()))
-          Text("Budgeted").tracking(0.5).font(.custom("Rubik-Light", size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
+          GradientTextView(string: totals.budgetedTotal.stringValue, tracking: 1.35, font: .rubikMedium(size: 18), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.yellowGradient)
+          
+          Text("Budgeted").tracking(0.5).font(.rubikLight(size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
         }
         VStack {
-          Text(totals.availableTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.greenGradient.mask(Text(totals.availableTotal.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).scaledToFill()))
-          Text("Available").tracking(0.5).font(.custom("Rubik-Light", size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
+          GradientTextView(string: totals.availableTotal.stringValue, tracking: 1.35, font: .rubikMedium(size: 18), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.greenGradient)
+          
+          Text("Available").tracking(0.5).font(.rubikLight(size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
         }
         VStack {
-          Text(totals.spentTotals.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(totals.spentTotals.stringValue).tracking(1.35).font(.custom("Rubik-Medium", size: 18)).scaledToFill()))
-          Text("Spent").tracking(0.5).font(.custom("Rubik-Light", size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
+          GradientTextView(string: totals.spentTotals.stringValue, tracking: 1.35, font: .rubikMedium(size: 18), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.redGradient)
+          
+          Text("Spent").tracking(0.5).font(.rubikLight(size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
         }
       }
       Divider().padding(.horizontal)
