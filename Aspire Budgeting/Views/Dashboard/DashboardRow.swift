@@ -16,21 +16,21 @@ struct DashboardRow: View {
       
       HStack {
         VStack {
-          Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.yellowGradient.mask(Text(categoryRow.budgeted).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          GradientTextView(string: categoryRow.budgeted, tracking: 1, font: AspireFonts.rubikRegular(size: 16), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.yellowGradient)
           
-          Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.yellowGradient.mask(Text("Budgeted").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+          GradientTextView(string: "Budgeted", tracking: 1, font: AspireFonts.rubikLight(size: 12), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.yellowGradient)
         }
         Spacer()
         VStack {
-          Text(categoryRow.available).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.greenGradient.mask(Text(categoryRow.available).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          GradientTextView(string: categoryRow.available, tracking: 1, font: AspireFonts.rubikRegular(size: 16), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.greenGradient)
           
-          Text("Available").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.greenGradient.mask(Text("Available").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+          GradientTextView(string: "Available", tracking: 1, font: AspireFonts.rubikLight(size: 12), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.greenGradient)
         }
         Spacer()
         VStack {
-          Text(categoryRow.spent).tracking(1).font(.custom("Rubik-Regular", size: 16)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text(categoryRow.spent).tracking(1).font(.custom("Rubik-Regular", size: 16)).scaledToFill()))
+          GradientTextView(string: categoryRow.spent, tracking: 1, font: AspireFonts.rubikRegular(size: 16), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.redGradient)
           
-          Text("Spent").tracking(1).font(.custom("Rubik-Light", size: 12)).padding([.horizontal]).foregroundColor(.clear).overlay(Colors.redGradient.mask(Text("Spent").tracking(1).font(.custom("Rubik-Light", size: 12)).scaledToFill()))
+          GradientTextView(string: "Spent", tracking: 1, font: AspireFonts.rubikLight(size: 12), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.redGradient)
         }
       }
     }
