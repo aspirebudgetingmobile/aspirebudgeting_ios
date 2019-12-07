@@ -13,7 +13,7 @@ struct AspireSegmentedView: View {
   
   var body: some View {
     ZStack {
-      Rectangle().frame(height: 50).background(Color.red).opacity(0.06)
+      Rectangle().frame(height: 55).background(Color.red).opacity(0.06)
       VStack {
         HStack(spacing: 0) {
           
@@ -22,29 +22,29 @@ struct AspireSegmentedView: View {
             Button(action: {
               self.selectedSegment = 0
             }) {
-              Text("Dashboard")
-            }
+              Text("Dashboard").tracking(1).font(.rubikRegular(size: 18)).foregroundColor(.white).opacity(selectedSegment == 0 ? 1 : 0.1)
+            }.disabled(selectedSegment == 0)
             Spacer()
             if selectedSegment == 0 {
-              Rectangle().frame(height: 3)
+              Rectangle().frame(height: 3).foregroundColor(Colors.segmentRed)
             }
             
           }
-          .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50).foregroundColor(.white)
+          .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 55)
           
           VStack {
             Spacer()
             Button(action: {
               self.selectedSegment = 1
             }) {
-              Text("Add Transaction")
-            }
+              Text("Add Transaction").tracking(1).font(.rubikRegular(size: 18)).foregroundColor(.white).opacity(selectedSegment == 1 ? 1 : 0.1)
+            }.disabled(selectedSegment == 1)
             Spacer()
             if selectedSegment == 1 {
-              Rectangle().frame(height: 3)
+              Rectangle().frame(height: 3).foregroundColor(Colors.segmentRed)
             }
           }
-          .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50).foregroundColor(.white)
+          .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 55)
           
         }
         .frame(minWidth: 0, maxWidth: .infinity)
