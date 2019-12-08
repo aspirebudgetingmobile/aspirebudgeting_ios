@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct AspireSegmentedView: View {
-  @State private var selectedSegment = 0
+  @Binding var selectedSegment: Int
   
   var body: some View {
     ZStack {
@@ -56,8 +56,8 @@ struct AspireSegmentedView: View {
   }
 }
 
-struct AspireSegmentedView_Previews: PreviewProvider {
-  static var previews: some View {
-    AspireSegmentedView()
-  }
-}
+//struct AspireSegmentedView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    AspireSegmentedView()
+//  }
+//}
