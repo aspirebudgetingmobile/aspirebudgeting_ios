@@ -16,23 +16,14 @@ struct AddTransactionView: View {
   @State private var category = ""
   
     var body: some View {
-      Form {
-        Section(header: Text("")) {
-          TextField("Enter Amount", text: $amountString).keyboardType(.decimalPad).textFieldStyle(RoundedBorderTextFieldStyle())
-        }
-        Section(header: Text("")) {
-          DatePicker(selection: $date, in: ...Date(), displayedComponents: .date) {
-            Text("Enter Date")
-            }.foregroundColor(.white)
-        }
-        Section(header: Text("")) {
-          Picker(selection: $category, label: Text("Select Category")) {
-            ForEach(0 ..< self.sheetsManager.transactionCategories!.count) {
-              Text(self.sheetsManager.transactionCategories![$0])
-            }
-          }.foregroundColor(.white)
-        }
-      }.background(Colors.aspireGray).edgesIgnoringSafeArea(.all)
+      ScrollView {
+        AmountTextField(amount: $amountString)
+      }.background(Colors.aspireGray)
+        .edgesIgnoringSafeArea(.all)
+        .onTapGesture {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+      }
+      
   }
 }
 
