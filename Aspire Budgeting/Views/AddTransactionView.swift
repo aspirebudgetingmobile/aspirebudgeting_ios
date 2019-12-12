@@ -21,7 +21,7 @@ struct AddTransactionView: View {
       }.background(Colors.aspireGray)
         .edgesIgnoringSafeArea(.all)
         .onTapGesture {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
       }
       
   }
