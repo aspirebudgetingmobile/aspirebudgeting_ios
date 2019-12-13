@@ -11,15 +11,24 @@ import SwiftUI
 struct AddTransactionView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
+  var dateFormatter: DateFormatter {
+      let formatter = DateFormatter()
+      formatter.dateStyle = .long
+      return formatter
+  }
+  
   @State private var amountString = ""
+  
   @State private var showDatePicker = false
   @State private var selectedDate = Date()
+  @State private var dateSelected = false
   
     var body: some View {
       ScrollView {
         AmountTextField(amount: $amountString)
-        AspireButton(title: "Select Date", type: .green, imageName: "calendar_icon") {
+        AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
           withAnimation {
+            self.dateSelected = true
             self.showDatePicker.toggle()
           }
           
