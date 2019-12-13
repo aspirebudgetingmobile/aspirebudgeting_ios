@@ -12,12 +12,23 @@ struct AddTransactionView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
   @State private var amountString = ""
-  @State private var date = Date()
-  @State private var category = ""
+  @State private var showDatePicker = false
+  @State private var selectedDate = Date()
   
     var body: some View {
       ScrollView {
         AmountTextField(amount: $amountString)
+        AspireButton(title: "Select Date", type: .green, imageName: "calendar_icon") {
+          withAnimation {
+            self.showDatePicker.toggle()
+          }
+          
+          }.frame(height: 50).padding()
+        if showDatePicker {
+          DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
+            Text("")
+          }.foregroundColor(Color.white)
+        }
       }.background(Colors.aspireGray)
         .edgesIgnoringSafeArea(.all)
         .onTapGesture {
