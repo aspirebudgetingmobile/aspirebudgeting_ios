@@ -47,7 +47,7 @@ struct AddTransactionView: View {
             self.categorySelected = true
             self.showCategoriesPicker.toggle()
           }
-          }.frame(height: 50).padding()
+        }.disabled(self.sheetsManager.transactionCategories == nil).frame(height: 50).padding()
         if showCategoriesPicker {
           Picker(selection: $selectedCategory, label: Text("")) {
             ForEach(0..<self.sheetsManager.transactionCategories!.count) {
@@ -55,7 +55,6 @@ struct AddTransactionView: View {
             }
           }
         }
-//        Text(selectedCategory)
       }.background(Colors.aspireGray)
         .edgesIgnoringSafeArea(.all)
         .onTapGesture {
