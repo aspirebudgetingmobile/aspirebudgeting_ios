@@ -44,6 +44,7 @@ final class GoogleSheetsManager: ObservableObject {
   @Published public private(set) var error: GoogleDriveManagerError?
   @Published public private(set) var dashboardMetadata: DashboardMetadata?
   @Published public private(set) var transactionCategories: [String]?
+  @Published public private(set) var transactionAccounts: [String]?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
@@ -144,6 +145,28 @@ final class GoogleSheetsManager: ObservableObject {
     }
   }
   
+  func getTransactionAccounts(spreadsheet: File) {
+    guard let version = self.aspireVersion else {
+      fatalError("Aspire Version is nil")
+    }
+    
+    let range: String
+    switch version {
+    case .twoEight:
+      range = "BackendData!E2:E"
+    case .three:
+      range = "BackendData!H2:H"
+    }
+    
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
+      guard let values = valueRange.values as? [[String]] else {
+        fatalError("Values from Google sheet is nil")
+      }
+      
+      self.transactionAccounts = values.map {$0.first!}
+    }
+  }
+  
   func verifySheet(spreadsheet: File) {
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { (valueRange) in
@@ -151,6 +174,7 @@ final class GoogleSheetsManager: ObservableObject {
         self.aspireVersion = SupportedAspireVersions(rawValue: version)
         self.persistSheetID(spreadsheet: spreadsheet)
         self.getTransactionCategories(spreadsheet: spreadsheet)
+        self.getTransactionAccounts(spreadsheet: spreadsheet)
       }
     }
   }

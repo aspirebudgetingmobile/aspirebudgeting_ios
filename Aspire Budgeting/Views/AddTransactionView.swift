@@ -27,6 +27,10 @@ struct AddTransactionView: View {
   @State private var categorySelected = false
   @State private var selectedCategory = 0
   
+  @State private var showAccountPicker = false
+  @State private var accountSelected = false
+  @State private var selectedAccount = 0
+  
     var body: some View {
       ScrollView {
         AmountTextField(amount: $amountString)
@@ -52,6 +56,20 @@ struct AddTransactionView: View {
           Picker(selection: $selectedCategory, label: Text("")) {
             ForEach(0..<self.sheetsManager.transactionCategories!.count) {
               Text(self.sheetsManager.transactionCategories![$0]).foregroundColor(.white)
+            }
+          }
+        }
+        
+        AspireButton(title: accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account", type: .green) {
+          withAnimation {
+            self.accountSelected = true
+            self.showAccountPicker.toggle()
+          }
+        }.disabled(self.sheetsManager.transactionAccounts == nil).frame(height: 50).padding()
+        if showAccountPicker {
+          Picker(selection: $selectedAccount, label: Text("")) {
+            ForEach(0..<self.sheetsManager.transactionAccounts!.count) {
+              Text(self.sheetsManager.transactionAccounts![$0]).foregroundColor(.white)
             }
           }
         }
