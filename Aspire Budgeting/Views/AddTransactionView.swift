@@ -12,9 +12,9 @@ struct AddTransactionView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   
   var dateFormatter: DateFormatter {
-      let formatter = DateFormatter()
-      formatter.dateStyle = .long
-      return formatter
+    let formatter = DateFormatter()
+    formatter.dateStyle = .long
+    return formatter
   }
   
   @State private var amountString = ""
@@ -31,54 +31,76 @@ struct AddTransactionView: View {
   @State private var accountSelected = false
   @State private var selectedAccount = 0
   
-    var body: some View {
-      ScrollView {
-        AmountTextField(amount: $amountString)
-        AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
-          withAnimation {
-            self.dateSelected = true
-            self.showDatePicker.toggle()
-          }
-          
-          }.frame(height: 50).padding()
-        if showDatePicker {
-          DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
-            Text("")
-          }.foregroundColor(Color.white)
-        }
-        AspireButton(title: categorySelected ? self.sheetsManager.transactionCategories![selectedCategory]: "Select Category", type: .green, imageName: "categories_icon") {
-          withAnimation {
-            self.categorySelected = true
-            self.showCategoriesPicker.toggle()
-          }
-        }.disabled(self.sheetsManager.transactionCategories == nil).frame(height: 50).padding()
-        if showCategoriesPicker {
-          Picker(selection: $selectedCategory, label: Text("")) {
-            ForEach(0..<self.sheetsManager.transactionCategories!.count) {
-              Text(self.sheetsManager.transactionCategories![$0]).foregroundColor(.white)
-            }
-          }
+  @State private var transactionType = 0
+  @State private var approvalType = 0
+  
+  var body: some View {
+    ScrollView {
+      AmountTextField(amount: $amountString)
+      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
+        withAnimation {
+          self.dateSelected = true
+          self.showDatePicker.toggle()
         }
         
-        AspireButton(title: accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account", type: .green) {
-          withAnimation {
-            self.accountSelected = true
-            self.showAccountPicker.toggle()
-          }
-        }.disabled(self.sheetsManager.transactionAccounts == nil).frame(height: 50).padding()
-        if showAccountPicker {
-          Picker(selection: $selectedAccount, label: Text("")) {
-            ForEach(0..<self.sheetsManager.transactionAccounts!.count) {
-              Text(self.sheetsManager.transactionAccounts![$0]).foregroundColor(.white)
-            }
+      }.frame(height: 50).padding()
+      if showDatePicker {
+        DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
+          Text("")
+        }.foregroundColor(Color.white)
+      }
+      AspireButton(title: categorySelected ? self.sheetsManager.transactionCategories![selectedCategory]: "Select Category", type: .green, imageName: "categories_icon") {
+        withAnimation {
+          self.categorySelected = true
+          self.showCategoriesPicker.toggle()
+        }
+      }.disabled(self.sheetsManager.transactionCategories == nil).frame(height: 50).padding()
+      if showCategoriesPicker {
+        Picker(selection: $selectedCategory, label: Text("")) {
+          ForEach(0..<self.sheetsManager.transactionCategories!.count) {
+            Text(self.sheetsManager.transactionCategories![$0]).foregroundColor(.white)
           }
         }
-      }.background(Colors.aspireGray)
-        .edgesIgnoringSafeArea(.all)
-        .onTapGesture {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
       }
       
+      AspireButton(title: accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account", type: .green) {
+        withAnimation {
+          self.accountSelected = true
+          self.showAccountPicker.toggle()
+        }
+      }.disabled(self.sheetsManager.transactionAccounts == nil).frame(height: 50).padding()
+      if showAccountPicker {
+        Picker(selection: $selectedAccount, label: Text("")) {
+          ForEach(0..<self.sheetsManager.transactionAccounts!.count) {
+            Text(self.sheetsManager.transactionAccounts![$0]).foregroundColor(.white)
+          }
+        }
+      }
+      
+      Picker(selection: $transactionType, label: Text("")) {
+        Text("Inflow").tag(0)
+        Text("Outflow").tag(1)
+      }.pickerStyle(SegmentedPickerStyle()).padding()
+      
+      Picker(selection: $approvalType, label: Text("")) {
+        Text("Approved").tag(0)
+        Text("Pending").tag(1)
+      }.pickerStyle(SegmentedPickerStyle()).padding()
+      
+      AspireButton(title: "Add", type: .red) {
+        if self.amountString != "" &&
+          self.dateSelected &&
+          self.categorySelected &&
+          self.accountSelected {
+          self.sheetsManager.addTransaction(amount: self.amountString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType)
+        }
+      }.padding()
+    }.background(Colors.aspireGray)
+      .edgesIgnoringSafeArea(.all)
+      .onTapGesture {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
   }
 }
 

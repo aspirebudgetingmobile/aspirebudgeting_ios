@@ -186,4 +186,13 @@ final class GoogleSheetsManager: ObservableObject {
       }
     }
   }
+  
+  func addTransaction(amount: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int) {
+    let values = GTLRSheets_ValueRange()
+    values.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
+    values.range = "Transactions!B:H"
+    values.values = [date.description, amount, "", transactionCategories![category], "", "", ""]
+    
+    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: <#T##GTLRSheets_ValueRange#>, spreadsheetId: <#T##String#>, range: <#T##String#>)
+  }
 }
