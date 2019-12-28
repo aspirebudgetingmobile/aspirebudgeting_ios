@@ -21,6 +21,10 @@ protocol AspireUserDefaults {
 extension UserDefaults: AspireUserDefaults {}
 
 final class GoogleSheetsManager: ObservableObject {
+  enum SupportedAspireVersions: String {
+    case twoEight = "2.8"
+    case three = "3.0"
+  }
   
   static let defaultsSheetsKey = "Aspire_Sheet"
   
@@ -36,9 +40,11 @@ final class GoogleSheetsManager: ObservableObject {
   
   public var defaultFile: File?
   
-  @Published public private(set) var aspireVersion: String?
+  @Published public private(set) var aspireVersion: SupportedAspireVersions?
   @Published public private(set) var error: GoogleDriveManagerError?
   @Published public private(set) var dashboardMetadata: DashboardMetadata?
+  @Published public private(set) var transactionCategories: [String]?
+  @Published public private(set) var transactionAccounts: [String]?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
@@ -116,12 +122,59 @@ final class GoogleSheetsManager: ObservableObject {
     NotificationCenter.default.post(name: .hasSheetInDefaults, object: nil, userInfo: [Notification.Name.hasSheetInDefaults: file])
   }
   
+  func getTransactionCategories(spreadsheet: File) {
+    guard let version = self.aspireVersion else {
+      fatalError("Aspire Version is nil")
+    }
+    
+    let range: String
+    switch version {
+    case .twoEight:
+      range = "BackendData!B2:B"
+    case .three:
+      range = "BackendData!F2:F"
+    }
+    
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
+      guard let values = valueRange.values as? [[String]] else {
+        fatalError("Values from Google sheet is nil")
+      }
+      
+      self.transactionCategories = values.map {$0.first!}
+      
+    }
+  }
+  
+  func getTransactionAccounts(spreadsheet: File) {
+    guard let version = self.aspireVersion else {
+      fatalError("Aspire Version is nil")
+    }
+    
+    let range: String
+    switch version {
+    case .twoEight:
+      range = "BackendData!E2:E"
+    case .three:
+      range = "BackendData!H2:H"
+    }
+    
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
+      guard let values = valueRange.values as? [[String]] else {
+        fatalError("Values from Google sheet is nil")
+      }
+      
+      self.transactionAccounts = values.map {$0.first!}
+    }
+  }
+  
   func verifySheet(spreadsheet: File) {
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { (valueRange) in
       if let version = valueRange.values?.first?.last as? String {
-        self.aspireVersion = version
+        self.aspireVersion = SupportedAspireVersions(rawValue: version)
         self.persistSheetID(spreadsheet: spreadsheet)
+        self.getTransactionCategories(spreadsheet: spreadsheet)
+        self.getTransactionAccounts(spreadsheet: spreadsheet)
       }
     }
   }
@@ -132,5 +185,87 @@ final class GoogleSheetsManager: ObservableObject {
         self.dashboardMetadata = DashboardMetadata(rows: values)
       }
     }
+  }
+  
+  private func createSheetsValueRangeFrom(amount: String,
+                                          date: Date,
+                                          category: Int,
+                                          account: Int,
+                                          transactionType: Int,
+                                          approvalType: Int) -> GTLRSheets_ValueRange {
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+    
+    let sheetsValueRange = GTLRSheets_ValueRange()
+    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
+    sheetsValueRange.range = "Transactions!B:H"
+    
+    var valuesToInsert = [String]()
+    valuesToInsert.append(dateFormatter.string(from: date))
+    
+    if transactionType == 0 {
+      valuesToInsert.append("")
+      valuesToInsert.append(amount)
+    } else {
+      valuesToInsert.append(amount)
+      valuesToInsert.append("")
+    }
+    
+    valuesToInsert.append(transactionCategories![category])
+    valuesToInsert.append(transactionAccounts![account])
+    valuesToInsert.append("Added from Aspire iOS app")
+    
+    guard let version = self.aspireVersion else {
+      fatalError("Aspire Version is nil")
+    }
+    
+    switch version {
+    case .twoEight:
+      if approvalType == 0 {
+        valuesToInsert.append("🆗")
+      } else {
+        valuesToInsert.append("⏺")
+      }
+      
+    case .three:
+      if approvalType == 0 {
+        valuesToInsert.append("✅")
+      } else {
+        valuesToInsert.append("🅿️")
+      }
+    }
+    
+    sheetsValueRange.values = [valuesToInsert]
+    return sheetsValueRange
+  }
+  
+  func addTransaction(amount: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
+    
+    
+    let valuesToInsert = createSheetsValueRangeFrom(amount: amount, date: date, category: category, account: account, transactionType: transactionType, approvalType: approvalType)
+    
+    guard let authorizer = self.authorizer else {
+      self.error = GoogleDriveManagerError.nilAuthorizer
+      return
+    }
+    
+    sheetsService.authorizer = authorizer
+  
+    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: valuesToInsert, spreadsheetId: defaultFile!.id, range: valuesToInsert.range!)
+    
+    appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
+    
+    ticket = sheetsService.executeQuery(appendQuery, completionHandler: { (_, data, error) in
+      if let error = error as NSError? {
+        if error.domain == kGTLRErrorObjectDomain {
+          self.error = GoogleDriveManagerError.invalidSheet
+        } else {
+          self.error = GoogleDriveManagerError.noInternet
+        }
+      }
+      completion(error == nil)
+    })
   }
 }

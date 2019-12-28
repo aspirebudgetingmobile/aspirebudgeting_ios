@@ -38,7 +38,7 @@ struct ContentView: View {
       } else if needsLocalAuth {
         FaceIDView()
       } else if hasDefaultSheet {
-          DashboardView(file: sheetsManager.defaultFile!).navigationBarTitle("Dashboard")
+        AspireMasterView()
       } else {
         FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }

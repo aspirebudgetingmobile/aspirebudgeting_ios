@@ -19,7 +19,7 @@ struct AspireNavigationBar: View {
             Image("logo").resizable().aspectRatio(contentMode: .fit).frame(maxHeight: 60)
             Text("Aspire").font(.custom("Nunito-Regular", size: 30)).foregroundColor(.white)
           }
-        }.padding(.bottom, 15)
+        }.padding(.bottom, 5)
       }
 //    }
   }

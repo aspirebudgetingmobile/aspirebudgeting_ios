@@ -116,7 +116,7 @@ final class GoogleSheetsManagerTests: XCTestCase {
   
   func testVerifySheet() {
     let mockValueRange = GTLRSheets_ValueRange()
-    mockValueRange.values = [["Version"]]
+    mockValueRange.values = [["2.8"]]
     let mockQuery = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "42", range: "range")
     let sheetsService = GTLRSheetsService.mockService(withFakedObject: mockValueRange, fakedError: nil)
     let sheetsManager = GoogleSheetsManager(sheetsService: sheetsService, getSpreadsheetsQuery: mockQuery)
@@ -126,7 +126,7 @@ final class GoogleSheetsManagerTests: XCTestCase {
     
     let expectation = XCTestExpectation()
     sinkCancellable = sheetsManager.$aspireVersion.dropFirst().sink { (version) in
-      XCTAssertEqual("Version", version)
+      XCTAssertEqual(.twoEight, version)
       expectation.fulfill()
     }
     
