@@ -34,6 +34,9 @@ struct AddTransactionView: View {
   @State private var transactionType = 0
   @State private var approvalType = 0
   
+  @State private var showingAlert = false
+  @State private var transactionAdded = false
+  
   var body: some View {
     ScrollView {
       AmountTextField(amount: $amountString)
@@ -92,9 +95,18 @@ struct AddTransactionView: View {
           self.dateSelected &&
           self.categorySelected &&
           self.accountSelected {
-          self.sheetsManager.addTransaction(amount: self.amountString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType)
+          self.sheetsManager.addTransaction(amount: self.amountString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType) { result in
+            self.transactionAdded = result
+            self.showingAlert = true
+          }
         }
-      }.padding()
+      }.padding().alert(isPresented: $showingAlert) { () -> Alert in
+        if self.transactionAdded {
+          return Alert(title: Text("Transaction added"))
+        } else {
+          return Alert(title: Text("An error occured. Please try again."))
+        }
+      }
     }.background(Colors.aspireGray)
       .edgesIgnoringSafeArea(.all)
       .onTapGesture {
