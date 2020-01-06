@@ -6,8 +6,8 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
-import os.log
 import Foundation
+import os.log
 
 enum GoogleSDKCredentialsError: Error {
   case missingCredentialsPLIST
