@@ -14,6 +14,8 @@ extension OSLog {
   
   static let googleSDKCredentials = OSLog(subsystem: subsystem, category: "GoogleSDKCredentials")
   
+  static let userManager = OSLog(subsystem: subsystem, category: "UserManager")
+  
   static let sheetsManager = OSLog(subsystem: OSLog.subsystem, category: "SheetsManager")
   
 }
