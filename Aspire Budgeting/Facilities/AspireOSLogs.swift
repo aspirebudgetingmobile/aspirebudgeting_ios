@@ -16,6 +16,8 @@ extension OSLog {
   
   static let userManager = OSLog(subsystem: subsystem, category: "UserManager")
   
+  static let googleDriveManager = OSLog(subsystem: subsystem, category: "GoogleDriveManager")
+  
   static let sheetsManager = OSLog(subsystem: OSLog.subsystem, category: "SheetsManager")
   
 }
