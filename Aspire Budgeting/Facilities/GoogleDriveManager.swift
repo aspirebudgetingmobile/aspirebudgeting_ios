@@ -14,7 +14,7 @@ import os.log
 
 enum GoogleDriveManagerError: String, Error {
   case nilAuthorizer = "nilAuthorizer"
-  case invalidSheet = "Please select a valid Aspire Sheet"
+  case inconsistentSheet = "Inconsistency found in the selected sheet."
   case noInternet = "No Internet connection available"
 }
   

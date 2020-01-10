@@ -9,6 +9,7 @@
 import Foundation
 import GoogleAPIClientForREST
 import GTMSessionFetcher
+import os.log
 
 extension Notification.Name {
   static let hasSheetInDefaults = Notification.Name("hasSheetInDefaults")
@@ -57,11 +58,15 @@ final class GoogleSheetsManager: ObservableObject {
   }
   
   private func subscribeToAuthorizerNotification() {
+    os_log("Subscribing to Authorizer notification",
+           log: .sheetsManager, type: .default)
     authorizerNotificationObserver = NotificationCenter.default.addObserver(forName: .authorizerUpdated, object: nil, queue: nil) { [weak self] (notification) in
       guard let weakSelf = self else {
         return
       }
       
+      os_log("Received authorizer from notification",
+             log: .default, type: .default)
       weakSelf.assignAuthorizer(from: notification)
     }
   }
@@ -69,14 +74,20 @@ final class GoogleSheetsManager: ObservableObject {
   private func assignAuthorizer(from notification: Notification) {
     guard let userInfo = notification.userInfo,
       let authorizer = userInfo[Notification.Name.authorizerUpdated] as? GTMFetcherAuthorizationProtocol else {
+        os_log("No authorizer found in notification",
+               log: .sheetsManager, type: .error)
         return
     }
     
+    os_log("Assigning authorizer",
+           log: .sheetsManager, type: .default)
     self.authorizer = authorizer
   }
   
   private func fetchData(spreadsheet: File, spreadsheetRange: String, completion: @escaping (GTLRSheets_ValueRange) -> Void) {
     guard let authorizer = self.authorizer else {
+      os_log("Nil authorizer while trying to fetch data",
+             log: .sheetsManager, type: .error)
       self.error = GoogleDriveManagerError.nilAuthorizer
       return
     }
@@ -89,14 +100,21 @@ final class GoogleSheetsManager: ObservableObject {
     
     ticket = sheetsService.executeQuery(getSpreadsheetsQuery, completionHandler: { (_, data, error) in
       if let valueRange = data as? GTLRSheets_ValueRange {
+        os_log("Received GTLRSheets_ValueRange from Google Sheets",
+               log: .sheetsManager, type: .default)
         self.error = nil
         completion(valueRange)
       }
       
       if let error = error as NSError? {
         if error.domain == kGTLRErrorObjectDomain {
-          self.error = GoogleDriveManagerError.invalidSheet
+          os_log("Encountered kGTLRErrorObjectDomain: %{public}s",
+                 log: .sheetsManager, type: .error,
+                 error.localizedDescription)
+          self.error = GoogleDriveManagerError.inconsistentSheet
         } else {
+          os_log("No internet connection",
+                 log: .sheetsManager, type: .error)
           self.error = GoogleDriveManagerError.noInternet
         }
       }
@@ -115,15 +133,24 @@ final class GoogleSheetsManager: ObservableObject {
   func checkDefaultsForSpreadsheet() {
     guard let data = userDefaults.data(forKey: GoogleSheetsManager.defaultsSheetsKey),
       let file = try? JSONDecoder().decode(File.self, from: data) else {
+        os_log("No default Google Sheet found",
+               log: .sheetsManager, type: .default)
         return
     }
     
+    os_log("Default Google Sheet found.",
+           log: .sheetsManager, type: .default)
     defaultFile = file
     NotificationCenter.default.post(name: .hasSheetInDefaults, object: nil, userInfo: [Notification.Name.hasSheetInDefaults: file])
   }
   
   func getTransactionCategories(spreadsheet: File) {
+    os_log("Fetching transaction categories",
+           log: .sheetsManager, type: .default)
+    
     guard let version = self.aspireVersion else {
+      os_log("Aspire version is nil",
+             log: .sheetsManager, type: .error)
       fatalError("Aspire Version is nil")
     }
     
@@ -140,13 +167,20 @@ final class GoogleSheetsManager: ObservableObject {
         fatalError("Values from Google sheet is nil")
       }
       
+      os_log("Received transaction categories",
+             log: .sheetsManager, type: .default)
       self.transactionCategories = values.map {$0.first!}
       
     }
   }
   
   func getTransactionAccounts(spreadsheet: File) {
+    os_log("Fetching transaction accounts",
+           log: .sheetsManager, type: .default)
+    
     guard let version = self.aspireVersion else {
+      os_log("Aspire version is nil",
+             log: .sheetsManager, type: .error)
       fatalError("Aspire Version is nil")
     }
     
@@ -163,11 +197,16 @@ final class GoogleSheetsManager: ObservableObject {
         fatalError("Values from Google sheet is nil")
       }
       
+      os_log("Received transaction accounts",
+             log: .sheetsManager, type: .default)
+      
       self.transactionAccounts = values.map {$0.first!}
     }
   }
   
   func verifySheet(spreadsheet: File) {
+    os_log("Verifying selected Google Sheet",
+           log: .sheetsManager, type: .default)
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { (valueRange) in
       if let version = valueRange.values?.first?.last as? String {
@@ -180,6 +219,9 @@ final class GoogleSheetsManager: ObservableObject {
   }
   
   func fetchCategoriesAndGroups(spreadsheet: File) {
+    os_log("Fetching Categories and groups",
+           log: .sheetsManager, type: .default)
+    
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: "Dashboard!H4:O") { (valueRange) in
       if let values = valueRange.values as? [[String]] {
         self.dashboardMetadata = DashboardMetadata(rows: values)
@@ -243,10 +285,14 @@ final class GoogleSheetsManager: ObservableObject {
   
   func addTransaction(amount: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
     
+    os_log("Adding transaction",
+           log: .sheetsManager, type: .default)
     
     let valuesToInsert = createSheetsValueRangeFrom(amount: amount, date: date, category: category, account: account, transactionType: transactionType, approvalType: approvalType)
     
     guard let authorizer = self.authorizer else {
+      os_log("Aspire version is nil",
+      log: .sheetsManager, type: .error)
       self.error = GoogleDriveManagerError.nilAuthorizer
       return
     }
@@ -260,8 +306,13 @@ final class GoogleSheetsManager: ObservableObject {
     ticket = sheetsService.executeQuery(appendQuery, completionHandler: { (_, data, error) in
       if let error = error as NSError? {
         if error.domain == kGTLRErrorObjectDomain {
-          self.error = GoogleDriveManagerError.invalidSheet
+          os_log("Encountered kGTLRErrorObjectDomain: %{public}s",
+          log: .sheetsManager, type: .error,
+          error.localizedDescription)
+          self.error = GoogleDriveManagerError.inconsistentSheet
         } else {
+          os_log("No internet connection",
+          log: .sheetsManager, type: .error)
           self.error = GoogleDriveManagerError.noInternet
         }
       }
