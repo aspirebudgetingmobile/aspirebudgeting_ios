@@ -24,4 +24,6 @@ extension OSLog {
   
   static let stateManager = OSLog(subsystem: OSLog.subsystem, category: "StateManager")
   
+  static let dashboardMetadata = OSLog(subsystem: OSLog.subsystem, category: "DashboardMetadata")
+  
 }

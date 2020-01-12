@@ -6,6 +6,7 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 import Foundation
+import os.log
 
 struct DashboardMetadata {
   let groups: [String]
@@ -40,6 +41,8 @@ struct DashboardMetadata {
     
     for row in rows {
       if row.count == 1 {
+        os_log("Encountered a Group row",
+               log: .dashboardMetadata, type: .default)
         lastIndex += 1
         tempGroups.append(row[0])
         
@@ -60,8 +63,16 @@ struct DashboardMetadata {
         spentTotal += numFormatter.number(from: categoryRow.spent)?.decimalValue ?? 0
         
         let availableTotalString = numFormatter.string(from: availableTotal as NSDecimalNumber) ?? ""
+        os_log("Checking availableTotalString empty: %d",
+               log: .dashboardMetadata, type: .default, availableTotalString == "")
+        
         let budgetedTotalString = numFormatter.string(from: budgetedTotal as NSDecimalNumber) ?? ""
+        os_log("Checking budgetedTotalString empty: %d",
+        log: .dashboardMetadata, type: .default, budgetedTotalString == "")
+        
         let spentTotalString = numFormatter.string(from: spentTotal as NSDecimalNumber) ?? ""
+        os_log("Checking spentTotalString empty: %d",
+        log: .dashboardMetadata, type: .default, spentTotalString == "")
         
         tempAvailableTotals[lastIndex] = AspireNumber(stringValue: availableTotalString, decimalValue: availableTotal)
         tempBudgetedTotals[lastIndex] = AspireNumber(stringValue: budgetedTotalString, decimalValue: budgetedTotal)
