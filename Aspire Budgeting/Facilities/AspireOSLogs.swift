@@ -22,4 +22,6 @@ extension OSLog {
   
   static let localAuthorizationManager = OSLog(subsystem: OSLog.subsystem, category: "LocalAuthorizationManager")
   
+  static let stateManager = OSLog(subsystem: OSLog.subsystem, category: "StateManager")
+  
 }
