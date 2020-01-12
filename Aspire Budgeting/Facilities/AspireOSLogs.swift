@@ -20,4 +20,6 @@ extension OSLog {
   
   static let sheetsManager = OSLog(subsystem: OSLog.subsystem, category: "SheetsManager")
   
+  static let localAuthorizationManager = OSLog(subsystem: OSLog.subsystem, category: "LocalAuthorizationManager")
+  
 }
