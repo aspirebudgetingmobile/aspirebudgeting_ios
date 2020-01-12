@@ -303,7 +303,7 @@ final class GoogleSheetsManager: ObservableObject {
     
     appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
     
-    ticket = sheetsService.executeQuery(appendQuery, completionHandler: { (_, data, error) in
+    ticket = sheetsService.executeQuery(appendQuery, completionHandler: { (_, _, error) in
       if let error = error as NSError? {
         if error.domain == kGTLRErrorObjectDomain {
           os_log("Encountered kGTLRErrorObjectDomain: %{public}s",
