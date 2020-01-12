@@ -11,6 +11,7 @@ import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
+import os.log
 
 protocol AspireSignInInstance: AnyObject {
   var clientID: String! {get set}
@@ -55,6 +56,9 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   var subscription: AnyCancellable!
   
   func authenticateWithGoogle() {
+    os_log("Attempting to authenticate with Google",
+           log: .userManager,
+           type: .default)
     fetchUser()
   }
   
@@ -68,10 +72,16 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   }
   
   func authenticateLocally() {
+    os_log("Attempting to authenticate user locally",
+           log: .userManager,
+           type: .default)
     localAuthManager.authenticateUserLocally()
   }
   
   private func fetchUser() {
+    os_log("Attempting to restore previous Google SignIn",
+           log: .userManager,
+           type: .default)
     gidSignInInstance.clientID = credentials.CLIENT_ID
     gidSignInInstance.delegate = self
     gidSignInInstance.scopes = [kGTLRAuthScopeDrive, kGTLRAuthScopeSheetsDrive]
@@ -84,9 +94,14 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     if let error = error {
       self.error = error
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
-        print("The user has not signed in before or they have since signed out.")
+        os_log("The user has not signed in before or has since signed out. Proceed with normal sign in flow.",
+               log: .userManager,
+               type: .default)
       } else {
-        print("\(error.localizedDescription)")
+        os_log("A generic error occured. %{public}s",
+               log: .userManager,
+               type: .default,
+               error.localizedDescription)
       }
       return
     }
@@ -95,6 +110,9 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   }
   
   func signIn<U: AspireUser>(user: U) {
+    os_log("User authenticated with Google successfully.",
+           log: .userManager, type: .default)
+    
     self.user = User(googleUser: user)
     notificationCenter.post(name: Notification.Name.authorizerUpdated, object: self, userInfo: [Notification.Name.authorizerUpdated: self.user!.authorizer])
   }
@@ -103,5 +121,8 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     gidSignInInstance.signOut()
     userAuthenticated = false
     self.user = nil
+    
+    os_log("Logging out user from Google and locally",
+           log: .userManager, type: .default)
   }
 }

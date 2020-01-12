@@ -77,7 +77,7 @@ final class GoogleSheetsManagerTests: XCTestCase {
     let expectation = XCTestExpectation()
     
     sinkCancellable = sheetsManager.$error.dropFirst().sink(receiveValue: { (error) in
-      XCTAssertEqual(error!, GoogleDriveManagerError.invalidSheet)
+      XCTAssertEqual(error!, GoogleDriveManagerError.inconsistentSheet)
       expectation.fulfill()
     })
     

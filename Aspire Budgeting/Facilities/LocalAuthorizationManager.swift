@@ -8,6 +8,7 @@
 
 import Foundation
 import LocalAuthentication
+import os.log
 
 extension Notification.Name {
   static let authorizedLocally = Notification.Name("authorizedLocally")
@@ -21,6 +22,8 @@ final class LocalAuthorizationManager: ObservableObject {
   }
   
   func authenticateUserLocally() {
+    os_log("Authenticating user locally",
+           log: .localAuthorizationManager, type: .default)
     let context = self.context
     
     context.localizedCancelTitle = "Cancel"
@@ -34,16 +37,25 @@ final class LocalAuthorizationManager: ObservableObject {
         }
         
         if let error = error {
-          print(error.localizedDescription)
+          os_log("Encountered local authorization error. %{public}s",
+                 log: .localAuthorizationManager, type: .error,
+                 error.localizedDescription)
         }
+        os_log("Local Authorization success = %d",
+               log: .localAuthorizationManager, type: .default, success)
         weakSelf.isAuthorized = success
         weakSelf.postNotification()
         context.invalidate()
       }
+    } else {
+      os_log("Cannot evaluate deviceOwnerAuthentication policy",
+             log: .localAuthorizationManager, type: .error)
     }
   }
   
   private func postNotification() {
+    os_log("Local Authorization notification posted",
+           log: .localAuthorizationManager, type: .default)
     let userInfo = [Notification.Name.authorizedLocally: isAuthorized]
     NotificationCenter.default.post(name: .authorizedLocally, object: nil, userInfo: userInfo)
   }

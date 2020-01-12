@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 enum GoogleSDKCredentialsError: Error {
   case missingCredentialsPLIST
@@ -30,6 +31,9 @@ struct GoogleSDKCredentials: Codable {
     guard let credentialsURL = bundle.url(forResource: fileName,
                                           withExtension: type)
       else {
+        os_log("credentials.plist file not found.",
+               log: OSLog.googleSDKCredentials,
+               type: .error)
         throw GoogleSDKCredentialsError.missingCredentialsPLIST
     }
     
@@ -38,7 +42,10 @@ struct GoogleSDKCredentials: Codable {
       credentials = try decoder.decode(GoogleSDKCredentials.self, from: credentialsData)
       
     } catch {
-      print("Exception thrown while trying to create GoogleSDKCredentials: \(error.localizedDescription)")
+      os_log("Exception thrown while trying to create GoogleSDKCredentials: %{public}s",
+             log: OSLog.googleSDKCredentials,
+             type: .error,
+             error.localizedDescription)
       throw GoogleSDKCredentialsError.couldNotCreate
     }
     

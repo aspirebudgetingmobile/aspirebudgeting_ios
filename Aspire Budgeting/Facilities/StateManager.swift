@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 final class StateManager: ObservableObject {
   enum State: Equatable {
@@ -46,6 +47,8 @@ final class StateManager: ObservableObject {
                      object: nil,
                      queue: nil,
                      using: { _ in
+                      os_log("Authorizer updated. Transitioning to verifiedGoogleUser",
+                             log: .stateManager, type: .default)
                       self.transition(to: .verifiedGoogleUser)
         })
     
@@ -57,9 +60,15 @@ final class StateManager: ObservableObject {
                       guard let userInfo = notification.userInfo,
                         let success = userInfo[Notification.Name.authorizedLocally] as? Bool else {return}
                       
+                      os_log("Received authorizedLocally.",
+                             log: .stateManager, type: .default)
                       if success {
+                        os_log("Transitioning to authenticatedLocally",
+                               log: .stateManager, type: .default)
                         self.transition(to: .authenticatedLocally)
                       } else {
+                        os_log("Transitioning to localAuthFailed",
+                               log: .stateManager, type: .error)
                         self.transition(to: .localAuthFailed)
                       }
                       
@@ -67,10 +76,14 @@ final class StateManager: ObservableObject {
     
     backgroundObserver =
       NotificationCenter.default.addObserver(forName: Notification.Name("background"), object: nil, queue: nil, using: { _ in
+        os_log("Received background. Transitioning to needsLocalAuthentication",
+               log: .stateManager, type: .default)
         self.transition(to: .needsLocalAuthentication)
       })
     
     defaultSheetObserver = NotificationCenter.default.addObserver(forName: .hasSheetInDefaults, object: nil, queue: nil, using: { _ in
+      os_log("Received hasSheetInDefaults. Transitioning to hasDefaultSheet",
+             log: .stateManager, type: .default)
       self.transition(to: .hasDefaultSheet)
     })
   }
@@ -79,6 +92,9 @@ final class StateManager: ObservableObject {
     if canTransition(to: nextState) {
       self.currentState = nextState
       self.currentStatePublisher = nextState
+    } else {
+      os_log("Invalid state transition. No state transition performed.",
+             log: .stateManager, type: .error)
     }
   }
   
