@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct AspireNavigationBar: View {
+  @State var showSettings = false
   var body: some View {
 //    VStack {
       ZStack {
@@ -26,9 +27,13 @@ struct AspireNavigationBar: View {
             Spacer()
             Button(action: {
               print("Settings")
+              self.showSettings = true
             }) {
               Image(systemName: "gear").padding().foregroundColor(.white)
             }.padding([.top, .bottom], 10)
+              .sheet(isPresented: $showSettings) {
+              Text("Modal")
+            }
           }
         }
       }
