@@ -48,7 +48,8 @@ struct SignInView: View {
       }
       
       AspireButton(title: "Copy Aspire sheet to your Google Drive", type: .red) {
-        
+        let url = URL(string: "https://aspirebudget.com")
+        UIApplication.shared.open(url!)
       }.frame(height: 50).padding().shadow(radius: 5)
       
       Spacer()
