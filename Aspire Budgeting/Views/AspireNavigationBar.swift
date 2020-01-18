@@ -6,9 +6,11 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
+import GoogleSignIn
 import SwiftUI
 
 struct AspireNavigationBar: View {
+  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @State var showSettings = false
   var body: some View {
 //    VStack {
@@ -32,7 +34,7 @@ struct AspireNavigationBar: View {
               Image(systemName: "gear").padding().foregroundColor(.white)
             }.padding([.top, .bottom], 10)
               .sheet(isPresented: $showSettings) {
-              Text("Modal")
+                SettingsView().environmentObject(self.userManager)
             }
           }
         }

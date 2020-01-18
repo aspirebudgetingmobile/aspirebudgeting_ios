@@ -19,6 +19,7 @@
 		061EEF3223A1F7D300A684EB /* AmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AmountTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
+		06297B3223D31F3400F4C7E1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06297B3123D31F3400F4C7E1 /* SettingsView.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71562380B80D00DB46B2 /* StateManagerTests.swift */; };
 		065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */; };
@@ -93,6 +94,7 @@
 		061EEF3123A1F7D300A684EB /* AmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTextField.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
+		06297B3123D31F3400F4C7E1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065C71562380B80D00DB46B2 /* StateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagerTests.swift; sourceTree = "<group>"; };
 		065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadataTests.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */,
 				061EEF2F239DB75700A684EB /* AddTransactionView.swift */,
 				061EEF3123A1F7D300A684EB /* AmountTextField.swift */,
+				06297B3123D31F3400F4C7E1 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -611,6 +614,7 @@
 				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
+				06297B3223D31F3400F4C7E1 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
