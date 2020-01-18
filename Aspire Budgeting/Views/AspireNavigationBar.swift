@@ -20,6 +20,17 @@ struct AspireNavigationBar: View {
             Text("Aspire").font(.custom("Nunito-Regular", size: 30)).foregroundColor(.white)
           }
         }.padding(.bottom, 5)
+        VStack {
+          Spacer()
+          HStack {
+            Spacer()
+            Button(action: {
+              print("Settings")
+            }) {
+              Image(systemName: "gear").padding().foregroundColor(.white)
+            }.padding([.top, .bottom], 10)
+          }
+        }
       }
 //    }
   }
