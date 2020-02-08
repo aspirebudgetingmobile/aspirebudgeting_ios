@@ -34,7 +34,6 @@ final class StateManager: ObservableObject {
     transitions[.loggedOut] = [.verifiedGoogleUser]
     transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
     transitions[.authenticatedLocally] = [.localAuthFailed, .hasDefaultSheet, .needsLocalAuthentication, .loggedOut]
-    //TODO: hasDefaultSheet transition is not used at all. Should be removed.
     transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut]
     transitions[.needsLocalAuthentication] = [.authenticatedLocally, .localAuthFailed]
     transitions[.localAuthFailed] = [.authenticatedLocally]
