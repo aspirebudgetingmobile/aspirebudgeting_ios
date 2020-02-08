@@ -27,6 +27,7 @@ final class GoogleSheetsManager: ObservableObject {
   enum SupportedAspireVersions: String {
     case twoEight = "2.8"
     case three = "3.0"
+    case threeOne = "3.1.0"
   }
   
   static let defaultsSheetsKey = "Aspire_Sheet"
@@ -179,7 +180,7 @@ final class GoogleSheetsManager: ObservableObject {
     switch version {
     case .twoEight:
       range = "BackendData!B2:B"
-    case .three:
+    case .three, .threeOne:
       range = "BackendData!F2:F"
     }
     
@@ -211,6 +212,8 @@ final class GoogleSheetsManager: ObservableObject {
       range = "BackendData!E2:E"
     case .three:
       range = "BackendData!H2:H"
+    case .threeOne:
+      range = "BackendData!J2:J"
     }
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
@@ -292,7 +295,7 @@ final class GoogleSheetsManager: ObservableObject {
         valuesToInsert.append("⏺")
       }
       
-    case .three:
+    case .three, .threeOne:
       if approvalType == 0 {
         valuesToInsert.append("✅")
       } else {
