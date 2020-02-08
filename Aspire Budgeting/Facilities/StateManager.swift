@@ -26,13 +26,14 @@ final class StateManager: ObservableObject {
   private var localAuthObserver: NSObjectProtocol?
   private var backgroundObserver: NSObjectProtocol?
   private var defaultSheetObserver: NSObjectProtocol?
+  private var logoutObserver: NSObjectProtocol?
   
   private lazy var transitions: [State: Set<State>] = {
     var transitions = [State: Set<State>]()
     
     transitions[.loggedOut] = [.verifiedGoogleUser]
     transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
-    transitions[.authenticatedLocally] = [.localAuthFailed, .hasDefaultSheet, .needsLocalAuthentication]
+    transitions[.authenticatedLocally] = [.localAuthFailed, .hasDefaultSheet, .needsLocalAuthentication, .loggedOut]
     transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut]
     transitions[.needsLocalAuthentication] = [.authenticatedLocally, .localAuthFailed]
     transitions[.localAuthFailed] = [.authenticatedLocally]
@@ -85,6 +86,11 @@ final class StateManager: ObservableObject {
       os_log("Received hasSheetInDefaults. Transitioning to hasDefaultSheet",
              log: .stateManager, type: .default)
       self.transition(to: .hasDefaultSheet)
+    })
+    
+    logoutObserver = NotificationCenter.default.addObserver(forName: .logout, object: nil, queue: nil, using: { _ in
+      os_log("Received logout. Transitioning to logout", log: .stateManager, type: .default)
+      self.transition(to: .loggedOut)
     })
   }
   

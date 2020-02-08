@@ -17,6 +17,8 @@ extension Notification.Name {
 
 protocol AspireUserDefaults {
   func data(forKey defaultName: String) -> Data?
+  func set(_ value: Any?, forKey defaultName: String)
+  func removeObject(forKey defaultName: String)
 }
 
 extension UserDefaults: AspireUserDefaults {}
@@ -34,6 +36,8 @@ final class GoogleSheetsManager: ObservableObject {
   
   private var authorizer: GTMFetcherAuthorizationProtocol?
   private var authorizerNotificationObserver: NSObjectProtocol?
+  
+  private var logoutObserver: NSObjectProtocol?
   
   private var ticket: GTLRServiceTicket?
   
@@ -55,6 +59,23 @@ final class GoogleSheetsManager: ObservableObject {
     self.userDefaults = userDefaults
     
     subscribeToAuthorizerNotification()
+    subscribeLogoutNotification()
+  }
+  
+  private func subscribeLogoutNotification() {
+    os_log("Subscribing to Logout notification",
+           log: .sheetsManager, type: .default)
+    
+    logoutObserver = NotificationCenter.default.addObserver(forName: .logout, object: nil, queue: nil, using: { [weak self] _ in
+      guard let weakSelf = self else {
+        return
+      }
+      
+      os_log("Received logout from notification",
+             log: .sheetsManager, type: .default)
+      weakSelf.userDefaults.removeObject(forKey: GoogleSheetsManager.defaultsSheetsKey)
+    })
+    
   }
   
   private func subscribeToAuthorizerNotification() {
@@ -66,7 +87,7 @@ final class GoogleSheetsManager: ObservableObject {
       }
       
       os_log("Received authorizer from notification",
-             log: .default, type: .default)
+             log: .sheetsManager, type: .default)
       weakSelf.assignAuthorizer(from: notification)
     }
   }
@@ -124,7 +145,7 @@ final class GoogleSheetsManager: ObservableObject {
   func persistSheetID(spreadsheet: File) {
     do {
       let data = try JSONEncoder().encode(spreadsheet)
-      UserDefaults.standard.set(data, forKey: GoogleSheetsManager.defaultsSheetsKey)
+      self.userDefaults.set(data, forKey: GoogleSheetsManager.defaultsSheetsKey)
     } catch {
       fatalError("This should've never happened!!")
     }

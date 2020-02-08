@@ -27,6 +27,8 @@ extension GIDSignIn: AspireSignInInstance {}
 
 extension Notification.Name {
   static let authorizerUpdated = Notification.Name("authorizerUpdated")
+  
+  static let logout = Notification.Name("logout")
 }
 
 protocol AspireNotificationCenter: AnyObject {
@@ -124,5 +126,6 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     
     os_log("Logging out user from Google and locally",
            log: .userManager, type: .default)
+    notificationCenter.post(name: .logout, object: nil, userInfo: nil)
   }
 }
