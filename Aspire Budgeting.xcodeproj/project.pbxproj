@@ -19,7 +19,6 @@
 		061EEF3223A1F7D300A684EB /* AmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AmountTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
-		06297B3223D31F3400F4C7E1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06297B3123D31F3400F4C7E1 /* SettingsView.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71562380B80D00DB46B2 /* StateManagerTests.swift */; };
 		065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */; };
@@ -42,6 +41,7 @@
 		069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FDF9923878CD10023E86A /* AspireNumber.swift */; };
 		06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A0DAA7235BF99400AEF9FE /* credentials.plist */; };
 		06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */; };
+		06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */; };
 		06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */; };
 		06A9604C235FC27D0058EE64 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A9604B235FC27D0058EE64 /* credentials.plist */; };
 		06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A9604F235FC9F50058EE64 /* bad_credentials.plist */; };
@@ -94,7 +94,6 @@
 		061EEF3123A1F7D300A684EB /* AmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTextField.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
-		06297B3123D31F3400F4C7E1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065C71562380B80D00DB46B2 /* StateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagerTests.swift; sourceTree = "<group>"; };
 		065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadataTests.swift; sourceTree = "<group>"; };
@@ -117,6 +116,7 @@
 		069FDF9923878CD10023E86A /* AspireNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNumber.swift; sourceTree = "<group>"; };
 		06A0DAA7235BF99400AEF9FE /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentials.swift; sourceTree = "<group>"; };
+		06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireVersionInfo.swift; sourceTree = "<group>"; };
 		06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSDKCredentialsTests.swift; sourceTree = "<group>"; };
 		06A9604B235FC27D0058EE64 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		06A9604F235FC9F50058EE64 /* bad_credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bad_credentials.plist; sourceTree = "<group>"; };
@@ -204,7 +204,6 @@
 				06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */,
 				061EEF2F239DB75700A684EB /* AddTransactionView.swift */,
 				061EEF3123A1F7D300A684EB /* AmountTextField.swift */,
-				06297B3123D31F3400F4C7E1 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -246,6 +245,7 @@
 				065C717F23838E9100DB46B2 /* Colors.swift */,
 				06BAAFE1239C301300F24BF2 /* AspireFonts.swift */,
 				06639B3C23BF53B3008E6E4C /* AspireOSLogs.swift */,
+				06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -605,6 +605,7 @@
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
+				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
 				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
@@ -614,7 +615,6 @@
 				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
-				06297B3223D31F3400F4C7E1 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

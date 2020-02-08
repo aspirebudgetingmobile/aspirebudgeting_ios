@@ -12,6 +12,8 @@ import SwiftUI
 struct AspireNavigationBar: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @State var showSettings = false
+  
+  let versionBuild = "Version: " + AspireVersionInfo.version + "; Build: " + AspireVersionInfo.build
   var body: some View {
 //    VStack {
       ZStack {
@@ -33,8 +35,13 @@ struct AspireNavigationBar: View {
             }) {
               Image(systemName: "gear").padding().foregroundColor(.white)
             }.padding([.top, .bottom], 10)
-              .sheet(isPresented: $showSettings) {
-                SettingsView().environmentObject(self.userManager)
+              .actionSheet(isPresented: $showSettings) {
+//                SettingsView().environmentObject(self.userManager)
+                ActionSheet(title: Text("Aspire Budgeting"),
+                            message: Text(self.versionBuild),
+                            buttons: [ActionSheet.Button.default(Text("Sign Out"), action: {
+                              self.userManager.signOut()
+                            }), ActionSheet.Button.cancel()])
             }
           }
         }

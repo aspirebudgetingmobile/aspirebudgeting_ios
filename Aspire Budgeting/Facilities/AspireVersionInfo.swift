@@ -1,0 +1,27 @@
+//
+//  AspireVersionInfo.swift
+//  Aspire Budgeting
+//
+//  Created by TeraMo Labs on 2/8/20.
+//  Copyright © 2020 TeraMo Labs. All rights reserved.
+//
+
+import Foundation
+
+struct AspireVersionInfo {
+  static private let infoDictionary = Bundle.main.infoDictionary
+  
+  static var build: String {
+    guard let build = (infoDictionary?["CFBundleVersion"] as? String) else {
+      fatalError("Could not read Info.plist")
+    }
+    return build 
+  }
+  
+  static var version: String {
+    guard let version = (infoDictionary?["CFBundleShortVersionString"] as? String) else {
+      fatalError("Could not read Info.plist")
+    }
+    return version
+  }
+}
