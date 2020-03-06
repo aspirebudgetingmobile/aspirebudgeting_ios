@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>This is necessary to protect your information from unauthorized access.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Aspire Budgeting needs access to the microphone to be able to attach voice notes to bug reports.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Regular.ttf</string>
