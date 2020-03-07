@@ -41,7 +41,7 @@ struct AspireBugTracker {
       instabugKey = credentials.beta
     }
     
-    Instabug.start(withToken: instabugKey,
-                   invocationEvents: [.shake, .screenshot])
+//    Instabug.start(withToken: instabugKey,
+//                   invocationEvents: [.shake, .screenshot])
   }
 }
