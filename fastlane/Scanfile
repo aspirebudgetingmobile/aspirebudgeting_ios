@@ -15,6 +15,6 @@
 # Enable skip_build to skip debug builds for faster test performance
 #skip_build(true)
 
-devices(["iPhone 11 Pro"])
+devices(["iPhone 8"])
 reset_simulator(true)
 clean(true)
