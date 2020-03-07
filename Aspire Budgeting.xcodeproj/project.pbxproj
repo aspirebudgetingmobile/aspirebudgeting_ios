@@ -77,7 +77,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		06ED8A76235A9091009BA6A7 /* PBXContainerItemProxy */ = {
+		06157EAF24140F0C000161C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06ED8A57235A908E009BA6A7 /* Project object */;
 			proxyType = 1;
@@ -398,7 +398,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				06ED8A77235A9091009BA6A7 /* PBXTargetDependency */,
+				06157EB024140F0C000161C3 /* PBXTargetDependency */,
 			);
 			name = "Aspire BudgetingTests";
 			productName = "Aspire BudgetingTests";
@@ -660,10 +660,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		06ED8A77235A9091009BA6A7 /* PBXTargetDependency */ = {
+		06157EB024140F0C000161C3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06ED8A5E235A908E009BA6A7 /* Aspire Budgeting */;
-			targetProxy = 06ED8A76235A9091009BA6A7 /* PBXContainerItemProxy */;
+			targetProxy = 06157EAF24140F0C000161C3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -842,7 +842,6 @@
 			baseConfigurationReference = 4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CB34G9Z4DX;
 				INFOPLIST_FILE = "Aspire BudgetingTests/Info.plist";
@@ -865,7 +864,6 @@
 			baseConfigurationReference = 847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CB34G9Z4DX;
 				INFOPLIST_FILE = "Aspire BudgetingTests/Info.plist";
