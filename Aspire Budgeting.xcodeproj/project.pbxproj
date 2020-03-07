@@ -842,6 +842,7 @@
 			baseConfigurationReference = 4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CB34G9Z4DX;
 				INFOPLIST_FILE = "Aspire BudgetingTests/Info.plist";
@@ -864,6 +865,7 @@
 			baseConfigurationReference = 847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CB34G9Z4DX;
 				INFOPLIST_FILE = "Aspire BudgetingTests/Info.plist";
