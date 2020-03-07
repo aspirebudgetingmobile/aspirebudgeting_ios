@@ -9,22 +9,39 @@
 import Foundation
 import Instabug
 
-protocol BugTracker {
-  static func start(withToken token: String,
-                    invocationEvents: IBGInvocationEvent)
-}
-
-extension Instabug: BugTracker {}
-
 struct AspireBugTracker {
-  let credentials: InstabugCredentials
+  private let credentials: InstabugCredentials
+  private let bundle: Bundle
   
-  init(credentials: InstabugCredentials) {
+  init(credentials: InstabugCredentials,
+       bundle: Bundle = Bundle.main) {
     self.credentials = credentials
+    self.bundle = bundle
+  }
+  
+  private func isRunningLive() -> Bool {
+    #if targetEnvironment(simulator)
+    return false
+    #else
+    let isRunningTestFlightBeta  = (bundle.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt")
+    let hasEmbeddedMobileProvision = bundle.path(forResource: "embedded", ofType: "mobileprovision") != nil
+    if isRunningTestFlightBeta || hasEmbeddedMobileProvision {
+      return false
+    } else {
+      return true
+    }
+    #endif
   }
   
   func start() {
-    Instabug.start(withToken: credentials.beta,
+    let instabugKey: String
+    if isRunningLive() {
+      instabugKey = credentials.live
+    } else {
+      instabugKey = credentials.beta
+    }
+    
+    Instabug.start(withToken: instabugKey,
                    invocationEvents: [.shake, .screenshot])
   }
 }
