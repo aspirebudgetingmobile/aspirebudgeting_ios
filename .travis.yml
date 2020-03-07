@@ -10,7 +10,8 @@ cache:
 before_install:
   - gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
   - cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cat Resources/credentials.plist; cd ..
-
+  - cd "Aspire Budgeting"; cp ../"Aspire BudgetingTests"/Resources/bad_instabug.plist Resources/instabug.plist; cd ..
+ 
 # install dependencies
 install:
   - bundle install
