@@ -25,34 +25,34 @@ final class InstabugCredentialsTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
   
-  func testThrowsMissingCredentials() {
-    XCTAssertThrowsError(try InstabugCredentials
-      .getCredentials(from: "no_file",
-                      type: "plist",
-                      bundle: testBundle,
-                      decoder: decoder), "") { (error) in
-                        guard let error = error as? CredentialsError else {
-                          XCTFail("Type of error thrown is incorrect")
-                          return
-                        }
-                        
-                        XCTAssertEqual(error, CredentialsError.missingCredentialsPLIST)
-    }
-  }
-  
-  func testThrowsCouldNotCreate() {
-    XCTAssertThrowsError(try InstabugCredentials
-      .getCredentials(from: "bad_instabug",
-                      type: "plist",
-                      bundle: testBundle,
-                      decoder: decoder), "") { (error) in
-                        guard let error = error as? CredentialsError else {
-                          XCTFail("Type of errror thrown is incorrect")
-                          return
-                        }
-                        
-                        XCTAssertEqual(error, CredentialsError.couldNotCreate)
-    }
-  }
+//  func testThrowsMissingCredentials() {
+//    XCTAssertThrowsError(try InstabugCredentials
+//      .getCredentials(from: "no_file",
+//                      type: "plist",
+//                      bundle: testBundle,
+//                      decoder: decoder), "") { (error) in
+//                        guard let error = error as? CredentialsError else {
+//                          XCTFail("Type of error thrown is incorrect")
+//                          return
+//                        }
+//                        
+//                        XCTAssertEqual(error, CredentialsError.missingCredentialsPLIST)
+//    }
+//  }
+//  
+//  func testThrowsCouldNotCreate() {
+//    XCTAssertThrowsError(try InstabugCredentials
+//      .getCredentials(from: "bad_instabug",
+//                      type: "plist",
+//                      bundle: testBundle,
+//                      decoder: decoder), "") { (error) in
+//                        guard let error = error as? CredentialsError else {
+//                          XCTFail("Type of errror thrown is incorrect")
+//                          return
+//                        }
+//                        
+//                        XCTAssertEqual(error, CredentialsError.couldNotCreate)
+//    }
+//  }
   
 }
