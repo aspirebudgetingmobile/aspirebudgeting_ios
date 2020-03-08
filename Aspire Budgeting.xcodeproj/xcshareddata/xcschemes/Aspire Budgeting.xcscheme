@@ -67,6 +67,16 @@
                ReferencedContainer = "container:Aspire Budgeting.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "06157EB62414880D000161C3"
+               BuildableName = "Aspire BudgetingUITests.xctest"
+               BlueprintName = "Aspire BudgetingUITests"
+               ReferencedContainer = "container:Aspire Budgeting.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

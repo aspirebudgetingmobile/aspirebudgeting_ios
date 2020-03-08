@@ -15,6 +15,7 @@
 		0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002509237511C300A20C96 /* LocalAuthorizationManager.swift */; };
 		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
+		06157EBA2414880D000161C3 /* Aspire_BudgetingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EB92414880D000161C3 /* Aspire_BudgetingUITests.swift */; };
 		061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF2F239DB75700A684EB /* AddTransactionView.swift */; };
 		061EEF3223A1F7D300A684EB /* AmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AmountTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
@@ -72,6 +73,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		06157EBC2414880D000161C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06ED8A57235A908E009BA6A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06ED8A5E235A908E009BA6A7;
+			remoteInfo = "Aspire Budgeting";
+		};
 		06ED8A76235A9091009BA6A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06ED8A57235A908E009BA6A7 /* Project object */;
@@ -90,6 +98,9 @@
 		06002509237511C300A20C96 /* LocalAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationManager.swift; sourceTree = "<group>"; };
 		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
+		06157EB72414880D000161C3 /* Aspire BudgetingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aspire BudgetingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06157EB92414880D000161C3 /* Aspire_BudgetingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aspire_BudgetingUITests.swift; sourceTree = "<group>"; };
+		06157EBB2414880D000161C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		061EEF2F239DB75700A684EB /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		061EEF3123A1F7D300A684EB /* AmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTextField.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
@@ -155,6 +166,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		06157EB42414880D000161C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06ED8A5C235A908E009BA6A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,6 +202,15 @@
 				060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		06157EB82414880D000161C3 /* Aspire BudgetingUITests */ = {
+			isa = PBXGroup;
+			children = (
+				06157EB92414880D000161C3 /* Aspire_BudgetingUITests.swift */,
+				06157EBB2414880D000161C3 /* Info.plist */,
+			);
+			path = "Aspire BudgetingUITests";
 			sourceTree = "<group>";
 		};
 		066EF457235CE05100E94CE4 /* Views */ = {
@@ -264,6 +291,7 @@
 			children = (
 				06ED8A61235A908E009BA6A7 /* Aspire Budgeting */,
 				06ED8A78235A9091009BA6A7 /* Aspire BudgetingTests */,
+				06157EB82414880D000161C3 /* Aspire BudgetingUITests */,
 				06ED8A60235A908E009BA6A7 /* Products */,
 				17855E1954464947EED0C1EA /* Pods */,
 				1D6BB61583BB29144F606872 /* Frameworks */,
@@ -275,6 +303,7 @@
 			children = (
 				06ED8A5F235A908E009BA6A7 /* Aspire Budgeting.app */,
 				06ED8A75235A9091009BA6A7 /* Aspire BudgetingTests.xctest */,
+				06157EB72414880D000161C3 /* Aspire BudgetingUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -349,6 +378,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		06157EB62414880D000161C3 /* Aspire BudgetingUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06157EBE2414880D000161C3 /* Build configuration list for PBXNativeTarget "Aspire BudgetingUITests" */;
+			buildPhases = (
+				06157EB32414880D000161C3 /* Sources */,
+				06157EB42414880D000161C3 /* Frameworks */,
+				06157EB52414880D000161C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06157EBD2414880D000161C3 /* PBXTargetDependency */,
+			);
+			name = "Aspire BudgetingUITests";
+			productName = "Aspire BudgetingUITests";
+			productReference = 06157EB72414880D000161C3 /* Aspire BudgetingUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		06ED8A5E235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06ED8A7E235A9091009BA6A7 /* Build configuration list for PBXNativeTarget "Aspire Budgeting" */;
@@ -396,10 +443,14 @@
 		06ED8A57235A908E009BA6A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1110;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "TeraMo Labs";
 				TargetAttributes = {
+					06157EB62414880D000161C3 = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 06ED8A5E235A908E009BA6A7;
+					};
 					06ED8A5E235A908E009BA6A7 = {
 						CreatedOnToolsVersion = 11.1;
 					};
@@ -424,11 +475,19 @@
 			targets = (
 				06ED8A5E235A908E009BA6A7 /* Aspire Budgeting */,
 				06ED8A74235A9091009BA6A7 /* Aspire BudgetingTests */,
+				06157EB62414880D000161C3 /* Aspire BudgetingUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		06157EB52414880D000161C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06ED8A5D235A908E009BA6A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -573,6 +632,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		06157EB32414880D000161C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06157EBA2414880D000161C3 /* Aspire_BudgetingUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06ED8A5B235A908E009BA6A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -640,6 +707,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		06157EBD2414880D000161C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06ED8A5E235A908E009BA6A7 /* Aspire Budgeting */;
+			targetProxy = 06157EBC2414880D000161C3 /* PBXContainerItemProxy */;
+		};
 		06ED8A77235A9091009BA6A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06ED8A5E235A908E009BA6A7 /* Aspire Budgeting */;
@@ -659,6 +731,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		06157EBF2414880D000161C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CB34G9Z4DX;
+				INFOPLIST_FILE = "Aspire BudgetingUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "in.teramolabs..Aspire-BudgetingUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Aspire Budgeting";
+			};
+			name = Debug;
+		};
+		06157EC02414880D000161C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CB34G9Z4DX;
+				INFOPLIST_FILE = "Aspire BudgetingUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "in.teramolabs..Aspire-BudgetingUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Aspire Budgeting";
+			};
+			name = Release;
+		};
 		06ED8A7C235A9091009BA6A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -866,6 +978,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		06157EBE2414880D000161C3 /* Build configuration list for PBXNativeTarget "Aspire BudgetingUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06157EBF2414880D000161C3 /* Debug */,
+				06157EC02414880D000161C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		06ED8A5A235A908E009BA6A7 /* Build configuration list for PBXProject "Aspire Budgeting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
