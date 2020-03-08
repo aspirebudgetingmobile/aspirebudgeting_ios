@@ -52,6 +52,7 @@ enum GoogleDriveManagerError: String, Error {
         }
         
         weakSelf.assignAuthorizer(from: notification)
+        weakSelf.clearFileList()
       }
     }
     
