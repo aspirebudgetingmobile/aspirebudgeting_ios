@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>a</key>
+	<key>beta</key>
 	<string>a</string>
-	<key>b</key>
+	<key>live</key>
 	<string>b</string>
 </dict>
 </plist>
