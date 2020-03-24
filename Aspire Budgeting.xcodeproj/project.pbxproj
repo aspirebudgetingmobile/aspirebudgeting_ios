@@ -15,6 +15,11 @@
 		0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002509237511C300A20C96 /* LocalAuthorizationManager.swift */; };
 		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
+		06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157E9F2411E831000161C3 /* AspireBugTracker.swift */; };
+		06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA32411EC7A000161C3 /* InstabugCredentials.swift */; };
+		06157EA62411F22D000161C3 /* instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06157EA52411F22D000161C3 /* instabug.plist */; };
+		06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */; };
+		06157EAC24131235000161C3 /* bad_instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06157EAB24131235000161C3 /* bad_instabug.plist */; };
 		061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF2F239DB75700A684EB /* AddTransactionView.swift */; };
 		061EEF3223A1F7D300A684EB /* AmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AmountTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
@@ -67,12 +72,13 @@
 		06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */; };
 		06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6D235A9090009BA6A7 /* LaunchScreen.storyboard */; };
 		06ED8A7A235A9091009BA6A7 /* Aspire_BudgetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */; };
+		06F121F42429A66600BC4766 /* instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06F121F32429A66600BC4766 /* instabug.plist */; };
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
 		8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		06ED8A76235A9091009BA6A7 /* PBXContainerItemProxy */ = {
+		06157EAF24140F0C000161C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06ED8A57235A908E009BA6A7 /* Project object */;
 			proxyType = 1;
@@ -90,6 +96,11 @@
 		06002509237511C300A20C96 /* LocalAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationManager.swift; sourceTree = "<group>"; };
 		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
+		06157E9F2411E831000161C3 /* AspireBugTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTracker.swift; sourceTree = "<group>"; };
+		06157EA32411EC7A000161C3 /* InstabugCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentials.swift; sourceTree = "<group>"; };
+		06157EA52411F22D000161C3 /* instabug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = instabug.plist; sourceTree = "<group>"; };
+		06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentialsTests.swift; sourceTree = "<group>"; };
+		06157EAB24131235000161C3 /* bad_instabug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bad_instabug.plist; sourceTree = "<group>"; };
 		061EEF2F239DB75700A684EB /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		061EEF3123A1F7D300A684EB /* AmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTextField.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
@@ -146,6 +157,7 @@
 		06ED8A75235A9091009BA6A7 /* Aspire BudgetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aspire BudgetingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aspire_BudgetingTests.swift; sourceTree = "<group>"; };
 		06ED8A7B235A9091009BA6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06F121F32429A66600BC4766 /* instabug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = instabug.plist; sourceTree = "<group>"; };
 		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
 		4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.debug.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_BudgetingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +235,7 @@
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				06157EA52411F22D000161C3 /* instabug.plist */,
 				069FDF972384F4AC0023E86A /* Rubik-Light.ttf */,
 				069FDF952384F43E0023E86A /* Rubik-Regular.ttf */,
 				069FDF932384F3840023E86A /* Rubik-Medium.ttf */,
@@ -246,6 +259,8 @@
 				06BAAFE1239C301300F24BF2 /* AspireFonts.swift */,
 				06639B3C23BF53B3008E6E4C /* AspireOSLogs.swift */,
 				06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */,
+				06157E9F2411E831000161C3 /* AspireBugTracker.swift */,
+				06157EA32411EC7A000161C3 /* InstabugCredentials.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -255,6 +270,8 @@
 			children = (
 				06A9604F235FC9F50058EE64 /* bad_credentials.plist */,
 				06A9604B235FC27D0058EE64 /* credentials.plist */,
+				06157EAB24131235000161C3 /* bad_instabug.plist */,
+				06F121F32429A66600BC4766 /* instabug.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -322,6 +339,7 @@
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
 				065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */,
+				06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -383,7 +401,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				06ED8A77235A9091009BA6A7 /* PBXTargetDependency */,
+				06157EB024140F0C000161C3 /* PBXTargetDependency */,
 			);
 			name = "Aspire BudgetingTests";
 			productName = "Aspire BudgetingTests";
@@ -436,6 +454,7 @@
 				060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */,
 				069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */,
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
+				06157EA62411F22D000161C3 /* instabug.plist in Resources */,
 				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
 				069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */,
 				069FDF982384F4AC0023E86A /* Rubik-Light.ttf in Resources */,
@@ -449,7 +468,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				06A9604C235FC27D0058EE64 /* credentials.plist in Resources */,
+				06F121F42429A66600BC4766 /* instabug.plist in Resources */,
 				06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */,
+				06157EAC24131235000161C3 /* bad_instabug.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,10 +632,12 @@
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
+				06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
 				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
+				06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +647,7 @@
 			files = (
 				06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */,
 				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
+				06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */,
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
@@ -640,10 +664,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		06ED8A77235A9091009BA6A7 /* PBXTargetDependency */ = {
+		06157EB024140F0C000161C3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06ED8A5E235A908E009BA6A7 /* Aspire Budgeting */;
-			targetProxy = 06ED8A76235A9091009BA6A7 /* PBXContainerItemProxy */;
+			targetProxy = 06157EAF24140F0C000161C3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

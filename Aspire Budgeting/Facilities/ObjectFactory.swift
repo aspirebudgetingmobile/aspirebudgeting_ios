@@ -27,6 +27,18 @@ final class ObjectFactory {
     return sdkCredentials!
   }()
   
+  lazy var instabugCredentials: InstabugCredentials! = {
+    var instabugCredentials: InstabugCredentials
+    
+    do {
+      instabugCredentials = try InstabugCredentials.getCredentials()
+    } catch {
+      fatalError("Unable to instantiate InstabugCredentials")
+    }
+    
+    return instabugCredentials
+  }()
+  
   lazy var userManager: UserManager = {
     return UserManager<GIDGoogleUser>(credentials: googleSDKCredentials)
   }()
@@ -48,5 +60,9 @@ final class ObjectFactory {
   
   lazy var stateManager: StateManager = {
     return StateManager()
+  }()
+  
+  lazy var bugTracker: AspireBugTracker = {
+    return AspireBugTracker(credentials: instabugCredentials)
   }()
 }

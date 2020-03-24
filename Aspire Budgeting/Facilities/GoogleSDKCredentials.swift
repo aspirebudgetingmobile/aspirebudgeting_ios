@@ -9,7 +9,7 @@
 import Foundation
 import os.log
 
-enum GoogleSDKCredentialsError: Error {
+enum CredentialsError: Error {
   case missingCredentialsPLIST
   case couldNotCreate
 }
@@ -34,7 +34,7 @@ struct GoogleSDKCredentials: Codable {
         os_log("credentials.plist file not found.",
                log: OSLog.googleSDKCredentials,
                type: .error)
-        throw GoogleSDKCredentialsError.missingCredentialsPLIST
+        throw CredentialsError.missingCredentialsPLIST
     }
     
     do {
@@ -46,7 +46,7 @@ struct GoogleSDKCredentials: Codable {
              log: OSLog.googleSDKCredentials,
              type: .error,
              error.localizedDescription)
-      throw GoogleSDKCredentialsError.couldNotCreate
+      throw CredentialsError.couldNotCreate
     }
     
     return credentials
