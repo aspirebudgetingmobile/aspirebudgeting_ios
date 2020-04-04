@@ -51,6 +51,7 @@ final class GoogleSheetsManager: ObservableObject {
   @Published public private(set) var dashboardMetadata: DashboardMetadata?
   @Published public private(set) var transactionCategories: [String]?
   @Published public private(set) var transactionAccounts: [String]?
+  @Published public private(set) var accountBalancesMetadata: AccountBalancesMetadata?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
@@ -166,6 +167,64 @@ final class GoogleSheetsManager: ObservableObject {
     NotificationCenter.default.post(name: .hasSheetInDefaults, object: nil, userInfo: [Notification.Name.hasSheetInDefaults: file])
   }
   
+  private func createSheetsValueRangeFrom(amount: String,
+                                          date: Date,
+                                          category: Int,
+                                          account: Int,
+                                          transactionType: Int,
+                                          approvalType: Int) -> GTLRSheets_ValueRange {
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+    
+    let sheetsValueRange = GTLRSheets_ValueRange()
+    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
+    sheetsValueRange.range = "Transactions!B:H"
+    
+    var valuesToInsert = [String]()
+    valuesToInsert.append(dateFormatter.string(from: date))
+    
+    if transactionType == 0 {
+      valuesToInsert.append("")
+      valuesToInsert.append(amount)
+    } else {
+      valuesToInsert.append(amount)
+      valuesToInsert.append("")
+    }
+    
+    valuesToInsert.append(transactionCategories![category])
+    valuesToInsert.append(transactionAccounts![account])
+    valuesToInsert.append("Added from Aspire iOS app")
+    
+    guard let version = self.aspireVersion else {
+      fatalError("Aspire Version is nil")
+    }
+    
+    switch version {
+    case .twoEight:
+      if approvalType == 0 {
+        valuesToInsert.append("🆗")
+      } else {
+        valuesToInsert.append("⏺")
+      }
+      
+    case .three, .threeOne:
+      if approvalType == 0 {
+        valuesToInsert.append("✅")
+      } else {
+        valuesToInsert.append("🅿️")
+      }
+    }
+    
+    sheetsValueRange.values = [valuesToInsert]
+    return sheetsValueRange
+  }
+}
+
+// MARK: Reading from Google Sheets
+extension GoogleSheetsManager {
+  
   func getTransactionCategories(spreadsheet: File) {
     os_log("Fetching transaction categories",
            log: .sheetsManager, type: .default)
@@ -238,6 +297,7 @@ final class GoogleSheetsManager: ObservableObject {
         self.persistSheetID(spreadsheet: spreadsheet)
         self.getTransactionCategories(spreadsheet: spreadsheet)
         self.getTransactionAccounts(spreadsheet: spreadsheet)
+        self.fetchAccountBalances(spreadsheet: spreadsheet)
       }
     }
   }
@@ -253,60 +313,21 @@ final class GoogleSheetsManager: ObservableObject {
     }
   }
   
-  private func createSheetsValueRangeFrom(amount: String,
-                                          date: Date,
-                                          category: Int,
-                                          account: Int,
-                                          transactionType: Int,
-                                          approvalType: Int) -> GTLRSheets_ValueRange {
+  func fetchAccountBalances(spreadsheet: File) {
+    os_log("Fetching Account Balances",
+           log: .sheetsManager, type: .default)
     
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .none
-    
-    let sheetsValueRange = GTLRSheets_ValueRange()
-    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
-    sheetsValueRange.range = "Transactions!B:H"
-    
-    var valuesToInsert = [String]()
-    valuesToInsert.append(dateFormatter.string(from: date))
-    
-    if transactionType == 0 {
-      valuesToInsert.append("")
-      valuesToInsert.append(amount)
-    } else {
-      valuesToInsert.append(amount)
-      valuesToInsert.append("")
-    }
-    
-    valuesToInsert.append(transactionCategories![category])
-    valuesToInsert.append(transactionAccounts![account])
-    valuesToInsert.append("Added from Aspire iOS app")
-    
-    guard let version = self.aspireVersion else {
-      fatalError("Aspire Version is nil")
-    }
-    
-    switch version {
-    case .twoEight:
-      if approvalType == 0 {
-        valuesToInsert.append("🆗")
-      } else {
-        valuesToInsert.append("⏺")
-      }
-      
-    case .three, .threeOne:
-      if approvalType == 0 {
-        valuesToInsert.append("✅")
-      } else {
-        valuesToInsert.append("🅿️")
+    let range = "Dashboard!B10:C"
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
+      if let values = valueRange.values as? [[String]] {
+        self.accountBalancesMetadata = AccountBalancesMetadata(metadata: values)
       }
     }
-    
-    sheetsValueRange.values = [valuesToInsert]
-    return sheetsValueRange
   }
-  
+}
+
+// MARK: Writing to Google Sheets
+extension GoogleSheetsManager {
   func addTransaction(amount: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
     
     os_log("Adding transaction",
@@ -340,6 +361,7 @@ final class GoogleSheetsManager: ObservableObject {
           self.error = GoogleDriveManagerError.noInternet
         }
       }
+      self.fetchAccountBalances(spreadsheet: self.defaultFile!)
       completion(error == nil)
     })
   }
