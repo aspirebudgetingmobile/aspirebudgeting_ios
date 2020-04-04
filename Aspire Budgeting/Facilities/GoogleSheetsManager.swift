@@ -361,6 +361,7 @@ extension GoogleSheetsManager {
           self.error = GoogleDriveManagerError.noInternet
         }
       }
+      self.fetchAccountBalances(spreadsheet: self.defaultFile!)
       completion(error == nil)
     })
   }
