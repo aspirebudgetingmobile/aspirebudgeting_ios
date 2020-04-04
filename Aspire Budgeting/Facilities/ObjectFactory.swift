@@ -27,11 +27,11 @@ final class ObjectFactory {
     return sdkCredentials!
   }()
   
-  lazy var instabugCredentials: InstabugCredentials! = {
-    var instabugCredentials: InstabugCredentials
+  lazy var instabugCredentials: AspireBugTrackerCredentials! = {
+    var instabugCredentials: AspireBugTrackerCredentials
     
     do {
-      instabugCredentials = try InstabugCredentials.getCredentials()
+      instabugCredentials = try AspireBugTrackerCredentials.getCredentials()
     } catch {
       fatalError("Unable to instantiate InstabugCredentials")
     }

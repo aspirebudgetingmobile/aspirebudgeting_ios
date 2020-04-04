@@ -14,7 +14,7 @@ extension OSLog {
   
   static let googleSDKCredentials = OSLog(subsystem: subsystem, category: "GoogleSDKCredentials")
   
-  static let instabugCredentials = OSLog(subsystem: subsystem, category: "InstabugCredentials")
+  static let bugTrackerCredentials = OSLog(subsystem: subsystem, category: "AspireBugTrackerCredentials")
   
   static let userManager = OSLog(subsystem: subsystem, category: "UserManager")
   

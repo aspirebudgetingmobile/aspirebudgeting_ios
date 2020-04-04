@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Aspire Budgeting needs access to the photo library to be able to attach images to bug reports.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -26,6 +24,8 @@
 	<string>This is necessary to protect your information from unauthorized access.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Aspire Budgeting needs access to the microphone to be able to attach voice notes to bug reports.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aspire Budgeting needs access to the photo library to be able to attach images to bug reports.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Regular.ttf</string>

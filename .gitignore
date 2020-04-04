@@ -89,4 +89,4 @@ fastlane/test_output
 
 iOSInjectionProject
 /Aspire\ Budgeting/Resources/credentials.plist
-/Aspire\ Budgeting/Resources/instabug.plist
+/Aspire\ Budgeting/Resources/bugsnag.plist

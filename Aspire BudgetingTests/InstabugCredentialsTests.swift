@@ -26,7 +26,7 @@ final class InstabugCredentialsTests: XCTestCase {
   }
   
   func testThrowsMissingCredentials() {
-    XCTAssertThrowsError(try InstabugCredentials
+    XCTAssertThrowsError(try AspireBugTrackerCredentials
       .getCredentials(from: "no_file",
                       type: "plist",
                       bundle: testBundle,
@@ -41,7 +41,7 @@ final class InstabugCredentialsTests: XCTestCase {
   }
   
   func testThrowsCouldNotCreate() {
-    XCTAssertThrowsError(try InstabugCredentials
+    XCTAssertThrowsError(try AspireBugTrackerCredentials
       .getCredentials(from: "bad_instabug",
                       type: "plist",
                       bundle: testBundle,
