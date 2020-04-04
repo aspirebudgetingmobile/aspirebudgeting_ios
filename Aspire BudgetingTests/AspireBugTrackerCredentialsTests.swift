@@ -9,7 +9,7 @@
 @testable import Aspire_Budgeting
 import XCTest
 
-final class InstabugCredentialsTests: XCTestCase {
+final class AspireBugTrackerCredentialsTests: XCTestCase {
   
   var testBundle: Bundle {
     Bundle(for: type(of: self))

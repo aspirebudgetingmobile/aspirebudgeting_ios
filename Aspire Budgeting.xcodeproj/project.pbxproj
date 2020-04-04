@@ -17,7 +17,7 @@
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
 		06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157E9F2411E831000161C3 /* AspireBugTracker.swift */; };
 		06157EA42411EC7A000161C3 /* AspireBugTrackerCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA32411EC7A000161C3 /* AspireBugTrackerCredentials.swift */; };
-		06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */; };
+		06157EAA24130EEB000161C3 /* AspireBugTrackerCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA924130EEB000161C3 /* AspireBugTrackerCredentialsTests.swift */; };
 		06157EAC24131235000161C3 /* bad_instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06157EAB24131235000161C3 /* bad_instabug.plist */; };
 		061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF2F239DB75700A684EB /* AddTransactionView.swift */; };
 		061EEF3223A1F7D300A684EB /* AmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AmountTextField.swift */; };
@@ -98,7 +98,7 @@
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
 		06157E9F2411E831000161C3 /* AspireBugTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTracker.swift; sourceTree = "<group>"; };
 		06157EA32411EC7A000161C3 /* AspireBugTrackerCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTrackerCredentials.swift; sourceTree = "<group>"; };
-		06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentialsTests.swift; sourceTree = "<group>"; };
+		06157EA924130EEB000161C3 /* AspireBugTrackerCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTrackerCredentialsTests.swift; sourceTree = "<group>"; };
 		06157EAB24131235000161C3 /* bad_instabug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bad_instabug.plist; sourceTree = "<group>"; };
 		061EEF2F239DB75700A684EB /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		061EEF3123A1F7D300A684EB /* AmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTextField.swift; sourceTree = "<group>"; };
@@ -339,7 +339,7 @@
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
 				065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */,
-				06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */,
+				06157EA924130EEB000161C3 /* AspireBugTrackerCredentialsTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -647,7 +647,7 @@
 			files = (
 				06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */,
 				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
-				06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */,
+				06157EAA24130EEB000161C3 /* AspireBugTrackerCredentialsTests.swift in Sources */,
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
