@@ -9,15 +9,20 @@
 import Foundation
 
 struct AccountBalancesMetadata {
-  let accountBalances: [(account: String, balance: String)]
+  struct AccountBalance: Hashable {
+    let accountName: String
+    let balance: String
+  }
+  
+  let accountBalances: [AccountBalance]
   init(metadata: [[String]]) {
     accountBalances = AccountBalancesMetadata.parse(metadata: metadata)
   }
   
-  private static func parse(metadata: [[String]]) -> [(String, String)] {
-    var accountBalances = [(String, String)]()
+  private static func parse(metadata: [[String]]) -> [AccountBalance] {
+    var accountBalances = [AccountBalance]()
     for row in metadata {
-      accountBalances.append((row[0], row[1]))
+      accountBalances.append(AccountBalance(accountName: row[0], balance: row[1]))
     }
     return accountBalances
   }
