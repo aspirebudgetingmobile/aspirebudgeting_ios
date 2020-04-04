@@ -51,6 +51,7 @@ final class GoogleSheetsManager: ObservableObject {
   @Published public private(set) var dashboardMetadata: DashboardMetadata?
   @Published public private(set) var transactionCategories: [String]?
   @Published public private(set) var transactionAccounts: [String]?
+  @Published public private(set) var accountBalancesMetadata: AccountBalancesMetadata?
   
   init(sheetsService: GTLRService = GTLRSheetsService(),
        getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
@@ -238,6 +239,7 @@ final class GoogleSheetsManager: ObservableObject {
         self.persistSheetID(spreadsheet: spreadsheet)
         self.getTransactionCategories(spreadsheet: spreadsheet)
         self.getTransactionAccounts(spreadsheet: spreadsheet)
+        self.fetchAccountBalances(spreadsheet: spreadsheet)
       }
     }
   }
@@ -251,6 +253,19 @@ final class GoogleSheetsManager: ObservableObject {
         self.dashboardMetadata = DashboardMetadata(rows: values)
       }
     }
+  }
+  
+  func fetchAccountBalances(spreadsheet: File) {
+    os_log("Fetching Account Balances",
+           log: .sheetsManager, type: .default)
+    
+    let range = "Dashboard!B10:C"
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
+      if let values = valueRange.values as? [[String]] {
+        self.accountBalancesMetadata = AccountBalancesMetadata(metadata: values)
+      }
+    }
+    
   }
   
   private func createSheetsValueRangeFrom(amount: String,

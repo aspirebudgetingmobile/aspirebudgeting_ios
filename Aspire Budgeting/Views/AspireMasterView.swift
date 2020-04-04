@@ -18,8 +18,10 @@ struct AspireMasterView: View {
         AspireSegmentedView(selectedSegment: $selectedSegment)
         if selectedSegment == 0 {
           DashboardView(file: sheetsManager.defaultFile!)
-        } else {
+        } else if selectedSegment == 1 {
           AddTransactionView()
+        } else if selectedSegment == 2 {
+          AccountBalancesView()
         }
         
       }
