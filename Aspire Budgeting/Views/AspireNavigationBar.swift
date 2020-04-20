@@ -11,42 +11,50 @@ import SwiftUI
 
 struct AspireNavigationBar: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
+  @EnvironmentObject var sheetsManager: GoogleSheetsManager
+  
   @State var showSettings = false
+  @State var showAddTransactions = false
   
   let versionBuild = "Version: " + AspireVersionInfo.version + "; Build: " + AspireVersionInfo.build
   var body: some View {
-//    VStack {
-      ZStack {
-        Colors.aspireGray
-        VStack {
+    ZStack {
+      Colors.aspireGray
+      VStack {
+        Spacer()
+        HStack {
+          Image("logo").resizable().aspectRatio(contentMode: .fit).frame(maxHeight: 60)
+          Text("Aspire").font(.custom("Nunito-Regular", size: 30)).foregroundColor(.white)
+        }
+      }.padding(.bottom, 5)
+      VStack {
+        Spacer()
+        HStack {
           Spacer()
-          HStack {
-            Image("logo").resizable().aspectRatio(contentMode: .fit).frame(maxHeight: 60)
-            Text("Aspire").font(.custom("Nunito-Regular", size: 30)).foregroundColor(.white)
+          Button(action: {
+            self.showAddTransactions = true
+          }) {
+            Image(systemName: "plus").padding().foregroundColor(.white)
+          }.popover(isPresented: $showAddTransactions, arrowEdge: .bottom) {
+            AddTransactionView().environmentObject(self.sheetsManager)
           }
-        }.padding(.bottom, 5)
-        VStack {
-          Spacer()
-          HStack {
-            Spacer()
-            Button(action: {
-              print("Settings")
-              self.showSettings = true
-            }) {
-              Image(systemName: "gear").padding().foregroundColor(.white)
-            }.padding([.top, .bottom], 10)
-              .actionSheet(isPresented: $showSettings) {
-//                SettingsView().environmentObject(self.userManager)
-                ActionSheet(title: Text("Aspire Budgeting"),
-                            message: Text(self.versionBuild),
-                            buttons: [ActionSheet.Button.default(Text("Sign Out"), action: {
-                              self.userManager.signOut()
-                            }), ActionSheet.Button.cancel()])
-            }
+          
+          Button(action: {
+            print("Settings")
+            self.showSettings = true
+          }) {
+            Image(systemName: "gear").padding().foregroundColor(.white)
+          }.padding([.top, .bottom], 10)
+            .actionSheet(isPresented: $showSettings) {
+              ActionSheet(title: Text("Aspire Budgeting"),
+                          message: Text(self.versionBuild),
+                          buttons: [ActionSheet.Button.default(Text("Sign Out"), action: {
+                            self.userManager.signOut()
+                          }), ActionSheet.Button.cancel()])
           }
         }
       }
-//    }
+    }
   }
 }
 
