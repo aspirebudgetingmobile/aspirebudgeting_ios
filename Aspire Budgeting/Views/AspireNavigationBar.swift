@@ -35,7 +35,7 @@ struct AspireNavigationBar: View {
             self.showAddTransactions = true
           }) {
             Image(systemName: "plus").padding().foregroundColor(.white)
-          }.popover(isPresented: $showAddTransactions, arrowEdge: .bottom) {
+          }.sheet(isPresented: $showAddTransactions) {
             AddTransactionView().environmentObject(self.sheetsManager)
           }
           
