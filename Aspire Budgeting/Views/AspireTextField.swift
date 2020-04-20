@@ -9,7 +9,10 @@
 import SwiftUI
 
 struct AspireTextField: View {
-  @Binding var amount: String
+  @Binding var text: String
+  
+  let placeholder: String
+  let imageName: String
   
   var body: some View {
     ZStack {
@@ -21,13 +24,13 @@ struct AspireTextField: View {
         .opacity(0.95)
       
       HStack {
-        Image("dollar_icon").padding(.horizontal)
+        Image(imageName).padding(.horizontal)
         Spacer()
-        TextField("Enter Amount", text: $amount)
+        TextField(placeholder, text: $text)
           .keyboardType(.decimalPad)
           .padding(.horizontal)
           .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
-          .font(.rubikMedium(size: 18))
+          .font(.nunitoSemiBold(size: 25))
       }.padding()
     }
   }

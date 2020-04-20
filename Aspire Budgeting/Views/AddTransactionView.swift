@@ -18,6 +18,7 @@ struct AddTransactionView: View {
   }
   
   @State private var amountString = ""
+  @State private var memoString = ""
   
   @State private var showDatePicker = false
   @State private var selectedDate = Date()
@@ -39,14 +40,21 @@ struct AddTransactionView: View {
   
   var body: some View {
     ScrollView {
-      AmountTextField(amount: $amountString)
-      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
-        withAnimation {
-          self.dateSelected = true
-          self.showDatePicker.toggle()
-        }
-        
-      }.frame(height: 50).padding()
+      AspireTextField(text: $amountString,
+                      placeholder: "Enter Amount",
+                      imageName: "dollar_icon")
+
+      AspireTextField(text: $memoString,
+                      placeholder: "Add Memo",
+                      imageName: "memo_icon")
+      
+//      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
+//        withAnimation {
+//          self.dateSelected = true
+//          self.showDatePicker.toggle()
+//        }
+//        
+//      }.frame(height: 50).padding()
       if showDatePicker {
         DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
           Text("")
