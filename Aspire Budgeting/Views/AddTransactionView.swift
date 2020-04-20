@@ -42,18 +42,20 @@ struct AddTransactionView: View {
     ScrollView {
       AspireTextField(text: $amountString,
                       placeholder: "Enter Amount",
-                      imageName: "dollar_icon")
+                      imageName: "dollar_icon",
+                      keyboardType: .decimalPad)
 
       AspireTextField(text: $memoString,
                       placeholder: "Add Memo",
-                      imageName: "memo_icon")
+                      imageName: "memo_icon",
+                      keyboardType: .default)
       
 //      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
 //        withAnimation {
 //          self.dateSelected = true
 //          self.showDatePicker.toggle()
 //        }
-//        
+//
 //      }.frame(height: 50).padding()
       if showDatePicker {
         DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {

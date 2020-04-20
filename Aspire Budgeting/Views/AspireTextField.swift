@@ -13,6 +13,7 @@ struct AspireTextField: View {
   
   let placeholder: String
   let imageName: String
+  let keyboardType: UIKeyboardType
   
   var body: some View {
     ZStack {
@@ -27,7 +28,7 @@ struct AspireTextField: View {
         Image(imageName).padding(.horizontal)
         Spacer()
         TextField(placeholder, text: $text)
-          .keyboardType(.decimalPad)
+          .keyboardType(keyboardType)
           .padding(.horizontal)
           .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
           .font(.nunitoSemiBold(size: 25))
