@@ -14,6 +14,17 @@ struct AspireTextField: View {
   let placeholder: String
   let imageName: String
   let keyboardType: UIKeyboardType
+  let disabled: Bool
+  
+  init(text: Binding<String>, placeHolder: String, imageName: String,
+       keyboardType: UIKeyboardType,
+       disabled: Bool = false) {
+    self._text = text
+    self.placeholder = placeHolder
+    self.imageName = imageName
+    self.keyboardType = keyboardType
+    self.disabled = disabled
+  }
   
   var body: some View {
     ZStack {
@@ -22,7 +33,6 @@ struct AspireTextField: View {
         .frame(height: 50)
         .cornerRadius(5)
         .padding()
-        .opacity(0.95)
       
       HStack {
         Image(imageName).padding(.horizontal)
@@ -32,6 +42,7 @@ struct AspireTextField: View {
           .padding(.horizontal)
           .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
           .font(.nunitoSemiBold(size: 25))
+        .disabled(disabled)
       }.padding()
     }
   }

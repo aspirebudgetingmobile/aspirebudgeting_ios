@@ -33,6 +33,7 @@
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		06639B3D23BF53B3008E6E4C /* AspireOSLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06639B3C23BF53B3008E6E4C /* AspireOSLogs.swift */; };
 		066C3F31244E4732003CDE73 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */; };
+		066C3F33244E67CD003CDE73 /* AspirePickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066C3F32244E67CD003CDE73 /* AspirePickerButton.swift */; };
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
 		066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */; };
 		066EF45E235CF74500E94CE4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45D235CF74500E94CE4 /* User.swift */; };
@@ -118,6 +119,7 @@
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		06639B3C23BF53B3008E6E4C /* AspireOSLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireOSLogs.swift; sourceTree = "<group>"; };
 		066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
+		066C3F32244E67CD003CDE73 /* AspirePickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspirePickerButton.swift; sourceTree = "<group>"; };
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSplitColorView.swift; sourceTree = "<group>"; };
 		066EF45D235CF74500E94CE4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				061EEF3123A1F7D300A684EB /* AspireTextField.swift */,
 				06F9A8D224390D84005E5A13 /* AspireSegmentedItem.swift */,
 				06F9A8D424391357005E5A13 /* AccountBalancesView.swift */,
+				066C3F32244E67CD003CDE73 /* AspirePickerButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */,
 				065C718023838E9100DB46B2 /* Colors.swift in Sources */,
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
+				066C3F33244E67CD003CDE73 /* AspirePickerButton.swift in Sources */,
 				060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */,
 				069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */,
 				06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */,

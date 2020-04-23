@@ -38,18 +38,37 @@ struct AddTransactionView: View {
   @State private var showingAlert = false
   @State private var transactionAdded = false
   
+  func getDateString() -> String {
+    return dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date"
+  }
+  
   var body: some View {
     ScrollView {
-      AspireTextField(text: $amountString,
-                      placeholder: "Enter Amount",
-                      imageName: "dollar_icon",
-                      keyboardType: .decimalPad)
+      Group {
+        AspireTextField(text: $amountString,
+                        placeHolder: "Enter Amount",
+                        imageName: "dollar_icon",
+                        keyboardType: .decimalPad)
 
-      AspireTextField(text: $memoString,
-                      placeholder: "Add Memo",
-                      imageName: "memo_icon",
-                      keyboardType: .default)
+        AspireTextField(text: $memoString,
+                        placeHolder: "Add Memo",
+                        imageName: "memo_icon",
+                        keyboardType: .default)
+      }
       
+      AspirePickerButton(title: getDateString(), imageName: "calendar_icon") {
+        withAnimation {
+          self.dateSelected = true
+          self.showDatePicker.toggle()
+          print(self.selectedDate)
+        }
+      }
+//      AspirePickerButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", imageName: "calendar_icon") {
+//        withAnimation {
+//          self.dateSelected = true
+//          self.showDatePicker.toggle()
+//        }
+//      }
 //      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
 //        withAnimation {
 //          self.dateSelected = true
