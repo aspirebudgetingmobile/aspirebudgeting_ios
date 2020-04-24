@@ -9,14 +9,12 @@
 import SwiftUI
 
 struct AspirePickerButton: View {
-  @State var text: String
   let title: String
   let imageName: String
   let action: () -> Void
   
   init(title: String, imageName: String,
        action: @escaping () -> Void) {
-    _text = State(initialValue: "")
     self.title = title
     self.imageName = imageName
     self.action = action
@@ -24,8 +22,24 @@ struct AspirePickerButton: View {
   
   var body: some View {
     Button(action: action) {
-      AspireTextField(text: $text, placeHolder: title, imageName: "calendar_icon", keyboardType: .default, disabled: true)
-    }.buttonStyle(PlainButtonStyle())
+      ZStack {
+        Rectangle()
+          .foregroundColor(Color.init(red: 0.769, green: 0.769, blue: 0.769))
+          .frame(height: 50)
+          .cornerRadius(5)
+        
+        HStack {
+          Image(imageName).padding(.horizontal)
+          Text(self.title)
+            .padding(.horizontal)
+            .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
+            .font(.nunitoSemiBold(size: 25))
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+      }
+    }
+    .buttonStyle(PlainButtonStyle())
+    .padding()
   }
 }
 
