@@ -168,6 +168,7 @@ final class GoogleSheetsManager: ObservableObject {
   }
   
   private func createSheetsValueRangeFrom(amount: String,
+                                          memo: String,
                                           date: Date,
                                           category: Int,
                                           account: Int,
@@ -195,7 +196,7 @@ final class GoogleSheetsManager: ObservableObject {
     
     valuesToInsert.append(transactionCategories![category])
     valuesToInsert.append(transactionAccounts![account])
-    valuesToInsert.append("Added from Aspire iOS app")
+    valuesToInsert.append("\(memo) - Added from Aspire iOS app")
     
     guard let version = self.aspireVersion else {
       fatalError("Aspire Version is nil")
@@ -328,12 +329,12 @@ extension GoogleSheetsManager {
 
 // MARK: Writing to Google Sheets
 extension GoogleSheetsManager {
-  func addTransaction(amount: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
+  func addTransaction(amount: String, memo: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
     
     os_log("Adding transaction",
            log: .sheetsManager, type: .default)
     
-    let valuesToInsert = createSheetsValueRangeFrom(amount: amount, date: date, category: category, account: account, transactionType: transactionType, approvalType: approvalType)
+    let valuesToInsert = createSheetsValueRangeFrom(amount: amount, memo: memo, date: date, category: category, account: account, transactionType: transactionType, approvalType: approvalType)
     
     guard let authorizer = self.authorizer else {
       os_log("Aspire version is nil",
