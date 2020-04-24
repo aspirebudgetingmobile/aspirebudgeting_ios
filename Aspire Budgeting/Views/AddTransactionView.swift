@@ -120,7 +120,7 @@ struct AddTransactionView: View {
           self.dateSelected &&
           self.categorySelected &&
           self.accountSelected {
-          self.sheetsManager.addTransaction(amount: self.amountString,memo: self.memoString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType) { result in
+          self.sheetsManager.addTransaction(amount: self.amountString, memo: self.memoString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType) { result in
             self.transactionAdded = result
             self.showingAlert = true
           }
