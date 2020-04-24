@@ -32,8 +32,8 @@ struct AddTransactionView: View {
   @State private var accountSelected = false
   @State private var selectedAccount = 0
   
-  @State private var transactionType = 0
-  @State private var approvalType = 0
+  @State private var transactionType = -1
+  @State private var approvalType = -1
   
   @State private var showingAlert = false
   @State private var transactionAdded = false
@@ -105,17 +105,11 @@ struct AddTransactionView: View {
         }
       }
       
-      Picker(selection: $transactionType, label: Text("")) {
-        Text("Inflow").tag(0)
-        Text("Outflow").tag(1)
-      }.pickerStyle(SegmentedPickerStyle()).padding()
+      AspireRadioControl(selectedOption: $transactionType, firstOption: "Inflow", secondOption: "Outflow")
       
-      Picker(selection: $approvalType, label: Text("")) {
-        Text("Approved").tag(0)
-        Text("Pending").tag(1)
-      }.pickerStyle(SegmentedPickerStyle()).padding()
+      AspireRadioControl(selectedOption: $approvalType, firstOption: "Approved", secondOption: "Pending")
       
-      AspireButton(title: "Add", type: .red) {
+      AspireButton(title: "Add", type: .green) {
         if self.amountString != "" &&
           self.dateSelected &&
           self.categorySelected &&
