@@ -52,7 +52,6 @@ struct DashboardView: View {
       .edgesIgnoringSafeArea(.all).onAppear {
 
       self.sheetsManager.verifySheet(spreadsheet: self.file)
-      self.sheetsManager.fetchCategoriesAndGroups(spreadsheet: self.file)
     }
   }
 }
