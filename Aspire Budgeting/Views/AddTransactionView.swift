@@ -18,6 +18,7 @@ struct AddTransactionView: View {
   }
   
   @State private var amountString = ""
+  @State private var memoString = ""
   
   @State private var showDatePicker = false
   @State private var selectedDate = Date()
@@ -31,33 +32,66 @@ struct AddTransactionView: View {
   @State private var accountSelected = false
   @State private var selectedAccount = 0
   
-  @State private var transactionType = 0
-  @State private var approvalType = 0
+  @State private var transactionType = -1
+  @State private var approvalType = -1
   
   @State private var showingAlert = false
   @State private var transactionAdded = false
   
+  func getDateString() -> String {
+    return dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date"
+  }
+  
+  func getSelectedCategory() -> String {
+    return categorySelected ? self.sheetsManager.transactionCategories![selectedCategory]: "Select Category"
+  }
+  
+  func getSelectedAccount() -> String {
+    return accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account"
+  }
+  
+  func clearInputs() {
+    self.amountString = ""
+    self.memoString = ""
+    self.dateSelected = false
+    self.categorySelected = false
+    self.accountSelected = false
+    self.transactionType = -1
+    self.approvalType = -1
+  }
+  
   var body: some View {
     ScrollView {
-      AmountTextField(amount: $amountString)
-      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
+      Group {
+        AspireTextField(text: $amountString,
+                        placeHolder: "Enter Amount",
+                        imageName: "dollar_icon",
+                        keyboardType: .decimalPad)
+
+        AspireTextField(text: $memoString,
+                        placeHolder: "Add Memo",
+                        imageName: "memo_icon",
+                        keyboardType: .default)
+      }
+      
+      AspirePickerButton(title: getDateString(), imageName: "calendar_icon") {
         withAnimation {
           self.dateSelected = true
           self.showDatePicker.toggle()
         }
-        
-      }.frame(height: 50).padding()
+      }
       if showDatePicker {
         DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
           Text("")
         }.foregroundColor(Color.white)
       }
-      AspireButton(title: categorySelected ? self.sheetsManager.transactionCategories![selectedCategory]: "Select Category", type: .green, imageName: "categories_icon") {
+      
+      AspirePickerButton(title: getSelectedCategory(), imageName: "categories_icon") {
         withAnimation {
           self.categorySelected = true
           self.showCategoriesPicker.toggle()
         }
-      }.disabled(self.sheetsManager.transactionCategories == nil).frame(height: 50).padding()
+      }.disabled(self.sheetsManager.transactionCategories == nil)
       if showCategoriesPicker {
         Picker(selection: $selectedCategory, label: Text("")) {
           ForEach(0..<self.sheetsManager.transactionCategories!.count) {
@@ -66,12 +100,12 @@ struct AddTransactionView: View {
         }
       }
       
-      AspireButton(title: accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account", type: .green) {
+      AspirePickerButton(title: getSelectedAccount(), imageName: "accounts_icon") {
         withAnimation {
           self.accountSelected = true
           self.showAccountPicker.toggle()
         }
-      }.disabled(self.sheetsManager.transactionAccounts == nil).frame(height: 50).padding()
+      }.disabled(self.sheetsManager.transactionAccounts == nil)
       if showAccountPicker {
         Picker(selection: $selectedAccount, label: Text("")) {
           ForEach(0..<self.sheetsManager.transactionAccounts!.count) {
@@ -80,22 +114,17 @@ struct AddTransactionView: View {
         }
       }
       
-      Picker(selection: $transactionType, label: Text("")) {
-        Text("Inflow").tag(0)
-        Text("Outflow").tag(1)
-      }.pickerStyle(SegmentedPickerStyle()).padding()
+      AspireRadioControl(selectedOption: $transactionType, firstOption: "Inflow", secondOption: "Outflow")
       
-      Picker(selection: $approvalType, label: Text("")) {
-        Text("Approved").tag(0)
-        Text("Pending").tag(1)
-      }.pickerStyle(SegmentedPickerStyle()).padding()
+      AspireRadioControl(selectedOption: $approvalType, firstOption: "Approved", secondOption: "Pending")
       
-      AspireButton(title: "Add", type: .red) {
+      AspireButton(title: "Add", type: .green) {
         if self.amountString != "" &&
           self.dateSelected &&
           self.categorySelected &&
           self.accountSelected {
-          self.sheetsManager.addTransaction(amount: self.amountString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType) { result in
+          self.sheetsManager.addTransaction(amount: self.amountString, memo: self.memoString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType) { result in
+            self.clearInputs()
             self.transactionAdded = result
             self.showingAlert = true
           }

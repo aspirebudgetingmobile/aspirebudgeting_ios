@@ -14,24 +14,24 @@ struct AspireSegmentedView: View {
   var body: some View {
     ZStack {
       Rectangle().frame(height: 55).background(Color.red).opacity(0.06)
-      ScrollView(.horizontal, showsIndicators: false, content: {
+//      ScrollView(.horizontal, showsIndicators: false, content: {
         VStack {
           HStack(spacing: 0) {
             
             AspireSegmentedItem(title: "Dashboard",
                                 itemIndex: 0, selectedSegment: $selectedSegment)
             
-            AspireSegmentedItem(title: "Add Transaction",
-                                itemIndex: 1, selectedSegment: $selectedSegment)
+//            AspireSegmentedItem(title: "Add Transaction",
+//                                itemIndex: 1, selectedSegment: $selectedSegment)
             
             AspireSegmentedItem(title: "Account Balances",
-                                itemIndex: 2, selectedSegment: $selectedSegment)
+                                itemIndex: 1, selectedSegment: $selectedSegment)
             
           }
           .frame(minWidth: 0, maxWidth: .infinity)
           
         }
-      })
+//      })
     }
     
   }

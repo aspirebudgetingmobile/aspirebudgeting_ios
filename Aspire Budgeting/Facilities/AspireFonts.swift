@@ -20,4 +20,8 @@ extension Font {
   static func rubikMedium(size: CGFloat) -> Font {
     return Font.custom("Rubik-Medium", size: size)
   }
+  
+  static func nunitoSemiBold(size: CGFloat) -> Font {
+    return Font.custom("Nunito-SemiBold", size: size)
+  }
 }

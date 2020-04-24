@@ -9,7 +9,22 @@
 import SwiftUI
 
 struct AspireTextField: View {
-  @Binding var amount: String
+  @Binding var text: String
+  
+  let placeholder: String
+  let imageName: String
+  let keyboardType: UIKeyboardType
+  let disabled: Bool
+  
+  init(text: Binding<String>, placeHolder: String, imageName: String,
+       keyboardType: UIKeyboardType,
+       disabled: Bool = false) {
+    self._text = text
+    self.placeholder = placeHolder
+    self.imageName = imageName
+    self.keyboardType = keyboardType
+    self.disabled = disabled
+  }
   
   var body: some View {
     ZStack {
@@ -18,16 +33,16 @@ struct AspireTextField: View {
         .frame(height: 50)
         .cornerRadius(5)
         .padding()
-        .opacity(0.95)
       
       HStack {
-        Image("dollar_icon").padding(.horizontal)
+        Image(imageName).padding(.horizontal)
         Spacer()
-        TextField("Enter Amount", text: $amount)
-          .keyboardType(.decimalPad)
+        TextField(placeholder, text: $text)
+          .keyboardType(keyboardType)
           .padding(.horizontal)
           .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
-          .font(.rubikMedium(size: 18))
+          .font(.nunitoSemiBold(size: 25))
+        .disabled(disabled)
       }.padding()
     }
   }

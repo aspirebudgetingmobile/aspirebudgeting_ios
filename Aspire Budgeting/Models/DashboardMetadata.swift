@@ -15,15 +15,15 @@ struct DashboardMetadata {
   let groupedBudgetedTotals: [AspireNumber]
   let groupedSpentTotals: [AspireNumber]
   
-  init(rows: [[String]]) {
+  init(rows: [[String]], sheetVersion: GoogleSheetsManager.SupportedAspireVersions) {
     (groups,
      groupedCategoryRows,
      groupedAvailableTotals,
      groupedBudgetedTotals,
-     groupedSpentTotals) = DashboardMetadata.parse(rows: rows)
+     groupedSpentTotals) = DashboardMetadata.parse(rows: rows, sheetVersion: sheetVersion)
   }
   
-  private static func parse(rows: [[String]]) -> ([String], [[DashboardCategoryRow]], [AspireNumber], [AspireNumber], [AspireNumber]) {
+  private static func parse(rows: [[String]], sheetVersion: GoogleSheetsManager.SupportedAspireVersions) -> ([String], [[DashboardCategoryRow]], [AspireNumber], [AspireNumber], [AspireNumber]) {
     var lastIndex = -1
     var tempGroups = [String]()
     var tempGroupedCategoryRow = [[DashboardCategoryRow]]()
@@ -40,11 +40,17 @@ struct DashboardMetadata {
     numFormatter.minimumFractionDigits = 2
     
     for row in rows {
-      if row.count == 1 {
+      if row.count == 1 || row[0] == "✦"{
         os_log("Encountered a Group row",
                log: .dashboardMetadata, type: .default)
         lastIndex += 1
-        tempGroups.append(row[0])
+        
+        if sheetVersion == .threeTwo {
+          tempGroups.append(row[2])
+        } else {
+          tempGroups.append(row[0])
+        }
+        
         
         tempGroupedCategoryRow.append([DashboardCategoryRow]())
         tempAvailableTotals.append(AspireNumber())
@@ -56,7 +62,7 @@ struct DashboardMetadata {
         spentTotal = 0
         
       } else {
-        let categoryRow = DashboardCategoryRow(row: row)
+        let categoryRow = DashboardCategoryRow(row: row, sheetVersion: sheetVersion)
         tempGroupedCategoryRow[lastIndex].append(categoryRow)
         availableTotal += numFormatter.number(from: categoryRow.available)?.decimalValue ?? 0
         budgetedTotal += numFormatter.number(from: categoryRow.budgeted)?.decimalValue ?? 0

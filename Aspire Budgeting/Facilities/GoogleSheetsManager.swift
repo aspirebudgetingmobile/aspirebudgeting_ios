@@ -28,6 +28,7 @@ final class GoogleSheetsManager: ObservableObject {
     case twoEight = "2.8"
     case three = "3.0"
     case threeOne = "3.1.0"
+    case threeTwo = "3.2.0"
   }
   
   static let defaultsSheetsKey = "Aspire_Sheet"
@@ -168,6 +169,7 @@ final class GoogleSheetsManager: ObservableObject {
   }
   
   private func createSheetsValueRangeFrom(amount: String,
+                                          memo: String,
                                           date: Date,
                                           category: Int,
                                           account: Int,
@@ -195,7 +197,7 @@ final class GoogleSheetsManager: ObservableObject {
     
     valuesToInsert.append(transactionCategories![category])
     valuesToInsert.append(transactionAccounts![account])
-    valuesToInsert.append("Added from Aspire iOS app")
+    valuesToInsert.append("\(memo) - Added from Aspire iOS app")
     
     guard let version = self.aspireVersion else {
       fatalError("Aspire Version is nil")
@@ -209,7 +211,7 @@ final class GoogleSheetsManager: ObservableObject {
         valuesToInsert.append("⏺")
       }
       
-    case .three, .threeOne:
+    case .three, .threeOne, .threeTwo:
       if approvalType == 0 {
         valuesToInsert.append("✅")
       } else {
@@ -241,6 +243,8 @@ extension GoogleSheetsManager {
       range = "BackendData!B2:B"
     case .three, .threeOne:
       range = "BackendData!F2:F"
+    case .threeTwo:
+      range = "BackendData!G2:G"
     }
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
@@ -273,6 +277,8 @@ extension GoogleSheetsManager {
       range = "BackendData!H2:H"
     case .threeOne:
       range = "BackendData!J2:J"
+    case .threeTwo:
+      range = "BackendData!M2:M"
     }
     
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
@@ -295,6 +301,7 @@ extension GoogleSheetsManager {
       if let version = valueRange.values?.first?.last as? String {
         self.aspireVersion = SupportedAspireVersions(rawValue: version)
         self.persistSheetID(spreadsheet: spreadsheet)
+        self.fetchCategoriesAndGroups(spreadsheet: spreadsheet)
         self.getTransactionCategories(spreadsheet: spreadsheet)
         self.getTransactionAccounts(spreadsheet: spreadsheet)
         self.fetchAccountBalances(spreadsheet: spreadsheet)
@@ -306,9 +313,22 @@ extension GoogleSheetsManager {
     os_log("Fetching Categories and groups",
            log: .sheetsManager, type: .default)
     
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "Dashboard!H4:O") { (valueRange) in
+     guard let version = self.aspireVersion else {
+         os_log("Aspire version is nil",
+                log: .sheetsManager, type: .error)
+         fatalError("Aspire Version is nil")
+       }
+       
+       let range: String
+       switch version {
+       case .twoEight, .three, .threeOne:
+         range = "Dashboard!H4:O"
+       case .threeTwo:
+         range = "Dashboard!F6:O"
+       }
+    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
       if let values = valueRange.values as? [[String]] {
-        self.dashboardMetadata = DashboardMetadata(rows: values)
+        self.dashboardMetadata = DashboardMetadata(rows: values, sheetVersion: version)
       }
     }
   }
@@ -317,7 +337,20 @@ extension GoogleSheetsManager {
     os_log("Fetching Account Balances",
            log: .sheetsManager, type: .default)
     
-    let range = "Dashboard!B10:C"
+    guard let version = self.aspireVersion else {
+      os_log("Aspire version is nil",
+             log: .sheetsManager, type: .error)
+      fatalError("Aspire Version is nil")
+    }
+    
+    let range: String
+    switch version {
+    case .twoEight, .three, .threeOne:
+      range = "Dashboard!B10:C"
+    case .threeTwo:
+      range = "Dashboard!B8:C"
+    }
+
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
       if let values = valueRange.values as? [[String]] {
         self.accountBalancesMetadata = AccountBalancesMetadata(metadata: values)
@@ -328,12 +361,12 @@ extension GoogleSheetsManager {
 
 // MARK: Writing to Google Sheets
 extension GoogleSheetsManager {
-  func addTransaction(amount: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
+  func addTransaction(amount: String, memo: String, date: Date, category: Int, account: Int, transactionType: Int, approvalType: Int, completion: @escaping (Bool) -> Void) {
     
     os_log("Adding transaction",
            log: .sheetsManager, type: .default)
     
-    let valuesToInsert = createSheetsValueRangeFrom(amount: amount, date: date, category: category, account: account, transactionType: transactionType, approvalType: approvalType)
+    let valuesToInsert = createSheetsValueRangeFrom(amount: amount, memo: memo, date: date, category: category, account: account, transactionType: transactionType, approvalType: approvalType)
     
     guard let authorizer = self.authorizer else {
       os_log("Aspire version is nil",
