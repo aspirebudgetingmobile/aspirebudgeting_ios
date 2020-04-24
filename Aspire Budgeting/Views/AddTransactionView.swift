@@ -42,6 +42,14 @@ struct AddTransactionView: View {
     return dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date"
   }
   
+  func getSelectedCategory() -> String {
+    return categorySelected ? self.sheetsManager.transactionCategories![selectedCategory]: "Select Category"
+  }
+  
+  func getSelectedAccount() -> String {
+    return accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account"
+  }
+  
   var body: some View {
     ScrollView {
       Group {
@@ -63,30 +71,18 @@ struct AddTransactionView: View {
           print(self.selectedDate)
         }
       }
-//      AspirePickerButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", imageName: "calendar_icon") {
-//        withAnimation {
-//          self.dateSelected = true
-//          self.showDatePicker.toggle()
-//        }
-//      }
-//      AspireButton(title: dateSelected ? dateFormatter.string(from: selectedDate) : "Select Date", type: .green, imageName: "calendar_icon") {
-//        withAnimation {
-//          self.dateSelected = true
-//          self.showDatePicker.toggle()
-//        }
-//
-//      }.frame(height: 50).padding()
       if showDatePicker {
         DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
           Text("")
         }.foregroundColor(Color.white)
       }
-      AspireButton(title: categorySelected ? self.sheetsManager.transactionCategories![selectedCategory]: "Select Category", type: .green, imageName: "categories_icon") {
+      
+      AspirePickerButton(title: getSelectedCategory(), imageName: "categories_icon") {
         withAnimation {
           self.categorySelected = true
           self.showCategoriesPicker.toggle()
         }
-      }.disabled(self.sheetsManager.transactionCategories == nil).frame(height: 50).padding()
+      }.disabled(self.sheetsManager.transactionCategories == nil)
       if showCategoriesPicker {
         Picker(selection: $selectedCategory, label: Text("")) {
           ForEach(0..<self.sheetsManager.transactionCategories!.count) {
@@ -95,12 +91,12 @@ struct AddTransactionView: View {
         }
       }
       
-      AspireButton(title: accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account", type: .green) {
+      AspirePickerButton(title: getSelectedAccount(), imageName: "accounts_icon") {
         withAnimation {
           self.accountSelected = true
           self.showAccountPicker.toggle()
         }
-      }.disabled(self.sheetsManager.transactionAccounts == nil).frame(height: 50).padding()
+      }.disabled(self.sheetsManager.transactionAccounts == nil)
       if showAccountPicker {
         Picker(selection: $selectedAccount, label: Text("")) {
           ForEach(0..<self.sheetsManager.transactionAccounts!.count) {
