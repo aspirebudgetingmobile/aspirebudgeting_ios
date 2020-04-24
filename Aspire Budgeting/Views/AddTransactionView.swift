@@ -78,7 +78,6 @@ struct AddTransactionView: View {
         withAnimation {
           self.dateSelected = true
           self.showDatePicker.toggle()
-          print(self.selectedDate)
         }
       }
       if showDatePicker {
