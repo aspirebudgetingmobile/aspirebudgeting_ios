@@ -322,13 +322,13 @@ extension GoogleSheetsManager {
        let range: String
        switch version {
        case .twoEight, .three, .threeOne:
-         range = "Dashboard!H4:O"
+         range = "Dashboard!F4:O"
        case .threeTwo:
          range = "Dashboard!F6:O"
        }
     fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { (valueRange) in
       if let values = valueRange.values as? [[String]] {
-        self.dashboardMetadata = DashboardMetadata(rows: values, sheetVersion: version)
+        self.dashboardMetadata = DashboardMetadata(rows: values)
       }
     }
   }
