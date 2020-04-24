@@ -50,6 +50,16 @@ struct AddTransactionView: View {
     return accountSelected ? self.sheetsManager.transactionAccounts![selectedAccount] : "Select Account"
   }
   
+  func clearInputs() {
+    self.amountString = ""
+    self.memoString = ""
+    self.dateSelected = false
+    self.categorySelected = false
+    self.accountSelected = false
+    self.transactionType = -1
+    self.approvalType = -1
+  }
+  
   var body: some View {
     ScrollView {
       Group {
@@ -115,6 +125,7 @@ struct AddTransactionView: View {
           self.categorySelected &&
           self.accountSelected {
           self.sheetsManager.addTransaction(amount: self.amountString, memo: self.memoString, date: self.selectedDate, category: self.selectedCategory, account: self.selectedAccount, transactionType: self.transactionType, approvalType: self.approvalType) { result in
+            self.clearInputs()
             self.transactionAdded = result
             self.showingAlert = true
           }
