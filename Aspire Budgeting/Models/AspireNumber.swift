@@ -8,10 +8,18 @@
 
 import Foundation
 
-struct AspireNumber: Equatable {
+struct AspireNumber: Equatable, Hashable {
   let stringValue: String
   let decimalValue: Decimal
   let isNegative: Bool
+  
+  init(stringValue: String) {
+    let numFormatter = NumberFormatter()
+    numFormatter.numberStyle = .currency
+    numFormatter.minimumFractionDigits = 2
+    
+    self.init(stringValue: stringValue, decimalValue: numFormatter.number(from: stringValue)?.decimalValue ?? 0)
+  }
   
   init(stringValue: String = "",
        decimalValue: Decimal = 0) {
