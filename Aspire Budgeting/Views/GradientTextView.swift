@@ -16,22 +16,23 @@ struct GradientTextView: View {
   let paddingLength: CGFloat?
   let gradient: LinearGradient
 
-    var body: some View {
-        Text(string)
-          .tracking(tracking)
+  var body: some View {
+    Text(string)
+      .tracking(tracking)
+      .font(font)
+      .padding(paddingEdges, paddingLength)
+      .foregroundColor(.clear)
+      .overlay(gradient
+        .mask(Text(string)
+          .tracking(1)
           .font(font)
-          .padding(paddingEdges, paddingLength)
-          .foregroundColor(.clear)
-          .overlay(gradient
-            .mask(Text(string)
-              .tracking(1)
-              .font(font)
-              .scaledToFill()))
-    }
+          .scaledToFill())
+      )
+  }
 }
 
-//struct GradientTextView_Previews: PreviewProvider {
+// struct GradientTextView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        GradientTextView()
 //    }
-//}
+// }

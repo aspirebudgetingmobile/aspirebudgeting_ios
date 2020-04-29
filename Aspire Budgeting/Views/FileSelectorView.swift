@@ -13,9 +13,9 @@ struct FileSelectorView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
-  
+
   @State var selectedFile: File?
-  
+
   var body: some View {
     ZStack {
       if self.userManager.user != nil {
@@ -42,7 +42,6 @@ struct FileSelectorView: View {
           }
         }
       }
-      
       if self.driveManager.error != nil {
         Text("Error occured")
       }
@@ -50,8 +49,8 @@ struct FileSelectorView: View {
   }
 }
 
-//struct FileSelectorView_Previews: PreviewProvider {
+// struct FileSelectorView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FileSelectorView()
 //    }
-//}
+// }

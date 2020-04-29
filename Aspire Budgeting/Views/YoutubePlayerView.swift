@@ -10,10 +10,7 @@ import SwiftUI
 import WebKit
 
 struct YoutubePlayerView: UIViewRepresentable {
-
-  func updateUIView(_ uiView: WKWebView, context: UIViewRepresentableContext<YoutubePlayerView>) {
-    
-  }
+  func updateUIView(_ uiView: WKWebView, context: UIViewRepresentableContext<YoutubePlayerView>) {}
   
   func makeUIView(context: UIViewRepresentableContext<YoutubePlayerView>) -> WKWebView {
     let webConfiguration = WKWebViewConfiguration()
