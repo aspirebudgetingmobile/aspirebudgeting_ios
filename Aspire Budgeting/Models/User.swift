@@ -10,7 +10,7 @@ import GTMSessionFetcher
 protocol AspireUser {
   associatedtype Profile: AspireProfile
   associatedtype Authentication: AspireAuthentication
-  
+
   var profile: Profile! { get }
   var authentication: Authentication! { get }
 }
@@ -23,19 +23,20 @@ protocol AspireAuthentication {
   func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol!
 }
 
-extension GIDAuthentication: AspireAuthentication { }
+extension GIDAuthentication: AspireAuthentication {}
 
 extension GIDGoogleUser: AspireUser {
   typealias Profile = GIDProfileData
-  
+
   typealias Authentication = GIDAuthentication
 }
+
 extension GIDProfileData: AspireProfile {}
 
 struct User {
   let name: String
   let authorizer: GTMFetcherAuthorizationProtocol
-  
+
   init<U>(googleUser: U) where U: AspireUser {
     name = googleUser.profile.name
     authorizer = googleUser.authentication.fetcherAuthorizer()

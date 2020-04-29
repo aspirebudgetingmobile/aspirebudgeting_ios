@@ -11,11 +11,11 @@ struct DashboardCategoryRow: Hashable {
   let available: String
   let spent: String
   let budgeted: String
-  
+
   init(row: [String]) {
-      categoryName = row[2]
-      available = row[3]
-      spent = row[6]
-      budgeted = row[9]
+    categoryName = row[2]
+    available = row[3]
+    spent = row[6]
+    budgeted = row[9]
   }
 }
