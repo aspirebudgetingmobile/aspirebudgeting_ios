@@ -72,7 +72,7 @@ trailing_comma:
   mandatory_comma: true
 
 function_body_length:
-  warning: 50
+  warning: 80
 
 empty_count: warning
 
