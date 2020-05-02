@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AspireVersionInfo {
+enum AspireVersionInfo {
   private static let infoDictionary = Bundle.main.infoDictionary
 
   static var build: String {

@@ -57,7 +57,9 @@ excluded: # paths to ignore during linting. Takes precedence over `included`. Th
   - Pods
   - Carthage
 
-line_length: 100
+line_length:
+  warning: 100
+  error: 120
 
 type_body_length:
   warning: 500
@@ -75,5 +77,9 @@ function_body_length:
   warning: 80
 
 empty_count: warning
+
+function_parameter_count:
+  warning: 10
+  error: 12
 
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube)

@@ -74,7 +74,6 @@
 		06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A68235A9090009BA6A7 /* Assets.xcassets */; };
 		06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */; };
 		06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6D235A9090009BA6A7 /* LaunchScreen.storyboard */; };
-		06ED8A7A235A9091009BA6A7 /* Aspire_BudgetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */; };
 		06F121F42429A66600BC4766 /* instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06F121F32429A66600BC4766 /* instabug.plist */; };
 		06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D224390D84005E5A13 /* AspireSegmentedItem.swift */; };
 		06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D424391357005E5A13 /* AccountBalancesView.swift */; };
@@ -164,7 +163,6 @@
 		06ED8A6E235A9090009BA6A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06ED8A70235A9090009BA6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06ED8A75235A9091009BA6A7 /* Aspire BudgetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aspire BudgetingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aspire_BudgetingTests.swift; sourceTree = "<group>"; };
 		06ED8A7B235A9091009BA6A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06F121F32429A66600BC4766 /* instabug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = instabug.plist; sourceTree = "<group>"; };
 		06F9A8D224390D84005E5A13 /* AspireSegmentedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSegmentedItem.swift; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				06A9604A235FC26E0058EE64 /* Resources */,
-				06ED8A79235A9091009BA6A7 /* Aspire_BudgetingTests.swift */,
 				06ED8A7B235A9091009BA6A7 /* Info.plist */,
 				06A96048235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift */,
 				06A96053235FF2620058EE64 /* UserManagerTests.swift */,
@@ -675,7 +672,6 @@
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
-				06ED8A7A235A9091009BA6A7 /* Aspire_BudgetingTests.swift in Sources */,
 				06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */,
 				06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */,
 				065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */,

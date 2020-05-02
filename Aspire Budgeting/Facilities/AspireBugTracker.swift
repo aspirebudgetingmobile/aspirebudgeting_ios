@@ -48,7 +48,7 @@ struct AspireBugTracker {
       withToken: instabugKey,
       invocationEvents: [
         .shake,
-        .screenshot
+        .screenshot,
       ]
     )
   }

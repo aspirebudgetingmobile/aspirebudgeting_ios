@@ -53,7 +53,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     stateManagerSink = stateManager.$currentStatePublisher
-      .sink(receiveValue: { [weak self] currentState in
+      .sink { [weak self] currentState in
         guard let weakSelf = self else { return }
 
         switch currentState {
@@ -69,7 +69,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         default:
           print("The current state is \(currentState)")
         }
-      })
+      }
 
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()
