@@ -22,12 +22,12 @@ struct AccountBalancesView: View {
     ZStack {
       Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
 
-      if self.sheetsManager.error == nil {
-        if self.sheetsManager.accountBalancesMetadata?.accountBalances != nil {
+      if sheetsManager.error == nil {
+        if sheetsManager.accountBalancesMetadata?.accountBalances != nil {
           List {
             // TODO: teeks - line_length
             ForEach(
-              self.sheetsManager.accountBalancesMetadata!.accountBalances,
+              sheetsManager.accountBalancesMetadata!.accountBalances,
               id: \.self
             ) { accountBalance in
               VStack(alignment: .leading) {
@@ -67,7 +67,7 @@ struct AccountBalancesView: View {
       } else {
         ZStack {
           Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-          ErrorBannerView(error: self.sheetsManager.error!)
+          ErrorBannerView(error: sheetsManager.error!)
         }
       }
     }

@@ -47,7 +47,7 @@ final class StateManager: ObservableObject {
   }()
 
   init() {
-    self.authorizerObserver =
+    authorizerObserver =
       NotificationCenter.default.addObserver(
         forName: .authorizerUpdated,
         object: nil,
@@ -61,7 +61,7 @@ final class StateManager: ObservableObject {
         self.transition(to: .verifiedGoogleUser)
       }
 
-    self.localAuthObserver =
+    localAuthObserver =
       NotificationCenter.default.addObserver(
         forName: .authorizedLocally,
         object: nil,
@@ -92,7 +92,7 @@ final class StateManager: ObservableObject {
         }
       }
 
-    self.backgroundObserver =
+    backgroundObserver =
       NotificationCenter.default.addObserver(
         forName: Notification.Name("background"),
         object: nil,
@@ -106,7 +106,7 @@ final class StateManager: ObservableObject {
         self.transition(to: .needsLocalAuthentication)
       }
 
-    self.defaultSheetObserver = NotificationCenter.default.addObserver(
+    defaultSheetObserver = NotificationCenter.default.addObserver(
       forName: .hasSheetInDefaults,
       object: nil,
       queue: nil
@@ -119,7 +119,7 @@ final class StateManager: ObservableObject {
       self.transition(to: .hasDefaultSheet)
     }
 
-    self.logoutObserver = NotificationCenter.default.addObserver(
+    logoutObserver = NotificationCenter.default.addObserver(
       forName: .logout,
       object: nil,
       queue: nil
@@ -134,9 +134,9 @@ final class StateManager: ObservableObject {
   }
 
   func transition(to nextState: State) {
-    if self.canTransition(to: nextState) {
-      self.currentState = nextState
-      self.currentStatePublisher = nextState
+    if canTransition(to: nextState) {
+      currentState = nextState
+      currentStatePublisher = nextState
     } else {
       os_log(
         "Invalid state transition. No state transition performed.",

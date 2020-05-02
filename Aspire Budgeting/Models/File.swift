@@ -21,8 +21,8 @@ struct File: Identifiable, Codable {
   let name: String
 
   init(driveFile: AspireFile) {
-    self.name = driveFile.name ?? "no file name"
-    self.id = driveFile.identifier ?? ""
+    name = driveFile.name ?? "no file name"
+    id = driveFile.identifier ?? ""
   }
 }
 

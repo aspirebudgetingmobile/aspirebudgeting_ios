@@ -30,6 +30,6 @@ struct AspireNumber: Equatable, Hashable {
   ) {
     self.stringValue = stringValue
     self.decimalValue = decimalValue
-    self.isNegative = decimalValue < 0
+    isNegative = decimalValue < 0
   }
 }
