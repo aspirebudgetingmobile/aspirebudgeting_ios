@@ -11,7 +11,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
   private let objectFactory = ObjectFactory()
 
-  private var driveManager: GoogleDriveManager!
   private var sheetsManager: GoogleSheetsManager!
   private var localAuthorizationManager: LocalAuthorizationManager!
   private var stateManager: StateManager!
@@ -36,9 +35,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     objectFactory.bugTracker.start()
 
-    if driveManager == nil {
-      driveManager = objectFactory.driveManager
-    }
+    // TODO: teeks This needs to be instantiated BEFORE user manager is so it can listen for
+    // authorizer notifications. Will change once it no longer depends on that
+    _ = objectFactory.driveManager
 
     if sheetsManager == nil {
       sheetsManager = objectFactory.sheetsManager
@@ -72,9 +71,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       }
 
     // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView()
+    let contentView = ContentView(objectFactory: objectFactory)
       .environmentObject(userManager)
-      .environmentObject(driveManager)
       .environmentObject(sheetsManager)
       .environmentObject(localAuthorizationManager)
       .environmentObject(stateManager)

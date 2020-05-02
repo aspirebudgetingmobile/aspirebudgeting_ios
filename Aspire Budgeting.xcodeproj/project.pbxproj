@@ -80,6 +80,10 @@
 		06F9A8D7243917EF005E5A13 /* AccountBalancesMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalancesMetadata.swift */; };
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
 		8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */; };
+		8E1719C5245DE81C00A398C2 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1719C4245DE81C00A398C2 /* ApplicationCoordinator.swift */; };
+		8E1719C8245DEC0E00A398C2 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1719C7245DEC0E00A398C2 /* Result.swift */; };
+		8E1719CB245DF24600A398C2 /* AspireError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1719CA245DF24600A398C2 /* AspireError.swift */; };
+		8E1719CD245E353900A398C2 /* ApplicationRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1719CC245E353900A398C2 /* ApplicationRootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +177,10 @@
 		68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_BudgetingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.release.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.release.xcconfig"; sourceTree = "<group>"; };
 		8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_Budgeting.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E1719C4245DE81C00A398C2 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
+		8E1719C7245DEC0E00A398C2 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		8E1719CA245DF24600A398C2 /* AspireError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireError.swift; sourceTree = "<group>"; };
+		8E1719CC245E353900A398C2 /* ApplicationRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationRootView.swift; sourceTree = "<group>"; };
 		D0FA6DC926B65B023CE63596 /* Pods-Aspire Budgeting.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.release.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,6 +224,7 @@
 				066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */,
 				066EF461235D4FBD00E94CE4 /* SignInView.swift */,
 				06C5C6A723690AEB00862196 /* FileSelectorView.swift */,
+				8E1719CC245E353900A398C2 /* ApplicationRootView.swift */,
 				065F03CF236DEF78005AED12 /* ErrorBannerView.swift */,
 				060025052373C08700A20C96 /* YoutubePlayerView.swift */,
 				061F10392377801600089D11 /* FaceIDView.swift */,
@@ -315,12 +324,14 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				8E1719C6245DEBFF00A398C2 /* Core */,
 				066EF45C235CF72700E94CE4 /* Models */,
 				066EF457235CE05100E94CE4 /* Views */,
 				06A0DAAA235BFE4F00AEF9FE /* Facilities */,
 				06A0DAA6235BF98100AEF9FE /* Resources */,
 				06ED8A62235A908E009BA6A7 /* AppDelegate.swift */,
 				06ED8A64235A908E009BA6A7 /* SceneDelegate.swift */,
+				8E1719C4245DE81C00A398C2 /* ApplicationCoordinator.swift */,
 				06ED8A66235A908E009BA6A7 /* ContentView.swift */,
 				06ED8A68235A9090009BA6A7 /* Assets.xcassets */,
 				06ED8A6D235A9090009BA6A7 /* LaunchScreen.storyboard */,
@@ -377,6 +388,15 @@
 				68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E1719C6245DEBFF00A398C2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8E1719CA245DF24600A398C2 /* AspireError.swift */,
+				8E1719C7245DEC0E00A398C2 /* Result.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -615,6 +635,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */,
+				8E1719CD245E353900A398C2 /* ApplicationRootView.swift in Sources */,
 				065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */,
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
@@ -624,6 +645,7 @@
 				06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */,
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,
+				8E1719CB245DF24600A398C2 /* AspireError.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */,
 				06F9A8D7243917EF005E5A13 /* AccountBalancesMetadata.swift in Sources */,
@@ -649,7 +671,9 @@
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
+				8E1719C5245DE81C00A398C2 /* ApplicationCoordinator.swift in Sources */,
 				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
+				8E1719C8245DEC0E00A398C2 /* Result.swift in Sources */,
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,

@@ -12,10 +12,36 @@ import GoogleSignIn
 import GTMSessionFetcher
 import os.log
 
-enum GoogleDriveManagerError: String, Error {
+protocol DriveManager {
+  func getFilesList(completion: @escaping (Result<[File]>) -> Void)
+  func cancelGetFilesListRequest()
+}
+
+enum GoogleDriveManagerError: AspireError {
+  // wouldn't be here when the refactor is done
   case nilAuthorizer
-  case inconsistentSheet = "Inconsistency found in the selected sheet."
-  case noInternet = "No Internet connection available"
+  case inconsistentSheet
+  case noInternet
+  case other(String)
+
+  var description: String {
+    switch self {
+    case .nilAuthorizer:
+      return "Unable to authorize."
+    case .inconsistentSheet:
+      return "Inconsistency found in the selected sheet."
+    case .noInternet:
+      return "No Internet connection available"
+    case .other(let string):
+      return string
+    }
+  }
+}
+
+protocol DriveService {
+  func execute(_ string: String)
+  var authorizer: String { set get }
+  var nextPages: Bool { get set }
 }
 
 final class GoogleDriveManager: ObservableObject {
@@ -30,9 +56,6 @@ final class GoogleDriveManager: ObservableObject {
 
   private var ticket: GTLRServiceTicket?
 
-  @Published private(set) var fileList = [File]()
-  @Published private(set) var error: Error?
-
   init(
     driveService: GTLRService = GTLRDriveService(),
     googleFilesListQuery: GTLRDriveQuery_FilesList = GTLRDriveQuery_FilesList.query()
@@ -43,6 +66,7 @@ final class GoogleDriveManager: ObservableObject {
     subscribeToAuthorizerNotification()
   }
 
+  // TODO: teeks this will be removed and we'll just inject the authorizer
   private func subscribeToAuthorizerNotification() {
     os_log(
       "Subscribing for Google authorizer event",
@@ -81,24 +105,13 @@ final class GoogleDriveManager: ObservableObject {
     )
     self.authorizer = authorizer
   }
+}
 
-  func clearFileList() {
-    os_log(
-      "Clearing in memory file list",
-      log: .googleDriveManager,
-      type: .default
-    )
-    fileList.removeAll()
-  }
-
-  func getFileList() {
-    guard let authorizer = self.authorizer else {
-      error = GoogleDriveManagerError.nilAuthorizer
-      return
+extension GoogleDriveManager: DriveManager {
+  func getFilesList(completion: @escaping (Result<[File]>) -> Void) {
+    guard let authorizer = authorizer else {
+      return completion(.error(GoogleDriveManagerError.nilAuthorizer))
     }
-
-    let backupFileList = fileList
-    fileList.removeAll()
 
     driveService.authorizer = authorizer
     driveService.shouldFetchNextPages = true
@@ -108,32 +121,47 @@ final class GoogleDriveManager: ObservableObject {
     ticket = driveService.executeQuery(
       googleFilesListQuery
     ) { [weak self] _, driveFileList, error in
-      guard let weakSelf = self else {
+      guard let self = self else {
         return
       }
-      weakSelf.googleFilesListQuery.isQueryInvalid = false
+      self.ticket = nil
+      // TODO: teeks unclear on the understanding of this based on documentation
+      self.googleFilesListQuery.isQueryInvalid = false
 
-      if let error = error {
+      guard error == nil else {
+        self.logError(error!)
+        return completion(.error(GoogleDriveManagerError.other(error!.localizedDescription)))
+      }
+
+      if let driveFileList = driveFileList as? GTLRDrive_FileList,
+        let driveFiles = driveFileList.files {
         os_log(
-          "Error while getting list of files from Google Drive. %{public}s",
+          "File list retrieved. Converting to local model.",
           log: .googleDriveManager,
-          type: .error,
-          error.localizedDescription
+          type: .default
         )
-        weakSelf.error = error
-        weakSelf.fileList = backupFileList
-      } else {
-        if let driveFileList = driveFileList as? GTLRDrive_FileList,
-          let files = driveFileList.files {
-          os_log(
-            "File list retrieved. Converting to local model.",
-            log: .googleDriveManager,
-            type: .default
+        let files = driveFiles.map {
+          File(
+            id: $0.identifier ?? "No file identifier",
+            name: $0.name ?? "No file name"
           )
-          weakSelf.fileList = files
-            .map { File(driveFile: $0) }
         }
+        completion(.success(files))
       }
     }
+  }
+
+  func cancelGetFilesListRequest() {
+    ticket?.cancel()
+    ticket = nil
+  }
+
+  private func logError(_ error: Error) {
+    os_log(
+      "Error while getting list of files from Google Drive. %{public}s",
+      log: .googleDriveManager,
+      type: .error,
+      error.localizedDescription
+    )
   }
 }

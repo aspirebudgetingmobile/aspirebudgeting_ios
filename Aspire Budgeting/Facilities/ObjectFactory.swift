@@ -9,7 +9,41 @@
 import Foundation
 import GoogleSignIn
 
-final class ObjectFactory {
+/// `NewObjectFactory` (name will change)
+protocol NewObjectFactory {
+  var driveManager: DriveManager { get }
+}
+
+final class PreviewProviderObjectFactory: NewObjectFactory {
+  lazy var driveManager: DriveManager = {
+    return PreviewDriveManager()
+  }()
+}
+
+final class PreviewDriveManager: DriveManager {
+  private let files: [File] = [
+    File(id: UUID().uuidString, name: "Preview File"),
+  ]
+
+  // The error one might want to show in the preview canvas.
+  var error: AspireError?
+
+  func getFilesList(completion: @escaping (Result<[File]>) -> Void) {
+    if let error = error {
+      completion(.error(error))
+    } else {
+      completion(.success(files))
+    }
+  }
+
+  func cancelGetFilesListRequest() {
+    // Nothing to cancel
+  }
+
+}
+
+//
+final class ObjectFactory: NewObjectFactory {
   private let credentialsFileName = "credentials"
 
   lazy var googleSDKCredentials: GoogleSDKCredentials! = {
@@ -45,7 +79,7 @@ final class ObjectFactory {
     UserManager<GIDGoogleUser>(credentials: googleSDKCredentials)
   }()
 
-  lazy var driveManager: GoogleDriveManager = {
+  lazy var driveManager: DriveManager = {
     let driveManager = GoogleDriveManager()
     return driveManager
   }()

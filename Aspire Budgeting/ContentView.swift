@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
-  @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
   @EnvironmentObject var stateManager: StateManager
@@ -31,18 +30,27 @@ struct ContentView: View {
     stateManager.currentState == StateManager.State.hasDefaultSheet
   }
 
+  let objectFactory: NewObjectFactory
+
+  init(objectFactory: NewObjectFactory) {
+    self.objectFactory = objectFactory
+  }
+
   var body: some View {
     VStack {
       if isLoggedOut {
         SignInView()
-          .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+          .animation(Animation.spring()
+            .speed(1.0))
+          .transition(.move(edge: .trailing))
       } else if needsLocalAuth {
         FaceIDView()
       } else if hasDefaultSheet {
         AspireMasterView()
       } else {
-        FileSelectorView()
-          .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+        FileSelectorView(driveManager: objectFactory.driveManager)
+          .animation(Animation.spring().speed(1.0))
+          .transition(.move(edge: .trailing))
       }
     }.background(BackgroundSplitColorView())
   }
