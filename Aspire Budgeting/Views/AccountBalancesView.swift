@@ -25,7 +25,6 @@ struct AccountBalancesView: View {
       if sheetsManager.error == nil {
         if sheetsManager.accountBalancesMetadata?.accountBalances != nil {
           List {
-            // TODO: teeks - line_length
             ForEach(
               sheetsManager.accountBalancesMetadata!.accountBalances,
               id: \.self

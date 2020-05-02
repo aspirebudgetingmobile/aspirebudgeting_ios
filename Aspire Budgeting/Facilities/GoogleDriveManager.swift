@@ -105,9 +105,8 @@ final class GoogleDriveManager: ObservableObject {
 
     googleFilesListQuery.fields = GoogleDriveManager.queryFields
     googleFilesListQuery.q = "mimeType='\(GoogleDriveManager.spreadsheetMIME)'"
-    // TODO: teeks -- fix line_length
     ticket = driveService.executeQuery(
-    googleFilesListQuery
+      googleFilesListQuery
     ) { [weak self] _, driveFileList, error in
       guard let weakSelf = self else {
         return
@@ -115,19 +114,21 @@ final class GoogleDriveManager: ObservableObject {
       weakSelf.googleFilesListQuery.isQueryInvalid = false
 
       if let error = error {
-        os_log("Error while getting list of files from Google Drive. %{public}s",
-               log: .googleDriveManager,
-               type: .error,
-               error.localizedDescription
+        os_log(
+          "Error while getting list of files from Google Drive. %{public}s",
+          log: .googleDriveManager,
+          type: .error,
+          error.localizedDescription
         )
         weakSelf.error = error
         weakSelf.fileList = backupFileList
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
-          os_log("File list retrieved. Converting to local model.",
-                 log: .googleDriveManager,
-                 type: .default
+          os_log(
+            "File list retrieved. Converting to local model.",
+            log: .googleDriveManager,
+            type: .default
           )
           weakSelf.fileList = files
             .map { File(driveFile: $0) }
