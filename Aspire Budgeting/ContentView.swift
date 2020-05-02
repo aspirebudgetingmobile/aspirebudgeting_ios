@@ -14,41 +14,46 @@ struct ContentView: View {
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
   @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
   @EnvironmentObject var stateManager: StateManager
-  
+
   @State var cancellable: AnyCancellable!
-  
+
   var needsLocalAuth: Bool {
-    return stateManager.currentState == StateManager.State.verifiedGoogleUser ||
-    stateManager.currentState == StateManager.State.localAuthFailed ||
-    stateManager.currentState == StateManager.State.needsLocalAuthentication
+    return stateManager.currentState == StateManager.State.verifiedGoogleUser
+      || stateManager.currentState == StateManager.State.localAuthFailed
+      || stateManager.currentState == StateManager.State.needsLocalAuthentication
   }
-  
+
   var isLoggedOut: Bool {
     return stateManager.currentState == StateManager.State.loggedOut
   }
-  
+
   var hasDefaultSheet: Bool {
     stateManager.currentState == StateManager.State.hasDefaultSheet
   }
-  
+
   var body: some View {
     VStack {
       if isLoggedOut {
-        SignInView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+        SignInView()
+          .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       } else if needsLocalAuth {
         FaceIDView()
       } else if hasDefaultSheet {
         AspireMasterView()
       } else {
-        FileSelectorView().animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+        FileSelectorView()
+          .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
     }.background(BackgroundSplitColorView())
   }
 }
 
-//struct ContentView_Previews: PreviewProvider {
+// struct ContentView_Previews: PreviewProvider {
 //  static let objectFactory = ObjectFactory()
 //    static var previews: some View {
-//      ContentView(userManager: objectFactory.userManager, driveManager: objectFactory.driveManager)
+//      ContentView(
+//        userManager: objectFactory.userManager,
+//        driveManager: objectFactory.driveManager
+//      )
 //    }
-//}
+// }

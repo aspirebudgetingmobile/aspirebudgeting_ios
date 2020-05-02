@@ -12,12 +12,11 @@ import GTMSessionFetcher
 
 final class MockUser: AspireUser {
   typealias Profile = MockProfile
-  
+
   typealias Authentication = MockAuthentication
-  
+
   var profile: Profile! = MockProfile()
   var authentication: Authentication! = MockAuthentication()
-  
 }
 
 final class MockProfile: AspireProfile {
@@ -25,7 +24,7 @@ final class MockProfile: AspireProfile {
 }
 
 final class MockAuthentication: AspireAuthentication {
-  var authorizer: GTMFetcherAuthorizationProtocol! = nil
+  var authorizer: GTMFetcherAuthorizationProtocol!
   func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
     if authorizer == nil {
       authorizer = MockAuthorizer()

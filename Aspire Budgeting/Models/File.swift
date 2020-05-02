@@ -19,10 +19,10 @@ extension GTLRDrive_File: AspireFile {}
 struct File: Identifiable, Codable {
   let id: String
   let name: String
-  
+
   init(driveFile: AspireFile) {
-    self.name = driveFile.name ?? "no file name"
-    self.id = driveFile.identifier ?? ""
+    name = driveFile.name ?? "no file name"
+    id = driveFile.identifier ?? ""
   }
 }
 

@@ -8,16 +8,16 @@
 
 import Foundation
 
-struct AspireVersionInfo {
-  static private let infoDictionary = Bundle.main.infoDictionary
-  
+enum AspireVersionInfo {
+  private static let infoDictionary = Bundle.main.infoDictionary
+
   static var build: String {
     guard let build = (infoDictionary?["CFBundleVersion"] as? String) else {
       fatalError("Could not read Info.plist")
     }
-    return build 
+    return build
   }
-  
+
   static var version: String {
     guard let version = (infoDictionary?["CFBundleShortVersionString"] as? String) else {
       fatalError("Could not read Info.plist")

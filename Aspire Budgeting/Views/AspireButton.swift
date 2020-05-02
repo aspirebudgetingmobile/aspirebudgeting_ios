@@ -13,28 +13,29 @@ struct AspireButton: View {
     case red
     case green
   }
-  
+
   struct ButtonBackgroundView: ViewModifier {
     let fillGradient: LinearGradient
-    
+
     init(fillGradient: LinearGradient) {
       self.fillGradient = fillGradient
     }
-    
+
     func body(content: Content) -> some View {
-      content.padding().frame(minWidth: 0, maxWidth: .infinity)
-      .background(Capsule().fill(fillGradient))
-      .foregroundColor(.white)
+      content.padding()
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .background(Capsule().fill(fillGradient))
+        .foregroundColor(.white)
     }
   }
-  
+
   let title: String
   let action: () -> Void
   let type: Type
-  
+
   let imageName: String?
-  
-  func gradient(for type: `Type`) -> LinearGradient {
+
+  func gradient(for type: Type) -> LinearGradient {
     switch type {
     case .green:
       return Colors.greenGradient
@@ -42,9 +43,9 @@ struct AspireButton: View {
       return Colors.redGradient
     }
   }
-  
+
   init(title: String,
-       type: `Type`,
+       type: Type,
        imageName: String? = nil,
        action: @escaping () -> Void) {
     self.title = title
@@ -52,25 +53,27 @@ struct AspireButton: View {
     self.imageName = imageName
     self.action = action
   }
-  
-    var body: some View {
-      Button(action: action) {
-        if imageName == nil {
-          Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16)).modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
-        } else {
-          HStack {
-            Image(imageName!).resizable().aspectRatio(contentMode: .fit).padding(.horizontal)
-            Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16))
-            Spacer()
-          }.modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
-        }
 
+  var body: some View {
+    Button(action: action) {
+      if imageName == nil {
+        Text(title).tracking(1.5)
+          .font(.custom("Rubik-Regular", size: 16))
+          .modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type))
+        )
+      } else {
+        HStack {
+          Image(imageName!).resizable().aspectRatio(contentMode: .fit).padding(.horizontal)
+          Text(title).tracking(1.5).font(.custom("Rubik-Regular", size: 16))
+          Spacer()
+        }.modifier(ButtonBackgroundView(fillGradient: self.gradient(for: self.type)))
       }
     }
+  }
 }
 
-//struct AspireButton_Previews: PreviewProvider {
+// struct AspireButton_Previews: PreviewProvider {
 //    static var previews: some View {
 //        AspireButton()
 //    }
-//}
+// }

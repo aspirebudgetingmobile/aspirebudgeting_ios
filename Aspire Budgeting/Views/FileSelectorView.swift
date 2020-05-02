@@ -13,9 +13,9 @@ struct FileSelectorView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
-  
+
   @State var selectedFile: File?
-  
+
   var body: some View {
     ZStack {
       if self.userManager.user != nil {
@@ -23,12 +23,14 @@ struct FileSelectorView: View {
           if self.selectedFile == nil {
             NavigationView {
               List(self.driveManager.fileList) { file in
-                Button(action: {
-                  self.sheetsManager.defaultFile = file
-                  self.selectedFile = file
-                }) {
-                  Text(file.name)
-                }
+                Button(
+                  action: {
+                    self.sheetsManager.defaultFile = file
+                    self.selectedFile = file
+                  }, label: {
+                    Text(file.name)
+                  }
+                )
               }
               .navigationBarTitle("Link your Aspire sheet")
             }.onAppear {
@@ -42,7 +44,6 @@ struct FileSelectorView: View {
           }
         }
       }
-      
       if self.driveManager.error != nil {
         Text("Error occured")
       }
@@ -50,8 +51,8 @@ struct FileSelectorView: View {
   }
 }
 
-//struct FileSelectorView_Previews: PreviewProvider {
+// struct FileSelectorView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FileSelectorView()
 //    }
-//}
+// }

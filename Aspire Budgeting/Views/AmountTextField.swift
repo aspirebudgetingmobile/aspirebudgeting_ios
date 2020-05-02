@@ -10,16 +10,16 @@ import SwiftUI
 
 struct AspireTextField: View {
   @Binding var amount: String
-  
+
   var body: some View {
     ZStack {
       Rectangle()
-        .foregroundColor(Color.init(red: 0.769, green: 0.769, blue: 0.769))
+        .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
         .frame(height: 50)
         .cornerRadius(5)
         .padding()
         .opacity(0.95)
-      
+
       HStack {
         Image("dollar_icon").padding(.horizontal)
         Spacer()
@@ -33,8 +33,8 @@ struct AspireTextField: View {
   }
 }
 
-//struct AmountTextField_Previews: PreviewProvider {
+// struct AmountTextField_Previews: PreviewProvider {
 //    static var previews: some View {
 //        AmountTextField()
 //    }
-//}
+// }

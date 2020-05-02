@@ -14,13 +14,13 @@ struct DashboardCardView: View {
     var budgetedTotal: AspireNumber
     var spentTotals: AspireNumber
   }
-  
+
   let categoryName: String
   let totals: Totals
   let categoryRows: [DashboardCategoryRow]
-  
+
   @State var expanded = false
-  
+
   var body: some View {
     VStack {
       if !self.expanded {
@@ -32,16 +32,16 @@ struct DashboardCardView: View {
       .cornerRadius(10)
       .shadow(radius: 5)
       .padding()
-      .gesture(TapGesture().onEnded({ (_) in
+      .gesture(TapGesture().onEnded { _ in
         withAnimation {
           self.expanded.toggle()
         }
-      }))
+      })
   }
 }
 
-//struct DashboardCardVIew_Previews: PreviewProvider {
+// struct DashboardCardVIew_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DashboardCardVIew()
 //    }
-//}
+// }

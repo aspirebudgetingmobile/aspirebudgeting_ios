@@ -12,19 +12,22 @@ import Instabug
 struct AspireBugTracker {
   private let credentials: InstabugCredentials
   private let bundle: Bundle
-  
-  init(credentials: InstabugCredentials,
-       bundle: Bundle = Bundle.main) {
+
+  init(
+    credentials: InstabugCredentials,
+    bundle: Bundle = Bundle.main
+  ) {
     self.credentials = credentials
     self.bundle = bundle
   }
-  
+
   private func isRunningLive() -> Bool {
     #if targetEnvironment(simulator)
     return false
     #else
-    let isRunningTestFlightBeta  = (bundle.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt")
-    let hasEmbeddedMobileProvision = bundle.path(forResource: "embedded", ofType: "mobileprovision") != nil
+    let isRunningTestFlightBeta = (bundle.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt")
+    let hasEmbeddedMobileProvision =
+      bundle.path(forResource: "embedded", ofType: "mobileprovision") != nil
     if isRunningTestFlightBeta || hasEmbeddedMobileProvision {
       return false
     } else {
@@ -32,7 +35,7 @@ struct AspireBugTracker {
     }
     #endif
   }
-  
+
   func start() {
     let instabugKey: String
     if isRunningLive() {
@@ -40,8 +43,13 @@ struct AspireBugTracker {
     } else {
       instabugKey = credentials.beta
     }
-    
-    Instabug.start(withToken: instabugKey,
-                   invocationEvents: [.shake, .screenshot])
+
+    Instabug.start(
+      withToken: instabugKey,
+      invocationEvents: [
+        .shake,
+        .screenshot,
+      ]
+    )
   }
 }

@@ -12,29 +12,67 @@ struct ExpandedCardView: View {
   let categoryName: String
   let totals: DashboardCardView.Totals
   let categoryRows: [DashboardCategoryRow]
-  
+
   var body: some View {
     VStack {
-      Text(categoryName).tracking(1).font(.rubikRegular(size: 20)).padding(.vertical).foregroundColor(.white)
+      Text(categoryName)
+        .tracking(1)
+        .font(.rubikRegular(size: 20))
+        .padding(.vertical)
+        .foregroundColor(.white)
       HStack {
         VStack {
-          GradientTextView(string: totals.budgetedTotal.stringValue, tracking: 1.35, font: .rubikMedium(size: 18), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.yellowGradient)
-          
-          Text("Budgeted").tracking(0.5).font(.rubikLight(size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
+          GradientTextView(
+            string: totals.budgetedTotal.stringValue,
+            tracking: 1.35,
+            font: .rubikMedium(size: 18),
+            paddingEdges: .horizontal,
+            paddingLength: nil,
+            gradient: Colors.yellowGradient
+          )
+          Text("Budgeted")
+            .tracking(0.5)
+            .font(.rubikLight(size: 7.5))
+            .padding(.top, 2)
+            .foregroundColor(.white)
+            .opacity(0.6)
         }
         VStack {
-          GradientTextView(string: totals.availableTotal.stringValue, tracking: 1.35, font: .rubikMedium(size: 18), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.greenGradient)
-          
-          Text("Available").tracking(0.5).font(.rubikLight(size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
+          GradientTextView(
+            string: totals.availableTotal.stringValue,
+            tracking: 1.35,
+            font: .rubikMedium(size: 18),
+            paddingEdges: .horizontal,
+            paddingLength: nil,
+            gradient: Colors.greenGradient
+          )
+
+          Text("Available")
+            .tracking(0.5)
+            .font(.rubikLight(size: 7.5))
+            .padding(.top, 2)
+            .foregroundColor(.white)
+            .opacity(0.6)
         }
         VStack {
-          GradientTextView(string: totals.spentTotals.stringValue, tracking: 1.35, font: .rubikMedium(size: 18), paddingEdges: .horizontal, paddingLength: nil, gradient: Colors.redGradient)
-          
-          Text("Spent").tracking(0.5).font(.rubikLight(size: 7.5)).padding(.top, 2).foregroundColor(.white).opacity(0.6)
+          GradientTextView(
+            string: totals.spentTotals.stringValue,
+            tracking: 1.35,
+            font: .rubikMedium(size: 18),
+            paddingEdges: .horizontal,
+            paddingLength: nil,
+            gradient: Colors.redGradient
+          )
+
+          Text("Spent")
+            .tracking(0.5)
+            .font(.rubikLight(size: 7.5))
+            .padding(.top, 2)
+            .foregroundColor(.white)
+            .opacity(0.6)
         }
       }
       Divider().padding(.horizontal)
-      
       ForEach(self.categoryRows, id: \.self) { row in
         VStack {
           DashboardRow(categoryRow: row).padding().transition(.identity)
@@ -45,8 +83,8 @@ struct ExpandedCardView: View {
   }
 }
 
-//struct ExpandedCardView_Previews: PreviewProvider {
+// struct ExpandedCardView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ExpandedCardView()
 //    }
-//}
+// }
