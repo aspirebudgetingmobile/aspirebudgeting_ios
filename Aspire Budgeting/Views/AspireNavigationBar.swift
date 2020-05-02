@@ -36,34 +36,39 @@ struct AspireNavigationBar: View {
         Spacer()
         HStack {
           Spacer()
-          Button(action: {
-            self.showAddTransactions = true
-          }) {
-            Image(systemName: "plus")
-              .padding()
-              .foregroundColor(.white)
-          }.sheet(isPresented: $showAddTransactions) {
+          Button(
+            action: {
+              self.showAddTransactions = true
+            },
+            label: {
+              Image(systemName: "plus")
+                .padding()
+                .foregroundColor(.white)
+            }
+          )
+          .sheet(isPresented: $showAddTransactions) {
             AddTransactionView().environmentObject(self.sheetsManager)
           }
 
-          Button(action: {
-            print("Settings")
-            self.showSettings = true
-          }) {
-            Image(systemName: "gear").padding().foregroundColor(.white)
-          }
+          Button(
+            action: {
+              print("Settings")
+              self.showSettings = true
+            },
+            label: {
+              Image(systemName: "gear").padding().foregroundColor(.white)
+            }
+          )
           .padding([.top, .bottom], 10)
           .actionSheet(isPresented: $showSettings) {
             ActionSheet(
               title: Text("Aspire Budgeting"),
               message: Text(self.versionBuild),
               buttons: [
-                ActionSheet.Button.default(
-                  Text("Sign Out"),
-                  action: {
-                    self.userManager.signOut()
-                  }
-                ), ActionSheet.Button.cancel()
+                ActionSheet.Button.default(Text("Sign Out")) {
+                  self.userManager.signOut()
+                },
+                ActionSheet.Button.cancel(),
               ]
             )
           }

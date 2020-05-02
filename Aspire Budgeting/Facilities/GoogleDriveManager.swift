@@ -30,8 +30,8 @@ final class GoogleDriveManager: ObservableObject {
 
   private var ticket: GTLRServiceTicket?
 
-  @Published public private(set) var fileList = [File]()
-  @Published public private(set) var error: Error?
+  @Published private(set) var fileList = [File]()
+  @Published private(set) var error: Error?
 
   init(
     driveService: GTLRService = GTLRDriveService(),
@@ -46,7 +46,8 @@ final class GoogleDriveManager: ObservableObject {
   private func subscribeToAuthorizerNotification() {
     os_log(
       "Subscribing for Google authorizer event",
-      log: .googleDriveManager, type: .default
+      log: .googleDriveManager,
+      type: .default
     )
     authorizerNotificationObserver = NotificationCenter.default.addObserver(
       forName: .authorizerUpdated,
@@ -67,14 +68,16 @@ final class GoogleDriveManager: ObservableObject {
       as? GTMFetcherAuthorizationProtocol else {
       os_log(
         "No authorizer in notification",
-        log: .googleDriveManager, type: .error
+        log: .googleDriveManager,
+        type: .error
       )
       return
     }
 
     os_log(
       "Received authorizer from notification",
-      log: .googleDriveManager, type: .default
+      log: .googleDriveManager,
+      type: .default
     )
     self.authorizer = authorizer
   }
@@ -82,7 +85,8 @@ final class GoogleDriveManager: ObservableObject {
   func clearFileList() {
     os_log(
       "Clearing in memory file list",
-      log: .googleDriveManager, type: .default
+      log: .googleDriveManager,
+      type: .default
     )
     fileList.removeAll()
   }
@@ -102,7 +106,9 @@ final class GoogleDriveManager: ObservableObject {
     googleFilesListQuery.fields = GoogleDriveManager.queryFields
     googleFilesListQuery.q = "mimeType='\(GoogleDriveManager.spreadsheetMIME)'"
     // TODO: teeks -- fix line_length
-    ticket = driveService.executeQuery(googleFilesListQuery) { [weak self] _, driveFileList, error in
+    ticket = driveService.executeQuery(
+    googleFilesListQuery
+    ) { [weak self] _, driveFileList, error in
       guard let weakSelf = self else {
         return
       }
@@ -110,14 +116,19 @@ final class GoogleDriveManager: ObservableObject {
 
       if let error = error {
         os_log("Error while getting list of files from Google Drive. %{public}s",
-               log: .googleDriveManager, type: .error, error.localizedDescription)
+               log: .googleDriveManager,
+               type: .error,
+               error.localizedDescription
+        )
         weakSelf.error = error
         weakSelf.fileList = backupFileList
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
           os_log("File list retrieved. Converting to local model.",
-                 log: .googleDriveManager, type: .default)
+                 log: .googleDriveManager,
+                 type: .default
+          )
           weakSelf.fileList = files
             .map { File(driveFile: $0) }
         }

@@ -12,7 +12,7 @@ import SwiftUI
 struct SignInView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
 
-  private let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+  private let rootVC = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
 
   var body: some View {
     VStack {
@@ -31,7 +31,9 @@ struct SignInView: View {
         Text("Link your Google Account")
           .font(.body)
           .foregroundColor(.white)
+        // swiftlint:disable line_length
         Text("Aspire Budgeting requires you to either link your existing budget sheet or create a new budget sheet in your Google Drive")
+          // swiftlint:enable line_length
           .font(.caption)
           .foregroundColor(.white)
           .padding(10)

@@ -26,7 +26,10 @@ struct AccountBalancesView: View {
         if self.sheetsManager.accountBalancesMetadata?.accountBalances != nil {
           List {
             // TODO: teeks - line_length
-            ForEach(self.sheetsManager.accountBalancesMetadata!.accountBalances, id: \.self) { accountBalance in
+            ForEach(
+              self.sheetsManager.accountBalancesMetadata!.accountBalances,
+              id: \.self
+            ) { accountBalance in
               VStack(alignment: .leading) {
                 Text(accountBalance.accountName)
                   .foregroundColor(Color.white)

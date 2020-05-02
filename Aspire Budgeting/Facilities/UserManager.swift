@@ -47,9 +47,9 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   private let notificationCenter: AspireNotificationCenter
   private let localAuthManager = LocalAuthorizationManager()
 
-  @Published public private(set) var userAuthenticated = false
-  @Published public private(set) var user: User?
-  @Published public private(set) var error: Error?
+  @Published private(set) var userAuthenticated = false
+  @Published private(set) var user: User?
+  @Published private(set) var error: Error?
 
   init(
     credentials: GoogleSDKCredentials,
@@ -111,7 +111,9 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
       self.error = error
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
         os_log(
+          // swiftlint:disable line_length
           "The user has not signed in before or has since signed out. Proceed with normal sign in flow.",
+          // swiftlint:enable line_length
           log: .userManager,
           type: .default
         )
@@ -132,7 +134,8 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
   func signIn<U: AspireUser>(user: U) {
     os_log(
       "User authenticated with Google successfully.",
-      log: .userManager, type: .default
+      log: .userManager,
+      type: .default
     )
 
     self.user = User(googleUser: user)
@@ -150,7 +153,8 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
 
     os_log(
       "Logging out user from Google and locally",
-      log: .userManager, type: .default
+      log: .userManager,
+      type: .default
     )
     notificationCenter.post(name: .logout, object: nil, userInfo: nil)
   }

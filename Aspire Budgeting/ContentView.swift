@@ -51,6 +51,9 @@ struct ContentView: View {
 // struct ContentView_Previews: PreviewProvider {
 //  static let objectFactory = ObjectFactory()
 //    static var previews: some View {
-//      ContentView(userManager: objectFactory.userManager, driveManager: objectFactory.driveManager)
+//      ContentView(
+//        userManager: objectFactory.userManager,
+//        driveManager: objectFactory.driveManager
+//      )
 //    }
 // }

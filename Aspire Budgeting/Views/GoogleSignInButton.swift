@@ -11,7 +11,7 @@ import SwiftUI
 
 struct GoogleSignInButton: UIViewRepresentable {
   private var presentingViewController: UIViewController? {
-    UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+    UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
   }
 
   func updateUIView(

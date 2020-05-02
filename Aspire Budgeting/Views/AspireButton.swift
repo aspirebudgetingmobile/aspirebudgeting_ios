@@ -22,7 +22,8 @@ struct AspireButton: View {
     }
 
     func body(content: Content) -> some View {
-      content.padding().frame(minWidth: 0, maxWidth: .infinity)
+      content.padding()
+        .frame(minWidth: 0, maxWidth: .infinity)
         .background(Capsule().fill(fillGradient))
         .foregroundColor(.white)
     }

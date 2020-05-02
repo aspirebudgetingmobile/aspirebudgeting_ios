@@ -21,12 +21,10 @@ struct AccountBalancesMetadata {
 
   private static func parse(metadata: [[String]]) -> [AccountBalance] {
     var accountBalances = [AccountBalance]()
-    for row in metadata {
-      if row.count == 2 {
-        accountBalances.append(
-          AccountBalance(accountName: row[0], balance: AspireNumber(stringValue: row[1]))
-        )
-      }
+    for row in metadata where row.count == 2 {
+      accountBalances.append(
+        AccountBalance(accountName: row[0], balance: AspireNumber(stringValue: row[1]))
+      )
     }
     return accountBalances
   }

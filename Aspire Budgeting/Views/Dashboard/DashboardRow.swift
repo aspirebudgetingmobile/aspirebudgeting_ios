@@ -22,7 +22,8 @@ struct DashboardRow: View {
         VStack {
           GradientTextView(
             string: categoryRow.budgeted,
-            tracking: 1, font: .rubikRegular(size: 16),
+            tracking: 1,
+            font: .rubikRegular(size: 16),
             paddingEdges: .horizontal,
             paddingLength: nil,
             gradient: Colors.yellowGradient

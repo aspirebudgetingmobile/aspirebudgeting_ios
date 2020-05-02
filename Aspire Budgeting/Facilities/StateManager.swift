@@ -20,7 +20,7 @@ final class StateManager: ObservableObject {
   }
 
   @Published var currentStatePublisher: State = .loggedOut
-  public private(set) var currentState: State = .loggedOut
+  private(set) var currentState: State = .loggedOut
 
   private var authorizerObserver: NSObjectProtocol?
   private var localAuthObserver: NSObjectProtocol?
@@ -33,7 +33,12 @@ final class StateManager: ObservableObject {
 
     transitions[.loggedOut] = [.verifiedGoogleUser]
     transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
-    transitions[.authenticatedLocally] = [.localAuthFailed, .hasDefaultSheet, .needsLocalAuthentication, .loggedOut]
+    transitions[.authenticatedLocally] = [
+      .localAuthFailed,
+      .hasDefaultSheet,
+      .needsLocalAuthentication,
+      .loggedOut,
+    ]
     transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut]
     transitions[.needsLocalAuthentication] = [.authenticatedLocally, .localAuthFailed]
     transitions[.localAuthFailed] = [.authenticatedLocally]
@@ -46,70 +51,86 @@ final class StateManager: ObservableObject {
       NotificationCenter.default.addObserver(
         forName: .authorizerUpdated,
         object: nil,
-        queue: nil,
-        using: { _ in
-          os_log(
-            "Authorizer updated. Transitioning to verifiedGoogleUser",
-            log: .stateManager,
-            type: .default)
-          self.transition(to: .verifiedGoogleUser)
-      })
+        queue: nil
+      ) { _ in
+        os_log(
+          "Authorizer updated. Transitioning to verifiedGoogleUser",
+          log: .stateManager,
+          type: .default
+        )
+        self.transition(to: .verifiedGoogleUser)
+      }
 
     self.localAuthObserver =
       NotificationCenter.default.addObserver(
         forName: .authorizedLocally,
         object: nil,
-        queue: OperationQueue.main, using: { notification in
-          guard let userInfo = notification.userInfo,
-            let success = userInfo[Notification.Name.authorizedLocally] as? Bool else { return }
+        queue: OperationQueue.main
+      ) { notification in
+        guard let userInfo = notification.userInfo,
+          let success = userInfo[Notification.Name.authorizedLocally] as? Bool else { return }
 
-          os_log("Received authorizedLocally.",
-                 log: .stateManager, type: .default)
-          if success {
-            os_log("Transitioning to authenticatedLocally",
-                   log: .stateManager, type: .default)
-            self.transition(to: .authenticatedLocally)
-          } else {
-            os_log("Transitioning to localAuthFailed",
-                   log: .stateManager, type: .error)
-            self.transition(to: .localAuthFailed)
-          }
-
-      })
+        os_log(
+          "Received authorizedLocally.",
+          log: .stateManager,
+          type: .default
+        )
+        if success {
+          os_log(
+            "Transitioning to authenticatedLocally",
+            log: .stateManager,
+            type: .default
+          )
+          self.transition(to: .authenticatedLocally)
+        } else {
+          os_log(
+            "Transitioning to localAuthFailed",
+            log: .stateManager,
+            type: .error
+          )
+          self.transition(to: .localAuthFailed)
+        }
+      }
 
     self.backgroundObserver =
       NotificationCenter.default.addObserver(
         forName: Notification.Name("background"),
         object: nil,
-        queue: nil,
-        using: { _ in
-          os_log("Received background. Transitioning to needsLocalAuthentication",
-                 log: .stateManager, type: .default)
-          self.transition(to: .needsLocalAuthentication)
-      })
+        queue: nil
+      ) { _ in
+        os_log(
+          "Received background. Transitioning to needsLocalAuthentication",
+          log: .stateManager,
+          type: .default
+        )
+        self.transition(to: .needsLocalAuthentication)
+      }
 
     self.defaultSheetObserver = NotificationCenter.default.addObserver(
       forName: .hasSheetInDefaults,
       object: nil,
-      queue: nil,
-      using: { _ in
-        os_log(
-          "Received hasSheetInDefaults. Transitioning to hasDefaultSheet",
-          log: .stateManager, type: .default)
-        self.transition(to: .hasDefaultSheet)
-    })
+      queue: nil
+    ) { _ in
+      os_log(
+        "Received hasSheetInDefaults. Transitioning to hasDefaultSheet",
+        log: .stateManager,
+        type: .default
+      )
+      self.transition(to: .hasDefaultSheet)
+    }
 
     self.logoutObserver = NotificationCenter.default.addObserver(
       forName: .logout,
       object: nil,
-      queue: nil,
-      using: { _ in
-        os_log(
-          "Received logout. Transitioning to logout",
-          log: .stateManager,
-          type: .default)
-        self.transition(to: .loggedOut)
-    })
+      queue: nil
+    ) { _ in
+      os_log(
+        "Received logout. Transitioning to logout",
+        log: .stateManager,
+        type: .default
+      )
+      self.transition(to: .loggedOut)
+    }
   }
 
   func transition(to nextState: State) {
@@ -120,7 +141,8 @@ final class StateManager: ObservableObject {
       os_log(
         "Invalid state transition. No state transition performed.",
         log: .stateManager,
-        type: .error)
+        type: .error
+      )
     }
   }
 

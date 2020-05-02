@@ -136,7 +136,7 @@ struct AddTransactionView: View {
       )
 
       AspireButton(title: "Add", type: .green) {
-        if self.amountString != "",
+        if !self.amountString.isEmpty,
           self.dateSelected,
           self.categorySelected,
           self.accountSelected {
@@ -168,7 +168,8 @@ struct AddTransactionView: View {
           #selector(UIResponder.resignFirstResponder),
           to: nil,
           from:
-          nil, for: nil
+          nil,
+          for: nil
         )
       }
   }

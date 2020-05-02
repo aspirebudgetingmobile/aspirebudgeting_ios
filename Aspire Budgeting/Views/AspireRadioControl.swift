@@ -30,7 +30,8 @@ struct AspireRadioControl: View {
           RoundedRectangle(cornerRadius: 12.5)
             .stroke(Color(red: 0.196, green: 0.682, blue: 0.482), lineWidth: 8)
         )
-        .cornerRadius(12.5).onTapGesture {
+        .cornerRadius(12.5)
+        .onTapGesture {
           self.selectedOption = 0
         }
       Spacer()
@@ -48,7 +49,8 @@ struct AspireRadioControl: View {
           RoundedRectangle(cornerRadius: 12.5)
             .stroke(Color(red: 0.698, green: 0.145, blue: 0.341), lineWidth: 8)
         )
-        .cornerRadius(12.5).onTapGesture {
+        .cornerRadius(12.5)
+        .onTapGesture {
           self.selectedOption = 1
         }
     }.padding()

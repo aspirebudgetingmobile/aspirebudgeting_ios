@@ -23,12 +23,14 @@ struct FileSelectorView: View {
           if self.selectedFile == nil {
             NavigationView {
               List(self.driveManager.fileList) { file in
-                Button(action: {
-                  self.sheetsManager.defaultFile = file
-                  self.selectedFile = file
-                }) {
-                  Text(file.name)
-                }
+                Button(
+                  action: {
+                    self.sheetsManager.defaultFile = file
+                    self.selectedFile = file
+                  }, label: {
+                    Text(file.name)
+                  }
+                )
               }
               .navigationBarTitle("Link your Aspire sheet")
             }.onAppear {

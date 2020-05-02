@@ -20,15 +20,17 @@ struct AspireSegmentedItem: View {
   var body: some View {
     VStack {
       Spacer()
-      Button(action: {
-        self.selectedSegment = self.itemIndex
-      }) {
-        Text(title)
-          .tracking(1)
-          .font(.rubikRegular(size: 18))
-          .foregroundColor(.white)
-          .opacity(self.opacity)
-      }.disabled(selectedSegment == self.itemIndex)
+      Button(
+        action: {
+          self.selectedSegment = self.itemIndex
+        }, label: {
+          Text(title)
+            .tracking(1)
+            .font(.rubikRegular(size: 18))
+            .foregroundColor(.white)
+            .opacity(self.opacity)
+        }
+      ).disabled(selectedSegment == self.itemIndex)
       Spacer()
       if selectedSegment == itemIndex {
         Rectangle()

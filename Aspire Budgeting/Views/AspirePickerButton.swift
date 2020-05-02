@@ -13,8 +13,11 @@ struct AspirePickerButton: View {
   let imageName: String
   let action: () -> Void
 
-  init(title: String, imageName: String,
-       action: @escaping () -> Void) {
+  init(
+    title: String,
+    imageName: String,
+    action: @escaping () -> Void
+  ) {
     self.title = title
     self.imageName = imageName
     self.action = action
@@ -27,7 +30,6 @@ struct AspirePickerButton: View {
           .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
           .frame(height: 50)
           .cornerRadius(5)
-
         HStack {
           Image(imageName)
             .padding(.horizontal)

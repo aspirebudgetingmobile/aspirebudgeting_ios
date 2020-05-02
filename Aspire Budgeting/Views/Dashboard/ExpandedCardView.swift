@@ -43,7 +43,8 @@ struct ExpandedCardView: View {
             tracking: 1.35,
             font: .rubikMedium(size: 18),
             paddingEdges: .horizontal,
-            paddingLength: nil, gradient: Colors.greenGradient
+            paddingLength: nil,
+            gradient: Colors.greenGradient
           )
 
           Text("Available")
