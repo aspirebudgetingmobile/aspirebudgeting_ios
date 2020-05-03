@@ -10,6 +10,7 @@ import GoogleSignIn
 import SwiftUI
 
 struct SignInView: View {
+
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
 
   private let rootVC = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController

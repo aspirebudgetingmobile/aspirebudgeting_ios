@@ -40,7 +40,7 @@ enum GoogleDriveManagerError: AspireError {
 
 protocol DriveService {
   func execute(_ string: String)
-  var authorizer: String { set get }
+  var authorizer: String { get set }
   var nextPages: Bool { get set }
 }
 

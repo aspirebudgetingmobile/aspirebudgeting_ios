@@ -16,7 +16,7 @@ protocol NewObjectFactory {
 
 final class PreviewProviderObjectFactory: NewObjectFactory {
   lazy var driveManager: DriveManager = {
-    return PreviewDriveManager()
+    PreviewDriveManager()
   }()
 }
 

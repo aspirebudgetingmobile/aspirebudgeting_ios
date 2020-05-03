@@ -5,10 +5,6 @@
 
 import Foundation
 
-protocol ApplicationStateTransitioning {
-//  func transition(to applicationState: ApplicationState)
-}
-
 /// An enumeration of the various states of the application.
 enum ApplicationState {
   /// The application is launching from a killed stated.
@@ -32,11 +28,13 @@ final class ApplicationCoordinator {
   }
 
   private let applicationStateObservable: ApplicationStateObservable
-  let rootView: ApplicationRootView
+  let applicationRootView: ApplicationRootView
 
   init() {
     applicationStateObservable = ApplicationStateObservable(applicationState: applicationState)
-    rootView = ApplicationRootView(applicationStateObservable: applicationStateObservable)
+    applicationRootView = ApplicationRootView(
+      applicationStateObservable: applicationStateObservable
+    )
   }
 
   // MARK: - API
@@ -56,8 +54,11 @@ final class ApplicationCoordinator {
 
   func applicationDidEnterForeground() {}
 
-  // TODO: This will move out of here
-  private func configureDependencies() {}
+  // MARK: - Private
+
+  private func signInOrAuthenticate() {
+
+  }
 }
 
 /// A wrapper to wrap the `ApplicationState` that can be observed. This is a workround because
@@ -74,3 +75,4 @@ final class ApplicationStateObservable: ObservableObject {
     self.applicationState = applicationState
   }
 }
+

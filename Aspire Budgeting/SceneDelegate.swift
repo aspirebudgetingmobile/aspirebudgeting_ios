@@ -86,7 +86,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       let applicationCoordinator = ApplicationCoordinator()
       self.applicationCoordinator = applicationCoordinator
 
-      let applicationRootView = applicationCoordinator.rootView
+      let applicationRootView = applicationCoordinator.applicationRootView
 
       window.rootViewController = UIHostingController(rootView: applicationRootView)
       self.window = window
