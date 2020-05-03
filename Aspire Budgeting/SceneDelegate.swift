@@ -9,6 +9,9 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
+
+  var applicationCoordinator: ApplicationCoordinator?
+
   private let objectFactory = ObjectFactory()
 
   private var sheetsManager: GoogleSheetsManager!
@@ -33,56 +36,63 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // This delegate does not imply the connecting scene or session are new (see
     // `application:configurationForConnectingSceneSession` instead).
 
-    objectFactory.bugTracker.start()
-
-    // TODO: teeks This needs to be instantiated BEFORE user manager is so it can listen for
-    // authorizer notifications. Will change once it no longer depends on that
-    _ = objectFactory.driveManager
-
-    if sheetsManager == nil {
-      sheetsManager = objectFactory.sheetsManager
-    }
-
-    if localAuthorizationManager == nil {
-      localAuthorizationManager = objectFactory.localAuthorizationManager
-    }
-
-    if stateManager == nil {
-      stateManager = objectFactory.stateManager
-    }
-
-    stateManagerSink = stateManager.$currentStatePublisher
-      .sink { [weak self] currentState in
-        guard let weakSelf = self else { return }
-
-        switch currentState {
-        case .loggedOut:
-          weakSelf.userManager.authenticateWithGoogle()
-
-        case .verifiedGoogleUser:
-          weakSelf.userManager.authenticateLocally()
-
-        case .authenticatedLocally:
-          weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
-
-        default:
-          print("The current state is \(currentState)")
-        }
-      }
-
-    // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView(objectFactory: objectFactory)
-      .environmentObject(userManager)
-      .environmentObject(sheetsManager)
-      .environmentObject(localAuthorizationManager)
-      .environmentObject(stateManager)
+//    objectFactory.bugTracker.start()
+//
+//    // TODO: teeks This needs to be instantiated BEFORE user manager is so it can listen for
+//    // authorizer notifications. Will change once it no longer depends on that
+//    _ = objectFactory.driveManager
+//
+//    if sheetsManager == nil {
+//      sheetsManager = objectFactory.sheetsManager
+//    }
+//
+//    if localAuthorizationManager == nil {
+//      localAuthorizationManager = objectFactory.localAuthorizationManager
+//    }
+//
+//    if stateManager == nil {
+//      stateManager = objectFactory.stateManager
+//    }
+//
+//    stateManagerSink = stateManager.$currentStatePublisher
+//      .sink { [weak self] currentState in
+//        guard let weakSelf = self else { return }
+//
+//        switch currentState {
+//        case .loggedOut:
+//          weakSelf.userManager.authenticateWithGoogle()
+//
+//        case .verifiedGoogleUser:
+//          weakSelf.userManager.authenticateLocally()
+//
+//        case .authenticatedLocally:
+//          weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
+//
+//        default:
+//          print("The current state is \(currentState)")
+//        }
+//      }
+//
+//    // Create the SwiftUI view that provides the window contents.
+//    let contentView = ContentView(objectFactory: objectFactory)
+//      .environmentObject(userManager)
+//      .environmentObject(sheetsManager)
+//      .environmentObject(localAuthorizationManager)
+//      .environmentObject(stateManager)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: windowScene)
-      window.rootViewController = UIHostingController(rootView: contentView)
+      let applicationCoordinator = ApplicationCoordinator()
+      self.applicationCoordinator = applicationCoordinator
+
+      let applicationRootView = applicationCoordinator.rootView
+
+      window.rootViewController = UIHostingController(rootView: applicationRootView)
       self.window = window
       window.makeKeyAndVisible()
+
+      applicationCoordinator.activate()
     }
   }
 
@@ -99,10 +109,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was
     // inactive.
-    if stateManager.currentState == .needsLocalAuthentication ||
-      stateManager.currentState == .localAuthFailed {
-      userManager.authenticateLocally()
-    }
+
+//    if stateManager.currentState == .needsLocalAuthentication ||
+//      stateManager.currentState == .localAuthFailed {
+//      userManager.authenticateLocally()
+//    }
   }
 
   func sceneWillResignActive(_ scene: UIScene) {
@@ -118,10 +129,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func sceneWillEnterForeground(_ scene: UIScene) {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
-    if stateManager.currentState == .needsLocalAuthentication ||
-      stateManager.currentState == .localAuthFailed {
-      userManager.authenticateLocally()
-    }
+//    if stateManager.currentState == .needsLocalAuthentication ||
+//      stateManager.currentState == .localAuthFailed {
+//      userManager.authenticateLocally()
+//    }
   }
 
   func sceneDidEnterBackground(_ scene: UIScene) {

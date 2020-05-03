@@ -219,12 +219,12 @@
 		066EF457235CE05100E94CE4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8E1719CC245E353900A398C2 /* ApplicationRootView.swift */,
 				060CDA6B238F75F6005CD74B /* Dashboard */,
 				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
 				066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */,
 				066EF461235D4FBD00E94CE4 /* SignInView.swift */,
 				06C5C6A723690AEB00862196 /* FileSelectorView.swift */,
-				8E1719CC245E353900A398C2 /* ApplicationRootView.swift */,
 				065F03CF236DEF78005AED12 /* ErrorBannerView.swift */,
 				060025052373C08700A20C96 /* YoutubePlayerView.swift */,
 				061F10392377801600089D11 /* FaceIDView.swift */,
