@@ -78,7 +78,9 @@ final class GoogleSheetsManagerTests: XCTestCase {
     )
 
     postNotification()
-    sheetsManager.fetchCategoriesAndGroups(spreadsheet: File(driveFile: MockFile()))
+    sheetsManager.fetchCategoriesAndGroups(
+      spreadsheet: File(driveFile: MockFile()),
+      spreadsheetVersion: .threeTwo)
 
     let expectation = XCTestExpectation()
 
@@ -93,11 +95,11 @@ final class GoogleSheetsManagerTests: XCTestCase {
   func testFetchCategoriesAndGroups() {
     let mockValueRange = GTLRSheets_ValueRange()
     mockValueRange.values = [
-      ["G1"],
-      ["G1:C1", "1", "2", "3", "4", "5", "6", "7"],
-      ["G1:C2", "8", "9", "10", "11", "12", "13", "14"],
-      ["G2"],
-      ["G2:C1", "15", "16", "17", "18", "19", "20", "21"],
+      ["✦", "", "G1"],
+      ["✧", "", "G1:C1", "1", "2", "3", "4", "5", "6", "7"],
+      ["✧", "", "G1:C2", "8", "9", "10", "11", "12", "13", "14"],
+      ["✦", "", "G2"],
+      ["✧", "", "G2:C1", "15", "16", "17", "18", "19", "20", "21"],
     ]
 
     let mockQuery = GTLRSheetsQuery_SpreadsheetsValuesGet.query(
@@ -116,7 +118,9 @@ final class GoogleSheetsManagerTests: XCTestCase {
     )
 
     postNotification()
-    sheetsManager.fetchCategoriesAndGroups(spreadsheet: File(driveFile: MockFile()))
+    sheetsManager.fetchCategoriesAndGroups(
+      spreadsheet: File(driveFile: MockFile()),
+      spreadsheetVersion: .threeTwo)
 
     let expectation = XCTestExpectation()
     sinkCancellable = sheetsManager.$dashboardMetadata.dropFirst().sink { dGroupsAndCategories in
