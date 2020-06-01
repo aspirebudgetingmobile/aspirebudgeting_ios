@@ -451,6 +451,73 @@ extension GoogleSheetsManager {
 // MARK: Writing to Google Sheets
 
 extension GoogleSheetsManager {
+  func addCategoryTransfer(from: String,
+                           to: String,
+                           amount: String,
+                           memo: String,
+                           completion: @escaping (Bool) -> Void) {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+
+    let sheetsValueRange = GTLRSheets_ValueRange()
+    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
+    sheetsValueRange.range = "Category Transfers!B:F"
+
+    var valuesToInsert = [String]()
+    valuesToInsert.append(dateFormatter.string(from: Date()))
+    
+    valuesToInsert.append(amount)
+    valuesToInsert.append(from)
+    valuesToInsert.append(to)
+    valuesToInsert.append(memo)
+    
+    sheetsValueRange.values = [valuesToInsert]
+    
+    guard let authorizer = self.authorizer else {
+      os_log(
+        "Aspire version is nil",
+        log: .sheetsManager,
+        type: .error
+      )
+      error = GoogleDriveManagerError.nilAuthorizer
+      return
+    }
+
+    sheetsService.authorizer = authorizer
+    
+    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(
+      withObject: sheetsValueRange,
+      spreadsheetId: defaultFile!.id,
+      range: sheetsValueRange.range!
+    )
+
+    appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
+    
+    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
+      if let error = error as NSError? {
+        if error.domain == kGTLRErrorObjectDomain {
+          os_log(
+            "Encountered kGTLRErrorObjectDomain: %{public}s",
+            log: .sheetsManager,
+            type: .error,
+            error.localizedDescription
+          )
+          self.error = GoogleDriveManagerError.inconsistentSheet
+        } else {
+          os_log(
+            "No internet connection",
+            log: .sheetsManager,
+            type: .error
+          )
+          self.error = GoogleDriveManagerError.noInternet
+        }
+      }
+//      self.fetchAccountBalances(spreadsheet: self.defaultFile!)
+      completion(error == nil)
+    }
+  }
+  
   func addTransaction(
     amount: String,
     memo: String,

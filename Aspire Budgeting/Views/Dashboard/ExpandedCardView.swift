@@ -9,9 +9,14 @@
 import SwiftUI
 
 struct ExpandedCardView: View {
+  @EnvironmentObject var sheetsManager: GoogleSheetsManager
+  
   let categoryName: String
   let totals: DashboardCardView.Totals
   let categoryRows: [DashboardCategoryRow]
+
+  @State private var showCategoryTransfers = false
+  @State private var selectedCategoryRow: DashboardCategoryRow?
 
   var body: some View {
     VStack {
@@ -75,9 +80,17 @@ struct ExpandedCardView: View {
       Divider().padding(.horizontal)
       ForEach(self.categoryRows, id: \.self) { row in
         VStack {
-          DashboardRow(categoryRow: row).padding().transition(.identity)
+          DashboardRow(categoryRow: row)
+            .padding()
+            .transition(.identity)
+            .onLongPressGesture {
+              self.showCategoryTransfers = true
+              self.selectedCategoryRow = row
+          }
           Divider().padding(.horizontal)
         }
+      }.sheet(isPresented: $showCategoryTransfers) {
+        CategoryTransferView(fromCategory: self.selectedCategoryRow!.categoryName).environmentObject(self.sheetsManager)
       }
     }
   }

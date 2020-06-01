@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct DashboardCardView: View {
+  @EnvironmentObject var sheetsManager: GoogleSheetsManager
   struct Totals {
     var availableTotal: AspireNumber
     var budgetedTotal: AspireNumber
@@ -26,7 +27,10 @@ struct DashboardCardView: View {
       if !self.expanded {
         CollapsedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
       } else {
-        ExpandedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
+        ExpandedCardView(categoryName: categoryName,
+                         totals: totals,
+                         categoryRows: categoryRows)
+          .environmentObject(self.sheetsManager)
       }
     }.background(Color.white.opacity(0.07))
       .cornerRadius(10)

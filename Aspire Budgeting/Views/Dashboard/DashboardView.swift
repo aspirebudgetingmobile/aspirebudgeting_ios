@@ -47,7 +47,7 @@ struct DashboardView: View {
                 categoryName: group,
                 totals: self.availableTotals(for: group),
                 categoryRows: self.categoryRows(for: group)
-              )
+              ).environmentObject(self.sheetsManager)
             }
           }
         } else {
