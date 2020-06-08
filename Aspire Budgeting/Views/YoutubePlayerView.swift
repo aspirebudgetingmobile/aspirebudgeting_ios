@@ -25,3 +25,9 @@ struct YoutubePlayerView: UIViewRepresentable {
     return webView
   }
 }
+
+struct YoutubePlayerView_Previews: PreviewProvider {
+  static var previews: some View {
+    YoutubePlayerView().frame(width: 200, height: 100, alignment: .center)
+  }
+}

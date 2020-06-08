@@ -849,7 +849,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Aspire Budgeting/Preview Content\"";
-				DEVELOPMENT_TEAM = CB34G9Z4DX;
+				DEVELOPMENT_TEAM = Q3C6YVYRDP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Aspire Budgeting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -857,7 +857,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = in.teramolabs.AspireBudgeting;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pratikpatel.AspireBudgeting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

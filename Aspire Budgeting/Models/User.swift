@@ -42,3 +42,5 @@ struct User {
     authorizer = googleUser.authentication.fetcherAuthorizer()
   }
 }
+
+struct NewUser {}

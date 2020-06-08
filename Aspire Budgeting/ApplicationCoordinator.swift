@@ -28,9 +28,11 @@ final class ApplicationCoordinator {
   }
 
   private let applicationStateObservable: ApplicationStateObservable
+  private let signInProvider: SignInProvider
   let applicationRootView: ApplicationRootView
 
-  init() {
+  init(signInProvider: SignInProvider) {
+    self.signInProvider = signInProvider
     applicationStateObservable = ApplicationStateObservable(applicationState: applicationState)
     applicationRootView = ApplicationRootView(
       applicationStateObservable: applicationStateObservable
@@ -42,9 +44,10 @@ final class ApplicationCoordinator {
   func activate() {
     // configure the dependencies here for now...
     applicationState = .launched
-    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-      self.applicationState = .requiresSignIn
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+//      self.applicationState = .requiresSignIn
+//    }
+    signInOrAuthenticate()
   }
 
   /// Sets the application state to require authentication
@@ -56,9 +59,7 @@ final class ApplicationCoordinator {
 
   // MARK: - Private
 
-  private func signInOrAuthenticate() {
-
-  }
+  private func signInOrAuthenticate() {}
 }
 
 /// A wrapper to wrap the `ApplicationState` that can be observed. This is a workround because
@@ -75,4 +76,3 @@ final class ApplicationStateObservable: ObservableObject {
     self.applicationState = applicationState
   }
 }
-

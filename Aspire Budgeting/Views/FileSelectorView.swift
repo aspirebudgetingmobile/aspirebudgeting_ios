@@ -62,17 +62,42 @@ struct FileSelectorView: View {
   }
 }
 
+extension Int: Identifiable {
+  public typealias ID = Int
+  public var id: Int { return self }
+}
+
+struct SomeView: View {
+  let nums = [1, 2, 3, 4]
+  var body: some View {
+//    ForEach(nums, id: \.self) { num in
+//      Text("\(num)")
+//    }
+    List(nums) { num in
+      Button(action: {
+
+      }, label: {Text("\(num)")}
+      )
+//      Text("\(num)")
+
+    }
+  }
+}
+
 struct FileSelectorView_Previews: PreviewProvider {
   struct FileError: AspireError {
-    var description: String = "Preview Error"
+    var description: String = "This is an error"
   }
 
   static var previews: some View {
-    getFileSelectorView()
+    Group {
+      getFileSelectorView(error: nil)
+//      getFileSelectorView(error: FileError())
+      SomeView()
+    }
   }
 
-  static func getFileSelectorView() -> FileSelectorView {
-    let error = FileError()
+  static func getFileSelectorView(error: AspireError?) -> FileSelectorView {
     let manager = PreviewDriveManager()
     manager.error = error
     return FileSelectorView(driveManager: manager)

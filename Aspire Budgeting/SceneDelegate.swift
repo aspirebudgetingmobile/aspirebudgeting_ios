@@ -83,7 +83,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: windowScene)
-      let applicationCoordinator = ApplicationCoordinator()
+      let applicationCoordinator = ApplicationCoordinator(
+        signInProvider: GoogleSignInProvider()
+      )
       self.applicationCoordinator = applicationCoordinator
 
       let applicationRootView = applicationCoordinator.applicationRootView

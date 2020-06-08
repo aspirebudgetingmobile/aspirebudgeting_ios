@@ -22,7 +22,11 @@ final class PreviewProviderObjectFactory: NewObjectFactory {
 
 final class PreviewDriveManager: DriveManager {
   private let files: [File] = [
-    File(id: UUID().uuidString, name: "Preview File"),
+    File(id: UUID().uuidString, name: "Preview File 1"),
+    File(id: UUID().uuidString, name: "Preview File 2"),
+    File(id: UUID().uuidString, name: "Preview File 3"),
+    File(id: UUID().uuidString, name: "Aspire Budget v3.2"),
+    File(id: UUID().uuidString, name: "Preview File 4"),
   ]
 
   // The error one might want to show in the preview canvas.

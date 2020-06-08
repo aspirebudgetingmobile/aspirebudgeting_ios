@@ -7,6 +7,7 @@
 //
 import Foundation
 import os.log
+import UIKit
 
 struct DashboardMetadata {
   let groups: [String]
@@ -23,6 +24,27 @@ struct DashboardMetadata {
       groupedBudgetedTotals,
       groupedSpentTotals
     ) = DashboardMetadata.parse(rows: rows)
+    let placeholderView = UIView()
+    let view = UIView()
+    let bottomConstraint = NSLayoutConstraint(
+      item: placeholderView,
+      attribute: .bottom,
+      relatedBy: .equal,
+      toItem: view,
+      attribute: .bottom,
+      multiplier: 1,
+      constant: 0
+    )
+
+    let x = 5
+
+    if x == 5 {
+      print("x")
+    }
+
+    let m = [Int]()
+
+    if m.isEmpty {}
   }
 
   private static func parse(

@@ -23,6 +23,8 @@ protocol AspireSignInInstance: AnyObject {
   func signIn()
 }
 
+protocol SignInClient {}
+
 extension GIDSignIn: AspireSignInInstance {}
 
 extension Notification.Name {
@@ -157,5 +159,62 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
       type: .default
     )
     notificationCenter.post(name: .logout, object: nil, userInfo: nil)
+  }
+}
+
+enum SignInError: AspireError {
+  case error(Error)
+
+  var description: String {
+    switch self {
+    case .error(let error):
+      return error.localizedDescription
+    }
+  }
+}
+
+protocol SignInProvider {
+  func restorePreviousSession(completion: @escaping (Result<SignInResponse>) -> Void)
+}
+
+enum SignInResponse {
+  case noPreviousSession
+  case user(NewUser)
+  case error
+}
+
+final class GoogleSignInProvider: NSObject, SignInProvider, GIDSignInDelegate {
+  typealias SignInCompletion = (Result<SignInResponse>) -> Void
+
+  private let signInInstance = GIDSignIn.sharedInstance()!
+  private var signInCompletion: SignInCompletion?
+
+  override init() {
+    super.init()
+    configureGoogleSignInInstance()
+//    signInInstance.restorePreviousSignIn()
+  }
+
+  func restorePreviousSession(completion: @escaping (Result<SignInResponse>) -> Void) {
+    guard signInInstance.hasPreviousSignIn() else {
+      return completion(.success(.noPreviousSession))
+    }
+    signInCompletion = completion
+    signInInstance.restorePreviousSignIn()
+  }
+
+  private func configureGoogleSignInInstance() {
+    signInInstance.clientID = "874937341463-ugk1agidv8n1di0vsl90eodfnnogu08f.apps.googleusercontent.com"
+    signInInstance.delegate = self
+    signInInstance.scopes = [kGTLRAuthScopeDrive, kGTLRAuthScopeSheetsDrive]
+  }
+
+  func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    if let error = error {
+      signInCompletion?(.error(SignInError.error(error)))
+      return
+    }
+    let newUser = NewUser()
+    signInCompletion?(.success(.user(newUser)))
   }
 }
