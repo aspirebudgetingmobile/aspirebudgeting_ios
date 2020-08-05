@@ -378,7 +378,8 @@ extension GoogleSheetsManager {
       if let version = valueRange.values?.first?.last as? String {
         self.aspireVersion = SupportedAspireVersions(rawValue: version)
         self.persistSheetID(spreadsheet: spreadsheet)
-        self.fetchCategoriesAndGroups(spreadsheet: spreadsheet)
+        self.fetchCategoriesAndGroups(spreadsheet: spreadsheet,
+                                      spreadsheetVersion: self.aspireVersion!)
         self.getTransactionCategories(spreadsheet: spreadsheet)
         self.getTransactionAccounts(spreadsheet: spreadsheet)
         self.fetchAccountBalances(spreadsheet: spreadsheet)
@@ -386,24 +387,15 @@ extension GoogleSheetsManager {
     }
   }
 
-  func fetchCategoriesAndGroups(spreadsheet: File) {
+  func fetchCategoriesAndGroups(spreadsheet: File, spreadsheetVersion: SupportedAspireVersions) {
     os_log(
       "Fetching Categories and groups",
       log: .sheetsManager,
       type: .default
     )
 
-    guard let version = aspireVersion else {
-      os_log(
-        "Aspire version is nil",
-        log: .sheetsManager,
-        type: .error
-      )
-      fatalError("Aspire Version is nil")
-    }
-
     let range: String
-    switch version {
+    switch spreadsheetVersion {
     case .twoEight, .three, .threeOne:
       range = "Dashboard!F4:O"
     case .threeTwo:
