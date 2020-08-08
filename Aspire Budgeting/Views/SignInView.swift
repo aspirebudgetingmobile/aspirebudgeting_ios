@@ -3,11 +3,9 @@
 //  Aspire Budgeting
 //
 
-import GoogleSignIn
 import SwiftUI
 
 struct SignInView: View {
-  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @Environment (\.colorScheme) var colorScheme: ColorScheme
 
   private let rootVC = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
