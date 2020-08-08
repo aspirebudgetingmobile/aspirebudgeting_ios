@@ -46,3 +46,9 @@ enum Colors {
 
   static let segmentRed = Color(red: 249 / 255, green: 121 / 255, blue: 124 / 255)
 }
+
+extension Color {
+  static let primaryBackgroundColor = Color("primaryBackgroundColor")
+  static let primaryTextColor = Color("primaryTextColor")
+  static let secondaryTextColor = Color("secondaryTextColor")
+}
