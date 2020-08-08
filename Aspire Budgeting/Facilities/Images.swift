@@ -3,7 +3,6 @@
 // Aspire Budgeting
 //
 
-
 import SwiftUI
 
 extension Image {

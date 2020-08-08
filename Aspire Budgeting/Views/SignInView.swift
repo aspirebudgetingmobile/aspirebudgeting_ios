@@ -14,9 +14,9 @@ struct SignInView: View {
 
   var body: some View {
     VStack {
-        Text("Aspire Budgeting")
-          .font(.nunitoSemiBold(size: 20))
-          .foregroundColor(.primaryTextColor)
+      Text("Aspire Budgeting")
+        .font(.nunitoSemiBold(size: 20))
+        .foregroundColor(.primaryTextColor)
 
       Image.circularLogo
         .padding(.top)
@@ -36,14 +36,10 @@ struct SignInView: View {
       Image.diamondSeparator
         .padding()
 
-//      if colorScheme == .light || colorScheme == .dark{
-        GoogleSignInButton(colorScheme: colorScheme)
-          .frame(height: 50)
-          .padding()
-//      }
-      
-//      Text(colorScheme == .dark ? "In dark mode" : "In light mode")
-          
+      GoogleSignInButton(colorScheme: colorScheme)
+        .frame(height: 50)
+        .padding()
+
     }
     .background(Color.primaryBackgroundColor)
   }

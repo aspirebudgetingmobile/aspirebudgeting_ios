@@ -34,7 +34,10 @@ struct ContentView: View {
       if isLoggedOut {
         SignInView()
           .frame(maxHeight: .infinity)
-          .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+          .animation(Animation
+                      .spring()
+                      .speed(1.0))
+          .transition(.move(edge: .trailing))
       } else if needsLocalAuth {
         FaceIDView()
       } else if hasDefaultSheet {
