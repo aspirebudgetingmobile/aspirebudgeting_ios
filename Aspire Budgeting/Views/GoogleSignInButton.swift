@@ -14,6 +14,8 @@ struct GoogleSignInButton: UIViewRepresentable {
     UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
   }
 
+  let colorScheme: ColorScheme
+
   func updateUIView(
     _ signInButton: GIDSignInButton,
     context: UIViewRepresentableContext<GoogleSignInButton>
@@ -24,15 +26,23 @@ struct GoogleSignInButton: UIViewRepresentable {
     }
 
     GIDSignIn.sharedInstance()?.presentingViewController = presentingVC
+    signInButton.colorScheme = colorScheme == .light ? .light : .dark
   }
 
   func makeUIView(context: UIViewRepresentableContext<GoogleSignInButton>) -> GIDSignInButton {
+    let button =
     GIDSignInButton()
+    button.style = .wide
+
+    return button
   }
 }
 
 struct GoogleSignInButton_Previews: PreviewProvider {
   static var previews: some View {
-    GoogleSignInButton()
+    Group {
+      GoogleSignInButton(colorScheme: .light)
+      GoogleSignInButton(colorScheme: .dark)
+    }
   }
 }

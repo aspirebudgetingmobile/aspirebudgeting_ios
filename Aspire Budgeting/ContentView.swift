@@ -15,8 +15,6 @@ struct ContentView: View {
   @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
   @EnvironmentObject var stateManager: StateManager
 
-  @State var cancellable: AnyCancellable!
-
   var needsLocalAuth: Bool {
     return stateManager.currentState == StateManager.State.verifiedGoogleUser
       || stateManager.currentState == StateManager.State.localAuthFailed
@@ -35,7 +33,11 @@ struct ContentView: View {
     VStack {
       if isLoggedOut {
         SignInView()
-          .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
+          .frame(maxHeight: .infinity)
+          .animation(Animation
+                      .spring()
+                      .speed(1.0))
+          .transition(.move(edge: .trailing))
       } else if needsLocalAuth {
         FaceIDView()
       } else if hasDefaultSheet {
@@ -44,16 +46,17 @@ struct ContentView: View {
         FileSelectorView()
           .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
-    }.background(BackgroundSplitColorView())
+    }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
   }
 }
 
 // struct ContentView_Previews: PreviewProvider {
 //  static let objectFactory = ObjectFactory()
 //    static var previews: some View {
-//      ContentView(
-//        userManager: objectFactory.userManager,
-//        driveManager: objectFactory.driveManager
-//      )
+//      ContentView(userManager: objectFactory.userManager,
+//                  driveManager: objectFactory.driveManager,
+//                  sheetsManager: objectFactory.sheetsManager,
+//                  localAuthorizationManager: objectFactory.localAuthorizationManager,
+//                  stateManager: objectFactory.stateManager)
 //    }
 // }

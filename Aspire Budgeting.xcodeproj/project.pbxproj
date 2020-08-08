@@ -61,6 +61,7 @@
 		06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE1239C301300F24BF2 /* AspireFonts.swift */; };
 		06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */; };
 		06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */; };
+		06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BD7EAE24DDEA81003C5D32 /* Images.swift */; };
 		06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C6A723690AEB00862196 /* FileSelectorView.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
@@ -147,6 +148,7 @@
 		06BAAFE1239C301300F24BF2 /* AspireFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireFonts.swift; sourceTree = "<group>"; };
 		06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireMasterView.swift; sourceTree = "<group>"; };
 		06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSegmentedView.swift; sourceTree = "<group>"; };
+		06BD7EAE24DDEA81003C5D32 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		06C5C6A723690AEB00862196 /* FileSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorView.swift; sourceTree = "<group>"; };
 		06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGIDSignIn.swift; sourceTree = "<group>"; };
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */,
 				06157E9F2411E831000161C3 /* AspireBugTracker.swift */,
 				06157EA32411EC7A000161C3 /* InstabugCredentials.swift */,
+				06BD7EAE24DDEA81003C5D32 /* Images.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				06F9A8D7243917EF005E5A13 /* AccountBalancesMetadata.swift in Sources */,
 				06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
+				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */,
 				06639B3D23BF53B3008E6E4C /* AspireOSLogs.swift in Sources */,
 				0694C2232369EDB90039528A /* DashboardView.swift in Sources */,
