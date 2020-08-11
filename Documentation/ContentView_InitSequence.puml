@@ -7,16 +7,16 @@ activate ContentView
 ContentView -> StateManager : getCurrentState()
 
 alt isLoggedOut
-ContentView -> SignInView : create()
+ContentView -> SignInView : init()
 
 else needsLocalAuth
-ContentView -> FaceIDView : create()
+ContentView -> FaceIDView : init()
 
 else hasDefaultSheet
-ContentView -> AspireMasterView : create()
+ContentView -> AspireMasterView : init()
 
 else 
-ContentView -> FileSelectorView : create()
+ContentView -> FileSelectorView : init()
 end
 
 deactivate ContentView

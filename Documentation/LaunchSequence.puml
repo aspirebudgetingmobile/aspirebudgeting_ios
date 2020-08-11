@@ -24,6 +24,8 @@ else currentState == authenticatedLocally
 SceneDelegate -> SheetsManager : checkDefaultsForSpreadsheet()
 end
 
+SceneDelegate -> ContentView : init(userManager, driveManager, sheetsManager, localAuthorizationManager, stateManager)
+
 deactivate ObjectFactory
 deactivate SceneDelegate
 @enduml
