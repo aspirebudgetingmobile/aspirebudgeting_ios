@@ -1,0 +1,22 @@
+@startuml
+actor AspireMasterView
+activate AspireMasterView
+
+AspireMasterView -> DashboardView : init(file)
+activate DashboardView
+DashboardView -> DashboardView : onAppear()
+activate DashboardView
+DashboardView -> GoogleSheetsManager : verifySheet(file)
+
+alt sheetsManager.error == nil
+loop For each category group
+DashboardView -> DashboardCardView : init()
+end
+
+else sheetsManager.error != nil
+DashboardView -> ErrorBannerView : init()
+end
+deactivate DashboardView
+deactivate DashboardView
+deactivate AspireMasterView
+@enduml

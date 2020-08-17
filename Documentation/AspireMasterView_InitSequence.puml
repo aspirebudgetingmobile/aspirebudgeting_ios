@@ -1,0 +1,24 @@
+@startuml
+actor User
+
+User -> ContentView : Launch App
+activate ContentView
+
+ContentView -> AspireMasterView : init()
+
+activate AspireMasterView
+AspireMasterView -> AspireNavigationBar : init()
+AspireMasterView -> AspireSegmentedView : init()
+
+alt selectedSegment == 0
+AspireMasterView -> GoogleSheetsManager : getDefaultFile()
+AspireMasterView -> DashboardView: init(file)
+
+else selectedSegment == 1
+AspireMasterView -> AccountBalancesView : init()
+end
+
+
+deactivate AspireMasterView
+deactivate ContentView
+@enduml

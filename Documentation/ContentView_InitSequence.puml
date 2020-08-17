@@ -1,0 +1,23 @@
+@startuml
+actor User
+
+User -> ContentView : Launch App
+activate ContentView
+
+ContentView -> StateManager : getCurrentState()
+
+alt isLoggedOut
+ContentView -> SignInView : init()
+
+else needsLocalAuth
+ContentView -> FaceIDView : init()
+
+else hasDefaultSheet
+ContentView -> AspireMasterView : init()
+
+else 
+ContentView -> FileSelectorView : init()
+end
+
+deactivate ContentView
+@enduml
