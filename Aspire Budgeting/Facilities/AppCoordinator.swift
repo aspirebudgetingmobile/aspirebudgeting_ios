@@ -6,7 +6,7 @@
 import Foundation
 import Combine
 
-class AppCoordinator: ObservableObject {
+final class AppCoordinator: ObservableObject {
   private let stateManager: AppStateManager
 
   private var stateManagerSink: AnyCancellable!
