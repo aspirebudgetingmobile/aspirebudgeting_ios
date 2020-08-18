@@ -18,41 +18,41 @@ final class StateManagerTests: XCTestCase {
   func testStateManager() {
     let stateManager = StateManager()
 
-    XCTAssertEqual(stateManager.currentState, StateManager.State.loggedOut)
+    XCTAssertEqual(stateManager.currentState.value, .loggedOut)
 
     postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState, StateManager.State.loggedOut)
+    XCTAssertEqual(stateManager.currentState.value, .loggedOut)
 
     postNotification(notificationName: .authorizerUpdated)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.verifiedGoogleUser)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedGoogleUser)
 
     postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState, StateManager.State.verifiedGoogleUser)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedGoogleUser)
 
     postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.verifiedGoogleUser)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedGoogleUser)
 
     var userInfo = [AnyHashable: Any]()
     userInfo[Notification.Name.authorizedLocally] = true
 
     postNotification(notificationName: .authorizedLocally, userInfo: userInfo)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.authenticatedLocally)
+    XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
     postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState, StateManager.State.needsLocalAuthentication)
+    XCTAssertEqual(stateManager.currentState.value, .needsLocalAuthentication)
 
     userInfo[Notification.Name.authorizedLocally] = false
     postNotification(notificationName: .authorizedLocally, userInfo: userInfo)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.localAuthFailed)
+    XCTAssertEqual(stateManager.currentState.value, .localAuthFailed)
 
     postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.localAuthFailed)
+    XCTAssertEqual(stateManager.currentState.value, .localAuthFailed)
 
     userInfo[Notification.Name.authorizedLocally] = true
     postNotification(notificationName: .authorizedLocally, userInfo: userInfo)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.authenticatedLocally)
+    XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
     postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.hasDefaultSheet)
+    XCTAssertEqual(stateManager.currentState.value, .hasDefaultSheet)
   }
 }
