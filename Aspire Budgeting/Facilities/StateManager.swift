@@ -18,6 +18,10 @@ enum AppState: Equatable {
 
 protocol AppStateManager {
   var currentState: CurrentValueSubject<AppState, Never> { get }
+
+  var needsLocalAuth: Bool { get }
+  var isLoggedOut: Bool { get }
+  var hasDefaultSheet: Bool { get }
 }
 
 final class StateManager: AppStateManager {
@@ -153,5 +157,25 @@ final class StateManager: AppStateManager {
     }
 
     return validTransitions.contains(nextState)
+  }
+}
+
+// MARK: - Computed Properties
+extension StateManager {
+  var needsLocalAuth: Bool {
+    let currentValue = currentState.value
+    return currentValue == .verifiedGoogleUser
+      || currentValue == .localAuthFailed
+      || currentValue == .needsLocalAuthentication
+  }
+
+  var isLoggedOut: Bool {
+    let currentValue = currentState.value
+    return currentValue == .loggedOut
+  }
+
+  var hasDefaultSheet: Bool {
+    let currentValue = currentState.value
+    return currentValue == .hasDefaultSheet
   }
 }
