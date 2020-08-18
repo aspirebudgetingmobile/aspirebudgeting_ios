@@ -2,25 +2,27 @@
 //  StateManager.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/9/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
+import Combine
 import Foundation
 import os.log
 
-final class StateManager: ObservableObject {
-  enum State: Equatable {
-    case loggedOut
-    case verifiedGoogleUser
-    case authenticatedLocally
-    case localAuthFailed
-    case needsLocalAuthentication
-    case hasDefaultSheet
-  }
+enum AppState: Equatable {
+  case loggedOut
+  case verifiedGoogleUser
+  case authenticatedLocally
+  case localAuthFailed
+  case needsLocalAuthentication
+  case hasDefaultSheet
+}
 
-  @Published var currentStatePublisher: State = .loggedOut
-  private(set) var currentState: State = .loggedOut
+protocol AppStateManager {
+  var currentState: CurrentValueSubject<AppState, Never> { get }
+}
+
+final class StateManager: AppStateManager {
+
+  var currentState = CurrentValueSubject<AppState, Never>(.loggedOut)
 
   private var authorizerObserver: NSObjectProtocol?
   private var localAuthObserver: NSObjectProtocol?
@@ -28,8 +30,8 @@ final class StateManager: ObservableObject {
   private var defaultSheetObserver: NSObjectProtocol?
   private var logoutObserver: NSObjectProtocol?
 
-  private lazy var transitions: [State: Set<State>] = {
-    var transitions = [State: Set<State>]()
+  private lazy var transitions: [AppState: Set<AppState>] = {
+    var transitions = [AppState: Set<AppState>]()
 
     transitions[.loggedOut] = [.verifiedGoogleUser]
     transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
@@ -133,10 +135,9 @@ final class StateManager: ObservableObject {
     }
   }
 
-  func transition(to nextState: State) {
+  func transition(to nextState: AppState) {
     if canTransition(to: nextState) {
-      currentState = nextState
-      currentStatePublisher = nextState
+      currentState.value = nextState
     } else {
       os_log(
         "Invalid state transition. No state transition performed.",
@@ -146,8 +147,8 @@ final class StateManager: ObservableObject {
     }
   }
 
-  func canTransition(to nextState: State) -> Bool {
-    guard let validTransitions = transitions[currentState] else {
+  func canTransition(to nextState: AppState) -> Bool {
+    guard let validTransitions = transitions[currentState.value] else {
       return false
     }
 

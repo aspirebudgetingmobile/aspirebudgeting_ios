@@ -52,7 +52,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       stateManager = objectFactory.stateManager
     }
 
-    stateManagerSink = stateManager.$currentStatePublisher
+    objectFactory.appCoordinator.start()
+    stateManagerSink = stateManager.currentState
       .sink { [weak self] currentState in
         guard let weakSelf = self else { return }
 
@@ -77,7 +78,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       .environmentObject(driveManager)
       .environmentObject(sheetsManager)
       .environmentObject(localAuthorizationManager)
-      .environmentObject(stateManager)
+      .environmentObject(objectFactory.appCoordinator)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
@@ -101,8 +102,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was
     // inactive.
-    if stateManager.currentState == .needsLocalAuthentication ||
-      stateManager.currentState == .localAuthFailed {
+    if stateManager.currentState.value == .needsLocalAuthentication ||
+        stateManager.currentState.value == .localAuthFailed {
       userManager.authenticateLocally()
     }
   }
@@ -120,8 +121,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func sceneWillEnterForeground(_ scene: UIScene) {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
-    if stateManager.currentState == .needsLocalAuthentication ||
-      stateManager.currentState == .localAuthFailed {
+    if stateManager.currentState.value == .needsLocalAuthentication ||
+        stateManager.currentState.value == .localAuthFailed {
       userManager.authenticateLocally()
     }
   }
