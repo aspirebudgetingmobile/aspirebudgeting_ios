@@ -51,7 +51,7 @@ struct AccountBalancesView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }.padding(.top, -10)
               }
-            }
+            }.background(Colors.aspireGray)
           }
         } else {
           ZStack {

@@ -12,7 +12,7 @@ struct ContentView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
-  @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
+//  @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
   @EnvironmentObject var appCoordinator: AppCoordinator
 
   var needsLocalAuth: Bool {
@@ -41,7 +41,7 @@ struct ContentView: View {
       } else if hasDefaultSheet {
         AspireMasterView()
       } else {
-        FileSelectorView()
+         FileSelectorView()
           .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
     }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
