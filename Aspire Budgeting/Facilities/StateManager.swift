@@ -9,7 +9,7 @@ import os.log
 
 enum AppState: Equatable {
   case loggedOut
-  case verifiedGoogleUser
+  case verifiedExternally
   case authenticatedLocally
   case localAuthFailed
   case needsLocalAuthentication
@@ -22,14 +22,15 @@ protocol AppStateManager {
   var needsLocalAuth: Bool { get }
   var isLoggedOut: Bool { get }
   var hasDefaultSheet: Bool { get }
+
+  func authenticatedLocally(result: Bool)
+  func handleBackground()
 }
 
 final class StateManager: AppStateManager {
-
   var currentState = CurrentValueSubject<AppState, Never>(.loggedOut)
 
   private var authorizerObserver: NSObjectProtocol?
-  private var localAuthObserver: NSObjectProtocol?
   private var backgroundObserver: NSObjectProtocol?
   private var defaultSheetObserver: NSObjectProtocol?
   private var logoutObserver: NSObjectProtocol?
@@ -37,8 +38,8 @@ final class StateManager: AppStateManager {
   private lazy var transitions: [AppState: Set<AppState>] = {
     var transitions = [AppState: Set<AppState>]()
 
-    transitions[.loggedOut] = [.verifiedGoogleUser]
-    transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
+    transitions[.loggedOut] = [.verifiedExternally]
+    transitions[.verifiedExternally] = [.authenticatedLocally, .localAuthFailed]
     transitions[.authenticatedLocally] = [
       .localAuthFailed,
       .hasDefaultSheet,
@@ -64,53 +65,22 @@ final class StateManager: AppStateManager {
           log: .stateManager,
           type: .default
         )
-        self.transition(to: .verifiedGoogleUser)
+        self.transition(to: .verifiedExternally)
       }
 
-    localAuthObserver =
-      NotificationCenter.default.addObserver(
-        forName: .authorizedLocally,
-        object: nil,
-        queue: OperationQueue.main
-      ) { notification in
-        guard let userInfo = notification.userInfo,
-          let success = userInfo[Notification.Name.authorizedLocally] as? Bool else { return }
-
-        os_log(
-          "Received authorizedLocally.",
-          log: .stateManager,
-          type: .default
-        )
-        if success {
-          os_log(
-            "Transitioning to authenticatedLocally",
-            log: .stateManager,
-            type: .default
-          )
-          self.transition(to: .authenticatedLocally)
-        } else {
-          os_log(
-            "Transitioning to localAuthFailed",
-            log: .stateManager,
-            type: .error
-          )
-          self.transition(to: .localAuthFailed)
-        }
-      }
-
-    backgroundObserver =
-      NotificationCenter.default.addObserver(
-        forName: Notification.Name("background"),
-        object: nil,
-        queue: nil
-      ) { _ in
-        os_log(
-          "Received background. Transitioning to needsLocalAuthentication",
-          log: .stateManager,
-          type: .default
-        )
-        self.transition(to: .needsLocalAuthentication)
-      }
+//    backgroundObserver =
+//      NotificationCenter.default.addObserver(
+//        forName: Notification.Name("background"),
+//        object: nil,
+//        queue: nil
+//      ) { _ in
+//        os_log(
+//          "Received background. Transitioning to needsLocalAuthentication",
+//          log: .stateManager,
+//          type: .default
+//        )
+//        self.transition(to: .needsLocalAuthentication)
+//      }
 
     defaultSheetObserver = NotificationCenter.default.addObserver(
       forName: .hasSheetInDefaults,
@@ -164,7 +134,7 @@ final class StateManager: AppStateManager {
 extension StateManager {
   var needsLocalAuth: Bool {
     let currentValue = currentState.value
-    return currentValue == .verifiedGoogleUser
+    return currentValue == .verifiedExternally
       || currentValue == .localAuthFailed
       || currentValue == .needsLocalAuthentication
   }
@@ -177,5 +147,30 @@ extension StateManager {
   var hasDefaultSheet: Bool {
     let currentValue = currentState.value
     return currentValue == .hasDefaultSheet
+  }
+}
+
+//MARK: - AppStateManager Protocol Methods
+extension StateManager {
+  func authenticatedLocally(result: Bool) {
+    if result {
+      os_log(
+        "Transitioning to authenticatedLocally",
+        log: .stateManager,
+        type: .default
+      )
+      self.transition(to: .authenticatedLocally)
+    } else {
+      os_log(
+        "Transitioning to localAuthFailed",
+        log: .stateManager,
+        type: .error
+      )
+      self.transition(to: .localAuthFailed)
+    }
+  }
+
+  func handleBackground() {
+    self.transition(to: .needsLocalAuthentication)
   }
 }

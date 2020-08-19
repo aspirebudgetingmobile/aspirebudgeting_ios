@@ -24,13 +24,13 @@ final class StateManagerTests: XCTestCase {
     XCTAssertEqual(stateManager.currentState.value, .loggedOut)
 
     postNotification(notificationName: .authorizerUpdated)
-    XCTAssertEqual(stateManager.currentState.value, .verifiedGoogleUser)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedExternally)
 
     postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState.value, .verifiedGoogleUser)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedExternally)
 
     postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState.value, .verifiedGoogleUser)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedExternally)
 
     var userInfo = [AnyHashable: Any]()
     userInfo[Notification.Name.authorizedLocally] = true

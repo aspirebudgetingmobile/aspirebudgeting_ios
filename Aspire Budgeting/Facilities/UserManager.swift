@@ -87,7 +87,7 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
       log: .userManager,
       type: .default
     )
-    localAuthManager.authenticateUserLocally()
+    localAuthManager.authenticateUserLocally { print($0) }
   }
 
   private func fetchUser() {
