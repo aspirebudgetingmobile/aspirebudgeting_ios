@@ -20,6 +20,8 @@ struct FileSelectorView: View {
     viewModel.getError()
   }
 
+  @State private var searchText = ""
+
   var body: some View {
     if viewModel.currentState == .isLoading {
       Text("Loading")
@@ -27,15 +29,18 @@ struct FileSelectorView: View {
 
     if viewModel.currentState == .filesRetrieved {
       NavigationView {
-        List(files) { file in
-          Button(
-            action: {
-              viewModel.fileSelectedCallback?(file)
-            }, label: {
-              Text(file.name)
-            }
-          )
-        }.navigationBarTitle("Link your Aspire sheet")
+        VStack {
+          SearchBar(text: $searchText)
+          List(files.filter({searchText.isEmpty ? true : $0.name.contains(searchText)})) { file in
+            Button(
+              action: {
+                viewModel.fileSelectedCallback?(file)
+              }, label: {
+                Text(file.name)
+              }
+            )
+          }.navigationBarTitle("Link your Aspire sheet")
+        }
       }
     }
 
@@ -45,10 +50,10 @@ struct FileSelectorView: View {
   }
 }
 
- struct FileSelectorView_Previews: PreviewProvider {
-    static var previews: some View {
-      FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
-                                                          .error(error: GoogleDriveManagerError.nilAuthorizer),
-                                                        fileSelectedCallback: nil))
-    }
- }
+// struct FileSelectorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//      FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
+//                                                          .error(error: GoogleDriveManagerError.nilAuthorizer),
+//                                                        fileSelectedCallback: nil))
+//    }
+// }
