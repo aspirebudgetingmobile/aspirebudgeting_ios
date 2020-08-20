@@ -61,9 +61,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         case .loggedOut:
           weakSelf.userManager.authenticateWithGoogle()
 
-        case .authenticatedLocally:
-          weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
-
         default:
           print("The current state is \(currentState)")
         }

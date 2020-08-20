@@ -9,13 +9,16 @@ import Combine
 final class AppCoordinator: ObservableObject {
   private let stateManager: AppStateManager
   private let localAuthorizer: AppLocalAuthorizer
+  private let appDefaults: AppDefaults
 
   private var stateManagerSink: AnyCancellable!
 
   init(stateManager: AppStateManager,
-       localAuthorizer: AppLocalAuthorizer) {
+       localAuthorizer: AppLocalAuthorizer,
+       appDefaults: AppDefaults) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
+    self.appDefaults = appDefaults
   }
 
   func start() {
@@ -50,6 +53,13 @@ extension AppCoordinator {
         .authenticateUserLocally {
           self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
         }
+
+    case .authenticatedLocally:
+      guard let file = self.appDefaults.getDefaultFile() else {
+        return
+      }
+      self.stateManager.processEvent(event: .hasDefaultFile)
+      //TODO: pass the file to sheets manager
 
     default:
       print("The current state is \(state)")
