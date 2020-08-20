@@ -53,6 +53,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     objectFactory.appCoordinator.start()
+    //TODO: .loggedOut handler should be done in start()
     stateManagerSink = stateManager.currentState
       .sink { [weak self] currentState in
         guard let weakSelf = self else { return }
@@ -60,9 +61,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         switch currentState {
         case .loggedOut:
           weakSelf.userManager.authenticateWithGoogle()
-
-        case .authenticatedLocally:
-          weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
 
         default:
           print("The current state is \(currentState)")

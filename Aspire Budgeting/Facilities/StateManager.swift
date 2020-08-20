@@ -19,6 +19,7 @@ enum AppState: Equatable {
 enum AppStateEvent {
   case authenticatedLocally(result: Bool)
   case enteredBackground
+  case hasDefaultFile
 }
 
 protocol AppStateManager {
@@ -149,6 +150,9 @@ extension StateManager {
 
     case .enteredBackground:
       enteredBackground()
+
+    case .hasDefaultFile:
+      foundDefaultFile()
     }
   }
 }
@@ -175,5 +179,9 @@ extension StateManager {
 
   private func enteredBackground() {
     self.transition(to: .needsLocalAuthentication)
+  }
+
+  private func foundDefaultFile() {
+    self.transition(to: .hasDefaultSheet)
   }
 }

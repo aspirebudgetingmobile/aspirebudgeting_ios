@@ -2,9 +2,6 @@
 //  ObjectFactory.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 10/22/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 import GoogleSignIn
@@ -68,8 +65,13 @@ final class ObjectFactory {
     AspireBugTracker(credentials: instabugCredentials)
   }()
 
+  lazy var appDefaultsManager: AppDefaultsManager = {
+    AppDefaultsManager()
+  }()
+
   lazy var appCoordinator: AppCoordinator = {
     AppCoordinator(stateManager: stateManager,
-                   localAuthorizer: localAuthorizationManager)
+                   localAuthorizer: localAuthorizationManager,
+                   appDefaults: appDefaultsManager)
   }()
 }
