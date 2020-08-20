@@ -10,49 +10,45 @@ import GoogleSignIn
 import SwiftUI
 
 struct FileSelectorView: View {
-  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
-  @EnvironmentObject var driveManager: GoogleDriveManager
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
+  let viewModel: FileSelectorViewModel
 
-  @State var selectedFile: File?
+  var files: [File] {
+    viewModel.getFiles() ?? [File]()
+  }
+
+  var error: Error? {
+    viewModel.getError()
+  }
 
   var body: some View {
-    ZStack {
-      if self.userManager.user != nil {
-        ZStack {
-          if self.selectedFile == nil {
-            NavigationView {
-              List(self.driveManager.fileList) { file in
-                Button(
-                  action: {
-                    self.sheetsManager.defaultFile = file
-                    self.selectedFile = file
-                  }, label: {
-                    Text(file.name)
-                  }
-                )
-              }
-              .navigationBarTitle("Link your Aspire sheet")
-            }.onAppear {
-              if self.driveManager.fileList.isEmpty {
-                self.driveManager.getFileList()
-              }
+    if viewModel.currentState == .isLoading {
+      Text("Loading")
+    }
+
+    if viewModel.currentState == .filesRetrieved {
+      NavigationView {
+        List(files) { file in
+          Button(
+            action: {
+              viewModel.fileSelectedCallback?(file)
+            }, label: {
+              Text(file.name)
             }
-          }
-          if self.selectedFile != nil {
-            AspireMasterView()
-          }
-        }
+          )
+        }.navigationBarTitle("Link your Aspire sheet")
       }
-      if self.driveManager.error != nil {
-        Text("Error occured")
-      }
+    }
+
+    if viewModel.currentState == .error {
+      Text("Error Occured: \(error?.localizedDescription ?? "")")
     }
   }
 }
 
-// struct FileSelectorView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FileSelectorView()
-//    }
-// }
+ struct FileSelectorView_Previews: PreviewProvider {
+    static var previews: some View {
+      FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
+                                                          .error(error: GoogleDriveManagerError.nilAuthorizer),
+                                                        fileSelectedCallback: nil))
+    }
+ }

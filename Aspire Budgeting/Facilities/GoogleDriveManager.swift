@@ -6,11 +6,23 @@
 //  Copyright © 2019 TeraMo Labs. All rights reserved.
 //
 
+import Combine
 import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
 import os.log
+
+protocol RemoteFileManager {
+  var currentState: CurrentValueSubject<RemoteFileManagerState, Never> { get }
+  func getFileList()
+}
+
+enum RemoteFileManagerState {
+  case isLoading
+  case error(error: Error)
+  case filesRetrieved(files: [File])
+}
 
 enum GoogleDriveManagerError: String, Error {
   case nilAuthorizer
@@ -18,7 +30,7 @@ enum GoogleDriveManagerError: String, Error {
   case noInternet = "No Internet connection available"
 }
 
-final class GoogleDriveManager: ObservableObject {
+final class GoogleDriveManager: ObservableObject, RemoteFileManager {
   static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name)"
   static let spreadsheetMIME: String = "application/vnd.google-apps.spreadsheet"
 
@@ -30,6 +42,8 @@ final class GoogleDriveManager: ObservableObject {
 
   private var ticket: GTLRServiceTicket?
 
+  private(set) var currentState =
+    CurrentValueSubject<RemoteFileManagerState, Never>(.isLoading)
   @Published private(set) var fileList = [File]()
   @Published private(set) var error: Error?
 
@@ -120,6 +134,7 @@ final class GoogleDriveManager: ObservableObject {
           type: .error,
           error.localizedDescription
         )
+        weakSelf.currentState.value = .error(error: error)
         weakSelf.error = error
         weakSelf.fileList = backupFileList
       } else {
@@ -132,6 +147,7 @@ final class GoogleDriveManager: ObservableObject {
           )
           weakSelf.fileList = files
             .map { File(driveFile: $0) }
+          weakSelf.currentState.value = .filesRetrieved(files: weakSelf.fileList)
         }
       }
     }

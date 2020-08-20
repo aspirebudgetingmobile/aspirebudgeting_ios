@@ -65,6 +65,7 @@
 		06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */; };
 		06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BD7EAE24DDEA81003C5D32 /* Images.swift */; };
 		06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C6A723690AEB00862196 /* FileSelectorView.swift */; };
+		06C6B59D24EF259B00968C60 /* FileSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */; };
@@ -154,6 +155,7 @@
 		06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSegmentedView.swift; sourceTree = "<group>"; };
 		06BD7EAE24DDEA81003C5D32 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		06C5C6A723690AEB00862196 /* FileSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorView.swift; sourceTree = "<group>"; };
+		06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorViewModel.swift; sourceTree = "<group>"; };
 		06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGIDSignIn.swift; sourceTree = "<group>"; };
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationCenter.swift; sourceTree = "<group>"; };
@@ -301,6 +303,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		06C6B59B24EF258700968C60 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		06ED8A56235A908E009BA6A7 = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +334,7 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				06C6B59B24EF258700968C60 /* ViewModels */,
 				066EF45C235CF72700E94CE4 /* Models */,
 				066EF457235CE05100E94CE4 /* Views */,
 				06A0DAAA235BFE4F00AEF9FE /* Facilities */,
@@ -661,6 +672,7 @@
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
+				06C6B59D24EF259B00968C60 /* FileSelectorViewModel.swift in Sources */,
 				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
