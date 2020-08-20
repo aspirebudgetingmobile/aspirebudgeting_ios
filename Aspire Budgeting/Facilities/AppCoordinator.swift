@@ -56,6 +56,7 @@ extension AppCoordinator {
 
     case .authenticatedLocally:
       guard let file = self.appDefaults.getDefaultFile() else {
+        //TODO: retrieve file list and set up viewmodel for FileSelector here
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
