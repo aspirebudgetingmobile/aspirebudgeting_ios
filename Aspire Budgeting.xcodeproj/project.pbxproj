@@ -24,6 +24,7 @@
 		061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AspireTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
+		062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71562380B80D00DB46B2 /* StateManagerTests.swift */; };
 		065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */; };
@@ -111,6 +112,7 @@
 		061EEF3123A1F7D300A684EB /* AspireTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireTextField.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
+		062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065C71562380B80D00DB46B2 /* StateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagerTests.swift; sourceTree = "<group>"; };
 		065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadataTests.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				06157E9F2411E831000161C3 /* AspireBugTracker.swift */,
 				06157EA32411EC7A000161C3 /* InstabugCredentials.swift */,
 				06BD7EAE24DDEA81003C5D32 /* Images.swift */,
+				062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
 				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
+				062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */,
 				06639B3D23BF53B3008E6E4C /* AspireOSLogs.swift in Sources */,
 				0694C2232369EDB90039528A /* DashboardView.swift in Sources */,

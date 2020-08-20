@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct FaceIDView: View {
-  @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
-  @EnvironmentObject var stateManager: StateManager
 
   var body: some View {
     ZStack {

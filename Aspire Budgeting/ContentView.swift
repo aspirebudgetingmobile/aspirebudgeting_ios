@@ -12,21 +12,18 @@ struct ContentView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
-  @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
-  @EnvironmentObject var stateManager: StateManager
+  @EnvironmentObject var appCoordinator: AppCoordinator
 
   var needsLocalAuth: Bool {
-    return stateManager.currentState == StateManager.State.verifiedGoogleUser
-      || stateManager.currentState == StateManager.State.localAuthFailed
-      || stateManager.currentState == StateManager.State.needsLocalAuthentication
+    appCoordinator.needsLocalAuth
   }
 
   var isLoggedOut: Bool {
-    return stateManager.currentState == StateManager.State.loggedOut
+    appCoordinator.isLoggedOut
   }
 
   var hasDefaultSheet: Bool {
-    stateManager.currentState == StateManager.State.hasDefaultSheet
+    appCoordinator.hasDefaultSheet
   }
 
   var body: some View {
@@ -43,7 +40,7 @@ struct ContentView: View {
       } else if hasDefaultSheet {
         AspireMasterView()
       } else {
-        FileSelectorView()
+         FileSelectorView()
           .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
     }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))

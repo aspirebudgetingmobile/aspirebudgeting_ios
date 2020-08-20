@@ -67,4 +67,9 @@ final class ObjectFactory {
   lazy var bugTracker: AspireBugTracker = {
     AspireBugTracker(credentials: instabugCredentials)
   }()
+
+  lazy var appCoordinator: AppCoordinator = {
+    AppCoordinator(stateManager: stateManager,
+                   localAuthorizer: localAuthorizationManager)
+  }()
 }

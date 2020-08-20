@@ -2,26 +2,27 @@
 //  LocalAuthorizationManager.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/7/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 import LocalAuthentication
 import os.log
 
+protocol AppLocalAuthorizer {
+  func authenticateUserLocally(completion: @escaping (Bool) -> Void)
+}
+
+//TODO: Remove
 extension Notification.Name {
   static let authorizedLocally = Notification.Name("authorizedLocally")
 }
 
-final class LocalAuthorizationManager: ObservableObject {
-  private var isAuthorized = false
+final class LocalAuthorizationManager: AppLocalAuthorizer {
 
   private var context: LAContext {
     return LAContext()
   }
 
-  func authenticateUserLocally() {
+  func authenticateUserLocally(completion: @escaping (Bool) -> Void) {
     os_log(
       "Authenticating user locally",
       log: .localAuthorizationManager,
@@ -37,11 +38,7 @@ final class LocalAuthorizationManager: ObservableObject {
       context.evaluatePolicy(
         .deviceOwnerAuthentication,
         localizedReason: reason
-      ) { [weak self] success, error in
-        guard let weakSelf = self else {
-          return
-        }
-
+      ) { success, error in
         if let error = error {
           os_log(
             "Encountered local authorization error. %{public}s",
@@ -56,8 +53,7 @@ final class LocalAuthorizationManager: ObservableObject {
           type: .default,
           success
         )
-        weakSelf.isAuthorized = success
-        weakSelf.postNotification()
+        completion(success)
         context.invalidate()
       }
     } else {
@@ -67,15 +63,5 @@ final class LocalAuthorizationManager: ObservableObject {
         type: .error
       )
     }
-  }
-
-  private func postNotification() {
-    os_log(
-      "Local Authorization notification posted",
-      log: .localAuthorizationManager,
-      type: .default
-    )
-    let userInfo = [Notification.Name.authorizedLocally: isAuthorized]
-    NotificationCenter.default.post(name: .authorizedLocally, object: nil, userInfo: userInfo)
   }
 }
