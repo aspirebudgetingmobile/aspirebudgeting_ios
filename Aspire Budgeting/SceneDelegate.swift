@@ -99,30 +99,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was
     // inactive.
     objectFactory.appCoordinator.resume()
-//    if stateManager.currentState.value == .needsLocalAuthentication ||
-//        stateManager.currentState.value == .localAuthFailed {
-//      userManager.authenticateLocally()
-//    }
   }
 
   func sceneWillResignActive(_ scene: UIScene) {
     // Called when the scene will move from an active state to an inactive state.
     // This may occur due to temporary interruptions (ex. an incoming phone call).
     objectFactory.appCoordinator.pause()
-//    NotificationCenter.default.post(
-//      name: Notification.Name("background"),
-//      object: nil,
-//      userInfo: nil
-//    )
   }
 
   func sceneWillEnterForeground(_ scene: UIScene) {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
-//    if stateManager.currentState.value == .needsLocalAuthentication ||
-//        stateManager.currentState.value == .localAuthFailed {
-//      userManager.authenticateLocally()
-//    }
     objectFactory.appCoordinator.resume()
   }
 
@@ -132,10 +119,5 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // information
     // to restore the scene back to its current state.
     objectFactory.appCoordinator.pause()
-//    NotificationCenter.default.post(
-//      name: Notification.Name("background"),
-//      object: nil,
-//      userInfo: nil
-//    )
   }
 }

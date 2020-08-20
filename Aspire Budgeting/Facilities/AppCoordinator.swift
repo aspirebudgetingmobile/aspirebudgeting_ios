@@ -29,12 +29,14 @@ final class AppCoordinator: ObservableObject {
   }
 
   func pause() {
-    self.stateManager.handleBackground()
+    self.stateManager.pause()
   }
 
   func resume() {
     if needsLocalAuth {
-      self.localAuthorizer.authenticateUserLocally {self.stateManager.authenticatedLocally(result: $0)}
+      self.localAuthorizer.authenticateUserLocally {
+        self.stateManager.authenticatedLocally(result: $0)
+      }
     }
   }
 }
@@ -45,7 +47,9 @@ extension AppCoordinator {
     switch state {
     case .verifiedExternally:
       self.localAuthorizer
-        .authenticateUserLocally { self.stateManager.authenticatedLocally(result: $0) }
+        .authenticateUserLocally {
+          self.stateManager.authenticatedLocally(result: $0)
+        }
 
     default:
       print("The current state is \(state)")

@@ -24,11 +24,11 @@ protocol AppStateManager {
   var hasDefaultSheet: Bool { get }
 
   func authenticatedLocally(result: Bool)
-  func handleBackground()
+  func pause()
 }
 
 final class StateManager: AppStateManager {
-  var currentState = CurrentValueSubject<AppState, Never>(.loggedOut)
+  private(set) var currentState = CurrentValueSubject<AppState, Never>(.loggedOut)
 
   private var authorizerObserver: NSObjectProtocol?
   private var backgroundObserver: NSObjectProtocol?
@@ -67,20 +67,6 @@ final class StateManager: AppStateManager {
         )
         self.transition(to: .verifiedExternally)
       }
-
-//    backgroundObserver =
-//      NotificationCenter.default.addObserver(
-//        forName: Notification.Name("background"),
-//        object: nil,
-//        queue: nil
-//      ) { _ in
-//        os_log(
-//          "Received background. Transitioning to needsLocalAuthentication",
-//          log: .stateManager,
-//          type: .default
-//        )
-//        self.transition(to: .needsLocalAuthentication)
-//      }
 
     defaultSheetObserver = NotificationCenter.default.addObserver(
       forName: .hasSheetInDefaults,
@@ -170,7 +156,7 @@ extension StateManager {
     }
   }
 
-  func handleBackground() {
+  func pause() {
     self.transition(to: .needsLocalAuthentication)
   }
 }

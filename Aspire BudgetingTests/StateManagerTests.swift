@@ -38,7 +38,7 @@ final class StateManagerTests: XCTestCase {
     stateManager.authenticatedLocally(result: true)
     XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
-    stateManager.handleBackground()
+    stateManager.pause()
     XCTAssertEqual(stateManager.currentState.value, .needsLocalAuthentication)
 
     stateManager.authenticatedLocally(result: false)

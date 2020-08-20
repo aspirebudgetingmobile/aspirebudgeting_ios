@@ -12,7 +12,6 @@ struct ContentView: View {
   @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
-//  @EnvironmentObject var localAuthorizationManager: LocalAuthorizationManager
   @EnvironmentObject var appCoordinator: AppCoordinator
 
   var needsLocalAuth: Bool {
