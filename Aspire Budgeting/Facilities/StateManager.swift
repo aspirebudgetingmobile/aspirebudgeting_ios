@@ -140,7 +140,7 @@ extension StateManager {
   }
 }
 
-//MARK: - AppStateManager Protocol Methods
+// MARK: - … AppStateManager Protocol Methods
 extension StateManager {
   func processEvent(event: AppStateEvent) {
     switch event {
@@ -153,7 +153,7 @@ extension StateManager {
   }
 }
 
-//MARK: - Event Handlers
+// MARK: - Event Handlers
 extension StateManager {
   private func authenticatedLocally(result: Bool) {
     if result {
