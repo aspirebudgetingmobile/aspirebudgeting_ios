@@ -16,6 +16,11 @@ enum AppState: Equatable {
   case hasDefaultSheet
 }
 
+enum AppStateEvent {
+  case authenticatedLocally(result: Bool)
+  case enteredBackground
+}
+
 protocol AppStateManager {
   var currentState: CurrentValueSubject<AppState, Never> { get }
 
@@ -23,8 +28,7 @@ protocol AppStateManager {
   var isLoggedOut: Bool { get }
   var hasDefaultSheet: Bool { get }
 
-  func authenticatedLocally(result: Bool)
-  func pause()
+  func processEvent(event: AppStateEvent)
 }
 
 final class StateManager: AppStateManager {
@@ -138,7 +142,20 @@ extension StateManager {
 
 //MARK: - AppStateManager Protocol Methods
 extension StateManager {
-  func authenticatedLocally(result: Bool) {
+  func processEvent(event: AppStateEvent) {
+    switch event {
+    case .authenticatedLocally(let result):
+      authenticatedLocally(result: result)
+
+    case .enteredBackground:
+      enteredBackground()
+    }
+  }
+}
+
+//MARK: - Event Handlers
+extension StateManager {
+  private func authenticatedLocally(result: Bool) {
     if result {
       os_log(
         "Transitioning to authenticatedLocally",
@@ -156,7 +173,7 @@ extension StateManager {
     }
   }
 
-  func pause() {
+  private func enteredBackground() {
     self.transition(to: .needsLocalAuthentication)
   }
 }

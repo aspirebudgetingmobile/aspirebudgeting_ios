@@ -35,19 +35,19 @@ final class StateManagerTests: XCTestCase {
     var userInfo = [AnyHashable: Any]()
     userInfo[Notification.Name.authorizedLocally] = true
 
-    stateManager.authenticatedLocally(result: true)
+    stateManager.processEvent(event: .authenticatedLocally(result: true))
     XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
-    stateManager.pause()
+    stateManager.processEvent(event: .enteredBackground)
     XCTAssertEqual(stateManager.currentState.value, .needsLocalAuthentication)
 
-    stateManager.authenticatedLocally(result: false)
+    stateManager.processEvent(event: .authenticatedLocally(result: false))
     XCTAssertEqual(stateManager.currentState.value, .localAuthFailed)
 
     postNotification(notificationName: .hasSheetInDefaults)
     XCTAssertEqual(stateManager.currentState.value, .localAuthFailed)
 
-    stateManager.authenticatedLocally(result: true)
+    stateManager.processEvent(event: .authenticatedLocally(result: true))
     XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
     postNotification(notificationName: .hasSheetInDefaults)

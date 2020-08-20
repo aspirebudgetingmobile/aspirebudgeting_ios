@@ -29,26 +29,26 @@ final class AppCoordinator: ObservableObject {
   }
 
   func pause() {
-    self.stateManager.pause()
+    self.stateManager.processEvent(event: .enteredBackground)
   }
 
   func resume() {
     if needsLocalAuth {
       self.localAuthorizer.authenticateUserLocally {
-        self.stateManager.authenticatedLocally(result: $0)
+        self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
       }
     }
   }
 }
 
-// MARK: -  State Management
+// MARK: - State Management
 extension AppCoordinator {
   func handle(state: AppState) {
     switch state {
     case .verifiedExternally:
       self.localAuthorizer
         .authenticateUserLocally {
-          self.stateManager.authenticatedLocally(result: $0)
+          self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
         }
 
     default:
