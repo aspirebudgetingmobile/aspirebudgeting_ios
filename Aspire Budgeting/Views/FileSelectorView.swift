@@ -2,9 +2,6 @@
 //  FileSelectorView.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 10/29/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import GoogleSignIn
 import SwiftUI
@@ -36,11 +33,14 @@ struct FileSelectorView: View {
               action: {
                 viewModel.fileSelectedCallback?(file)
               }, label: {
-                Text(file.name)
+                HStack {
+                  Image("sheetsIcon").renderingMode(.original)
+                  Text(file.name).font(.nunitoBold(size: 16))
+                }.frame(height: 60)
               }
             )
-          }.navigationBarTitle("Link your Aspire sheet")
-        }
+          }.padding(.bottom, 20).navigationBarTitle("Link your Aspire sheet")
+        }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
       }
     }
 
@@ -50,10 +50,19 @@ struct FileSelectorView: View {
   }
 }
 
-// struct FileSelectorView_Previews: PreviewProvider {
-//    static var previews: some View {
-//      FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
-//                                                          .error(error: GoogleDriveManagerError.nilAuthorizer),
-//                                                        fileSelectedCallback: nil))
-//    }
-// }
+ struct FileSelectorView_Previews: PreviewProvider {
+  static let files = [File(id: "abc", name: "File 1"),
+                      File(id: "def", name: "File 2"),
+  ]
+    static var previews: some View {
+      Group {
+        FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
+                                                            .filesRetrieved(files: FileSelectorView_Previews.files),
+                                                          fileSelectedCallback: nil))
+
+        FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
+                                                            .filesRetrieved(files: FileSelectorView_Previews.files),
+                                                          fileSelectedCallback: nil)).environment(\.colorScheme, .dark)
+      }
+    }
+ }

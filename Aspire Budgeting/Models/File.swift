@@ -24,6 +24,11 @@ struct File: Identifiable, Codable {
     name = driveFile.name ?? "no file name"
     id = driveFile.identifier ?? ""
   }
+
+  init(id: String, name: String) {
+    self.name = name
+    self.id = id
+  }
 }
 
 extension File: Equatable {
