@@ -72,6 +72,7 @@ final class ObjectFactory {
   lazy var appCoordinator: AppCoordinator = {
     AppCoordinator(stateManager: stateManager,
                    localAuthorizer: localAuthorizationManager,
-                   appDefaults: appDefaultsManager)
+                   appDefaults: appDefaultsManager,
+                   remoteFileManager: driveManager)
   }()
 }

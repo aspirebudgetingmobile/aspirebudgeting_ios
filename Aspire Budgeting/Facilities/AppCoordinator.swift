@@ -10,15 +10,21 @@ final class AppCoordinator: ObservableObject {
   private let stateManager: AppStateManager
   private let localAuthorizer: AppLocalAuthorizer
   private let appDefaults: AppDefaults
+  private let remoteFileManager: RemoteFileManager
 
   private var stateManagerSink: AnyCancellable!
+  private var remoteFileManagerSink: AnyCancellable!
+
+  private(set) var fileSelectorVM = FileSelectorViewModel()
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
-       appDefaults: AppDefaults) {
+       appDefaults: AppDefaults,
+       remoteFileManager: RemoteFileManager) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
     self.appDefaults = appDefaults
+    self.remoteFileManager = remoteFileManager
   }
 
   func start() {
@@ -28,6 +34,14 @@ final class AppCoordinator: ObservableObject {
       .sink {
         self.objectWillChange.send()
         self.handle(state: $0)
+      }
+
+    remoteFileManagerSink = remoteFileManager
+      .currentState
+      .sink {
+        self.fileSelectorVM =
+          FileSelectorViewModel(fileManagerState: $0,
+                                fileSelectedCallback: self.fileSelectedCallBack)
       }
   }
 
@@ -44,6 +58,12 @@ final class AppCoordinator: ObservableObject {
   }
 }
 
+// MARK: - Callbacks
+extension AppCoordinator {
+  func fileSelectedCallBack(file: File) {
+    print("Logic to verify file \(file)")
+  }
+}
 // MARK: - State Management
 extension AppCoordinator {
   func handle(state: AppState) {
@@ -56,7 +76,7 @@ extension AppCoordinator {
 
     case .authenticatedLocally:
       guard let file = self.appDefaults.getDefaultFile() else {
-        //TODO: retrieve file list and set up viewmodel for FileSelector here
+        remoteFileManager.getFileList()
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
