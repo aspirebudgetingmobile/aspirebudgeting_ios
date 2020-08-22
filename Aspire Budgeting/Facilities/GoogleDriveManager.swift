@@ -2,9 +2,6 @@
 //  GoogleDriveManager.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 10/21/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Combine
 import Foundation
