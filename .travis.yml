@@ -1,6 +1,6 @@
 # environment setup
 language: swift
-osx_image: xcode12u
+osx_image: xcode11.3
 
 # caching of dependencies
 cache:
