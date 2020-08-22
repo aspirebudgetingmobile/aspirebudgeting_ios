@@ -26,39 +26,41 @@ struct FileSelectorView: View {
   @State private var searchText = ""
 
   var body: some View {
-    if viewModel.currentState == .isLoading {
-      Text("Loading")
-    }
-
-    if viewModel.currentState == .filesRetrieved {
-      NavigationView {
-        VStack {
-          SearchBar(text: $searchText)
-          List(filteredFiles) { file in
-            Button(
-              action: {
-                self.viewModel.fileSelectedCallback?(file)
-              }, label: {
-                HStack {
-                  Image.sheetsIcon
-                    .renderingMode(.original)
-                  Text(file.name)
-                    .font(.nunitoBold(size: 16))
-                }.frame(height: 60)
-              }
-            )
-          }.padding(.bottom, 20).navigationBarTitle("Link your Aspire sheet")
-        }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
+    VStack {
+      if viewModel.currentState == .isLoading {
+        Text("Loading")
       }
-    }
 
-    if viewModel.currentState == .error {
-      Text("Error Occured: \(error?.localizedDescription ?? "")")
+      if viewModel.currentState == .filesRetrieved {
+        NavigationView {
+          VStack {
+            SearchBar(text: $searchText)
+            List(filteredFiles) { file in
+              Button(
+                action: {
+                  self.viewModel.fileSelectedCallback?(file)
+                }, label: {
+                  HStack {
+                    Image.sheetsIcon
+                      .renderingMode(.original)
+                    Text(file.name)
+                      .font(.nunitoBold(size: 16))
+                  }.frame(height: 60)
+                }
+              )
+            }.padding(.bottom, 20).navigationBarTitle("Link your Aspire sheet")
+          }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
+        }
+      }
+
+      if viewModel.currentState == .error {
+        Text("Error Occured: \(error?.localizedDescription ?? "")")
+      }
     }
   }
 }
 
- struct FileSelectorView_Previews: PreviewProvider {
+struct FileSelectorView_Previews: PreviewProvider {
   static let files = [File(id: "abc", name: "File 1"),
                       File(id: "def", name: "File 2"),
   ]
@@ -67,14 +69,14 @@ struct FileSelectorView: View {
     FileSelectorViewModel(fileManagerState:
                             .filesRetrieved(files: FileSelectorView_Previews.files),
                           fileSelectedCallback: nil)
-    static var previews: some View {
-      Group {
-        FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+  static var previews: some View {
+    Group {
+      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
 
-        FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
-          .environment(\.colorScheme, .dark)
+      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+        .environment(\.colorScheme, .dark)
 
-        FileSelectorView(viewModel: FileSelectorViewModel())
-      }
+      FileSelectorView(viewModel: FileSelectorViewModel())
     }
- }
+  }
+}
