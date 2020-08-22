@@ -40,8 +40,10 @@ struct FileSelectorView: View {
                 viewModel.fileSelectedCallback?(file)
               }, label: {
                 HStack {
-                  Image("sheetsIcon").renderingMode(.original)
-                  Text(file.name).font(.nunitoBold(size: 16))
+                  Image.sheetsIcon
+                    .renderingMode(.original)
+                  Text(file.name)
+                    .font(.nunitoBold(size: 16))
                 }.frame(height: 60)
               }
             )
@@ -71,6 +73,8 @@ struct FileSelectorView: View {
 
         FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
           .environment(\.colorScheme, .dark)
+
+        FileSelectorView(viewModel: FileSelectorViewModel())
       }
     }
  }
