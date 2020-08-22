@@ -37,7 +37,7 @@ struct FileSelectorView: View {
           List(filteredFiles) { file in
             Button(
               action: {
-                viewModel.fileSelectedCallback?(file)
+                self.viewModel.fileSelectedCallback?(file)
               }, label: {
                 HStack {
                   Image.sheetsIcon
