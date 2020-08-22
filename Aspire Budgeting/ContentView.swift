@@ -40,7 +40,7 @@ struct ContentView: View {
       } else if hasDefaultSheet {
         AspireMasterView()
       } else {
-        FileSelectorView(viewModel: appCoordinator.fileSelectorVM!)
+        FileSelectorView(viewModel: appCoordinator.fileSelectorVM)
           .animation(Animation.spring().speed(1.0)).transition(.move(edge: .trailing))
       }
     }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))

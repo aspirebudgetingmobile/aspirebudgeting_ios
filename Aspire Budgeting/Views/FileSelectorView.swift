@@ -17,6 +17,12 @@ struct FileSelectorView: View {
     viewModel.getError()
   }
 
+  var filteredFiles: [File] {
+    files.filter {
+      searchText.isEmpty ? true : $0.name.contains(searchText)
+    }
+  }
+
   @State private var searchText = ""
 
   var body: some View {
@@ -28,7 +34,7 @@ struct FileSelectorView: View {
       NavigationView {
         VStack {
           SearchBar(text: $searchText)
-          List(files.filter({searchText.isEmpty ? true : $0.name.contains(searchText)})) { file in
+          List(filteredFiles) { file in
             Button(
               action: {
                 viewModel.fileSelectedCallback?(file)
@@ -54,15 +60,17 @@ struct FileSelectorView: View {
   static let files = [File(id: "abc", name: "File 1"),
                       File(id: "def", name: "File 2"),
   ]
+
+  static let viewModel =
+    FileSelectorViewModel(fileManagerState:
+                            .filesRetrieved(files: FileSelectorView_Previews.files),
+                          fileSelectedCallback: nil)
     static var previews: some View {
       Group {
-        FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
-                                                            .filesRetrieved(files: FileSelectorView_Previews.files),
-                                                          fileSelectedCallback: nil))
+        FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
 
-        FileSelectorView(viewModel: FileSelectorViewModel(fileManagerState:
-                                                            .filesRetrieved(files: FileSelectorView_Previews.files),
-                                                          fileSelectedCallback: nil)).environment(\.colorScheme, .dark)
+        FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+          .environment(\.colorScheme, .dark)
       }
     }
  }

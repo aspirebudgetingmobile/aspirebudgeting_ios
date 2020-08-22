@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 struct FileSelectorViewModel {
   enum State {
     case isLoading
@@ -18,15 +17,27 @@ struct FileSelectorViewModel {
   typealias FileSelectedCallBack = (File) -> Void
   let fileSelectedCallback: FileSelectedCallBack?
 
+  init(fileManagerState: RemoteFileManagerState,
+       fileSelectedCallback: FileSelectedCallBack?) {
+    self.fileSelectedCallback = fileSelectedCallback
+    self.fileManagerState = fileManagerState
+  }
+
+  init() {
+    self.init(fileManagerState:
+                .filesRetrieved(files: [File]()),
+              fileSelectedCallback: nil)
+  }
+
   var currentState: State {
     switch fileManagerState {
     case .isLoading:
       return .isLoading
 
-    case .filesRetrieved(_):
+    case .filesRetrieved:
       return .filesRetrieved
 
-    case .error(_):
+    case .error:
       return .error
     }
   }

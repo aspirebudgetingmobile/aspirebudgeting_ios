@@ -15,7 +15,7 @@ final class AppCoordinator: ObservableObject {
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
 
-  private(set) var fileSelectorVM: FileSelectorViewModel?
+  private(set) var fileSelectorVM = FileSelectorViewModel()
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
