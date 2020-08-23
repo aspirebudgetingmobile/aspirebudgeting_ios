@@ -28,7 +28,7 @@ struct FileSelectorView: View {
   var body: some View {
     VStack {
       if viewModel.currentState == .isLoading {
-        Text("Loading")
+        LoadingView()
       }
 
       if viewModel.currentState == .filesRetrieved {
