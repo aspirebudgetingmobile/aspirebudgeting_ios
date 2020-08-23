@@ -21,9 +21,9 @@ struct LoadingView: View {
   }
     var body: some View {
       VStack(spacing: 0) {
-        ForEach(0..<numberOfRows) { _ in
+        ForEach(0..<self.numberOfRows) { _ in
           HStack(spacing: 0) {
-            ForEach(0..<itemsPerRow) { _ in
+            ForEach(0..<self.itemsPerRow) { _ in
               self.randomCurrencySymbol
                 .frame(width: UIScreen.main.bounds.width / CGFloat(self.itemsPerRow),
                        height: UIScreen.main.bounds.width / CGFloat(self.itemsPerRow))
