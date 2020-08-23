@@ -24,5 +24,6 @@ extension Image {
                                          sterlingSignCircle,
                                          rubleSignCircle,
                                          euroSignCircle,
-                                indianRupeeSignCircle, ]
+                                         indianRupeeSignCircle,
+                                         ]
 }

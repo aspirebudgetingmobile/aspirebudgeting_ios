@@ -68,13 +68,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       }
 
     // Create the SwiftUI view that provides the window contents.
-//    let contentView = ContentView()
-//      .environmentObject(userManager)
-//      .environmentObject(driveManager)
-//      .environmentObject(sheetsManager)
-//      .environmentObject(objectFactory.appCoordinator)
-
-    let contentView = LoadingView()
+    let contentView = ContentView()
+      .environmentObject(userManager)
+      .environmentObject(driveManager)
+      .environmentObject(sheetsManager)
+      .environmentObject(objectFactory.appCoordinator)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
