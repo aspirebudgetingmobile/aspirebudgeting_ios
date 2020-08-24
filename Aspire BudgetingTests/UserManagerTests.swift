@@ -21,7 +21,7 @@ final class UserManagerTests: XCTestCase {
   let mockGIDSignIn = MockGIDSignIn()
   let mockNotificationCenter = MockNotificationCenter()
 
-  lazy var userManager = UserManager<MockUser>(
+  lazy var userManager = GoogleUserManager<MockUser>(
     credentials: mockGoogleCredentials,
     gidSignInInstance: mockGIDSignIn,
     notificationCenter: mockNotificationCenter

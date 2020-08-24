@@ -11,6 +11,7 @@ final class AppCoordinator: ObservableObject {
   private let localAuthorizer: AppLocalAuthorizer
   private let appDefaults: AppDefaults
   private let remoteFileManager: RemoteFileManager
+  private let userManager: UserManager
 
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
@@ -20,11 +21,13 @@ final class AppCoordinator: ObservableObject {
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
        appDefaults: AppDefaults,
-       remoteFileManager: RemoteFileManager) {
+       remoteFileManager: RemoteFileManager,
+       userManager: UserManager) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
     self.appDefaults = appDefaults
     self.remoteFileManager = remoteFileManager
+    self.userManager = userManager
   }
 
   func start() {
@@ -68,6 +71,9 @@ extension AppCoordinator {
 extension AppCoordinator {
   func handle(state: AppState) {
     switch state {
+    case .loggedOut:
+      userManager.authenticateWithService()
+
     case .verifiedExternally:
       self.localAuthorizer
         .authenticateUserLocally {

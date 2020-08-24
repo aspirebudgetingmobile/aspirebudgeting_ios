@@ -41,7 +41,11 @@ protocol AspireNotificationCenter: AnyObject {
 
 extension NotificationCenter: AspireNotificationCenter {}
 
-final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableObject {
+protocol UserManager {
+  func authenticateWithService()
+}
+
+final class GoogleUserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableObject, UserManager {
   private let gidSignInInstance: AspireSignInInstance
   private let credentials: GoogleSDKCredentials
   private let notificationCenter: AspireNotificationCenter
@@ -63,7 +67,7 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
 
   var subscription: AnyCancellable!
 
-  func authenticateWithGoogle() {
+  func authenticateWithService() {
     os_log(
       "Attempting to authenticate with Google",
       log: .userManager,

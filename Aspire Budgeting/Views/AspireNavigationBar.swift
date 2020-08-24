@@ -10,7 +10,7 @@ import GoogleSignIn
 import SwiftUI
 
 struct AspireNavigationBar: View {
-  @EnvironmentObject var userManager: UserManager<GIDGoogleUser>
+  @EnvironmentObject var userManager: GoogleUserManager<GIDGoogleUser>
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
 
   @State var showSettings = false
