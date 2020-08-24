@@ -12,6 +12,7 @@ final class AppCoordinator: ObservableObject {
   private let appDefaults: AppDefaults
   private let remoteFileManager: RemoteFileManager
   private let userManager: UserManager
+  private let fileValidator: FileValidator
 
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
@@ -26,11 +27,13 @@ final class AppCoordinator: ObservableObject {
        appDefaults: AppDefaults,
        remoteFileManager: RemoteFileManager,
        userManager: UserManager) {
+       fileValidator: FileValidator) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
     self.appDefaults = appDefaults
     self.remoteFileManager = remoteFileManager
     self.userManager = userManager
+    self.fileValidator = fileValidator
   }
 
   func start() {
@@ -77,7 +80,9 @@ final class AppCoordinator: ObservableObject {
 // MARK: - Callbacks
 extension AppCoordinator {
   func fileSelectedCallBack(file: File) {
-    print("Logic to verify file \(file)")
+    fileValidator.validate(file: file) { (result) in
+      
+    }
   }
 }
 // MARK: - State Management

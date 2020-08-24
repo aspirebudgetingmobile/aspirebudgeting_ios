@@ -69,6 +69,7 @@
 		06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59E24EF372E00968C60 /* SearchBar.swift */; };
 		06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */; };
 		06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B5A224F2165E00968C60 /* LoadingView.swift */; };
+		06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA080924F4637700927FE5 /* FileValidator.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */; };
@@ -162,6 +163,7 @@
 		06C6B59E24EF372E00968C60 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		06C6B5A224F2165E00968C60 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		06EA080924F4637700927FE5 /* FileValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileValidator.swift; sourceTree = "<group>"; };
 		06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGIDSignIn.swift; sourceTree = "<group>"; };
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationCenter.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				06BD7EAE24DDEA81003C5D32 /* Images.swift */,
 				062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */,
 				062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */,
+				06EA080924F4637700927FE5 /* FileValidator.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -680,6 +683,7 @@
 				06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
+				06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
 				06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */,
