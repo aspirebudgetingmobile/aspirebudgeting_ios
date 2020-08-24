@@ -7,6 +7,7 @@ import Foundation
 import GoogleSignIn
 import GTMSessionFetcher
 
+//TODO: Remove these useless protocols and extensions
 protocol AspireUser {
   associatedtype Profile: AspireProfile
   associatedtype Authentication: AspireAuthentication
@@ -35,10 +36,10 @@ extension GIDProfileData: AspireProfile {}
 
 struct User {
   let name: String
-  let authorizer: GTMFetcherAuthorizationProtocol
+  let authorizer: AnyObject?
 
-  init<U>(googleUser: U) where U: AspireUser {
-    name = googleUser.profile.name
-    authorizer = googleUser.authentication.fetcherAuthorizer()
+  init(name: String, authorizer: AnyObject?) {
+    self.name = name
+    self.authorizer = authorizer
   }
 }

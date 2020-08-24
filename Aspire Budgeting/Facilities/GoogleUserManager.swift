@@ -142,7 +142,9 @@ final class GoogleUserManager<U: AspireUser>: NSObject, GIDSignInDelegate, Obser
       type: .default
     )
 
-    self.user = User(googleUser: user)
+//    self.user = User(googleUser: user)
+    self.user = User(name: user.profile.name,
+                     authorizer: user.authentication.fetcherAuthorizer())
     notificationCenter.post(
       name: Notification.Name.authorizerUpdated,
       object: self,
