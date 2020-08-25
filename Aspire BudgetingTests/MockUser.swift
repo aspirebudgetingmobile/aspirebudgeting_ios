@@ -8,9 +8,10 @@
 
 @testable import Aspire_Budgeting
 import Foundation
+import GoogleSignIn
 import GTMSessionFetcher
 
-final class MockUser: AspireUser {
+final class MockUser: GoogleUserProtocol {
   typealias Profile = MockProfile
 
   typealias Authentication = MockAuthentication
@@ -19,11 +20,11 @@ final class MockUser: AspireUser {
   var authentication: Authentication! = MockAuthentication()
 }
 
-final class MockProfile: AspireProfile {
+final class MockProfile: GoogleProfileDataProtocol {
   var name: String! = "First Last"
 }
 
-final class MockAuthentication: AspireAuthentication {
+final class MockAuthentication: GoogleAuthorizationProtocol {
   var authorizer: GTMFetcherAuthorizationProtocol!
   func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
     if authorizer == nil {
