@@ -21,10 +21,9 @@ final class UserManagerTests: XCTestCase {
   let mockGIDSignIn = MockGIDSignIn()
   let mockNotificationCenter = MockNotificationCenter()
 
-  lazy var userManager = GoogleUserManager<MockUser>(
+  lazy var userManager = GoogleUserManager(
     credentials: mockGoogleCredentials,
-    gidSignInInstance: mockGIDSignIn,
-    notificationCenter: mockNotificationCenter
+    gidSignInInstance: mockGIDSignIn
   )
 
   override func setUp() {

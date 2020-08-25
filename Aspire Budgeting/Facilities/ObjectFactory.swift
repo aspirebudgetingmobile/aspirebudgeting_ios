@@ -39,7 +39,7 @@ final class ObjectFactory {
   }()
 
   lazy var userManager: GoogleUserManager = {
-    GoogleUserManager<GIDGoogleUser>(credentials: googleSDKCredentials)
+    GoogleUserManager(credentials: googleSDKCredentials)
   }()
 
   lazy var driveManager: GoogleDriveManager = {

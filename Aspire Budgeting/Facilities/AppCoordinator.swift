@@ -15,8 +15,11 @@ final class AppCoordinator: ObservableObject {
 
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
+  private var userManagerSink: AnyCancellable!
 
   private(set) var fileSelectorVM = FileSelectorViewModel()
+
+  private var user: User?
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
@@ -46,6 +49,16 @@ final class AppCoordinator: ObservableObject {
           FileSelectorViewModel(fileManagerState: $0,
                                 fileSelectedCallback: self.fileSelectedCallBack)
       }
+
+    userManagerSink = userManager.currentState.sink {
+      switch $0 {
+      case .authenticated(let user):
+        self.user = user
+        self.stateManager.processEvent(event: .verifiedExternally)
+      default:
+        self.user = nil
+      }
+    }
   }
 
   func pause() {
@@ -82,7 +95,7 @@ extension AppCoordinator {
 
     case .authenticatedLocally:
       guard let file = self.appDefaults.getDefaultFile() else {
-        remoteFileManager.getFileList()
+        remoteFileManager.getFileList(for: self.user!)
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)

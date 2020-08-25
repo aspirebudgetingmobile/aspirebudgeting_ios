@@ -10,7 +10,7 @@
 import Foundation
 import GoogleSignIn
 
-final class MockGIDSignIn: AspireSignInInstance {
+final class MockGIDSignIn: IGIDSignIn {
   var presentingViewController: UIViewController!
 
   var signInCalled = false
