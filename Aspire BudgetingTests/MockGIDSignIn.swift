@@ -2,15 +2,12 @@
 //  Mocks.swift
 //  Aspire BudgetingTests
 //
-//  Created by TeraMo Labs on 11/1/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 @testable import Aspire_Budgeting
 import Foundation
 import GoogleSignIn
 
-final class MockGIDSignIn: AspireSignInInstance {
+final class MockGIDSignIn: IGIDSignIn {
   var presentingViewController: UIViewController!
 
   var signInCalled = false

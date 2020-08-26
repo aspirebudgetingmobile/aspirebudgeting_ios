@@ -20,6 +20,7 @@ enum AppStateEvent {
   case authenticatedLocally(result: Bool)
   case enteredBackground
   case hasDefaultFile
+  case verifiedExternally
 }
 
 protocol AppStateManager {
@@ -145,6 +146,9 @@ extension StateManager {
 extension StateManager {
   func processEvent(event: AppStateEvent) {
     switch event {
+    case .verifiedExternally:
+      verifiedExternally()
+
     case .authenticatedLocally(let result):
       authenticatedLocally(result: result)
 
@@ -159,6 +163,10 @@ extension StateManager {
 
 // MARK: - Event Handlers
 extension StateManager {
+  private func verifiedExternally() {
+    self.transition(to: .verifiedExternally)
+  }
+  
   private func authenticatedLocally(result: Bool) {
     if result {
       os_log(

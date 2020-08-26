@@ -53,19 +53,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     objectFactory.appCoordinator.start()
-    //TODO: .loggedOut handler should be done in start()
-    stateManagerSink = stateManager.currentState
-      .sink { [weak self] currentState in
-        guard let weakSelf = self else { return }
-
-        switch currentState {
-        case .loggedOut:
-          weakSelf.userManager.authenticateWithGoogle()
-
-        default:
-          print("The current state is \(currentState)")
-        }
-      }
 
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()

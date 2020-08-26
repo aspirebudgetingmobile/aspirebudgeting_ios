@@ -12,7 +12,7 @@ import os.log
 
 protocol RemoteFileManager {
   var currentState: CurrentValueSubject<RemoteFileManagerState, Never> { get }
-  func getFileList()
+  func getFileList(for user:User)
 }
 
 enum RemoteFileManagerState {
@@ -27,6 +27,7 @@ enum GoogleDriveManagerError: String, Error {
   case noInternet = "No Internet connection available"
 }
 
+//TODO: Remove conformance to ObservableObject
 final class GoogleDriveManager: ObservableObject, RemoteFileManager {
   static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name)"
   static let spreadsheetMIME: String = "application/vnd.google-apps.spreadsheet"
@@ -41,6 +42,8 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
 
   private(set) var currentState =
     CurrentValueSubject<RemoteFileManagerState, Never>(.isLoading)
+
+  //TODO: Remove @Published properties
   @Published private(set) var fileList = [File]()
   @Published private(set) var error: Error?
 
@@ -102,9 +105,9 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
     fileList.removeAll()
   }
 
-  func getFileList() {
-    guard let authorizer = self.authorizer else {
-      error = GoogleDriveManagerError.nilAuthorizer
+  func getFileList(for user: User) {
+    guard let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol else {
+      currentState.value = .error(error: GoogleDriveManagerError.nilAuthorizer)
       return
     }
 

@@ -40,7 +40,7 @@
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
 		066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */; };
 		066EF45E235CF74500E94CE4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45D235CF74500E94CE4 /* User.swift */; };
-		066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* UserManager.swift */; };
+		066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */; };
 		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
@@ -133,7 +133,7 @@
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSplitColorView.swift; sourceTree = "<group>"; };
 		066EF45D235CF74500E94CE4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		066EF45F235D3D6000E94CE4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleUserManager.swift; sourceTree = "<group>"; };
 		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */,
-				066EF45F235D3D6000E94CE4 /* UserManager.swift */,
+				066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */,
 				066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */,
 				06A96051235FD2A60058EE64 /* ObjectFactory.swift */,
 				06EA7A4F236CC8F900D70CC9 /* GoogleSheetsManager.swift */,
@@ -685,7 +685,7 @@
 				06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
 				06C6B59D24EF259B00968C60 /* FileSelectorViewModel.swift in Sources */,
-				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
+				066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */,
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,

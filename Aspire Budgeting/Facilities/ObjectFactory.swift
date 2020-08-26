@@ -38,8 +38,8 @@ final class ObjectFactory {
     return instabugCredentials
   }()
 
-  lazy var userManager: UserManager = {
-    UserManager<GIDGoogleUser>(credentials: googleSDKCredentials)
+  lazy var userManager: GoogleUserManager = {
+    GoogleUserManager(credentials: googleSDKCredentials)
   }()
 
   lazy var driveManager: GoogleDriveManager = {
@@ -73,6 +73,7 @@ final class ObjectFactory {
     AppCoordinator(stateManager: stateManager,
                    localAuthorizer: localAuthorizationManager,
                    appDefaults: appDefaultsManager,
-                   remoteFileManager: driveManager)
+                   remoteFileManager: driveManager,
+                   userManager: userManager)
   }()
 }
