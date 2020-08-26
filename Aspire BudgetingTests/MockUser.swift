@@ -10,7 +10,7 @@ import GTMSessionFetcher
 
 final class MockProfile: GIDProfileData {
   override var name: String! {
-    return "Ghanta Singh"
+    return "First Last"
   }
 }
 
