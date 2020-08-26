@@ -69,11 +69,17 @@ final class GoogleDriveManagerTests: XCTestCase {
     driveManager.getFileList(for: user)
 
     let errorExpectation = XCTestExpectation()
-    sinkCancellable = driveManager.$error.sink { error in
-      let e = error as? GoogleDriveManagerError
-      XCTAssertNotNil(e)
-      XCTAssertEqual(e!, GoogleDriveManagerError.nilAuthorizer)
-      errorExpectation.fulfill()
+    sinkCancellable = driveManager.currentState.sink { state in
+      switch state {
+      case .error(error: let error):
+        let e = error as? GoogleDriveManagerError
+        XCTAssertNotNil(e)
+        XCTAssertEqual(e!, GoogleDriveManagerError.nilAuthorizer)
+        errorExpectation.fulfill()
+      default:
+        XCTFail()
+      }
+
     }
     wait(for: [errorExpectation], timeout: 5)
   }

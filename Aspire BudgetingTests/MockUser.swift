@@ -14,7 +14,7 @@ final class MockProfile: GIDProfileData {
   }
 }
 
-class MockAuthentication: GIDAuthentication {
+final class MockAuthentication: GIDAuthentication {
   override func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
     return MockAuthorizer()
   }
