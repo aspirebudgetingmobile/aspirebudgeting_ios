@@ -75,6 +75,22 @@ final class UserManagerTests: XCTestCase {
     }
   }
 
+  func testSignIn() {
+    let mockUser = MockUser()
+    userManager.sign(nil, didSignInFor: mockUser, withError: nil)
+
+    let expectation = XCTestExpectation()
+    _ = userManager.currentState.sink { state in
+      switch state {
+      case .authenticated(let user):
+        XCTAssertEqual(user.name, mockUser.profile.name)
+        expectation.fulfill()
+      default:
+        XCTFail()
+      }
+    }
+  }
+
   func testSignOut() {
     userManager.signOut()
 
