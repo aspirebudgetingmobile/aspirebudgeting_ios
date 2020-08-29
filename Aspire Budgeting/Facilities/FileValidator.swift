@@ -18,6 +18,7 @@ enum GoogleSheetsValidationError: String, Error {
   case noSheetsInSpreadsheet = "No sheets in spreadsheet"
   case noNamedRangesInSpreadsheet = "No named ranges in spreadsheet"
   case internalParsingError = "Internal parsing error"
+  case invalidSheet = "Invalid Sheet"
 }
 
 protocol FileValidator {
@@ -29,6 +30,11 @@ class GoogleSheetsValidator: FileValidator {
 
   private let sheetsService: GTLRService
   private var sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet
+
+  private let validationSet = ["ClearedSymbols",
+                               "MonthAndYear",
+                               "TransactionCategories",
+                              ]
 
   private(set) var currentState = CurrentValueSubject<FileValidatorState, Never>(.isLoading)
 
@@ -63,7 +69,15 @@ class GoogleSheetsValidator: FileValidator {
         if let namedRanges = spreadsheet.namedRanges {
           if let dataMap = self.generateDataMap(namedRanges: namedRanges,
                                                 sheetNameMap: sheetNameMap) {
-            self.currentState.value = .dataMapRetrieved(dataMap)
+            //Validate before posting
+            if dataMap[self.validationSet[0]] != nil,
+               dataMap[self.validationSet[1]] != nil,
+               dataMap[self.validationSet[2]] != nil {
+              self.currentState.value = .dataMapRetrieved(dataMap)
+            } else {
+              self.currentState.value =
+                .error(GoogleSheetsValidationError.invalidSheet)
+            }
           } else {
             self.currentState.value =
               .error(GoogleSheetsValidationError.internalParsingError)
