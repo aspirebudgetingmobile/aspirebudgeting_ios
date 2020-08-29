@@ -104,8 +104,8 @@ extension GoogleSheetsValidator {
         return nil
       }
 
-      let startColLetters = self.getColumnLetter(for: startColumn)
-      let endColLetters = self.getColumnLetter(for: endColumn - 1)
+      let startColLetters = self.getColumnLetter(for: startColumn + 1)
+      let endColLetters = self.getColumnLetter(for: endColumn)
 
       result[rangeName] =
         "\(sheetName)!\(startColLetters)\(startRow + 1):\(endColLetters)\(endRow)"
