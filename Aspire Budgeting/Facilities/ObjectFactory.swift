@@ -72,7 +72,7 @@ final class ObjectFactory {
   lazy var googleValidator: GoogleSheetsValidator = {
     GoogleSheetsValidator()
   }()
-  
+
   lazy var appCoordinator: AppCoordinator = {
     AppCoordinator(stateManager: stateManager,
                    localAuthorizer: localAuthorizationManager,

@@ -26,7 +26,7 @@ protocol FileValidator {
   func validate(file: File, for: User)
 }
 
-class GoogleSheetsValidator: FileValidator {
+final class GoogleSheetsValidator: FileValidator {
 
   private let sheetsService: GTLRService
   private var sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet

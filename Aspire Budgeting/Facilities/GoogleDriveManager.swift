@@ -12,7 +12,7 @@ import os.log
 
 protocol RemoteFileManager {
   var currentState: CurrentValueSubject<RemoteFileManagerState, Never> { get }
-  func getFileList(for user:User)
+  func getFileList(for user: User)
 }
 
 enum RemoteFileManagerState {
@@ -53,58 +53,6 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
   ) {
     self.driveService = driveService
     self.googleFilesListQuery = googleFilesListQuery
-
-    subscribeToAuthorizerNotification()
-  }
-
-  //TODO: Remove
-  private func subscribeToAuthorizerNotification() {
-    os_log(
-      "Subscribing for Google authorizer event",
-      log: .googleDriveManager,
-      type: .default
-    )
-    authorizerNotificationObserver = NotificationCenter.default.addObserver(
-      forName: .authorizerUpdated,
-      object: nil,
-      queue: nil
-    ) { [weak self] notification in
-      guard let weakSelf = self else {
-        return
-      }
-
-      weakSelf.assignAuthorizer(from: notification)
-    }
-  }
-
-  //TODO: Remove
-  private func assignAuthorizer(from notification: Notification) {
-    guard let userInfo = notification.userInfo,
-      let authorizer = userInfo[Notification.Name.authorizerUpdated]
-      as? GTMFetcherAuthorizationProtocol else {
-      os_log(
-        "No authorizer in notification",
-        log: .googleDriveManager,
-        type: .error
-      )
-      return
-    }
-
-    os_log(
-      "Received authorizer from notification",
-      log: .googleDriveManager,
-      type: .default
-    )
-    self.authorizer = authorizer
-  }
-
-  func clearFileList() {
-    os_log(
-      "Clearing in memory file list",
-      log: .googleDriveManager,
-      type: .default
-    )
-    fileList.removeAll()
   }
 
   func getFileList(for user: User) {
@@ -113,7 +61,6 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
       return
     }
 
-    let backupFileList = fileList
     fileList.removeAll()
 
     driveService.authorizer = authorizer
@@ -138,7 +85,6 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
         )
         weakSelf.currentState.value = .error(error: error)
         weakSelf.error = error
-        weakSelf.fileList = backupFileList
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
