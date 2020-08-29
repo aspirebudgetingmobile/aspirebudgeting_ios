@@ -57,6 +57,7 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
     subscribeToAuthorizerNotification()
   }
 
+  //TODO: Remove
   private func subscribeToAuthorizerNotification() {
     os_log(
       "Subscribing for Google authorizer event",
@@ -76,6 +77,7 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
     }
   }
 
+  //TODO: Remove
   private func assignAuthorizer(from notification: Notification) {
     guard let userInfo = notification.userInfo,
       let authorizer = userInfo[Notification.Name.authorizerUpdated]

@@ -78,7 +78,7 @@ final class ObjectFactory {
                    localAuthorizer: localAuthorizationManager,
                    appDefaults: appDefaultsManager,
                    remoteFileManager: driveManager,
-                   userManager: userManager)
+                   userManager: userManager,
                    fileValidator: googleValidator)
   }()
 }

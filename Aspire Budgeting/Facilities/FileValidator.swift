@@ -3,20 +3,126 @@
 // Aspire Budgeting
 //
 
+import Combine
 import Foundation
 import GoogleAPIClientForREST
+import GTMSessionFetcher
 
-protocol FileValidator {
-  func validate(file: File, completion: (Bool) -> Void)
+enum FileValidatorState {
+  case isLoading
+  case dataMapRetrieved([String: String])
+  case error(Error)
 }
 
-struct GoogleSheetsValidator: FileValidator {
+enum GoogleSheetsValidationError: String, Error {
+  case noSheetsInSpreadsheet = "No sheets in spreadsheet"
+  case noNamedRangesInSpreadsheet = "No named ranges in spreadsheet"
+  case internalParsingError = "Internal parsing error"
+}
+
+protocol FileValidator {
+  var currentState: CurrentValueSubject<FileValidatorState, Never> { get }
+  func validate(file: File, for: User)
+}
+
+class GoogleSheetsValidator: FileValidator {
+
+  private let sheetsService: GTLRService
+  private var sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet
+
+  private(set) var currentState = CurrentValueSubject<FileValidatorState, Never>(.isLoading)
 
   init(sheetsService: GTLRService = GTLRSheetsService(),
-       sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet) {
-    <#statements#>
+       sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet = GTLRSheetsQuery_SpreadsheetsGet
+        .query(withSpreadsheetId: "")) {
+    self.sheetsService = sheetsService
+    self.sheetsQuery = sheetsQuery
   }
-  func validate(file: File, completion: (Bool) -> Void) {
 
+  func validate(file: File, for user: User) {
+
+    sheetsService.authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
+
+    sheetsQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: file.id)
+
+    sheetsService.executeQuery(sheetsQuery) { _, data, error in
+      if let error = error {
+        self.currentState.value = .error(error)
+      } else {
+        let spreadsheet = data as! GTLRSheets_Spreadsheet
+
+        let sheetNameMap: [NSNumber: String]
+        if let sheets = spreadsheet.sheets {
+          sheetNameMap = self.generateSheetNameMap(sheets: sheets)
+        } else {
+          self.currentState.value =
+            .error(GoogleSheetsValidationError.noSheetsInSpreadsheet)
+          return
+        }
+
+        if let namedRanges = spreadsheet.namedRanges {
+          if let dataMap = self.generateDataMap(namedRanges: namedRanges,
+                                                sheetNameMap: sheetNameMap) {
+            self.currentState.value = .dataMapRetrieved(dataMap)
+          } else {
+            self.currentState.value =
+              .error(GoogleSheetsValidationError.internalParsingError)
+          }
+        } else {
+          self.currentState.value = .error(GoogleSheetsValidationError.noNamedRangesInSpreadsheet)
+        }
+      }
+    }
+  }
+}
+
+// MARK: - Spreadsheet Parsing
+extension GoogleSheetsValidator {
+  private func generateSheetNameMap(sheets: [GTLRSheets_Sheet]) -> [NSNumber: String] {
+    var sheetMap = [NSNumber: String]()
+    for sheet in sheets {
+      sheetMap[sheet.properties!.sheetId!] = sheet.properties!.title
+    }
+    return sheetMap
+  }
+
+  private func generateDataMap(namedRanges: [GTLRSheets_NamedRange],
+                               sheetNameMap: [NSNumber: String]
+                              ) -> [String: String]? {
+
+    var result = [String: String]()
+    for range in namedRanges {
+      guard let gridRange = range.range,
+            let rangeName = range.name,
+            let sheetId = gridRange.sheetId,
+            let sheetName = sheetNameMap[sheetId],
+            let startColumn = gridRange.startColumnIndex as? Int,
+            let startRow = gridRange.startRowIndex as? Int,
+            let endColumn = gridRange.endColumnIndex as? Int,
+            let endRow = gridRange.endRowIndex as? Int
+      else {
+        return nil
+      }
+
+      let startColLetters = self.getColumnLetter(for: startColumn)
+      let endColLetters = self.getColumnLetter(for: endColumn - 1)
+
+      result[rangeName] =
+        "\(sheetName)!\(startColLetters)\(startRow + 1):\(endColLetters)\(endRow)"
+    }
+    return result
+  }
+
+  private func getColumnLetter(for number: Int) -> String {
+    var num = number
+    var result = ""
+
+    while num > 0 {
+      let temp = UnicodeScalar(((num) % 26) + 65)
+      result = "\(Character(temp!))\(result)"
+      num /= 26
+    }
+
+    return result
   }
 }

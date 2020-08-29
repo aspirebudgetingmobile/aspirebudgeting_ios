@@ -26,7 +26,7 @@ final class AppCoordinator: ObservableObject {
        localAuthorizer: AppLocalAuthorizer,
        appDefaults: AppDefaults,
        remoteFileManager: RemoteFileManager,
-       userManager: UserManager) {
+       userManager: UserManager,
        fileValidator: FileValidator) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
@@ -80,11 +80,13 @@ final class AppCoordinator: ObservableObject {
 // MARK: - Callbacks
 extension AppCoordinator {
   func fileSelectedCallBack(file: File) {
-    fileValidator.validate(file: file) { (result) in
+    //TODO: UI should show LOADING. HOW?
+    fileValidator.validate(file: file, for: self.user!) { (result) in
       
     }
   }
 }
+
 // MARK: - State Management
 extension AppCoordinator {
   func handle(state: AppState) {
