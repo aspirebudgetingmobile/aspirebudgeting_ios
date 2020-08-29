@@ -51,6 +51,8 @@ class GoogleSheetsValidator: FileValidator {
 
     sheetsQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: file.id)
 
+    currentState.value = .isLoading
+
     sheetsService.executeQuery(sheetsQuery) { _, data, error in
       if let error = error {
         self.currentState.value = .error(error)
@@ -69,7 +71,6 @@ class GoogleSheetsValidator: FileValidator {
         if let namedRanges = spreadsheet.namedRanges {
           if let dataMap = self.generateDataMap(namedRanges: namedRanges,
                                                 sheetNameMap: sheetNameMap) {
-            //Validate before posting
             if dataMap[self.validationSet[0]] != nil,
                dataMap[self.validationSet[1]] != nil,
                dataMap[self.validationSet[2]] != nil {
