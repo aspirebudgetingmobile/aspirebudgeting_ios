@@ -81,9 +81,7 @@ final class AppCoordinator: ObservableObject {
 extension AppCoordinator {
   func fileSelectedCallBack(file: File) {
     //TODO: UI should show LOADING. HOW?
-    fileValidator.validate(file: file, for: self.user!) { (result) in
-      
-    }
+    fileValidator.validate(file: file, for: self.user!)
   }
 }
 
