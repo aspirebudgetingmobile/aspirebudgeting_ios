@@ -37,6 +37,46 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     return g
   }
 
+  func testInvalidSheet() {
+    let sheet1 = MockSheet(properties: createSheetProperties(id: 42, title: "Sheet1"))
+
+    let nr1 = GTLRSheets_NamedRange()
+    nr1.range = createGridRange(id: 42,
+                                startCol: 5,
+                                endCol: 6,
+                                startRow: 7,
+                                endRow: 8)
+    nr1.name = "Test"
+
+    let mockSpreadsheet = MockSpreadsheet(sheets: [sheet1])
+    mockSpreadsheet.namedRanges = [nr1]
+
+    let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
+    let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
+
+    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
+    validator.validate(file: mockFile, for: mockUser)
+
+    let exp = XCTestExpectation()
+    exp.expectedFulfillmentCount = 2
+
+    validatorSink = validator.currentState.sink {
+      switch $0 {
+      case .isLoading:
+        exp.fulfill()
+
+      case .error(let error):
+        XCTAssertEqual(error as! GoogleSheetsValidationError,
+                       GoogleSheetsValidationError.invalidSheet)
+        exp.fulfill()
+
+      default:
+        XCTFail()
+      }
+    }
+    wait(for: [exp], timeout: 1)
+  }
+
   func testNoSheetsInSpreadsheet() {
     let mockSpreadsheet = MockSpreadsheet(sheets: nil)
     let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)

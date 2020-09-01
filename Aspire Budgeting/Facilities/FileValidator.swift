@@ -137,8 +137,6 @@ extension GoogleSheetsValidator {
       let position = num % 26
       let index = String.Index(utf16Offset: position > 0 ? position - 1 : 0, in: letters)
       result = "\((position == 0 ? "Z" : String(letters[index])))\(result)"
-//      let temp = UnicodeScalar(((num) % 26) + 65)
-//      result = "\(Character(temp!))\(result)"
       num = (num - 1) / 26
     }
 
