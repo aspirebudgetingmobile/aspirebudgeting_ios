@@ -166,7 +166,7 @@ extension StateManager {
   private func verifiedExternally() {
     self.transition(to: .verifiedExternally)
   }
-  
+
   private func authenticatedLocally(result: Bool) {
     if result {
       os_log(
