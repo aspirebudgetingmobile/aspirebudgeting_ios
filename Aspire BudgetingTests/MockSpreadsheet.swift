@@ -7,7 +7,7 @@ import Foundation
 import GoogleAPIClientForREST
 
 final class MockSpreadsheet: GTLRSheets_Spreadsheet {
-  init(sheets: [GTLRSheets_Sheet]) {
+  init(sheets: [GTLRSheets_Sheet]?) {
     super.init()
     super.sheets = sheets
   }

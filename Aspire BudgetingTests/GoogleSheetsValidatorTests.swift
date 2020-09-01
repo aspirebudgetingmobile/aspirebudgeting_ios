@@ -12,6 +12,9 @@ final class GoogleSheetsValidatorTests: XCTestCase {
 
   var validatorSink: AnyCancellable?
 
+  let mockFile = File(id: "abc", name: "ABC")
+  let mockUser = User(name: "Eggs", authorizer: MockAuthorizer())
+
   func createSheetProperties(id: Int, title: String) -> GTLRSheets_SheetProperties {
     let p = GTLRSheets_SheetProperties()
     p.sheetId = NSNumber(value: id)
@@ -34,7 +37,62 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     return g
   }
 
-  func testValidationSuccess() throws {
+  func testValidationWithoutSheetsInSpreadsheet() {
+    let mockSpreadsheet = MockSpreadsheet(sheets: nil)
+    let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
+    let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
+
+    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
+    validator.validate(file: mockFile, for: mockUser)
+
+    let exp = XCTestExpectation()
+    exp.expectedFulfillmentCount = 2
+
+    validatorSink = validator.currentState.sink {
+      switch $0 {
+      case .isLoading:
+        exp.fulfill()
+
+      case .error(let error):
+        XCTAssertEqual(error as! GoogleSheetsValidationError,
+                       GoogleSheetsValidationError.noSheetsInSpreadsheet)
+        exp.fulfill()
+
+      default:
+        XCTFail()
+      }
+    }
+    wait(for: [exp], timeout: 1)
+  }
+
+  func testValidationPostsGoogleError() {
+    let mockError = NSError(domain: "MockError", code: 42, userInfo: nil)
+    let mockService = GTLRService.mockService(withFakedObject: nil, fakedError: mockError)
+    let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
+
+    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
+    validator.validate(file: mockFile, for: mockUser)
+
+    let exp = XCTestExpectation()
+    exp.expectedFulfillmentCount = 2
+
+    validatorSink = validator.currentState.sink {
+      switch $0 {
+      case .isLoading:
+        exp.fulfill()
+
+      case .error(let error):
+        XCTAssertEqual(error as NSError, mockError)
+        exp.fulfill()
+      default:
+        XCTFail()
+      }
+    }
+
+    wait(for: [exp], timeout: 1)
+  }
+
+  func testValidationSuccess() {
     let sheet1 = MockSheet(properties:
                             createSheetProperties(id: 50, title: "Sheet1"))
     let sheet2 = MockSheet(properties:
@@ -70,10 +128,6 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
 
     let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
-
-    let mockFile = File(id: "abc", name: "ABC")
-    let mockUser = User(name: "Eggs", authorizer: MockAuthorizer())
-
     validator.validate(file: mockFile, for: mockUser)
 
     let exp = XCTestExpectation()
@@ -91,7 +145,7 @@ final class GoogleSheetsValidatorTests: XCTestCase {
 
       case .isLoading:
         exp.fulfill()
-
+        
       default:
         XCTFail()
       }
