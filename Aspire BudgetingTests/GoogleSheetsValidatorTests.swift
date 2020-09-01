@@ -37,7 +37,7 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     return g
   }
 
-  func testValidationWithoutSheetsInSpreadsheet() {
+  func testnoSheetsInSpreadsheet() {
     let mockSpreadsheet = MockSpreadsheet(sheets: nil)
     let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
