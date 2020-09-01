@@ -8,17 +8,10 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
-class GoogleSheetsValidatorTests: XCTestCase {
+final class GoogleSheetsValidatorTests: XCTestCase {
 
   var validatorSink: AnyCancellable?
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
 
   func createSheetProperties(id: Int, title: String) -> GTLRSheets_SheetProperties {
     let p = GTLRSheets_SheetProperties()
@@ -42,71 +35,69 @@ class GoogleSheetsValidatorTests: XCTestCase {
     return g
   }
 
-    func testValidationSuccess() throws {
-      let sheet1 = MockSheet(properties:
-                              createSheetProperties(id: 50, title: "Sheet1"))
-      let sheet2 = MockSheet(properties:
-                              createSheetProperties(id: 42, title: "Sheet2"))
+  func testValidationSuccess() throws {
+    let sheet1 = MockSheet(properties:
+                            createSheetProperties(id: 50, title: "Sheet1"))
+    let sheet2 = MockSheet(properties:
+                            createSheetProperties(id: 42, title: "Sheet2"))
 
-      let nr1 = GTLRSheets_NamedRange()
-      nr1.range = createGridRange(id: 50,
-                                  startCol: 5 /* F (0 based) */,
-                                  endCol: 6 /* F */,
-                                  startRow: 7 /* 8 (0 based) */,
-                                  endRow: 8 /* 8 */)
-      nr1.name = "ClearedSymbols"
+    let nr1 = GTLRSheets_NamedRange()
+    nr1.range = createGridRange(id: 50,
+                                startCol: 5 /* F (0 based) */,
+                                endCol: 6 /* F */,
+                                startRow: 7 /* 8 (0 based) */,
+                                endRow: 8 /* 8 */)
+    nr1.name = "ClearedSymbols"
 
-      let nr2 = GTLRSheets_NamedRange()
-      nr2.range = createGridRange(id: 42,
-                                  startCol: 10 /* K */,
-                                  endCol: 11 /* K */,
-                                  startRow: 12 /* 13 */,
-                                  endRow: 13 /* 13 */)
-      nr2.name = "MonthAndYear"
+    let nr2 = GTLRSheets_NamedRange()
+    nr2.range = createGridRange(id: 42,
+                                startCol: 10 /* K */,
+                                endCol: 11 /* K */,
+                                startRow: 12 /* 13 */,
+                                endRow: 13 /* 13 */)
+    nr2.name = "MonthAndYear"
 
-      let nr3 = GTLRSheets_NamedRange()
-      nr3.range = createGridRange(id: 50,
-                                  startCol: 35 /* AJ */,
-                                  endCol: 40 /* AN */,
-                                  startRow: 23 /* 24 */,
-                                  endRow: 28 /* 28 */)
-      nr3.name = "TransactionCategories"
+    let nr3 = GTLRSheets_NamedRange()
+    nr3.range = createGridRange(id: 50,
+                                startCol: 35 /* AJ */,
+                                endCol: 40 /* AN */,
+                                startRow: 23 /* 24 */,
+                                endRow: 28 /* 28 */)
+    nr3.name = "TransactionCategories"
 
-      let mockSpreadsheet = MockSpreadsheet(sheets: [sheet1, sheet2])
-      mockSpreadsheet.namedRanges = [nr1, nr2, nr3]
-      let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
-      let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
+    let mockSpreadsheet = MockSpreadsheet(sheets: [sheet1, sheet2])
+    mockSpreadsheet.namedRanges = [nr1, nr2, nr3]
+    let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
+    let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
 
-      let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
+    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
 
-      let mockFile = File(id: "abc", name: "ABC")
-      let mockUser = User(name: "Eggs", authorizer: MockAuthorizer())
+    let mockFile = File(id: "abc", name: "ABC")
+    let mockUser = User(name: "Eggs", authorizer: MockAuthorizer())
 
-      validator.validate(file: mockFile, for: mockUser)
+    validator.validate(file: mockFile, for: mockUser)
 
-      let exp = XCTestExpectation()
-      exp.expectedFulfillmentCount = 2
-      validatorSink = validator.currentState.sink {
-        switch $0 {
-        case .dataMapRetrieved(let dataMap):
-          XCTAssertNotNil(dataMap["MonthAndYear"])
-          XCTAssertEqual(dataMap["MonthAndYear"]!, "Sheet2!K13:K13")
-          XCTAssertNotNil(dataMap["ClearedSymbols"])
-          XCTAssertEqual(dataMap["ClearedSymbols"]!, "Sheet1!F8:F8")
-          XCTAssertNotNil(dataMap["TransactionCategories"])
-          XCTAssertEqual(dataMap["TransactionCategories"]!, "Sheet1!AJ24:AN28")
+    let exp = XCTestExpectation()
+    exp.expectedFulfillmentCount = 2
+    validatorSink = validator.currentState.sink {
+      switch $0 {
+      case .dataMapRetrieved(let dataMap):
+        XCTAssertNotNil(dataMap["MonthAndYear"])
+        XCTAssertEqual(dataMap["MonthAndYear"]!, "Sheet2!K13:K13")
+        XCTAssertNotNil(dataMap["ClearedSymbols"])
+        XCTAssertEqual(dataMap["ClearedSymbols"]!, "Sheet1!F8:F8")
+        XCTAssertNotNil(dataMap["TransactionCategories"])
+        XCTAssertEqual(dataMap["TransactionCategories"]!, "Sheet1!AJ24:AN28")
         exp.fulfill()
 
-        case .isLoading:
-          exp.fulfill()
+      case .isLoading:
+        exp.fulfill()
 
-        default:
-          XCTFail()
-        }
+      default:
+        XCTFail()
       }
-      wait(for: [exp], timeout: 1)
-
-
     }
+    wait(for: [exp], timeout: 1)
+  }
 
 }
