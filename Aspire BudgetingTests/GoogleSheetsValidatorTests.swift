@@ -12,7 +12,6 @@ final class GoogleSheetsValidatorTests: XCTestCase {
 
   var validatorSink: AnyCancellable?
 
-
   func createSheetProperties(id: Int, title: String) -> GTLRSheets_SheetProperties {
     let p = GTLRSheets_SheetProperties()
     p.sheetId = NSNumber(value: id)
