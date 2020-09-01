@@ -37,7 +37,7 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     return g
   }
 
-  func testnoSheetsInSpreadsheet() {
+  func testNoSheetsInSpreadsheet() {
     let mockSpreadsheet = MockSpreadsheet(sheets: nil)
     let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
@@ -145,7 +145,7 @@ final class GoogleSheetsValidatorTests: XCTestCase {
 
       case .isLoading:
         exp.fulfill()
-        
+
       default:
         XCTFail()
       }
