@@ -2,9 +2,6 @@
 //  AspireMasterView.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 12/7/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import SwiftUI
 
@@ -19,7 +16,7 @@ struct AspireMasterView: View {
         .frame(maxHeight: 65)
       AspireSegmentedView(selectedSegment: $selectedSegment)
       if selectedSegment == 0 {
-        DashboardView(file: sheetsManager.defaultFile!)
+        DashboardView(file: File(id: "abc", name: "abc"))
       } else if selectedSegment == 1 {
         AccountBalancesView()
       }

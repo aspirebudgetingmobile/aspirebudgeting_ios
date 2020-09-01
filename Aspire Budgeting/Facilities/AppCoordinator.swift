@@ -12,25 +12,31 @@ final class AppCoordinator: ObservableObject {
   private let appDefaults: AppDefaults
   private let remoteFileManager: RemoteFileManager
   private let userManager: UserManager
+  private let fileValidator: FileValidator
 
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
   private var userManagerSink: AnyCancellable!
+  private var fileValidatorSink: AnyCancellable!
 
   private(set) var fileSelectorVM = FileSelectorViewModel()
 
   private var user: User?
+  private var selectedFile: File?
+  private var dataMap: [String: String]?
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
        appDefaults: AppDefaults,
        remoteFileManager: RemoteFileManager,
-       userManager: UserManager) {
+       userManager: UserManager,
+       fileValidator: FileValidator) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
     self.appDefaults = appDefaults
     self.remoteFileManager = remoteFileManager
     self.userManager = userManager
+    self.fileValidator = fileValidator
   }
 
   func start() {
@@ -48,6 +54,7 @@ final class AppCoordinator: ObservableObject {
         self.fileSelectorVM =
           FileSelectorViewModel(fileManagerState: $0,
                                 fileSelectedCallback: self.fileSelectedCallBack)
+        self.objectWillChange.send()
       }
 
     userManagerSink = userManager.currentState.sink {
@@ -57,6 +64,25 @@ final class AppCoordinator: ObservableObject {
         self.stateManager.processEvent(event: .verifiedExternally)
       default:
         self.user = nil
+      }
+    }
+
+    fileValidatorSink = fileValidator.currentState.sink {
+      switch $0 {
+      case .isLoading:
+        self.remoteFileManager.currentState.value = .isLoading
+
+      case .dataMapRetrieved(let dataMap):
+        guard let file = self.selectedFile else {
+          fatalError("Selected file is nil. This should never happen.")
+        }
+        self.dataMap = dataMap
+        self.appDefaults.addDefault(file: file)
+        self.appDefaults.addDataMap(map: dataMap)
+        self.stateManager.processEvent(event: .hasDefaultFile)
+
+      case .error(let error):
+        self.remoteFileManager.currentState.value = .error(error: error)
       }
     }
   }
@@ -77,9 +103,11 @@ final class AppCoordinator: ObservableObject {
 // MARK: - Callbacks
 extension AppCoordinator {
   func fileSelectedCallBack(file: File) {
-    print("Logic to verify file \(file)")
+    self.selectedFile = file
+    fileValidator.validate(file: file, for: self.user!)
   }
 }
+
 // MARK: - State Management
 extension AppCoordinator {
   func handle(state: AppState) {
