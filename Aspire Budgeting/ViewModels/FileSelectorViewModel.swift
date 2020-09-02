@@ -5,12 +5,13 @@
 
 import Foundation
 
+enum ViewModelState {
+  case isLoading
+  case dataRetrieved
+  case error
+}
+
 struct FileSelectorViewModel {
-  enum State {
-    case isLoading
-    case filesRetrieved
-    case error
-  }
 
   let fileManagerState: RemoteFileManagerState
 
@@ -29,13 +30,13 @@ struct FileSelectorViewModel {
               fileSelectedCallback: nil)
   }
 
-  var currentState: State {
+  var currentState: ViewModelState {
     switch fileManagerState {
     case .isLoading:
       return .isLoading
 
     case .filesRetrieved:
-      return .filesRetrieved
+      return .dataRetrieved
 
     case .error:
       return .error

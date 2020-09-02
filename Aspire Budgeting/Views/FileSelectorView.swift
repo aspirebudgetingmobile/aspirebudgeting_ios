@@ -31,7 +31,7 @@ struct FileSelectorView: View {
         LoadingView()
       }
 
-      if viewModel.currentState == .filesRetrieved {
+      if viewModel.currentState == .dataRetrieved {
         NavigationView {
           VStack {
             SearchBar(text: $searchText)

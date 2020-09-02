@@ -21,6 +21,7 @@ final class AppCoordinator: ObservableObject {
   private var fileValidatorSink: AnyCancellable!
 
   private(set) var fileSelectorVM = FileSelectorViewModel()
+  private(set) var dashboardVM = DashboardViewModel()
 
   private var user: User?
 
@@ -89,13 +90,8 @@ final class AppCoordinator: ObservableObject {
                                           from: self.selectedFile!,
                                           using: self.dataMap!)
         {
-          switch $0 {
-          case .success(let metadata):
-            print(metadata)
-
-          case .failure(let error):
-            print(error)
-          }
+          self.dashboardVM = DashboardViewModel(result: $0)
+          self.objectWillChange.send()
         }
 
       case .error(let error):
@@ -144,7 +140,13 @@ extension AppCoordinator {
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
-      self.contentProvider.getDashboard(for: self.user!, from: file, using: self.appDefaults.getDataMap()) { print($0) }
+      self.contentProvider.getDashboard(for: self.user!,
+                                        from: file,
+                                        using: self.appDefaults.getDataMap()) {
+        self.dashboardVM =
+          DashboardViewModel(result: $0)
+                                          self.objectWillChange.send()
+      }
 
     default:
       print("The current state is \(state)")

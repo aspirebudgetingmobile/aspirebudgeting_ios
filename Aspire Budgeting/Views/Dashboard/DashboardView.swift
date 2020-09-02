@@ -9,15 +9,17 @@
 import SwiftUI
 
 struct DashboardView: View {
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
 
-  let file: File
+  let viewModel: DashboardViewModel
+//  @EnvironmentObject var sheetsManager: GoogleSheetsManager
+
+//  let file: Fileself.currentState = currentState
 
   private func availableTotals(for group: String) -> DashboardCardView.Totals {
     let index = getIndex(for: group)
-    let availableTotal = sheetsManager.dashboardMetadata!.groupedAvailableTotals[index]
-    let budgetedTotal = sheetsManager.dashboardMetadata!.groupedBudgetedTotals[index]
-    let spentTotal = sheetsManager.dashboardMetadata!.groupedSpentTotals[index]
+    let availableTotal = viewModel.metadata!.groupedAvailableTotals[index]
+    let budgetedTotal = viewModel.metadata!.groupedBudgetedTotals[index]
+    let spentTotal = viewModel.metadata!.groupedSpentTotals[index]
     return DashboardCardView.Totals(
       availableTotal: availableTotal,
       budgetedTotal: budgetedTotal,
@@ -26,23 +28,23 @@ struct DashboardView: View {
   }
 
   private func getIndex(for group: String) -> Int {
-    return sheetsManager.dashboardMetadata!.groups.firstIndex(of: group)!
+    return viewModel.metadata!.groups.firstIndex(of: group)!
   }
 
   private func categoryRows(for group: String) -> [DashboardCategoryRow] {
-    return sheetsManager.dashboardMetadata!.groupedCategoryRows[getIndex(for: group)]
+    return viewModel.metadata!.groupedCategoryRows[getIndex(for: group)]
   }
 
-  private func verifySheet() {
-    sheetsManager.verifySheet(spreadsheet: self.file)
-  }
+//  private func verifySheet() {
+//    sheetsManager.verifySheet(spreadsheet: self.file)
+//  }
 
   var body: some View {
     VStack {
-      if sheetsManager.error == nil {
-        if sheetsManager.dashboardMetadata?.groups != nil {
+      if viewModel.error == nil {
+        if viewModel.metadata?.groups != nil {
           List {
-            ForEach(sheetsManager.dashboardMetadata!.groups, id: \.self) { group in
+            ForEach(viewModel.metadata!.groups, id: \.self) { group in
               DashboardCardView(
                 categoryName: group,
                 totals: self.availableTotals(for: group),
@@ -51,19 +53,20 @@ struct DashboardView: View {
             }
           }
         } else {
-          ZStack {
-            Rectangle().foregroundColor(Colors.aspireGray)
-              .edgesIgnoringSafeArea(.all)
-            Text("Fetching data...")
-              .font(.custom("Rubik-Light", size: 18))
-              .foregroundColor(.white)
-              .opacity(0.6)
-          }
+          LoadingView()
+//          ZStack {
+//            Rectangle().foregroundColor(Colors.aspireGray)
+//              .edgesIgnoringSafeArea(.all)
+//            Text("Fetching data...")
+//              .font(.custom("Rubik-Light", size: 18))
+//              .foregroundColor(.white)
+//              .opacity(0.6)
+//          }
         }
       } else {
         ZStack {
           Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-          ErrorBannerView(error: sheetsManager.error!)
+          ErrorBannerView(error: viewModel.error!)
         }
       }
     }.navigationBarHidden(true)
@@ -71,7 +74,7 @@ struct DashboardView: View {
       .background(Colors.aspireGray)
       .edgesIgnoringSafeArea(.all)
       .onAppear {
-        self.verifySheet()
+//        self.verifySheet()
       }
   }
 }
