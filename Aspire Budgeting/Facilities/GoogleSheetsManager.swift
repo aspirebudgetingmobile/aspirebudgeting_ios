@@ -21,101 +21,9 @@ protocol RemoteFileWriter {
 
 typealias RemoteFileReaderWriter = RemoteFileReader & RemoteFileWriter
 
-protocol ContentReader {
-  func getDashboard(for user: User,
-                    from file: File,
-                    using dataMap: [String: String],
-                    completion: @escaping (Result<DashboardMetadata>) -> Void)
-}
-
-protocol ContentWriter {
-  func addTransaction()
-}
-
 enum Result<T> {
   case success(T)
   case failure(Error)
-}
-typealias ContentProvider = ContentReader & ContentWriter
-
-final class GoogleContentManager: ContentProvider {
-  private let fileReader: RemoteFileReader
-  private let fileWriter: RemoteFileWriter
-  private var readSink: AnyCancellable!
-
-  enum SupportedLegacyVersion: String {
-    case twoEight = "2.8"
-    case three = "3.0"
-    case threeOne = "3.1.0"
-    case threeTwo = "3.2.0"
-  }
-
-  init(fileReader: RemoteFileReader,
-       fileWriter: RemoteFileWriter) {
-    self.fileReader = fileReader
-    self.fileWriter = fileWriter
-  }
-
-  func getDashboard(for user: User,
-                    from file: File,
-                    using dataMap: [String: String],
-                    completion: @escaping (Result<DashboardMetadata>) -> Void) {
-    if let location = dataMap["Dashboard"] {
-      readSink = fileReader.read(file: file,
-                                 user: user,
-                                 location: location)
-        .sink(receiveCompletion: { error in
-
-        }, receiveValue: { valueRange in
-
-        })
-    } else {
-      readSink = fileReader.read(file: file,
-                                 user: user,
-                                 location: "BackendData!2:2")
-        .map { valueRange -> String in
-          guard let version = (valueRange as? GTLRSheets_ValueRange)?
-            .values?
-            .last?
-            .last as? String,
-            let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
-              return ""
-          }
-          let range: String
-          switch supportedVersion {
-          case .twoEight, .three, .threeOne:
-            range = "Dashboard!F4:O"
-          case .threeTwo:
-            range = "Dashboard!F6:O"
-          }
-          return range
-        }
-        .flatMap { location -> AnyPublisher<AnyObject, Error> in
-          self.fileReader.read(file: file,
-                               user: user,
-                               location: location)
-        }
-        .sink(receiveCompletion: { status in
-          switch status {
-          case .failure(let error):
-            completion(.failure(error))
-          default:
-            print("Dashboard data retrieved")
-          }
-        }, receiveValue: { valueRange in
-          guard let rows = (valueRange as? GTLRSheets_ValueRange)?.values as? [[String]] else {
-            completion(.failure(GoogleDriveManagerError.inconsistentSheet))
-            return
-          }
-          let metadata = DashboardMetadata(rows: rows)
-          completion(.success(metadata))
-        })
-    }
-  }
-
-  func addTransaction() {
-    
-  }
 }
 
 final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
@@ -134,8 +42,8 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
                       }
       }
     }
-      //    .print()
-      .eraseToAnyPublisher()
+    .print()
+    .eraseToAnyPublisher()
 
     return future
   }

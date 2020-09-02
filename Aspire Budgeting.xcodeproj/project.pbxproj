@@ -47,6 +47,7 @@
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
 		069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */; };
+		069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830725003EBB009DD3E9 /* GoogleContentManager.swift */; };
 		069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FDF912383A1C60023E86A /* AspireNavigationBar.swift */; };
 		069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF932384F3840023E86A /* Rubik-Medium.ttf */; };
 		069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF952384F43E0023E86A /* Rubik-Regular.ttf */; };
@@ -144,6 +145,7 @@
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		069F830725003EBB009DD3E9 /* GoogleContentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleContentManager.swift; sourceTree = "<group>"; };
 		069FDF912383A1C60023E86A /* AspireNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNavigationBar.swift; sourceTree = "<group>"; };
 		069FDF932384F3840023E86A /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		069FDF952384F43E0023E86A /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */,
 				062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */,
 				06EA080924F4637700927FE5 /* FileValidator.swift */,
+				069F830725003EBB009DD3E9 /* GoogleContentManager.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -708,6 +711,7 @@
 				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
+				069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */,
 				06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
