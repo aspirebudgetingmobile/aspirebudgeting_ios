@@ -21,7 +21,9 @@ final class AppCoordinator: ObservableObject {
   private var fileValidatorSink: AnyCancellable!
 
   private(set) var fileSelectorVM = FileSelectorViewModel()
-  private(set) var dashboardVM = DashboardViewModel()
+  private(set) lazy var dashboardVM: DashboardViewModel = {
+    DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
+  }()
 
   private var user: User?
 
@@ -86,13 +88,7 @@ final class AppCoordinator: ObservableObject {
         self.appDefaults.addDefault(file: file)
         self.appDefaults.addDataMap(map: dataMap)
         self.stateManager.processEvent(event: .hasDefaultFile)
-        self.contentProvider.getDashboard(for: self.user!,
-                                          from: self.selectedFile!,
-                                          using: self.dataMap!)
-        {
-          self.dashboardVM = DashboardViewModel(result: $0)
-          self.objectWillChange.send()
-        }
+        self.selectedFile = file
 
       case .error(let error):
         self.remoteFileManager.currentState.value = .error(error: error)
@@ -119,6 +115,17 @@ extension AppCoordinator {
     self.selectedFile = file
     fileValidator.validate(file: file, for: self.user!)
   }
+
+  func dashboardRefreshCallback() {
+    self.contentProvider.getDashboard(for: self.user!,
+                                      from: self.selectedFile!,
+                                      using: self.dataMap!)
+    {
+      self.dashboardVM = DashboardViewModel(result: $0,
+                                            refreshAction: self.dashboardRefreshCallback)
+      self.objectWillChange.send()
+    }
+  }
 }
 
 // MARK: - State Management
@@ -140,13 +147,15 @@ extension AppCoordinator {
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
-      self.contentProvider.getDashboard(for: self.user!,
-                                        from: file,
-                                        using: self.appDefaults.getDataMap()) {
-        self.dashboardVM =
-          DashboardViewModel(result: $0)
-                                          self.objectWillChange.send()
-      }
+      self.selectedFile = file
+      self.dataMap = self.appDefaults.getDataMap()
+//      self.contentProvider.getDashboard(for: self.user!,
+//                                        from: file,
+//                                        using: self.appDefaults.getDataMap()) {
+//        self.dashboardVM =
+//          DashboardViewModel(result: $0)
+//                                          self.objectWillChange.send()
+//      }
 
     default:
       print("The current state is \(state)")

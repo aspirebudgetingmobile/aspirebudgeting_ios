@@ -11,7 +11,13 @@ struct DashboardViewModel {
   let metadata: DashboardMetadata?
   let error: Error?
 
-  init(result: Result<DashboardMetadata>?) {
+  private let refreshAction: (() -> Void)
+
+  init(result: Result<DashboardMetadata>?,
+       refreshAction: @escaping (() -> Void)) {
+
+    self.refreshAction = refreshAction
+
     if let result = result {
       switch result {
       case .failure(let error):
@@ -31,7 +37,11 @@ struct DashboardViewModel {
     }
   }
 
-  init() {
-    self.init(result: nil)
+  init(refreshAction: @escaping () -> Void) {
+    self.init(result: nil, refreshAction: refreshAction)
+  }
+
+  func refresh() {
+    refreshAction()
   }
 }

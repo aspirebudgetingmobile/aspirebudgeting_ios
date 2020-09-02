@@ -74,7 +74,7 @@ struct DashboardView: View {
       .background(Colors.aspireGray)
       .edgesIgnoringSafeArea(.all)
       .onAppear {
-//        self.verifySheet()
+        self.viewModel.refresh()
       }
   }
 }
