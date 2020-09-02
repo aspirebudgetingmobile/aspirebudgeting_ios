@@ -2,28 +2,148 @@
 //  GoogleSheetsManager.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/1/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
+import Combine
 import Foundation
 import GoogleAPIClientForREST
 import GTMSessionFetcher
 import os.log
 
-extension Notification.Name {
-  static let hasSheetInDefaults = Notification.Name("hasSheetInDefaults")
+protocol RemoteFileReader {
+  func read(file: File,
+            user: User,
+            location: String) -> AnyPublisher<AnyObject, Error>
 }
 
-protocol AspireUserDefaults {
-  func data(forKey defaultName: String) -> Data?
-  func set(_ value: Any?, forKey defaultName: String)
-  func removeObject(forKey defaultName: String)
+protocol RemoteFileWriter {
+  func write(file: File, user: User, location: String)
 }
 
-extension UserDefaults: AspireUserDefaults {}
+typealias RemoteFileReaderWriter = RemoteFileReader & RemoteFileWriter
 
-final class GoogleSheetsManager: ObservableObject {
+protocol ContentReader {
+  func getDashboard(for user: User,
+                    from file: File,
+                    using dataMap: [String: String],
+                    completion: @escaping (Result<DashboardMetadata>) -> Void)
+}
+
+protocol ContentWriter {
+  func addTransaction()
+}
+
+enum Result<T> {
+  case success(T)
+  case failure(Error)
+}
+typealias ContentProvider = ContentReader & ContentWriter
+
+final class GoogleContentManager: ContentProvider {
+  private let fileReader: RemoteFileReader
+  private let fileWriter: RemoteFileWriter
+  private var readSink: AnyCancellable!
+
+  enum SupportedLegacyVersion: String {
+    case twoEight = "2.8"
+    case three = "3.0"
+    case threeOne = "3.1.0"
+    case threeTwo = "3.2.0"
+  }
+
+  init(fileReader: RemoteFileReader,
+       fileWriter: RemoteFileWriter) {
+    self.fileReader = fileReader
+    self.fileWriter = fileWriter
+  }
+
+  func getDashboard(for user: User,
+                    from file: File,
+                    using dataMap: [String: String],
+                    completion: @escaping (Result<DashboardMetadata>) -> Void) {
+    if let location = dataMap["Dashboard"] {
+      readSink = fileReader.read(file: file,
+                                 user: user,
+                                 location: location)
+        .sink(receiveCompletion: { error in
+
+        }, receiveValue: { valueRange in
+
+        })
+    } else {
+      readSink = fileReader.read(file: file,
+                                 user: user,
+                                 location: "BackendData!2:2")
+        .map { valueRange -> String in
+          guard let version = (valueRange as? GTLRSheets_ValueRange)?
+            .values?
+            .last?
+            .last as? String,
+            let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
+              return ""
+          }
+          let range: String
+          switch supportedVersion {
+          case .twoEight, .three, .threeOne:
+            range = "Dashboard!F4:O"
+          case .threeTwo:
+            range = "Dashboard!F6:O"
+          }
+          return range
+        }
+        .flatMap { location -> AnyPublisher<AnyObject, Error> in
+          self.fileReader.read(file: file,
+                               user: user,
+                               location: location)
+        }
+        .sink(receiveCompletion: { status in
+          switch status {
+          case .failure(let error):
+            completion(.failure(error))
+          default:
+            print("Dashboard data retrieved")
+          }
+        }, receiveValue: { valueRange in
+          guard let rows = (valueRange as? GTLRSheets_ValueRange)?.values as? [[String]] else {
+            completion(.failure(GoogleDriveManagerError.inconsistentSheet))
+            return
+          }
+          let metadata = DashboardMetadata(rows: rows)
+          completion(.success(metadata))
+        })
+    }
+  }
+
+  func addTransaction() {
+    
+  }
+}
+
+final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
+  func read(file: File,
+            user: User,
+            location: String) -> AnyPublisher<AnyObject, Error> {
+
+    let future = Future<AnyObject, Error> { promise in
+      self.fetchData(spreadsheet: file,
+                     spreadsheetRange: location,
+                     authorizer: user.authorizer as? GTMFetcherAuthorizationProtocol) { (valueRange, error) in
+                      if let error = error {
+                        promise(.failure(error))
+                      } else {
+                        promise(.success(valueRange!))
+                      }
+      }
+    }
+      //    .print()
+      .eraseToAnyPublisher()
+
+    return future
+  }
+
+  func write(file: File, user: User, location: String) {
+
+  }
+
   enum SupportedAspireVersions: String {
     case twoEight = "2.8"
     case three = "3.0"
@@ -31,21 +151,12 @@ final class GoogleSheetsManager: ObservableObject {
     case threeTwo = "3.2.0"
   }
 
-  static let defaultsSheetsKey = "Aspire_Sheet"
-
   private let sheetsService: GTLRService
   private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet
-
-  private var authorizer: GTMFetcherAuthorizationProtocol?
-  private var authorizerNotificationObserver: NSObjectProtocol?
 
   private var logoutObserver: NSObjectProtocol?
 
   private var ticket: GTLRServiceTicket?
-
-  private var userDefaults: AspireUserDefaults
-
-  var defaultFile: File?
 
   @Published private(set) var aspireVersion: SupportedAspireVersions?
   @Published private(set) var error: GoogleDriveManagerError?
@@ -57,99 +168,25 @@ final class GoogleSheetsManager: ObservableObject {
   init(
     sheetsService: GTLRService = GTLRSheetsService(),
     getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet
-      = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: ""),
-    userDefaults: AspireUserDefaults = UserDefaults.standard
+    = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: "")
   ) {
     self.sheetsService = sheetsService
     self.getSpreadsheetsQuery = getSpreadsheetsQuery
-    self.userDefaults = userDefaults
-
-    subscribeToAuthorizerNotification()
-    subscribeLogoutNotification()
-  }
-
-  private func subscribeLogoutNotification() {
-    os_log(
-      "Subscribing to Logout notification",
-      log: .sheetsManager,
-      type: .default
-    )
-
-    logoutObserver = NotificationCenter.default.addObserver(
-      forName: .logout,
-      object: nil,
-      queue: nil
-    ) { [weak self] _ in
-      guard let weakSelf = self else {
-        return
-      }
-
-      os_log(
-        "Received logout from notification",
-        log: .sheetsManager,
-        type: .default
-      )
-      weakSelf.userDefaults.removeObject(forKey: GoogleSheetsManager.defaultsSheetsKey)
-    }
-  }
-
-  private func subscribeToAuthorizerNotification() {
-    os_log(
-      "Subscribing to Authorizer notification",
-      log: .sheetsManager,
-      type: .default
-    )
-    authorizerNotificationObserver = NotificationCenter.default.addObserver(
-      forName: .authorizerUpdated,
-      object: nil,
-      queue: nil
-    ) { [weak self] notification in
-      guard let weakSelf = self else {
-        return
-      }
-
-      os_log(
-        "Received authorizer from notification",
-        log: .sheetsManager,
-        type: .default
-      )
-      weakSelf.assignAuthorizer(from: notification)
-    }
-  }
-
-  private func assignAuthorizer(from notification: Notification) {
-    guard let userInfo = notification.userInfo,
-      let authorizer =
-      userInfo[Notification.Name.authorizerUpdated] as? GTMFetcherAuthorizationProtocol
-    else {
-      os_log(
-        "No authorizer found in notification",
-        log: .sheetsManager,
-        type: .error
-      )
-      return
-    }
-
-    os_log(
-      "Assigning authorizer",
-      log: .sheetsManager,
-      type: .default
-    )
-    self.authorizer = authorizer
   }
 
   private func fetchData(
     spreadsheet: File,
     spreadsheetRange: String,
-    completion: @escaping (GTLRSheets_ValueRange) -> Void
+    authorizer: GTMFetcherAuthorizationProtocol?,
+    completion: @escaping (GTLRSheets_ValueRange?, Error?) -> Void
   ) {
-    guard let authorizer = self.authorizer else {
+    guard let authorizer = authorizer else {
       os_log(
         "Nil authorizer while trying to fetch data",
         log: .sheetsManager,
         type: .error
       )
-      error = GoogleDriveManagerError.nilAuthorizer
+      completion(nil, GoogleDriveManagerError.nilAuthorizer)
       return
     }
 
@@ -166,8 +203,7 @@ final class GoogleSheetsManager: ObservableObject {
           log: .sheetsManager,
           type: .default
         )
-        self.error = nil
-        completion(valueRange)
+        completion(valueRange, error)
       }
 
       if let error = error as NSError? {
@@ -178,50 +214,17 @@ final class GoogleSheetsManager: ObservableObject {
             type: .error,
             error.localizedDescription
           )
-          self.error = GoogleDriveManagerError.inconsistentSheet
+          completion(nil, GoogleDriveManagerError.inconsistentSheet)
         } else {
           os_log(
             "No internet connection",
             log: .sheetsManager,
             type: .error
           )
-          self.error = GoogleDriveManagerError.noInternet
+          completion(nil, GoogleDriveManagerError.noInternet)
         }
       }
     }
-  }
-
-  func persistSheetID(spreadsheet: File) {
-    do {
-      let data = try JSONEncoder().encode(spreadsheet)
-      userDefaults.set(data, forKey: GoogleSheetsManager.defaultsSheetsKey)
-    } catch {
-      fatalError("This should've never happened!!")
-    }
-  }
-
-  func checkDefaultsForSpreadsheet() {
-    guard let data = userDefaults.data(forKey: GoogleSheetsManager.defaultsSheetsKey),
-      let file = try? JSONDecoder().decode(File.self, from: data) else {
-      os_log(
-        "No default Google Sheet found",
-        log: .sheetsManager,
-        type: .default
-      )
-      return
-    }
-
-    os_log(
-      "Default Google Sheet found.",
-      log: .sheetsManager,
-      type: .default
-    )
-    defaultFile = file
-    NotificationCenter.default.post(
-      name: .hasSheetInDefaults,
-      object: nil,
-      userInfo: [Notification.Name.hasSheetInDefaults: file]
-    )
   }
 
   private func createSheetsValueRangeFrom(
@@ -310,18 +313,18 @@ extension GoogleSheetsManager {
       range = "BackendData!G2:G"
     }
 
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-      guard let values = valueRange.values as? [[String]] else {
-        fatalError("Values from Google sheet is nil")
-      }
-
-      os_log(
-        "Received transaction categories",
-        log: .sheetsManager,
-        type: .default
-      )
-      self.transactionCategories = values.map { $0.first! }
-    }
+    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
+    //      guard let values = valueRange.values as? [[String]] else {
+    //        fatalError("Values from Google sheet is nil")
+    //      }
+    //
+    //      os_log(
+    //        "Received transaction categories",
+    //        log: .sheetsManager,
+    //        type: .default
+    //      )
+    //      self.transactionCategories = values.map { $0.first! }
+    //    }
   }
 
   func getTransactionAccounts(spreadsheet: File) {
@@ -352,19 +355,19 @@ extension GoogleSheetsManager {
       range = "BackendData!M2:M"
     }
 
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-      guard let values = valueRange.values as? [[String]] else {
-        fatalError("Values from Google sheet is nil")
-      }
-
-      os_log(
-        "Received transaction accounts",
-        log: .sheetsManager,
-        type: .default
-      )
-
-      self.transactionAccounts = values.map { $0.first! }
-    }
+    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
+    //      guard let values = valueRange.values as? [[String]] else {
+    //        fatalError("Values from Google sheet is nil")
+    //      }
+    //
+    //      os_log(
+    //        "Received transaction accounts",
+    //        log: .sheetsManager,
+    //        type: .default
+    //      )
+    //
+    //      self.transactionAccounts = values.map { $0.first! }
+    //    }
   }
 
   func verifySheet(spreadsheet: File) {
@@ -374,17 +377,17 @@ extension GoogleSheetsManager {
       type: .default
     )
 
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { valueRange in
-      if let version = valueRange.values?.first?.last as? String {
-        self.aspireVersion = SupportedAspireVersions(rawValue: version)
-        self.persistSheetID(spreadsheet: spreadsheet)
-        self.fetchCategoriesAndGroups(spreadsheet: spreadsheet,
-                                      spreadsheetVersion: self.aspireVersion!)
-        self.getTransactionCategories(spreadsheet: spreadsheet)
-        self.getTransactionAccounts(spreadsheet: spreadsheet)
-        self.fetchAccountBalances(spreadsheet: spreadsheet)
-      }
-    }
+    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { valueRange in
+    //      if let version = valueRange.values?.first?.last as? String {
+    //        self.aspireVersion = SupportedAspireVersions(rawValue: version)
+    //        self.persistSheetID(spreadsheet: spreadsheet)
+    //        self.fetchCategoriesAndGroups(spreadsheet: spreadsheet,
+    //                                      spreadsheetVersion: self.aspireVersion!)
+    //        self.getTransactionCategories(spreadsheet: spreadsheet)
+    //        self.getTransactionAccounts(spreadsheet: spreadsheet)
+    //        self.fetchAccountBalances(spreadsheet: spreadsheet)
+    //      }
+    //    }
   }
 
   func fetchCategoriesAndGroups(spreadsheet: File, spreadsheetVersion: SupportedAspireVersions) {
@@ -401,11 +404,11 @@ extension GoogleSheetsManager {
     case .threeTwo:
       range = "Dashboard!F6:O"
     }
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-      if let values = valueRange.values as? [[String]] {
-        self.dashboardMetadata = DashboardMetadata(rows: values)
-      }
-    }
+    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
+    //      if let values = valueRange.values as? [[String]] {
+    //        self.dashboardMetadata = DashboardMetadata(rows: values)
+    //      }
+    //    }
   }
 
   func fetchAccountBalances(spreadsheet: File) {
@@ -432,11 +435,11 @@ extension GoogleSheetsManager {
       range = "Dashboard!B8:C"
     }
 
-    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-      if let values = valueRange.values as? [[String]] {
-        self.accountBalancesMetadata = AccountBalancesMetadata(metadata: values)
-      }
-    }
+    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
+    //      if let values = valueRange.values as? [[String]] {
+    //        self.accountBalancesMetadata = AccountBalancesMetadata(metadata: values)
+    //      }
+    //    }
   }
 }
 
@@ -469,47 +472,47 @@ extension GoogleSheetsManager {
       approvalType: approvalType
     )
 
-    guard let authorizer = self.authorizer else {
-      os_log(
-        "Aspire version is nil",
-        log: .sheetsManager,
-        type: .error
-      )
-      error = GoogleDriveManagerError.nilAuthorizer
-      return
-    }
+    //    guard let authorizer = self.authorizer else {
+    //      os_log(
+    //        "Aspire version is nil",
+    //        log: .sheetsManager,
+    //        type: .error
+    //      )
+    //      error = GoogleDriveManagerError.nilAuthorizer
+    //      return
+    //    }
 
-    sheetsService.authorizer = authorizer
+    //    sheetsService.authorizer = authorizer
+    //
+    //    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(
+    //      withObject: valuesToInsert,
+    //      spreadsheetId: defaultFile!.id,
+    //      range: valuesToInsert.range!
+    //    )
+    //
+    //    appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
 
-    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(
-      withObject: valuesToInsert,
-      spreadsheetId: defaultFile!.id,
-      range: valuesToInsert.range!
-    )
-
-    appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
-
-    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
-      if let error = error as NSError? {
-        if error.domain == kGTLRErrorObjectDomain {
-          os_log(
-            "Encountered kGTLRErrorObjectDomain: %{public}s",
-            log: .sheetsManager,
-            type: .error,
-            error.localizedDescription
-          )
-          self.error = GoogleDriveManagerError.inconsistentSheet
-        } else {
-          os_log(
-            "No internet connection",
-            log: .sheetsManager,
-            type: .error
-          )
-          self.error = GoogleDriveManagerError.noInternet
-        }
-      }
-      self.fetchAccountBalances(spreadsheet: self.defaultFile!)
-      completion(error == nil)
-    }
+    //    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
+    //      if let error = error as NSError? {
+    //        if error.domain == kGTLRErrorObjectDomain {
+    //          os_log(
+    //            "Encountered kGTLRErrorObjectDomain: %{public}s",
+    //            log: .sheetsManager,
+    //            type: .error,
+    //            error.localizedDescription
+    //          )
+    //          self.error = GoogleDriveManagerError.inconsistentSheet
+    //        } else {
+    //          os_log(
+    //            "No internet connection",
+    //            log: .sheetsManager,
+    //            type: .error
+    //          )
+    //          self.error = GoogleDriveManagerError.noInternet
+    //        }
+    //      }
+    //      self.fetchAccountBalances(spreadsheet: self.defaultFile!)
+    //      completion(error == nil)
+    //    }
   }
 }

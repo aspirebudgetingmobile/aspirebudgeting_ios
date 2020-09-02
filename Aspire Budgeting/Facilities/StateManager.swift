@@ -36,11 +36,6 @@ protocol AppStateManager {
 final class StateManager: AppStateManager {
   private(set) var currentState = CurrentValueSubject<AppState, Never>(.loggedOut)
 
-  private var authorizerObserver: NSObjectProtocol?
-  private var backgroundObserver: NSObjectProtocol?
-  private var defaultSheetObserver: NSObjectProtocol?
-  private var logoutObserver: NSObjectProtocol?
-
   private lazy var transitions: [AppState: Set<AppState>] = {
     var transitions = [AppState: Set<AppState>]()
 
@@ -58,48 +53,6 @@ final class StateManager: AppStateManager {
 
     return transitions
   }()
-
-  init() {
-    authorizerObserver =
-      NotificationCenter.default.addObserver(
-        forName: .authorizerUpdated,
-        object: nil,
-        queue: nil
-      ) { _ in
-        os_log(
-          "Authorizer updated. Transitioning to verifiedGoogleUser",
-          log: .stateManager,
-          type: .default
-        )
-        self.transition(to: .verifiedExternally)
-      }
-
-    defaultSheetObserver = NotificationCenter.default.addObserver(
-      forName: .hasSheetInDefaults,
-      object: nil,
-      queue: nil
-    ) { _ in
-      os_log(
-        "Received hasSheetInDefaults. Transitioning to hasDefaultSheet",
-        log: .stateManager,
-        type: .default
-      )
-      self.transition(to: .hasDefaultSheet)
-    }
-
-    logoutObserver = NotificationCenter.default.addObserver(
-      forName: .logout,
-      object: nil,
-      queue: nil
-    ) { _ in
-      os_log(
-        "Received logout. Transitioning to logout",
-        log: .stateManager,
-        type: .default
-      )
-      self.transition(to: .loggedOut)
-    }
-  }
 
   func transition(to nextState: AppState) {
     if canTransition(to: nextState) {

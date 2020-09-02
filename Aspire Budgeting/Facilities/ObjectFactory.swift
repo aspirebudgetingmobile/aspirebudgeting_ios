@@ -73,12 +73,17 @@ final class ObjectFactory {
     GoogleSheetsValidator()
   }()
 
+  lazy var googleContentManager: GoogleContentManager = {
+    GoogleContentManager(fileReader: sheetsManager, fileWriter: sheetsManager)
+  }()
+
   lazy var appCoordinator: AppCoordinator = {
     AppCoordinator(stateManager: stateManager,
                    localAuthorizer: localAuthorizationManager,
                    appDefaults: appDefaultsManager,
                    remoteFileManager: driveManager,
                    userManager: userManager,
-                   fileValidator: googleValidator)
+                   fileValidator: googleValidator,
+                   contentProvider: googleContentManager)
   }()
 }

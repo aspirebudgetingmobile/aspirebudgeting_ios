@@ -13,6 +13,7 @@ final class AppCoordinator: ObservableObject {
   private let remoteFileManager: RemoteFileManager
   private let userManager: UserManager
   private let fileValidator: FileValidator
+  private let contentProvider: ContentProvider
 
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
@@ -22,6 +23,8 @@ final class AppCoordinator: ObservableObject {
   private(set) var fileSelectorVM = FileSelectorViewModel()
 
   private var user: User?
+
+  /// Only set when a file is selected from the FileSelectorView
   private var selectedFile: File?
   private var dataMap: [String: String]?
 
@@ -30,13 +33,15 @@ final class AppCoordinator: ObservableObject {
        appDefaults: AppDefaults,
        remoteFileManager: RemoteFileManager,
        userManager: UserManager,
-       fileValidator: FileValidator) {
+       fileValidator: FileValidator,
+       contentProvider: ContentProvider) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
     self.appDefaults = appDefaults
     self.remoteFileManager = remoteFileManager
     self.userManager = userManager
     self.fileValidator = fileValidator
+    self.contentProvider = contentProvider
   }
 
   func start() {
@@ -80,6 +85,18 @@ final class AppCoordinator: ObservableObject {
         self.appDefaults.addDefault(file: file)
         self.appDefaults.addDataMap(map: dataMap)
         self.stateManager.processEvent(event: .hasDefaultFile)
+        self.contentProvider.getDashboard(for: self.user!,
+                                          from: self.selectedFile!,
+                                          using: self.dataMap!)
+        {
+          switch $0 {
+          case .success(let metadata):
+            print(metadata)
+
+          case .failure(let error):
+            print(error)
+          }
+        }
 
       case .error(let error):
         self.remoteFileManager.currentState.value = .error(error: error)
@@ -127,7 +144,7 @@ extension AppCoordinator {
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
-      //TODO: pass the file to sheets manager
+      self.contentProvider.getDashboard(for: self.user!, from: file, using: self.appDefaults.getDataMap()) { print($0) }
 
     default:
       print("The current state is \(state)")
