@@ -44,4 +44,24 @@ struct DashboardViewModel {
   func refresh() {
     refreshAction()
   }
+
+  private func getIndex(for group: String) -> Int {
+    return metadata!.groups.firstIndex(of: group)!
+  }
+
+  func categoryRows(for group: String) -> [DashboardCategoryRow] {
+    return metadata!.groupedCategoryRows[getIndex(for: group)]
+  }
+
+  func availableTotals(for group: String) -> DashboardCardView.Totals {
+    let index = getIndex(for: group)
+    let availableTotal = metadata!.groupedAvailableTotals[index]
+    let budgetedTotal = metadata!.groupedBudgetedTotals[index]
+    let spentTotal = metadata!.groupedSpentTotals[index]
+    return DashboardCardView.Totals(
+      availableTotal: availableTotal,
+      budgetedTotal: budgetedTotal,
+      spentTotals: spentTotal
+    )
+  }
 }
