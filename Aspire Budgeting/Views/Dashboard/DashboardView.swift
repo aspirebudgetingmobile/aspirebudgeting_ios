@@ -33,7 +33,7 @@ struct DashboardView: View {
       }
     }.navigationBarHidden(true)
       .navigationBarBackButtonHidden(true)
-      .background(Colors.aspireGray)
+//      .background(Colors.aspireGray)
       .edgesIgnoringSafeArea(.all)
       .onAppear {
         self.viewModel.refresh()
