@@ -124,7 +124,7 @@ extension AppCoordinator {
                         DashboardViewModel(result: $0,
                                            refreshAction: self.dashboardRefreshCallback)
                       self.objectWillChange.send()
-    }
+      }
   }
 }
 
