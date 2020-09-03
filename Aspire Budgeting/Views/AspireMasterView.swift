@@ -24,12 +24,13 @@ struct AspireMasterView: View {
         .frame(maxHeight: 65)
       //TODO: Remove Segmented View
 //      AspireSegmentedView(selectedSegment: $selectedSegment)
+      Group {
         if selectedTab == 0 {
           DashboardView(viewModel: appCoordinator.dashboardVM)
-            .frame(height: UIScreen.main.bounds.height - 250)
         } else if selectedTab == 1 {
           AccountBalancesView()
         }
+      }.frame(height: UIScreen.main.bounds.height - 250)
 
       TabBarView(selectedTab: $selectedTab,
                  tabBarItems: tabBarItems,
