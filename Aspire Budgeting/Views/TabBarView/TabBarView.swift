@@ -6,24 +6,22 @@
 import SwiftUI
 
 struct TabBarView: View {
-  
+
   private let cornerRadius: CGFloat = 16
   private let height: CGFloat = 95
   private let shadowRadius: CGFloat = 16
-  
+
   private let prominentItemWidth: CGFloat = 70
-  
+
   private var prominentItemTopPadding: CGFloat {
     return -prominentItemWidth
   }
-  
+  @Binding var selectedTab: Int
+
   let tabBarItems: [TabBarItem]
   let prominentItemImageName: String
-  @Binding var selectedTab: Int
   let prominentItemAction: () -> Void
-  
-//  @State var selectedIndex = 0
-  
+
   var body: some View {
     ZStack {
       containerBox
@@ -41,19 +39,19 @@ extension TabBarView {
       .frame(height: height)
       .shadow(radius: shadowRadius)
   }
-  
+
   private var prominentItemView: some View {
     ProminentTabBarItemView(systemImageName: prominentItemImageName) {
       self.prominentItemAction()
     }
-    
+
     .padding(.top, prominentItemTopPadding)
   }
-  
+
   private func tabBarItemWidth(from proxy: GeometryProxy) -> CGFloat {
     return (proxy.frame(in: .global).width - prominentItemWidth) / 4
   }
-  
+
   private var tabBarItemsView: some View {
     GeometryReader { geo in
       HStack {
@@ -67,11 +65,11 @@ extension TabBarView {
             .frame(width: self.tabBarItemWidth(from: geo))
             .onTapGesture {
               self.selectedTab = idx
-          }
+            }
         }
-        
+
         Spacer()
-        
+
         ForEach(2..<self.tabBarItems.count) { idx in
           TabBarItemView(tabBarItem: self.tabBarItems[idx],
                          selectedIndex: self.selectedTab,
@@ -82,7 +80,7 @@ extension TabBarView {
             .frame(width: self.tabBarItemWidth(from: geo))
             .onTapGesture {
               self.selectedTab = idx
-          }
+            }
         }
       }
     }
@@ -91,7 +89,8 @@ extension TabBarView {
 
 struct TabBarView_Previews: PreviewProvider {
   static var previews: some View {
-    TabBarView(tabBarItems: MockProvider.tabBarItems,
-               prominentItemImageName: "plus", selectedTab: .constant(1)) {}
+    TabBarView(selectedTab: .constant(1),
+               tabBarItems: MockProvider.tabBarItems,
+               prominentItemImageName: "plus") {}
   }
 }

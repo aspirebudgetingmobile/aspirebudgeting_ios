@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct MockProvider {
+enum MockProvider {
   static var tabBarItems: [TabBarItem] {
     var tabBarItems = [TabBarItem]()
     tabBarItems.append(TabBarItem(imageName: "rectangle.grid.1x2", title: "Dashboard"))
@@ -14,7 +14,7 @@ struct MockProvider {
     tabBarItems.append(TabBarItem(imageName: "gear", title: "Settings"))
     return tabBarItems
   }
-  
+// swiftlint:disable line_length
 //  static var cardViewItems: [CardView.CardViewItem] {
 //    var cardViewItems = [CardView.CardViewItem]()
 //    cardViewItems.append(.init(title: "Credit Card Payments",
@@ -26,4 +26,5 @@ struct MockProvider {
 //    
 //    return cardViewItems
 //  }
+// swiftlint:enable line_length
 }

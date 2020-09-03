@@ -13,7 +13,8 @@ struct AspireMasterView: View {
   let tabBarItems = [TabBarItem(imageName: "rectangle.grid.1x2", title: "Dashboard"),
                      TabBarItem(imageName: "creditcard", title: "Accounts"),
                      TabBarItem(imageName: "arrow.up.arrow.down", title: "Transactions"),
-                     TabBarItem(imageName: "gear", title: "Settings")]
+                     TabBarItem(imageName: "gear", title: "Settings"),
+                     ]
 
   @State private var selectedTab = 0
   var body: some View {
@@ -30,11 +31,9 @@ struct AspireMasterView: View {
           AccountBalancesView()
         }
 
-
-
-      TabBarView(tabBarItems: tabBarItems,
-                 prominentItemImageName: "plus",
-                 selectedTab: $selectedTab) {
+      TabBarView(selectedTab: $selectedTab,
+                 tabBarItems: tabBarItems,
+                 prominentItemImageName: "plus") {
                   print("Hoogah boogah")
       }
       .frame(height: 95)

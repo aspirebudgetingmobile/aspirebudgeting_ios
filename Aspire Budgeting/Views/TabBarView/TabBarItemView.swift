@@ -12,23 +12,23 @@ struct TabBarItem {
 
 struct TabBarItemView: View {
   let tabBarItem: TabBarItem
-  
+
   let selectedIndex: Int
   let tabBarIndex: Int
-  
+
   let defaultColor: Color
   let selectedColor: Color
-  
-  let font : Font
-  
+
+  let font: Font
+
   private var displayColor: Color {
     selected ? selectedColor : defaultColor
   }
-  
+
   private var selected: Bool {
     selectedIndex == tabBarIndex
   }
-  
+
   var body: some View {
     VStack {
       Image(systemName: tabBarItem.imageName)
@@ -62,11 +62,11 @@ struct TabBarItemView_Previews: PreviewProvider {
         TabBarItemView(tabBarItem: MockProvider.tabBarItems[0],
                        selectedIndex: 0,
                        tabBarIndex: 1,
-                       defaultColor:.tabBarItemDefaultTintColor,
+                       defaultColor: .tabBarItemDefaultTintColor,
                        selectedColor: .tabBarItemSelectedTintColor,
                        font: .nunitoBold(size: 14))
           .environment(\.colorScheme, .dark)
       }
-      
+
     }
 }
