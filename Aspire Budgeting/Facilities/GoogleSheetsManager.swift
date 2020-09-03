@@ -32,9 +32,11 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
             location: String) -> AnyPublisher<AnyObject, Error> {
 
     let future = Future<AnyObject, Error> { promise in
+      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
+
       self.fetchData(spreadsheet: file,
                      spreadsheetRange: location,
-                     authorizer: user.authorizer as? GTMFetcherAuthorizationProtocol) { (valueRange, error) in
+                     authorizer: authorizer) { valueRange, error in
                       if let error = error {
                         promise(.failure(error))
                       } else {
@@ -52,6 +54,7 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
 
   }
 
+  //TODO: Remove enum
   enum SupportedAspireVersions: String {
     case twoEight = "2.8"
     case three = "3.0"

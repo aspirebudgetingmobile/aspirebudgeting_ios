@@ -8,7 +8,7 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
-class MockRemoteFileReader: RemoteFileReader {
+final class MockRemoteFileReader: RemoteFileReader {
   let vr1 = GTLRSheets_ValueRange()
   let vr2 = GTLRSheets_ValueRange()
 
@@ -48,7 +48,7 @@ struct MockRemoteFileWriter: RemoteFileWriter {
   }
 }
 
-class GoogleContentManagerTests: XCTestCase {
+final class GoogleContentManagerTests: XCTestCase {
 
   let reader = MockRemoteFileReader()
   let writer = MockRemoteFileWriter()

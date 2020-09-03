@@ -27,9 +27,8 @@ final class AppCoordinator: ObservableObject {
 
   private var user: User?
 
-  /// Only set when a file is selected from the FileSelectorView
   private var selectedFile: File?
-  private var dataMap: [String: String]?
+  private var dataLocationMap: [String: String]?
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
@@ -84,9 +83,9 @@ final class AppCoordinator: ObservableObject {
         guard let file = self.selectedFile else {
           fatalError("Selected file is nil. This should never happen.")
         }
-        self.dataMap = dataMap
+        self.dataLocationMap = dataMap
         self.appDefaults.addDefault(file: file)
-        self.appDefaults.addDataMap(map: dataMap)
+        self.appDefaults.addDataLocationMap(map: dataMap)
         self.stateManager.processEvent(event: .hasDefaultFile)
         self.selectedFile = file
 
@@ -117,13 +116,14 @@ extension AppCoordinator {
   }
 
   func dashboardRefreshCallback() {
-    self.contentProvider.getDashboard(for: self.user!,
-                                      from: self.selectedFile!,
-                                      using: self.dataMap!)
-    {
-      self.dashboardVM = DashboardViewModel(result: $0,
-                                            refreshAction: self.dashboardRefreshCallback)
-      self.objectWillChange.send()
+    self.contentProvider
+      .getDashboard(for: self.user!,
+                    from: self.selectedFile!,
+                    using: self.dataLocationMap!) {
+                      self.dashboardVM =
+                        DashboardViewModel(result: $0,
+                                           refreshAction: self.dashboardRefreshCallback)
+                      self.objectWillChange.send()
     }
   }
 }
@@ -148,14 +148,7 @@ extension AppCoordinator {
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
       self.selectedFile = file
-      self.dataMap = self.appDefaults.getDataMap()
-//      self.contentProvider.getDashboard(for: self.user!,
-//                                        from: file,
-//                                        using: self.appDefaults.getDataMap()) {
-//        self.dashboardVM =
-//          DashboardViewModel(result: $0)
-//                                          self.objectWillChange.send()
-//      }
+      self.dataLocationMap = self.appDefaults.getDataLocationMap()
 
     default:
       print("The current state is \(state)")
