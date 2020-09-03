@@ -9,13 +9,15 @@ import os.log
 protocol AppDefaults {
   func getDefaultFile() -> File?
   func addDefault(file: File)
-  func addDataMap(map: [String: String])
+  func addDataLocationMap(map: [String: String])
+  func getDataLocationMap() -> [String: String]
 }
 
 protocol AppUserDefaults {
   func data(forKey defaultName: String) -> Data?
   func set(_ value: Any?, forKey defaultName: String)
   func removeObject(forKey defaultName: String)
+  func dictionary(forKey defaultName: String) -> [String: Any]?
 }
 
 extension UserDefaults: AppUserDefaults {}
@@ -61,7 +63,12 @@ struct AppDefaultsManager: AppDefaults {
     }
   }
 
-  func addDataMap(map: [String: String]) {
+  func addDataLocationMap(map: [String: String]) {
     userDefaults.set(map, forKey: dataMapKey)
+  }
+
+  func getDataLocationMap() -> [String: String] {
+    let map = userDefaults.dictionary(forKey: self.dataMapKey)
+    return map as! [String: String]
   }
 }

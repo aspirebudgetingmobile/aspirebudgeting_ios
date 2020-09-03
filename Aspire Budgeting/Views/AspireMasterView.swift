@@ -6,7 +6,9 @@
 import SwiftUI
 
 struct AspireMasterView: View {
+  //TODO: Remove GoogleSheetsManager
   @EnvironmentObject var sheetsManager: GoogleSheetsManager
+  @EnvironmentObject var appCoordinator: AppCoordinator
 
   @State private var selectedSegment = 0
   var body: some View {
@@ -16,7 +18,7 @@ struct AspireMasterView: View {
         .frame(maxHeight: 65)
       AspireSegmentedView(selectedSegment: $selectedSegment)
       if selectedSegment == 0 {
-        DashboardView(file: File(id: "abc", name: "abc"))
+        DashboardView(viewModel: appCoordinator.dashboardVM)
       } else if selectedSegment == 1 {
         AccountBalancesView()
       }

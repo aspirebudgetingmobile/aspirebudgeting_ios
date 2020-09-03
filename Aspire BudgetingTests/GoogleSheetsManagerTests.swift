@@ -11,17 +11,6 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
-struct MockUserDefaults: AspireUserDefaults {
-  func set(_ value: Any?, forKey defaultName: String) {}
-
-  func removeObject(forKey defaultName: String) {}
-
-  let data: Data?
-  func data(forKey defaultName: String) -> Data? {
-    return data
-  }
-}
-
 final class GoogleSheetsManagerTests: XCTestCase {
 //  var sinkCancellable: AnyCancellable?
 //

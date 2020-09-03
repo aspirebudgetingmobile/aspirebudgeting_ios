@@ -13,6 +13,7 @@ final class AppCoordinator: ObservableObject {
   private let remoteFileManager: RemoteFileManager
   private let userManager: UserManager
   private let fileValidator: FileValidator
+  private let contentProvider: ContentProvider
 
   private var stateManagerSink: AnyCancellable!
   private var remoteFileManagerSink: AnyCancellable!
@@ -20,23 +21,29 @@ final class AppCoordinator: ObservableObject {
   private var fileValidatorSink: AnyCancellable!
 
   private(set) var fileSelectorVM = FileSelectorViewModel()
+  private(set) lazy var dashboardVM: DashboardViewModel = {
+    DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
+  }()
 
   private var user: User?
+
   private var selectedFile: File?
-  private var dataMap: [String: String]?
+  private var dataLocationMap: [String: String]?
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
        appDefaults: AppDefaults,
        remoteFileManager: RemoteFileManager,
        userManager: UserManager,
-       fileValidator: FileValidator) {
+       fileValidator: FileValidator,
+       contentProvider: ContentProvider) {
     self.stateManager = stateManager
     self.localAuthorizer = localAuthorizer
     self.appDefaults = appDefaults
     self.remoteFileManager = remoteFileManager
     self.userManager = userManager
     self.fileValidator = fileValidator
+    self.contentProvider = contentProvider
   }
 
   func start() {
@@ -76,10 +83,11 @@ final class AppCoordinator: ObservableObject {
         guard let file = self.selectedFile else {
           fatalError("Selected file is nil. This should never happen.")
         }
-        self.dataMap = dataMap
+        self.dataLocationMap = dataMap
         self.appDefaults.addDefault(file: file)
-        self.appDefaults.addDataMap(map: dataMap)
+        self.appDefaults.addDataLocationMap(map: dataMap)
         self.stateManager.processEvent(event: .hasDefaultFile)
+        self.selectedFile = file
 
       case .error(let error):
         self.remoteFileManager.currentState.value = .error(error: error)
@@ -106,6 +114,18 @@ extension AppCoordinator {
     self.selectedFile = file
     fileValidator.validate(file: file, for: self.user!)
   }
+
+  func dashboardRefreshCallback() {
+    self.contentProvider
+      .getDashboard(for: self.user!,
+                    from: self.selectedFile!,
+                    using: self.dataLocationMap!) {
+                      self.dashboardVM =
+                        DashboardViewModel(result: $0,
+                                           refreshAction: self.dashboardRefreshCallback)
+                      self.objectWillChange.send()
+      }
+  }
 }
 
 // MARK: - State Management
@@ -127,7 +147,8 @@ extension AppCoordinator {
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
-      //TODO: pass the file to sheets manager
+      self.selectedFile = file
+      self.dataLocationMap = self.appDefaults.getDataLocationMap()
 
     default:
       print("The current state is \(state)")
