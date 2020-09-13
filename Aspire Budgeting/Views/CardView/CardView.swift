@@ -199,6 +199,7 @@ extension CardView {
   }
 }
 
+// MARK: - Internal Types
 extension CardView {
   struct ColorInfo {
     let gradientStartColor: Color
@@ -214,6 +215,7 @@ extension CardView {
   }
 }
 
+// MARK: - Previews
 struct CardView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
@@ -230,20 +232,6 @@ struct CardView_Previews: PreviewProvider {
                                   gradientEndColor: .blueFondEndColor,
                                   shadowColor: .blueFondShadowColor),
                  cardViewItem: MockProvider.cardViewItems[1],
-                 selectedIndex: .constant(0))
-
-        CardView(cardIndex: 0,
-                 colorInfo: .init(gradientStartColor: .lilacFondStartColor,
-                                  gradientEndColor: .lilacFondEndColor,
-                                  shadowColor: .lilacFondShadowColor),
-                 cardViewItem: MockProvider.cardViewItems[2],
-                 selectedIndex: .constant(0))
-
-        CardView(cardIndex: 0,
-                 colorInfo: .init(gradientStartColor: .mauveBlueFondStartColor,
-                                  gradientEndColor: .mauveBlueFondEndColor,
-                                  shadowColor: .mauveBlueFondShadowColor),
-                 cardViewItem: MockProvider.cardViewItems[0],
                  selectedIndex: .constant(0))
       }
     }
