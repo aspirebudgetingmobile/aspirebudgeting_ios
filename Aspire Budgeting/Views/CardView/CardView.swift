@@ -114,7 +114,7 @@ extension CardView {
           self.selectedIndex = self.cardIndex
         }
         withAnimation {
-          self.offsetY = newOffsetY()
+          self.offsetY = self.newOffsetY()
         }
       }, label: {
         Text("Details >")
