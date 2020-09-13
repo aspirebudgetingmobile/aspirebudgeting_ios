@@ -26,7 +26,7 @@ struct TabBarView: View {
     ZStack {
       containerBox
       prominentItemView
-      tabBarItemsView
+      tabBarItemsView.frame(height: 60)
     }
   }
 }
