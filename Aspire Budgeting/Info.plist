@@ -28,6 +28,7 @@
 	<string>Aspire Budgeting needs access to the photo library to be able to attach images to bug reports.</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Karla-Regular.ttf</string>
 		<string>Nunito-Bold.ttf</string>
 		<string>Nunito-SemiBold.ttf</string>
 		<string>Nunito-Regular.ttf</string>

@@ -45,6 +45,9 @@
 		066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */; };
 		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
+		0685BBB7250EC74800728228 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB6250EC74800728228 /* CardView.swift */; };
+		0685BBB9250EC76600728228 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB8250EC76600728228 /* CardListView.swift */; };
+		0685BBBB250EC80400728228 /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0685BBBA250EC80400728228 /* Karla-Regular.ttf */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
 		069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */; };
 		069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830725003EBB009DD3E9 /* GoogleContentManager.swift */; };
@@ -148,6 +151,9 @@
 		066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleUserManager.swift; sourceTree = "<group>"; };
 		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
+		0685BBB6250EC74800728228 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		0685BBB8250EC76600728228 /* CardListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
+		0685BBBA250EC80400728228 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Regular.ttf"; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		069F830725003EBB009DD3E9 /* GoogleContentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleContentManager.swift; sourceTree = "<group>"; };
@@ -245,6 +251,7 @@
 		066EF457235CE05100E94CE4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0685BBB5250EC73A00728228 /* CardView */,
 				06C2BFF82500A136007B3D73 /* TabBarView */,
 				060CDA6B238F75F6005CD74B /* Dashboard */,
 				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
@@ -284,9 +291,19 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		0685BBB5250EC73A00728228 /* CardView */ = {
+			isa = PBXGroup;
+			children = (
+				0685BBB8250EC76600728228 /* CardListView.swift */,
+				0685BBB6250EC74800728228 /* CardView.swift */,
+			);
+			path = CardView;
+			sourceTree = "<group>";
+		};
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0685BBBA250EC80400728228 /* Karla-Regular.ttf */,
 				06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */,
 				066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */,
 				06157EA52411F22D000161C3 /* instabug.plist */,
@@ -552,6 +569,7 @@
 				069FDF982384F4AC0023E86A /* Rubik-Light.ttf in Resources */,
 				06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */,
 				06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */,
+				0685BBBB250EC80400728228 /* Karla-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,6 +730,7 @@
 				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,
 				062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */,
+				0685BBB9250EC76600728228 /* CardListView.swift in Sources */,
 				06639B3D23BF53B3008E6E4C /* AspireOSLogs.swift in Sources */,
 				069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */,
 				0694C2232369EDB90039528A /* DashboardView.swift in Sources */,
@@ -740,6 +759,7 @@
 				066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */,
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
+				0685BBB7250EC74800728228 /* CardView.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
