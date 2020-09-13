@@ -6,13 +6,17 @@
 import SwiftUI
 
 struct LoadingView: View {
+
+  var height: CGFloat?
+
   @State var isAnimating = false
 
   let itemsPerRow = 6
 
   var numberOfRows: Int {
     let heightPerRow = UIScreen.main.bounds.width/CGFloat(itemsPerRow)
-    return Int(UIScreen.main.bounds.height/heightPerRow) + 1
+    let displayHeight = height == nil ? UIScreen.main.bounds.height : height!
+    return Int(displayHeight/heightPerRow) + 1
   }
 
   var randomCurrencySymbol: Image {
@@ -45,6 +49,6 @@ struct LoadingView: View {
 
 struct LoadingView_Previews: PreviewProvider {
     static var previews: some View {
-      LoadingView()
+      LoadingView(height: UIScreen.main.bounds.height)
     }
 }

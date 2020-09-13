@@ -23,7 +23,9 @@ struct DashboardView: View {
             }
           }
         } else {
-          LoadingView()
+          GeometryReader { geo in
+            LoadingView(height: geo.frame(in: .local).size.height)
+          }
         }
       } else {
         ZStack {
