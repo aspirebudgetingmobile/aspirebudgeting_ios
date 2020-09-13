@@ -13,15 +13,16 @@ struct DashboardView: View {
     VStack {
       if viewModel.error == nil {
         if viewModel.metadata?.groups != nil {
-          List {
-            ForEach(viewModel.metadata!.groups, id: \.self) { group in
-              DashboardCardView(
-                categoryName: group,
-                totals: self.viewModel.availableTotals(for: group),
-                categoryRows: self.viewModel.categoryRows(for: group)
-              ).background(Colors.aspireGray)
-            }
-          }
+          CardListView()
+//          List {
+//            ForEach(viewModel.metadata!.groups, id: \.self) { group in
+//              DashboardCardView(
+//                categoryName: group,
+//                totals: self.viewModel.availableTotals(for: group),
+//                categoryRows: self.viewModel.categoryRows(for: group)
+//              ).background(Colors.aspireGray)
+//            }
+//          }
         } else {
           GeometryReader { geo in
             LoadingView(height: geo.frame(in: .local).size.height)

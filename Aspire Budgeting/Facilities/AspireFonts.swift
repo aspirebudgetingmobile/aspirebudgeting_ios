@@ -2,9 +2,6 @@
 //  AspireFonts.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 12/7/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import SwiftUI
 
@@ -31,5 +28,9 @@ extension Font {
 
   static func nunitoBold(size: CGFloat) -> Font {
     return Font.custom("Nunito-Bold", size: size)
+  }
+
+  static func karlaRegular(size: Double) -> Font {
+    return Font.custom("Karla-Regular", size: CGFloat(size))
   }
 }
