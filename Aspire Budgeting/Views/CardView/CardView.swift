@@ -163,7 +163,8 @@ extension CardView {
         RoundedRectangle(cornerRadius: 6)
           .fill(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
           .frame(width: geo.frame(in: .local).width *
-                  CGFloat(self.cardViewItem.progressFactor),
+                  CGFloat(self.cardViewItem.progressFactor == 0 ?
+                            0.1 : self.cardViewItem.progressFactor),
                  height: 12)
           .shadow(color: Color(#colorLiteral(red: 0.8198039531707764, green: 0.8295795917510986, blue: 0.8882334232330322, alpha: 0.5033401250839233)), radius: 14, x: 0, y: 12)
       }

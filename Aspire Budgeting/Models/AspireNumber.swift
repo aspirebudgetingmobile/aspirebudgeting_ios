@@ -36,4 +36,8 @@ struct AspireNumber: Equatable, Hashable {
     }
     return Double(truncating: (num.decimalValue / den.decimalValue) as NSNumber)
   }
+
+  static func >= (lhs: AspireNumber, rhs: AspireNumber) -> Bool {
+    return lhs.decimalValue >= rhs.decimalValue
+  }
 }

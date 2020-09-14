@@ -18,13 +18,13 @@ struct DashboardViewModel {
       let lowerbound = metadata!.groupedAvailableTotals[idx]
       let upperbound = metadata!.groupedBudgetedTotals[idx]
       var progressFactor = lowerbound / upperbound
+
       if progressFactor < 0 {
         progressFactor = 0
       }
-      if progressFactor > 1 {
-        progressFactor = 1
-      }
-      if lowerbound.decimalValue > upperbound.decimalValue {
+
+      if progressFactor > 1 ||
+          lowerbound >= upperbound {
         progressFactor = 1
       }
 

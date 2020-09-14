@@ -14,15 +14,6 @@ struct DashboardView: View {
       if viewModel.error == nil {
         if viewModel.metadata?.groups != nil {
           CardListView(cardViewItems: viewModel.cardViewItems)
-//          List {
-//            ForEach(viewModel.metadata!.groups, id: \.self) { group in
-//              DashboardCardView(
-//                categoryName: group,
-//                totals: self.viewModel.availableTotals(for: group),
-//                categoryRows: self.viewModel.categoryRows(for: group)
-//              ).background(Colors.aspireGray)
-//            }
-//          }
         } else {
           GeometryReader { geo in
             LoadingView(height: geo.frame(in: .local).size.height)
@@ -34,9 +25,8 @@ struct DashboardView: View {
           ErrorBannerView(error: viewModel.error!)
         }
       }
-    }.navigationBarHidden(true)
+    }.navigationBarHidden(false)
       .navigationBarBackButtonHidden(true)
-//      .background(Colors.aspireGray)
       .edgesIgnoringSafeArea(.all)
       .onAppear {
         self.viewModel.refresh()

@@ -27,6 +27,7 @@ struct AspireMasterView: View {
       Group {
         if selectedTab == 0 {
           DashboardView(viewModel: appCoordinator.dashboardVM)
+            .navigationBarTitle("Dashboard")
         } else if selectedTab == 1 {
           AccountBalancesView()
         }
@@ -39,7 +40,7 @@ struct AspireMasterView: View {
       }
       .frame(height: 95)
       .padding(.horizontal, 5)
-    }
+    }.navigationBarHidden(false)
   }
 }
 
