@@ -2,9 +2,6 @@
 //  AspireNumber.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/21/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 
@@ -33,7 +30,7 @@ struct AspireNumber: Equatable, Hashable {
     isNegative = decimalValue < 0
   }
 
-  static func /(num: AspireNumber, den: AspireNumber) -> Double {
+  static func / (num: AspireNumber, den: AspireNumber) -> Double {
     if den.decimalValue == 0 {
       return 1
     }
