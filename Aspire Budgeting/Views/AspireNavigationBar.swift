@@ -14,10 +14,10 @@ struct AspireNavigationBar: View {
       Color.primaryBackgroundColor
       VStack {
         Text(title)
-          .font(.nunitoRegular(size: 20))
+          .font(.nunitoBold(size: 20))
           .foregroundColor(.primaryTextColor)
       }
-    }.padding(.bottom, 5)
+    }
   }
 }
 

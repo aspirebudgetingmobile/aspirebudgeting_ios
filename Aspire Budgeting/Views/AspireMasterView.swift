@@ -20,7 +20,8 @@ struct AspireMasterView: View {
   var body: some View {
     VStack {
       AspireNavigationBar(title: $navTitle)
-        .frame(maxHeight: 65)
+        .edgesIgnoringSafeArea(.all)
+        .frame(maxHeight: 50)
       Group {
         if selectedTab == 0 {
           DashboardView(viewModel: appCoordinator.dashboardVM)
@@ -34,7 +35,7 @@ struct AspireMasterView: View {
             }
         }
       }
-      .frame(height: UIScreen.main.bounds.height - 250)
+      .frame(height: UIScreen.main.bounds.height - 200)
 
       TabBarView(selectedTab: $selectedTab,
                  tabBarItems: tabBarItems,
@@ -44,7 +45,7 @@ struct AspireMasterView: View {
       .frame(height: 95)
       .padding(.horizontal, 5)
       .background(Color.primaryBackgroundColor)
-    }
+    }.frame(maxHeight: .infinity)
   }
 }
 
