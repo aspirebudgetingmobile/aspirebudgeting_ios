@@ -7,6 +7,7 @@ import SwiftUI
 
 struct CardListView: View {
 
+  let cardViewItems: [CardView.CardViewItem]
   @State private var selectedIndex = -1
 
   let colorInfos: [CardView.ColorInfo] =
@@ -53,7 +54,7 @@ struct CardListView: View {
             GeometryReader { geo in
               CardView(cardIndex: idx,
                        colorInfo: self.colorInfos[idx],
-                       cardViewItem: MockProvider.cardViewItems[idx % 3],
+                       cardViewItem: self.cardViewItems[idx],
                        minY: g.frame(in: .global).minY,
                        curY: geo.frame(in: .global).minY,
                        selectedIndex: self.$selectedIndex)
@@ -69,6 +70,6 @@ struct CardListView: View {
 
 struct CardListView_Previews: PreviewProvider {
   static var previews: some View {
-    CardListView()
+    CardListView(cardViewItems: MockProvider.cardViewItems)
   }
 }

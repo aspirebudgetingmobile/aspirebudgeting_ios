@@ -13,7 +13,7 @@ struct DashboardView: View {
     VStack {
       if viewModel.error == nil {
         if viewModel.metadata?.groups != nil {
-          CardListView()
+          CardListView(cardViewItems: viewModel.cardViewItems)
 //          List {
 //            ForEach(viewModel.metadata!.groups, id: \.self) { group in
 //              DashboardCardView(
