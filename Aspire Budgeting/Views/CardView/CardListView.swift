@@ -50,10 +50,10 @@ struct CardListView: View {
     GeometryReader {g in
       ScrollView {
         VStack {
-          ForEach(0..<10) { idx in
+          ForEach(0..<cardViewItems.count) { idx in
             GeometryReader { geo in
               CardView(cardIndex: idx,
-                       colorInfo: self.colorInfos[idx],
+                       colorInfo: self.colorInfos[idx % self.colorInfos.count],
                        cardViewItem: self.cardViewItems[idx],
                        minY: g.frame(in: .global).minY,
                        curY: geo.frame(in: .global).minY,
@@ -63,7 +63,7 @@ struct CardListView: View {
               .frame(height: 125)
           }
         }
-      }
+      }.background(Color.primaryBackgroundColor)
     }
   }
 }

@@ -84,10 +84,6 @@ extension CardView {
       .fill(gradient)
       .cornerRadius(cornerRadius)
       .frame(height: height)
-      .shadow(color: colorInfo.shadowColor,
-              radius: shadowRadius,
-              x: 0,
-              y: shadowYOffset)
   }
 
   private var topRow: some View {
@@ -166,7 +162,7 @@ extension CardView {
                   CGFloat(self.cardViewItem.progressFactor == 0 ?
                             0.1 : self.cardViewItem.progressFactor),
                  height: 12)
-          .shadow(color: Color(#colorLiteral(red: 0.8198039531707764, green: 0.8295795917510986, blue: 0.8882334232330322, alpha: 0.5033401250839233)), radius: 14, x: 0, y: 12)
+//          .shadow(color: Color(#colorLiteral(red: 0.8198039531707764, green: 0.8295795917510986, blue: 0.8882334232330322, alpha: 0.5033401250839233)), radius: 14, x: 0, y: 12)
       }
 
       Text("\(String(format: "%.1f", self.cardViewItem.progressFactor * 100))%")
@@ -177,7 +173,7 @@ extension CardView {
     }
     .compositingGroup()
     .frame(height: 12)
-    .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)), radius: 4, x: 0, y: 2)
+    .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)), radius: 1, x: 0, y: 2)
     .padding(.horizontal, 10)
   }
 

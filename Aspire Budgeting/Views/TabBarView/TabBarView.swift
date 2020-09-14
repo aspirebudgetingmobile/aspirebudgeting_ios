@@ -9,7 +9,7 @@ struct TabBarView: View {
 
   private let cornerRadius: CGFloat = 16
   private let height: CGFloat = 95
-  private let shadowRadius: CGFloat = 16
+  private let shadowRadius: CGFloat = 5
 
   private let prominentItemWidth: CGFloat = 70
 

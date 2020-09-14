@@ -19,19 +19,16 @@ struct AspireMasterView: View {
   @State private var selectedTab = 0
   var body: some View {
     VStack {
-      AspireNavigationBar()
-        .edgesIgnoringSafeArea(.all)
-        .frame(maxHeight: 65)
-      //TODO: Remove Segmented View
-//      AspireSegmentedView(selectedSegment: $selectedSegment)
-      Group {
+      NavigationView {
         if selectedTab == 0 {
           DashboardView(viewModel: appCoordinator.dashboardVM)
-            .navigationBarTitle("Dashboard")
+            .navigationBarTitle("Dashboard", displayMode: .inline)
         } else if selectedTab == 1 {
           AccountBalancesView()
+            .navigationBarTitle("Accounts", displayMode: .inline)
         }
-      }.frame(height: UIScreen.main.bounds.height - 250)
+      }
+      .frame(height: UIScreen.main.bounds.height - 150)
 
       TabBarView(selectedTab: $selectedTab,
                  tabBarItems: tabBarItems,
@@ -40,7 +37,8 @@ struct AspireMasterView: View {
       }
       .frame(height: 95)
       .padding(.horizontal, 5)
-    }.navigationBarHidden(false)
+      .background(Color.primaryBackgroundColor)
+    }
   }
 }
 
