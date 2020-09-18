@@ -6,8 +6,6 @@
 import SwiftUI
 
 struct AspireMasterView: View {
-  //TODO: Remove GoogleSheetsManager
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
   @EnvironmentObject var appCoordinator: AppCoordinator
 
   let tabBarItems = [TabBarItem(imageName: "rectangle.grid.1x2", title: "Dashboard"),
@@ -17,20 +15,27 @@ struct AspireMasterView: View {
                      ]
 
   @State private var selectedTab = 0
+  @State private var navTitle: String = ""
+
   var body: some View {
     VStack {
-      AspireNavigationBar()
+      AspireNavigationBar(title: $navTitle)
         .edgesIgnoringSafeArea(.all)
-        .frame(maxHeight: 65)
-      //TODO: Remove Segmented View
-//      AspireSegmentedView(selectedSegment: $selectedSegment)
+        .frame(maxHeight: 50)
       Group {
         if selectedTab == 0 {
           DashboardView(viewModel: appCoordinator.dashboardVM)
+            .onAppear {
+              self.navTitle = "Dashboard"
+            }
         } else if selectedTab == 1 {
           AccountBalancesView()
+            .onAppear {
+              self.navTitle = "Accounts"
+            }
         }
-      }.frame(height: UIScreen.main.bounds.height - 250)
+      }
+      .frame(height: UIScreen.main.bounds.height - 200)
 
       TabBarView(selectedTab: $selectedTab,
                  tabBarItems: tabBarItems,
@@ -39,7 +44,8 @@ struct AspireMasterView: View {
       }
       .frame(height: 95)
       .padding(.horizontal, 5)
-    }
+      .background(Color.primaryBackgroundColor)
+    }.frame(maxHeight: .infinity)
   }
 }
 
