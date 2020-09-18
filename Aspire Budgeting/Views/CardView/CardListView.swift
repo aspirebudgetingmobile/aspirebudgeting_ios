@@ -50,7 +50,7 @@ struct CardListView: View {
     GeometryReader {g in
       ScrollView {
         VStack {
-          ForEach(0..<cardViewItems.count) { idx in
+          ForEach(0..<self.cardViewItems.count) { idx in
             GeometryReader { geo in
               CardView(cardIndex: idx,
                        colorInfo: self.colorInfos[idx % self.colorInfos.count],
