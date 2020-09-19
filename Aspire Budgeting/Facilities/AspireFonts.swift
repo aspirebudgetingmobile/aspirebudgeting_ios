@@ -33,4 +33,8 @@ extension Font {
   static func karlaRegular(size: Double) -> Font {
     return Font.custom("Karla-Regular", size: CGFloat(size))
   }
+
+  static func karlaBold(size: Double) -> Font {
+    return Font.custom("Karla-Bold", size: CGFloat(size))
+  }
 }

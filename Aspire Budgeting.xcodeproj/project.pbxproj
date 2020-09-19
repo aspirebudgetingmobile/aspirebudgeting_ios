@@ -81,6 +81,8 @@
 		06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59E24EF372E00968C60 /* SearchBar.swift */; };
 		06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */; };
 		06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B5A224F2165E00968C60 /* LoadingView.swift */; };
+		06D4528F25166C4D00BFEE02 /* CardExpandedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */; };
+		06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06D452902516856600BFEE02 /* Karla-Bold.ttf */; };
 		06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA080924F4637700927FE5 /* FileValidator.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
@@ -187,6 +189,8 @@
 		06C6B59E24EF372E00968C60 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		06C6B5A224F2165E00968C60 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardExpandedView.swift; sourceTree = "<group>"; };
+		06D452902516856600BFEE02 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Bold.ttf"; sourceTree = "<group>"; };
 		06EA080924F4637700927FE5 /* FileValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileValidator.swift; sourceTree = "<group>"; };
 		06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGIDSignIn.swift; sourceTree = "<group>"; };
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
@@ -296,6 +300,7 @@
 			children = (
 				0685BBB8250EC76600728228 /* CardListView.swift */,
 				0685BBB6250EC74800728228 /* CardView.swift */,
+				06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */,
 			);
 			path = CardView;
 			sourceTree = "<group>";
@@ -303,6 +308,7 @@
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				06D452902516856600BFEE02 /* Karla-Bold.ttf */,
 				0685BBBA250EC80400728228 /* Karla-Regular.ttf */,
 				06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */,
 				066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */,
@@ -558,6 +564,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */,
 				060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */,
 				069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */,
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
@@ -737,6 +744,7 @@
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */,
 				06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */,
+				06D4528F25166C4D00BFEE02 /* CardExpandedView.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */,

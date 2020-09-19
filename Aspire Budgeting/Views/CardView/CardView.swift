@@ -38,6 +38,13 @@ struct CardView: View {
     curY < minY ? minY - curY : 0
   }
 
+  private var expandedDetails: CardExpandedView.CardDetails {
+    CardExpandedView.CardDetails(title: cardViewItem.title,
+                                 bannerGradient: gradient,
+                                 budgetedTotal: cardViewItem.budgetedTotal,
+                                 spentTotal: cardViewItem.spentTotal)
+  }
+
   var body: some View {
     ZStack(alignment: .top) {
       containerBox
@@ -47,7 +54,7 @@ struct CardView: View {
         progressBar
         fourthRow
       }.sheet(isPresented: $showDetails) {
-        Rectangle()
+        CardExpandedView(cardDetails: expandedDetails)
       }
     }
     .offset(y: offsetY)
@@ -148,7 +155,7 @@ extension CardView {
 
   private var fourthRow: some View {
     HStack {
-      Text(self.cardViewItem.lowerBound)
+      Text(self.cardViewItem.availableTotal)
         .foregroundColor(.white)
         .font(.nunitoRegular(size: 13))
         .lineSpacing(3)
@@ -156,7 +163,7 @@ extension CardView {
 
       Spacer()
 
-      Text(self.cardViewItem.upperBound)
+      Text(self.cardViewItem.budgetedTotal)
         .foregroundColor(.white)
         .font(.nunitoRegular(size: 13))
         .lineSpacing(3)
@@ -175,8 +182,9 @@ extension CardView {
 
   struct CardViewItem {
     let title: String
-    let lowerBound: String
-    let upperBound: String
+    let availableTotal: String
+    let budgetedTotal: String
+    let spentTotal: String
     let progressFactor: Double
   }
 }

@@ -15,22 +15,24 @@ struct DashboardViewModel {
     var items = [CardView.CardViewItem]()
     for (idx, group) in metadata!.groups.enumerated() {
       let title = group
-      let lowerbound = metadata!.groupedAvailableTotals[idx]
-      let upperbound = metadata!.groupedBudgetedTotals[idx]
-      var progressFactor = lowerbound / upperbound
+      let availableTotal = metadata!.groupedAvailableTotals[idx]
+      let budgetedTotal = metadata!.groupedBudgetedTotals[idx]
+      let spentTotal = metadata!.groupedSpentTotals[idx]
+      var progressFactor = availableTotal / budgetedTotal
 
       if progressFactor < 0 {
         progressFactor = 0
       }
 
       if progressFactor > 1 ||
-          lowerbound >= upperbound {
+          availableTotal >= budgetedTotal {
         progressFactor = 1
       }
 
       items.append(.init(title: title,
-                         lowerBound: lowerbound.stringValue,
-                         upperBound: upperbound.stringValue,
+                         availableTotal: availableTotal.stringValue,
+                         budgetedTotal: budgetedTotal.stringValue,
+                         spentTotal: spentTotal.stringValue,
                          progressFactor: progressFactor))
     }
     return items
