@@ -18,18 +18,21 @@ enum MockProvider {
   static var cardViewItems: [CardView.CardViewItem] {
     var cardViewItems = [CardView.CardViewItem]()
     cardViewItems.append(.init(title: "Credit Card Payments",
-                               lowerBound: "$0",
-                               upperBound: "$1000",
+                               availableTotal: "$0",
+                               budgetedTotal: "$1000",
+                               spentTotal: "$50",
                                progressFactor: 0.25))
 
     cardViewItems.append(.init(title: "Fixed Expenses",
-                               lowerBound: "$0",
-                               upperBound: "$2500",
+                               availableTotal: "$0",
+                               budgetedTotal: "$2500",
+                               spentTotal: "$50",
                                progressFactor: 0.5))
 
     cardViewItems.append(.init(title: "Savings",
-                               lowerBound: "$0",
-                               upperBound: "$10000",
+                               availableTotal: "$0",
+                               budgetedTotal: "$10000",
+                               spentTotal: "$50",
                                progressFactor: 0.7))
 
     return cardViewItems

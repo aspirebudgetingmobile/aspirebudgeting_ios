@@ -7,45 +7,33 @@ import SwiftUI
 
 struct CardView: View {
 
-  let cardIndex: Int
   let colorInfo: ColorInfo
   let cardViewItem: CardViewItem
   var minY: CGFloat = 0
   var curY: CGFloat = 0
 
-  @Binding var selectedIndex: Int
-
-  @State private var offsetY: CGFloat = 0
+  @State private var showDetails = false
 
   private let cornerRadius: CGFloat = 24
   private let height: CGFloat = 163
 
-  private var opacity: Double {
-    isSelected || selectedIndex == -1 ? 1 : 0
-  }
-
-  private var width: CGFloat {
-    isSelected ? UIScreen.main.bounds.width : 0.9 * UIScreen.main.bounds.width
-  }
   private let shadowRadius: CGFloat = 14
   private let shadowYOffset: CGFloat = 4
 
   private var gradient: LinearGradient {
-
-    let startColor = Gradient.Stop(color: colorInfo.gradientStartColor, location: 0)
-
-    let endColor = Gradient.Stop(color: colorInfo.gradientEndColor, location: 1)
-
-    let startPoint = UnitPoint(x: 0.5, y: -0.48)
-
-    let endPoint = UnitPoint(x: -0.46, y: 0.52)
-
-    let gradient = Gradient(stops: [startColor, endColor])
-    return LinearGradient(gradient: gradient, startPoint: startPoint, endPoint: endPoint)
+    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
+                           endColor: colorInfo.gradientEndColor)
   }
 
-  private var isSelected: Bool {
-    return cardIndex == selectedIndex
+  private var offsetY: CGFloat {
+    curY < minY ? minY - curY : 0
+  }
+
+  private var expandedDetails: CardExpandedView.CardDetails {
+    CardExpandedView.CardDetails(title: cardViewItem.title,
+                                 bannerGradient: gradient,
+                                 budgetedTotal: cardViewItem.budgetedTotal,
+                                 spentTotal: cardViewItem.spentTotal)
   }
 
   var body: some View {
@@ -56,25 +44,11 @@ struct CardView: View {
         secondRow
         progressBar
         fourthRow
+      }.sheet(isPresented: $showDetails) {
+        CardExpandedView(cardDetails: self.expandedDetails)
       }
     }
-    .offset(x: isSelected || selectedIndex == -1 ? 0 : UIScreen.main.bounds.width)
-    .offset(y: newOffsetY())
-    .opacity(opacity)
-    .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/)
-    .animation(.spring())
-
-  }
-
-  private func newOffsetY() -> CGFloat {
-    if isSelected {
-      return -(curY - minY)
-    }
-    return curY < minY ? minY - curY : 0
-  }
-
-  private func newOpacity() -> Double {
-    isSelected || selectedIndex == -1 ? 1 : 0
+    .offset(y: offsetY)
   }
 }
 
@@ -104,14 +78,7 @@ extension CardView {
       Spacer()
 
       Button(action: {
-        if self.selectedIndex == self.cardIndex {
-          self.selectedIndex = -1
-        } else {
-          self.selectedIndex = self.cardIndex
-        }
-        withAnimation {
-          self.offsetY = self.newOffsetY()
-        }
+        self.showDetails.toggle()
       }, label: {
         Text("Details >")
           .font(.karlaRegular(size: 12))
@@ -162,7 +129,7 @@ extension CardView {
                   CGFloat(self.cardViewItem.progressFactor == 0 ?
                             0.1 : self.cardViewItem.progressFactor),
                  height: 12)
-//          .shadow(color: Color(#colorLiteral(red: 0.8198039531707764, green: 0.8295795917510986, blue: 0.8882334232330322, alpha: 0.5033401250839233)), radius: 14, x: 0, y: 12)
+          .shadow(color: Color(#colorLiteral(red: 0.8198039531707764, green: 0.8295795917510986, blue: 0.8882334232330322, alpha: 0.5033401250839233)), radius: 14, x: 0, y: 12)
       }
 
       Text("\(String(format: "%.1f", self.cardViewItem.progressFactor * 100))%")
@@ -179,7 +146,7 @@ extension CardView {
 
   private var fourthRow: some View {
     HStack {
-      Text(self.cardViewItem.lowerBound)
+      Text(self.cardViewItem.availableTotal)
         .foregroundColor(.white)
         .font(.nunitoRegular(size: 13))
         .lineSpacing(3)
@@ -187,7 +154,7 @@ extension CardView {
 
       Spacer()
 
-      Text(self.cardViewItem.upperBound)
+      Text(self.cardViewItem.budgetedTotal)
         .foregroundColor(.white)
         .font(.nunitoRegular(size: 13))
         .lineSpacing(3)
@@ -206,8 +173,9 @@ extension CardView {
 
   struct CardViewItem {
     let title: String
-    let lowerBound: String
-    let upperBound: String
+    let availableTotal: String
+    let budgetedTotal: String
+    let spentTotal: String
     let progressFactor: Double
   }
 }
@@ -217,19 +185,15 @@ struct CardView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
       Group {
-        CardView(cardIndex: 0,
-                 colorInfo: .init(gradientStartColor: .blueGreenFondStartColor,
+        CardView(colorInfo: .init(gradientStartColor: .blueGreenFondStartColor,
                                   gradientEndColor: .blueGreenFondEndColor,
                                   shadowColor: .blueGreenFondShadowColor),
-                 cardViewItem: MockProvider.cardViewItems[0],
-                 selectedIndex: .constant(1))
+                 cardViewItem: MockProvider.cardViewItems[0])
 
-        CardView(cardIndex: 0,
-                 colorInfo: .init(gradientStartColor: .blueFondStartColor,
+        CardView(colorInfo: .init(gradientStartColor: .blueFondStartColor,
                                   gradientEndColor: .blueFondEndColor,
                                   shadowColor: .blueFondShadowColor),
-                 cardViewItem: MockProvider.cardViewItems[1],
-                 selectedIndex: .constant(0))
+                 cardViewItem: MockProvider.cardViewItems[1])
       }
     }
   }

@@ -21,7 +21,7 @@ struct AspireMasterView: View {
     VStack {
       AspireNavigationBar(title: $navTitle)
         .edgesIgnoringSafeArea(.all)
-        .frame(maxHeight: 50)
+        .frame(height: 50)
       Group {
         if selectedTab == 0 {
           DashboardView(viewModel: appCoordinator.dashboardVM)

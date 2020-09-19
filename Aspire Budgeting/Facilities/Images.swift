@@ -26,4 +26,7 @@ extension Image {
                                          euroSignCircle,
                                          indianRupeeSignCircle,
                                          ]
+
+  static let minigraphUp = Image("minigraph_up")
+  static let minigraphDown = Image("minigraph_down")
 }

@@ -26,9 +26,7 @@ struct DashboardView: View {
           ErrorBannerView(error: viewModel.error!)
         }
       }
-    }/**.navigationBarHidden(false)
-      .navigationBarBackButtonHidden(true)
-      .edgesIgnoringSafeArea(.all)*/
+    }
     .background(Color.primaryBackgroundColor)
       .onAppear {
         self.viewModel.refresh()
