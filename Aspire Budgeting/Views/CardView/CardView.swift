@@ -70,7 +70,7 @@ struct CardView: View {
     if isSelected {
       return -(curY - minY)
     }
-    return curY < minY ? minY - curY : 0
+    return 0
   }
 
   private func newOpacity() -> Double {
