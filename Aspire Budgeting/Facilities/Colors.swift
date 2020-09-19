@@ -102,7 +102,7 @@ extension Color {
   static let purpleFondShadowColor = Color(#colorLiteral(red: 0.9686274528503418, green: 0.7058823704719543, blue: 0.8117647171020508, alpha: 1))
 
   static func fondGradientFrom(startColor: Color,
-                                 endColor: Color) -> LinearGradient {
+                               endColor: Color) -> LinearGradient {
     let startColor = Gradient.Stop(color: startColor, location: 0)
     let endColor = Gradient.Stop(color: endColor, location: 1)
 

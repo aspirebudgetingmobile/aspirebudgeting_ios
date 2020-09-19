@@ -45,11 +45,11 @@ extension CardExpandedView {
         .frame(width: 160, height: 80)
 
       CardTotalsView(title: "Spent",
-                 amount: cardDetails.spentTotal,
-                 startColor: .redPinkFondStartColor,
-                 endColor: .redPinkFondEndColor,
-                 shadowColor: .redPinkFondShadowColor,
-                 graphImage: .minigraphDown)
+                     amount: cardDetails.spentTotal,
+                     startColor: .redPinkFondStartColor,
+                     endColor: .redPinkFondEndColor,
+                     shadowColor: .redPinkFondShadowColor,
+                     graphImage: .minigraphDown)
         .frame(width: 160, height: 80)
 
     }
