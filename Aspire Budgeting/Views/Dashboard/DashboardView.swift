@@ -13,8 +13,11 @@ struct DashboardView: View {
     VStack {
       if viewModel.error == nil {
         if viewModel.metadata?.groups != nil {
-          CardListView(cardViewItems: viewModel.cardViewItems)
-            .padding(.vertical, 10)
+          VStack {
+            CardListView(cardViewItems: viewModel.cardViewItems)
+              .padding(.vertical, 10)
+          }
+
         } else {
           GeometryReader { geo in
             LoadingView(height: geo.frame(in: .local).size.height)
