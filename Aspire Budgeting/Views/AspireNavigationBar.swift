@@ -10,13 +10,11 @@ struct AspireNavigationBar: View {
   @Binding var title: String
 
   var body: some View {
-    ZStack {
+    ZStack(alignment: .bottom) {
       Color.primaryBackgroundColor
-      VStack {
-        Text(title)
-          .font(.nunitoBold(size: 20))
-          .foregroundColor(.primaryTextColor)
-      }
+      Text(title)
+        .font(.nunitoBold(size: 20))
+        .foregroundColor(.primaryTextColor)
     }
   }
 }
