@@ -22,58 +22,6 @@ struct CardExpandedView: View {
 }
 
 extension CardExpandedView {
-  private func createGraddient(startColor: Color,
-                               endColor: Color) -> LinearGradient {
-    let startColor = Gradient.Stop(color: startColor, location: 0)
-
-    let endColor = Gradient.Stop(color: endColor, location: 1)
-
-    let startPoint = UnitPoint(x: 0.5, y: -0.48)
-
-    let endPoint = UnitPoint(x: -0.46, y: 0.52)
-
-    let gradient = Gradient(stops: [startColor, endColor])
-    return LinearGradient(gradient: gradient, startPoint: startPoint, endPoint: endPoint)
-  }
-
-  private func totalsView(title: String,
-                          amount: String,
-                          startColor: Color,
-                          endColor: Color,
-                          shadowColor: Color,
-                          graphImage: Image) -> some View {
-    ZStack {
-      Rectangle()
-        .fill(createGraddient(startColor: startColor, endColor: endColor))
-        .cornerRadius(10)
-        .shadow(color: shadowColor, radius: 2, x: 0, y: 0)
-
-      VStack(alignment: .leading) {
-        HStack {
-          Text(title)
-            .font(.karlaRegular(size: 16))
-            .foregroundColor(.white)
-            .padding(.leading)
-          Spacer()
-          graphImage
-            .padding(.trailing)
-            .foregroundColor(.white)
-        }
-
-        Text(amount)
-          .padding(.leading)
-          .font(.karlaBold(size: 20))
-          .foregroundColor(.white)
-
-        Text("accross all categories below")
-          .padding(.leading)
-          .font(.karlaRegular(size: 10))
-          .foregroundColor(.white)
-      }
-    }.frame(width: 160, height: 80)
-  }
-}
-extension CardExpandedView {
   private var banner: some View {
     ZStack {
       Rectangle()
@@ -87,19 +35,22 @@ extension CardExpandedView {
 
   private var totals: some View {
     HStack(spacing: 30) {
-      totalsView(title: "Budgeted",
-                 amount: cardDetails.budgetedTotal,
-                 startColor: .greenFondStartColor,
-                 endColor: .greenFondEndColor,
-                 shadowColor: .greenFondShadowColor,
-                 graphImage: .minigraphUp)
 
-      totalsView(title: "Spent",
+      CardTotalsView(title: "Budgeted",
+                     amount: cardDetails.budgetedTotal,
+                     startColor: .greenFondStartColor,
+                     endColor: .greenFondEndColor,
+                     shadowColor: .greenFondShadowColor,
+                     graphImage: .minigraphUp)
+        .frame(width: 160, height: 80)
+
+      CardTotalsView(title: "Spent",
                  amount: cardDetails.spentTotal,
                  startColor: .redPinkFondStartColor,
                  endColor: .redPinkFondEndColor,
                  shadowColor: .redPinkFondShadowColor,
                  graphImage: .minigraphDown)
+        .frame(width: 160, height: 80)
 
     }
   }
@@ -131,7 +82,8 @@ struct CardExpandedView_Previews: PreviewProvider {
     let title = "Investments"
     let bannerGradient = LinearGradient(gradient:
                                           Gradient(colors: [.blueFondStartColor,
-                                                            .blueFondEndColor]),
+                                                            .blueFondEndColor,
+                                          ]),
                                         startPoint: UnitPoint(x: 0.5, y: -0.48),
                                         endPoint: UnitPoint(x: -0.46, y: 0.52))
 

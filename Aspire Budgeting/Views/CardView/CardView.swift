@@ -21,17 +21,8 @@ struct CardView: View {
   private let shadowYOffset: CGFloat = 4
 
   private var gradient: LinearGradient {
-
-    let startColor = Gradient.Stop(color: colorInfo.gradientStartColor, location: 0)
-
-    let endColor = Gradient.Stop(color: colorInfo.gradientEndColor, location: 1)
-
-    let startPoint = UnitPoint(x: 0.5, y: -0.48)
-
-    let endPoint = UnitPoint(x: -0.46, y: 0.52)
-
-    let gradient = Gradient(stops: [startColor, endColor])
-    return LinearGradient(gradient: gradient, startPoint: startPoint, endPoint: endPoint)
+    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
+                           endColor: colorInfo.gradientEndColor)
   }
 
   private var offsetY: CGFloat {
@@ -54,7 +45,7 @@ struct CardView: View {
         progressBar
         fourthRow
       }.sheet(isPresented: $showDetails) {
-        CardExpandedView(cardDetails: expandedDetails)
+        CardExpandedView(cardDetails: self.expandedDetails)
       }
     }
     .offset(y: offsetY)

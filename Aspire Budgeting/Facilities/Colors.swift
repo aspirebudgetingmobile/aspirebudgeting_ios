@@ -100,4 +100,16 @@ extension Color {
   static let purpleFondStartColor = Color(#colorLiteral(red: 1, green: 0.7346036434173584, blue: 0.8102468252182007, alpha: 1))
   static let purpleFondEndColor = Color(#colorLiteral(red: 0.6505281925201416, green: 0.3958817720413208, blue: 0.8214730620384216, alpha: 1))
   static let purpleFondShadowColor = Color(#colorLiteral(red: 0.9686274528503418, green: 0.7058823704719543, blue: 0.8117647171020508, alpha: 1))
+
+  static func fondGradientFrom(startColor: Color,
+                                 endColor: Color) -> LinearGradient {
+    let startColor = Gradient.Stop(color: startColor, location: 0)
+    let endColor = Gradient.Stop(color: endColor, location: 1)
+
+    let gradient = Gradient(stops: [startColor, endColor])
+
+    return LinearGradient(gradient: gradient,
+                          startPoint: UnitPoint(x: 0.5, y: -0.48),
+                          endPoint: UnitPoint(x: -0.46, y: 0.52))
+  }
 }

@@ -83,6 +83,7 @@
 		06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B5A224F2165E00968C60 /* LoadingView.swift */; };
 		06D4528F25166C4D00BFEE02 /* CardExpandedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */; };
 		06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06D452902516856600BFEE02 /* Karla-Bold.ttf */; };
+		06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4529225168C8900BFEE02 /* CardTotalsView.swift */; };
 		06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA080924F4637700927FE5 /* FileValidator.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
@@ -191,6 +192,7 @@
 		06C6B5A224F2165E00968C60 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardExpandedView.swift; sourceTree = "<group>"; };
 		06D452902516856600BFEE02 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Bold.ttf"; sourceTree = "<group>"; };
+		06D4529225168C8900BFEE02 /* CardTotalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTotalsView.swift; sourceTree = "<group>"; };
 		06EA080924F4637700927FE5 /* FileValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileValidator.swift; sourceTree = "<group>"; };
 		06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGIDSignIn.swift; sourceTree = "<group>"; };
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				0685BBB8250EC76600728228 /* CardListView.swift */,
 				0685BBB6250EC74800728228 /* CardView.swift */,
 				06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */,
+				06D4529225168C8900BFEE02 /* CardTotalsView.swift */,
 			);
 			path = CardView;
 			sourceTree = "<group>";
@@ -726,6 +729,7 @@
 				06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */,
 				06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */,
 				06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */,
+				06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */,
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
