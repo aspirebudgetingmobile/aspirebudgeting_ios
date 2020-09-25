@@ -18,7 +18,7 @@ struct DashboardViewModel {
       let availableTotal = metadata!.groupedAvailableTotal(idx: idx)
       let budgetedTotal = metadata!.groupedBudgetedTotal(idx: idx)
       let spentTotal = metadata!.groupedSpentTotal(idx: idx)
-      var progressFactor = availableTotal / budgetedTotal
+      var progressFactor = availableTotal /| budgetedTotal
 
       if progressFactor < 0 {
         progressFactor = 0
