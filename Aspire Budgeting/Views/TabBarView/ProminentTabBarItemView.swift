@@ -10,11 +10,11 @@ struct ProminentTabBarItemView: View {
   var width: CGFloat = 70
 
   private var innerCircleWidth: CGFloat {
-    return width - 10
+    width - 10
   }
 
   private var imageWidth: CGFloat {
-    return innerCircleWidth / 2
+    innerCircleWidth / 2
   }
 
   private var gradient: LinearGradient {

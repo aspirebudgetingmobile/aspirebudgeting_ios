@@ -38,6 +38,6 @@ struct AspireNumber: Equatable, Hashable {
   }
 
   static func >= (lhs: AspireNumber, rhs: AspireNumber) -> Bool {
-    return lhs.decimalValue >= rhs.decimalValue
+    lhs.decimalValue >= rhs.decimalValue
   }
 }

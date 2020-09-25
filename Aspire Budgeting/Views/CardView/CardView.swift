@@ -30,10 +30,12 @@ struct CardView: View {
   }
 
   private var expandedDetails: CategoryDetailsView.CardDetails {
-    CategoryDetailsView.CardDetails(title: cardViewItem.title,
-                                 bannerGradient: gradient,
-                                 budgetedTotal: cardViewItem.budgetedTotal,
-                                 spentTotal: cardViewItem.spentTotal, availableTotal: cardViewItem.availableTotal)
+    CategoryDetailsView
+        .CardDetails(title: cardViewItem.title,
+                     bannerGradient: gradient,
+                     budgetedTotal: cardViewItem.budgetedTotal,
+                     spentTotal: cardViewItem.spentTotal,
+                     availableTotal: cardViewItem.availableTotal)
   }
 
   var body: some View {

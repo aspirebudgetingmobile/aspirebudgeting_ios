@@ -14,7 +14,7 @@ struct AspireSegmentedItem: View {
   @Binding var selectedSegment: Int
 
   private var opacity: Double {
-    return selectedSegment == itemIndex ? 1 : 0.1
+    selectedSegment == itemIndex ? 1 : 0.1
   }
 
   var body: some View {

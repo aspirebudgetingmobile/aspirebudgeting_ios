@@ -33,6 +33,6 @@ struct File: Identifiable, Codable {
 
 extension File: Equatable {
   static func == (lhs: File, rhs: File) -> Bool {
-    return (lhs.name == rhs.name) && (lhs.id == rhs.id)
+    (lhs.name == rhs.name) && (lhs.id == rhs.id)
   }
 }

@@ -80,10 +80,12 @@ struct CardExpandedView_Previews: PreviewProvider {
                                         startPoint: UnitPoint(x: 0.5, y: -0.48),
                                         endPoint: UnitPoint(x: -0.46, y: 0.52))
 
-    let details = CategoryDetailsView.CardDetails(title: title,
-                                               bannerGradient: bannerGradient,
-                                               budgetedTotal: AspireNumber(stringValue: "$500"),
-                                               spentTotal: AspireNumber(stringValue: "$30"), availableTotal: AspireNumber(stringValue: "40"))
+    let details = CategoryDetailsView
+        .CardDetails(title: title,
+                     bannerGradient: bannerGradient,
+                     budgetedTotal: AspireNumber(stringValue: "$500"),
+                     spentTotal: AspireNumber(stringValue: "$30"),
+                     availableTotal: AspireNumber(stringValue: "40"))
 
     return details
   }
