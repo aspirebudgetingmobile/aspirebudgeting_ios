@@ -2,9 +2,6 @@
 //  DashboardGroupsAndCategoriesTests.swift
 //  Aspire BudgetingTests
 //
-//  Created by TeraMo Labs on 11/17/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 @testable import Aspire_Budgeting
 import XCTest
@@ -23,29 +20,30 @@ final class DashboardMetadataTests: XCTestCase {
   }
 
   func testDashboardGroupsAndCategoriesParser() {
-    let dgc = DashboardMetadata(rows: sampleData)
-    XCTAssertEqual(
-      dgc.groupedAvailableTotals,
-      [
-        AspireNumber(stringValue: "$10,010.00", decimalValue: 10010),
-        AspireNumber(stringValue: "$9,990.67", decimalValue: 9990.67),
-      ]
-    )
+    let metadata = DashboardMetadata(rows: sampleData)
+    XCTAssertEqual(metadata.groupedAvailableTotal(idx: 0),
+                   AspireNumber(stringValue: "$10,010.00",
+                                decimalValue: 10010))
 
-    XCTAssertEqual(
-      dgc.groupedBudgetedTotals,
-      [
-        AspireNumber(stringValue: "$15,715.00", decimalValue: 15715),
-        AspireNumber(stringValue: "$15,715.00", decimalValue: 15715),
-      ]
-    )
+    XCTAssertEqual(metadata.groupedAvailableTotal(idx: 1),
+                   AspireNumber(stringValue: "$9,990.67",
+                                decimalValue: 9990.67))
 
-    XCTAssertEqual(
-      dgc.groupedSpentTotals,
-      [
-        AspireNumber(stringValue: "$10.09", decimalValue: 10.089),
-        AspireNumber(stringValue: "$10.08", decimalValue: 10.08),
-      ]
-    )
+    XCTAssertEqual(metadata.groupedBudgetedTotal(idx: 0),
+                   AspireNumber(stringValue: "$15,715.00",
+                                decimalValue: 15715))
+
+    XCTAssertEqual(metadata.groupedBudgetedTotal(idx: 1),
+                   AspireNumber(stringValue: "$15,715.00",
+                                decimalValue: 15715))
+
+    XCTAssertEqual(metadata.groupedSpentTotal(idx: 0),
+                   AspireNumber(stringValue: "$10.09",
+                                decimalValue: 10.089))
+
+    XCTAssertEqual(metadata.groupedSpentTotal(idx: 1),
+                   AspireNumber(stringValue: "$10.08",
+                                decimalValue: 10.08))
+
   }
 }

@@ -68,11 +68,13 @@ final class GoogleContentManagerTests: XCTestCase {
         XCTFail()
 
       case .success(let metadata):
-        XCTAssertEqual(metadata.groups, ["G1", "G2"])
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].categoryName, "G1:C1")
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].available, "1")
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].spent, "4")
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].budgeted, "7")
+        XCTAssertEqual(metadata.groups.count, 2)
+        XCTAssertEqual(metadata.groups[0].title, "G1")
+        XCTAssertEqual(metadata.groups[1].title, "G2")
+        XCTAssertEqual(metadata.groups[0].categories[0].categoryName, "G1:C1")
+        XCTAssertEqual(metadata.groups[0].categories[0].available, "1")
+        XCTAssertEqual(metadata.groups[0].categories[0].spent, "4")
+        XCTAssertEqual(metadata.groups[0].categories[0].budgeted, "7")
         exp.fulfill()
       }
     }
@@ -82,12 +84,4 @@ final class GoogleContentManagerTests: XCTestCase {
     XCTAssertEqual(file, reader.file!)
     XCTAssertEqual("Dashboard!F4:O", reader.location!)
   }
-
-  func testPerformanceExample() throws {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
-    }
-  }
-
 }

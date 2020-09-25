@@ -1,5 +1,5 @@
 //
-//  DashboardGroupsAndCategories.swift
+//  DashboardMetadata.swift
 //  Aspire Budgeting
 //
 
@@ -7,112 +7,87 @@ import Foundation
 import os.log
 
 struct DashboardMetadata {
-  let groups: [String]
-  let groupedCategoryRows: [[CategoryRow]]
-  let groupedAvailableTotals: [AspireNumber]
-  let groupedBudgetedTotals: [AspireNumber]
-  let groupedSpentTotals: [AspireNumber]
-
-  init(rows: [[String]]) {
-    (
-      groups,
-      groupedCategoryRows,
-      groupedAvailableTotals,
-      groupedBudgetedTotals,
-      groupedSpentTotals
-    ) = DashboardMetadata.parse(rows: rows)
+  struct Group {
+    let title: String
+    let categories: [CategoryRow]
   }
 
-  private static func parse(
-    rows: [[String]]
-  ) -> ([String], [[CategoryRow]], [AspireNumber], [AspireNumber], [AspireNumber]) {
-    var lastIndex = -1
-    var tempGroups = [String]()
-    var tempGroupedCategoryRow = [[CategoryRow]]()
-    var tempAvailableTotals = [AspireNumber]()
-    var tempBudgetedTotals = [AspireNumber]()
-    var tempSpentTotals = [AspireNumber]()
+  private enum TotalType {
+    case available, budgeted, spent
+  }
 
-    var availableTotal = Decimal(0.0)
-    var budgetedTotal = Decimal(0.0)
-    var spentTotal = Decimal(0.0)
+  let groups: [Group]
+  private let numFormatter = NumberFormatter()
 
-    let numFormatter = NumberFormatter()
+  init(rows: [[String]]) {
+    groups = DashboardMetadata.parse(rows: rows)
     numFormatter.numberStyle = .currency
     numFormatter.minimumFractionDigits = 2
+  }
 
-    for row in rows {
-      if row[0] == "✦" {
-        os_log(
-          "Encountered a Group row",
-          log: .dashboardMetadata,
-          type: .default
-        )
-        lastIndex += 1
+  private static func parse(rows: [[String]]) -> [Group] {
+    var title = ""
+    var categories = [CategoryRow]()
+    var groups = [Group]()
 
-        tempGroups.append(row[2])
-
-        tempGroupedCategoryRow.append([CategoryRow]())
-        tempAvailableTotals.append(AspireNumber())
-        tempBudgetedTotals.append(AspireNumber())
-        tempSpentTotals.append(AspireNumber())
-
-        availableTotal = 0
-        budgetedTotal = 0
-        spentTotal = 0
-
+    for row in rows where !row.isEmpty {
+      if row[0] == "✦" { //Group Row
+        if !title.isEmpty {
+          groups.append(Group(title: title, categories: categories))
+          categories.removeAll()
+        }
+        title = row[2]
       } else {
         let categoryRow = CategoryRow(row: row)
-        tempGroupedCategoryRow[lastIndex].append(categoryRow)
-        availableTotal += numFormatter.number(from: categoryRow.available)?.decimalValue ?? 0
-        budgetedTotal += numFormatter.number(from: categoryRow.budgeted)?.decimalValue ?? 0
-        spentTotal += numFormatter.number(from: categoryRow.spent)?.decimalValue ?? 0
-
-        let availableTotalString =
-          numFormatter.string(from: availableTotal as NSDecimalNumber) ?? ""
-        os_log(
-          "Checking availableTotalString empty: %d",
-          log: .dashboardMetadata,
-          type: .default,
-          availableTotalString.isEmpty
-        )
-
-        let budgetedTotalString = numFormatter.string(from: budgetedTotal as NSDecimalNumber) ?? ""
-        os_log(
-          "Checking budgetedTotalString empty: %d",
-          log: .dashboardMetadata,
-          type: .default,
-          budgetedTotalString.isEmpty
-        )
-
-        let spentTotalString = numFormatter.string(from: spentTotal as NSDecimalNumber) ?? ""
-        os_log(
-          "Checking spentTotalString empty: %d",
-          log: .dashboardMetadata,
-          type: .default,
-          spentTotalString.isEmpty
-        )
-
-        tempAvailableTotals[lastIndex] = AspireNumber(
-          stringValue: availableTotalString,
-          decimalValue: availableTotal
-        )
-        tempBudgetedTotals[lastIndex] = AspireNumber(
-          stringValue: budgetedTotalString,
-          decimalValue: budgetedTotal
-        )
-        tempSpentTotals[lastIndex] = AspireNumber(
-          stringValue: spentTotalString,
-          decimalValue: spentTotal
-        )
+        categories.append(categoryRow)
       }
     }
-    return (
-      tempGroups,
-      tempGroupedCategoryRow,
-      tempAvailableTotals,
-      tempBudgetedTotals,
-      tempSpentTotals
-    )
+
+    groups.append(Group(title: title, categories: categories))
+    return groups
+  }
+}
+
+extension DashboardMetadata { //Computing Functions
+  private func getTotalOf(type: TotalType, at idx: Int) -> AspireNumber {
+    guard idx < groups.count else { fatalError("Index out of bounds") }
+
+    let categories = groups[idx].categories
+    var total: Decimal = 0
+    var numberString = "0"
+
+    for category in categories {
+      let categoryNumber: String
+      switch type {
+      case .available:
+        categoryNumber = category.available
+      case .budgeted:
+        categoryNumber = category.budgeted
+      case .spent:
+        categoryNumber = category.spent
+      }
+
+      if let number = numFormatter.number(from: categoryNumber) {
+        total += number.decimalValue
+      }
+    }
+
+    if let numString = numFormatter.string(from: total as NSDecimalNumber) {
+      numberString = numString
+    }
+
+    return AspireNumber(stringValue: numberString, decimalValue: total)
+  }
+
+  func groupedAvailableTotal(idx: Int) -> AspireNumber {
+    getTotalOf(type: .available, at: idx)
+  }
+
+  func groupedBudgetedTotal(idx: Int) -> AspireNumber {
+    getTotalOf(type: .budgeted, at: idx)
+  }
+
+  func groupedSpentTotal(idx: Int) -> AspireNumber {
+    getTotalOf(type: .spent, at: idx)
   }
 }

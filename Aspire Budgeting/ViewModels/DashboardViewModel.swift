@@ -14,10 +14,10 @@ struct DashboardViewModel {
   var cardViewItems: [CardView.CardViewItem] {
     var items = [CardView.CardViewItem]()
     for (idx, group) in metadata!.groups.enumerated() {
-      let title = group
-      let availableTotal = metadata!.groupedAvailableTotals[idx]
-      let budgetedTotal = metadata!.groupedBudgetedTotals[idx]
-      let spentTotal = metadata!.groupedSpentTotals[idx]
+      let title = group.title
+      let availableTotal = metadata!.groupedAvailableTotal(idx: idx)
+      let budgetedTotal = metadata!.groupedBudgetedTotal(idx: idx)
+      let spentTotal = metadata!.groupedSpentTotal(idx: idx)
       var progressFactor = availableTotal / budgetedTotal
 
       if progressFactor < 0 {
