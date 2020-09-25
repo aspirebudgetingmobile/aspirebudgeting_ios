@@ -9,7 +9,7 @@ import os.log
 struct Dashboard {
   struct Group {
     let title: String
-    let categories: [CategoryRow]
+    let categories: [Category]
   }
 
   private enum TotalType {
@@ -27,10 +27,10 @@ struct Dashboard {
 
   private static func parse(rows: [[String]]) -> [Group] {
     var title = ""
-    var categories = [CategoryRow]()
+    var categories = [Category]()
     var groups = [Group]()
 
-    for row in rows where !row.isEmpty {
+    for row in rows where !row.isEmpty && row.count == 10 {
       if row[0] == "✦" { //Group Row
         if !title.isEmpty {
           groups.append(Group(title: title, categories: categories))
@@ -38,7 +38,7 @@ struct Dashboard {
         }
         title = row[2]
       } else {
-        let categoryRow = CategoryRow(row: row)
+        let categoryRow = Category(row: row)
         categories.append(categoryRow)
       }
     }
