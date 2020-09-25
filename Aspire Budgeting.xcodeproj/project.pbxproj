@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		060024FE236F99DA00A20C96 /* CategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* CategoryRow.swift */; };
-		06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* DashboardMetadata.swift */; };
+		06002500236F9A8000A20C96 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* Dashboard.swift */; };
 		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
 		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
 		060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060025052373C08700A20C96 /* YoutubePlayerView.swift */; };
@@ -117,7 +117,7 @@
 
 /* Begin PBXFileReference section */
 		060024FD236F99DA00A20C96 /* CategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRow.swift; sourceTree = "<group>"; };
-		060024FF236F9A8000A20C96 /* DashboardMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadata.swift; sourceTree = "<group>"; };
+		060024FF236F9A8000A20C96 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
 		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		060025052373C08700A20C96 /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
@@ -291,7 +291,7 @@
 				066EF45D235CF74500E94CE4 /* User.swift */,
 				06AB2C8123627B2D0076516E /* File.swift */,
 				060024FD236F99DA00A20C96 /* CategoryRow.swift */,
-				060024FF236F9A8000A20C96 /* DashboardMetadata.swift */,
+				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalancesMetadata.swift */,
 			);
@@ -735,7 +735,7 @@
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */,
 				06F9A8D7243917EF005E5A13 /* AccountBalancesMetadata.swift in Sources */,
-				06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */,
+				06002500236F9A8000A20C96 /* Dashboard.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
 				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
 				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,

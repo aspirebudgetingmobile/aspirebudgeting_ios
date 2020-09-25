@@ -20,7 +20,7 @@ final class DashboardMetadataTests: XCTestCase {
   }
 
   func testDashboardGroupsAndCategoriesParser() {
-    let metadata = DashboardMetadata(rows: sampleData)
+    let metadata = Dashboard(rows: sampleData)
     XCTAssertEqual(metadata.groupedAvailableTotal(idx: 0),
                    AspireNumber(stringValue: "$10,010.00",
                                 decimalValue: 10010))

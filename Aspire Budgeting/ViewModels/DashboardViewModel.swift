@@ -8,7 +8,7 @@ import Foundation
 struct DashboardViewModel {
 
   let currentState: ViewModelState
-  let metadata: DashboardMetadata?
+  let metadata: Dashboard?
   let error: Error?
 
   var cardViewItems: [CardView.CardViewItem] {
@@ -40,7 +40,7 @@ struct DashboardViewModel {
 
   private let refreshAction: (() -> Void)
 
-  init(result: Result<DashboardMetadata>?,
+  init(result: Result<Dashboard>?,
        refreshAction: @escaping (() -> Void)) {
 
     self.refreshAction = refreshAction

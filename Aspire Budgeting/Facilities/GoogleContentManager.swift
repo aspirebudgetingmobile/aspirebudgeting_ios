@@ -11,7 +11,7 @@ protocol ContentReader {
   func getDashboard(for user: User,
                     from file: File,
                     using dataMap: [String: String],
-                    completion: @escaping (Result<DashboardMetadata>) -> Void)
+                    completion: @escaping (Result<Dashboard>) -> Void)
 }
 
 protocol ContentWriter {
@@ -64,7 +64,7 @@ extension GoogleContentManager: ContentReader {
   func getDashboard(for user: User,
                     from file: File,
                     using dataMap: [String: String],
-                    completion: @escaping (Result<DashboardMetadata>) -> Void) {
+                    completion: @escaping (Result<Dashboard>) -> Void) {
     if let location = dataMap[kDashboard] {
       readSink = fileReader
         .read(file: file, user: user, location: location)
@@ -89,7 +89,7 @@ extension GoogleContentManager: ContentReader {
           completion(.failure(GoogleDriveManagerError.inconsistentSheet))
           return
         }
-        let metadata = DashboardMetadata(rows: rows)
+        let metadata = Dashboard(rows: rows)
         completion(.success(metadata))
       })
     }

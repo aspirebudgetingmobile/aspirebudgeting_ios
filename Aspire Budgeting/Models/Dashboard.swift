@@ -1,12 +1,12 @@
 //
-//  DashboardMetadata.swift
+//  Dashboard.swift
 //  Aspire Budgeting
 //
 
 import Foundation
 import os.log
 
-struct DashboardMetadata {
+struct Dashboard {
   struct Group {
     let title: String
     let categories: [CategoryRow]
@@ -20,7 +20,7 @@ struct DashboardMetadata {
   private let numFormatter = NumberFormatter()
 
   init(rows: [[String]]) {
-    groups = DashboardMetadata.parse(rows: rows)
+    groups = Dashboard.parse(rows: rows)
     numFormatter.numberStyle = .currency
     numFormatter.minimumFractionDigits = 2
   }
@@ -48,7 +48,7 @@ struct DashboardMetadata {
   }
 }
 
-extension DashboardMetadata { //Computing Functions
+extension Dashboard { //Computing Functions
   private func getTotalOf(type: TotalType, at idx: Int) -> AspireNumber {
     guard idx < groups.count else { fatalError("Index out of bounds") }
 
