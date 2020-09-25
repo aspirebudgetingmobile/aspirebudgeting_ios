@@ -57,7 +57,7 @@ extension Dashboard { //Computing Functions
     var numberString = "0"
 
     for category in categories {
-      let categoryNumber: String
+      let categoryNumber: AspireNumber
       switch type {
       case .available:
         categoryNumber = category.available
@@ -67,9 +67,7 @@ extension Dashboard { //Computing Functions
         categoryNumber = category.spent
       }
 
-      if let number = numFormatter.number(from: categoryNumber) {
-        total += number.decimalValue
-      }
+      total += categoryNumber.decimalValue
     }
 
     if let numString = numFormatter.string(from: total as NSDecimalNumber) {

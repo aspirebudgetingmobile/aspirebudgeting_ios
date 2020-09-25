@@ -5,16 +5,16 @@
 
 struct Category: Hashable {
   let categoryName: String
-  let available: String
-  let spent: String
-  let budgeted: String
-  let monthly: String
+  let available: AspireNumber
+  let spent: AspireNumber
+  let budgeted: AspireNumber
+  let monthly: AspireNumber
 
   init(row: [String]) {
     categoryName = row[2]
-    available = row[3]
-    spent = row[6]
-    monthly = row[7]
-    budgeted = row[9]
+    available = AspireNumber(stringValue: row[3])
+    spent = AspireNumber(stringValue: row[6])
+    monthly = AspireNumber(stringValue: row[7])
+    budgeted = AspireNumber(stringValue: row[9])
   }
 }
