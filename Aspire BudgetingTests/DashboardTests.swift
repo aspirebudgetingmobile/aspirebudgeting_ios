@@ -1,5 +1,5 @@
 //
-//  DashboardGroupsAndCategoriesTests.swift
+//  DashboardTests.swift
 //  Aspire BudgetingTests
 //
 
