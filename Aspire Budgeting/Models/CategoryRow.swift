@@ -2,9 +2,6 @@
 //  CategoryRow.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/3/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 struct CategoryRow: Hashable {
   let categoryName: String

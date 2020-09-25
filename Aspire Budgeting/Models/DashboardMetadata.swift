@@ -8,7 +8,7 @@ import os.log
 
 struct DashboardMetadata {
   let groups: [String]
-  let groupedCategoryRows: [[DashboardCategoryRow]]
+  let groupedCategoryRows: [[CategoryRow]]
   let groupedAvailableTotals: [AspireNumber]
   let groupedBudgetedTotals: [AspireNumber]
   let groupedSpentTotals: [AspireNumber]
@@ -25,10 +25,10 @@ struct DashboardMetadata {
 
   private static func parse(
     rows: [[String]]
-  ) -> ([String], [[DashboardCategoryRow]], [AspireNumber], [AspireNumber], [AspireNumber]) {
+  ) -> ([String], [[CategoryRow]], [AspireNumber], [AspireNumber], [AspireNumber]) {
     var lastIndex = -1
     var tempGroups = [String]()
-    var tempGroupedCategoryRow = [[DashboardCategoryRow]]()
+    var tempGroupedCategoryRow = [[CategoryRow]]()
     var tempAvailableTotals = [AspireNumber]()
     var tempBudgetedTotals = [AspireNumber]()
     var tempSpentTotals = [AspireNumber]()
@@ -52,7 +52,7 @@ struct DashboardMetadata {
 
         tempGroups.append(row[2])
 
-        tempGroupedCategoryRow.append([DashboardCategoryRow]())
+        tempGroupedCategoryRow.append([CategoryRow]())
         tempAvailableTotals.append(AspireNumber())
         tempBudgetedTotals.append(AspireNumber())
         tempSpentTotals.append(AspireNumber())
@@ -62,7 +62,7 @@ struct DashboardMetadata {
         spentTotal = 0
 
       } else {
-        let categoryRow = DashboardCategoryRow(row: row)
+        let categoryRow = CategoryRow(row: row)
         tempGroupedCategoryRow[lastIndex].append(categoryRow)
         availableTotal += numFormatter.number(from: categoryRow.available)?.decimalValue ?? 0
         budgetedTotal += numFormatter.number(from: categoryRow.budgeted)?.decimalValue ?? 0

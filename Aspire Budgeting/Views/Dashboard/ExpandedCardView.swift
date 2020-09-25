@@ -11,7 +11,7 @@ import SwiftUI
 struct ExpandedCardView: View {
   let categoryName: String
   let totals: DashboardCardView.Totals
-  let categoryRows: [DashboardCategoryRow]
+  let categoryRows: [CategoryRow]
 
   var body: some View {
     VStack {
