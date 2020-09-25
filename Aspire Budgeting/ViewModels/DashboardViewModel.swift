@@ -30,9 +30,9 @@ struct DashboardViewModel {
       }
 
       items.append(.init(title: title,
-                         availableTotal: availableTotal.stringValue,
-                         budgetedTotal: budgetedTotal.stringValue,
-                         spentTotal: spentTotal.stringValue,
+                         availableTotal: availableTotal,
+                         budgetedTotal: budgetedTotal,
+                         spentTotal: spentTotal,
                          progressFactor: progressFactor))
     }
     return items

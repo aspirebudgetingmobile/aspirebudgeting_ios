@@ -1,11 +1,11 @@
 //
-// CardExpandedView.swift
+// CategoryDetailsView.swift
 // Aspire Budgeting
 //
 
 import SwiftUI
 
-struct TransactionDetailsView: View {
+struct CategoryDetailsView: View {
 
   let cardDetails: CardDetails
 
@@ -21,7 +21,7 @@ struct TransactionDetailsView: View {
     }
 }
 
-extension TransactionDetailsView {
+extension CategoryDetailsView {
   private var banner: some View {
     ZStack {
       Rectangle()
@@ -36,20 +36,12 @@ extension TransactionDetailsView {
   private var totals: some View {
     HStack(spacing: 30) {
 
-      CardTotalsView(title: "Budgeted",
-                     amount: cardDetails.budgetedTotal,
-                     startColor: .greenFondStartColor,
-                     endColor: .greenFondEndColor,
-                     shadowColor: .greenFondShadowColor,
-                     graphImage: .minigraphUp)
+      CardTotalsView(title: "Available",
+                     amount: cardDetails.availableTotal)
         .frame(width: 160, height: 80)
 
       CardTotalsView(title: "Spent",
-                     amount: cardDetails.spentTotal,
-                     startColor: .redPinkFondStartColor,
-                     endColor: .redPinkFondEndColor,
-                     shadowColor: .redPinkFondShadowColor,
-                     graphImage: .minigraphDown)
+                     amount: cardDetails.spentTotal)
         .frame(width: 160, height: 80)
 
     }
@@ -69,16 +61,17 @@ extension TransactionDetailsView {
   }
 }
 
-extension TransactionDetailsView {
+extension CategoryDetailsView {
   struct CardDetails {
     let title: String
     let bannerGradient: LinearGradient
-    let budgetedTotal: String
-    let spentTotal: String
+    let budgetedTotal: AspireNumber
+    let spentTotal: AspireNumber
+    let availableTotal: AspireNumber
   }
 }
 struct CardExpandedView_Previews: PreviewProvider {
-  static var cardDetils: TransactionDetailsView.CardDetails {
+  static var cardDetils: CategoryDetailsView.CardDetails {
     let title = "Investments"
     let bannerGradient = LinearGradient(gradient:
                                           Gradient(colors: [.blueFondStartColor,
@@ -87,14 +80,14 @@ struct CardExpandedView_Previews: PreviewProvider {
                                         startPoint: UnitPoint(x: 0.5, y: -0.48),
                                         endPoint: UnitPoint(x: -0.46, y: 0.52))
 
-    let details = TransactionDetailsView.CardDetails(title: title,
+    let details = CategoryDetailsView.CardDetails(title: title,
                                                bannerGradient: bannerGradient,
-                                               budgetedTotal: "$500",
-                                               spentTotal: "$30")
+                                               budgetedTotal: AspireNumber(stringValue: "$500"),
+                                               spentTotal: AspireNumber(stringValue: "$30"), availableTotal: AspireNumber(stringValue: "40"))
 
     return details
   }
     static var previews: some View {
-      TransactionDetailsView(cardDetails: CardExpandedView_Previews.cardDetils)
+      CategoryDetailsView(cardDetails: CardExpandedView_Previews.cardDetils)
     }
 }

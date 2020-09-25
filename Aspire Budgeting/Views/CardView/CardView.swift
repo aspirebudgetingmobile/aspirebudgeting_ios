@@ -29,11 +29,11 @@ struct CardView: View {
     curY < minY ? minY - curY : 0
   }
 
-  private var expandedDetails: TransactionDetailsView.CardDetails {
-    TransactionDetailsView.CardDetails(title: cardViewItem.title,
+  private var expandedDetails: CategoryDetailsView.CardDetails {
+    CategoryDetailsView.CardDetails(title: cardViewItem.title,
                                  bannerGradient: gradient,
                                  budgetedTotal: cardViewItem.budgetedTotal,
-                                 spentTotal: cardViewItem.spentTotal)
+                                 spentTotal: cardViewItem.spentTotal, availableTotal: cardViewItem.availableTotal)
   }
 
   var body: some View {
@@ -45,7 +45,7 @@ struct CardView: View {
         progressBar
         fourthRow
       }.sheet(isPresented: $showDetails) {
-        TransactionDetailsView(cardDetails: self.expandedDetails)
+        CategoryDetailsView(cardDetails: self.expandedDetails)
       }
     }
     .offset(y: offsetY)
@@ -146,7 +146,7 @@ extension CardView {
 
   private var fourthRow: some View {
     HStack {
-      Text(self.cardViewItem.availableTotal)
+        Text(self.cardViewItem.availableTotal.stringValue)
         .foregroundColor(.white)
         .font(.nunitoRegular(size: 13))
         .lineSpacing(3)
@@ -154,7 +154,7 @@ extension CardView {
 
       Spacer()
 
-      Text(self.cardViewItem.budgetedTotal)
+        Text(self.cardViewItem.budgetedTotal.stringValue)
         .foregroundColor(.white)
         .font(.nunitoRegular(size: 13))
         .lineSpacing(3)
@@ -173,9 +173,9 @@ extension CardView {
 
   struct CardViewItem {
     let title: String
-    let availableTotal: String
-    let budgetedTotal: String
-    let spentTotal: String
+    let availableTotal: AspireNumber
+    let budgetedTotal: AspireNumber
+    let spentTotal: AspireNumber
     let progressFactor: Double
   }
 }
