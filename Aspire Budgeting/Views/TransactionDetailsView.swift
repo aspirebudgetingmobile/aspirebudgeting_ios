@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct CardExpandedView: View {
+struct TransactionDetailsView: View {
 
   let cardDetails: CardDetails
 
@@ -21,7 +21,7 @@ struct CardExpandedView: View {
     }
 }
 
-extension CardExpandedView {
+extension TransactionDetailsView {
   private var banner: some View {
     ZStack {
       Rectangle()
@@ -69,7 +69,7 @@ extension CardExpandedView {
   }
 }
 
-extension CardExpandedView {
+extension TransactionDetailsView {
   struct CardDetails {
     let title: String
     let bannerGradient: LinearGradient
@@ -78,7 +78,7 @@ extension CardExpandedView {
   }
 }
 struct CardExpandedView_Previews: PreviewProvider {
-  static var cardDetils: CardExpandedView.CardDetails {
+  static var cardDetils: TransactionDetailsView.CardDetails {
     let title = "Investments"
     let bannerGradient = LinearGradient(gradient:
                                           Gradient(colors: [.blueFondStartColor,
@@ -87,7 +87,7 @@ struct CardExpandedView_Previews: PreviewProvider {
                                         startPoint: UnitPoint(x: 0.5, y: -0.48),
                                         endPoint: UnitPoint(x: -0.46, y: 0.52))
 
-    let details = CardExpandedView.CardDetails(title: title,
+    let details = TransactionDetailsView.CardDetails(title: title,
                                                bannerGradient: bannerGradient,
                                                budgetedTotal: "$500",
                                                spentTotal: "$30")
@@ -95,6 +95,6 @@ struct CardExpandedView_Previews: PreviewProvider {
     return details
   }
     static var previews: some View {
-      CardExpandedView(cardDetails: CardExpandedView_Previews.cardDetils)
+      TransactionDetailsView(cardDetails: CardExpandedView_Previews.cardDetils)
     }
 }

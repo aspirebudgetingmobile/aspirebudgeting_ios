@@ -29,8 +29,8 @@ struct CardView: View {
     curY < minY ? minY - curY : 0
   }
 
-  private var expandedDetails: CardExpandedView.CardDetails {
-    CardExpandedView.CardDetails(title: cardViewItem.title,
+  private var expandedDetails: TransactionDetailsView.CardDetails {
+    TransactionDetailsView.CardDetails(title: cardViewItem.title,
                                  bannerGradient: gradient,
                                  budgetedTotal: cardViewItem.budgetedTotal,
                                  spentTotal: cardViewItem.spentTotal)
@@ -45,7 +45,7 @@ struct CardView: View {
         progressBar
         fourthRow
       }.sheet(isPresented: $showDetails) {
-        CardExpandedView(cardDetails: self.expandedDetails)
+        TransactionDetailsView(cardDetails: self.expandedDetails)
       }
     }
     .offset(y: offsetY)
