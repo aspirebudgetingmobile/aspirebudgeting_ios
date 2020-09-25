@@ -17,7 +17,7 @@ struct DashboardCardView: View {
 
   let categoryName: String
   let totals: Totals
-  let categoryRows: [CategoryRow]
+  let categoryRows: [Category]
 
   @State var expanded = false
 

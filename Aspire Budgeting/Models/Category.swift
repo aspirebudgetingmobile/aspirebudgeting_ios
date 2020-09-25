@@ -1,9 +1,9 @@
 //
-//  CategoryRow.swift
+//  Category.swift
 //  Aspire Budgeting
 //
 
-struct CategoryRow: Hashable {
+struct Category: Hashable {
   let categoryName: String
   let available: String
   let spent: String

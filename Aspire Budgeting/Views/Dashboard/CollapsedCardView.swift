@@ -11,7 +11,7 @@ import SwiftUI
 struct CollapsedCardView: View {
   let categoryName: String
   let totals: DashboardCardView.Totals
-  let categoryRows: [CategoryRow]
+  let categoryRows: [Category]
 
   func getGradient(for number: AspireNumber) -> LinearGradient {
     if number.isNegative {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DashboardRow: View {
-  var categoryRow: CategoryRow
+  var categoryRow: Category
 
   var body: some View {
     VStack(alignment: .leading) {

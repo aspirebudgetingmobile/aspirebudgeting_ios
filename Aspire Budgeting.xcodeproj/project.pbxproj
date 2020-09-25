@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060024FE236F99DA00A20C96 /* CategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* CategoryRow.swift */; };
+		060024FE236F99DA00A20C96 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* Category.swift */; };
 		06002500236F9A8000A20C96 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* Dashboard.swift */; };
 		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
 		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
@@ -116,7 +116,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		060024FD236F99DA00A20C96 /* CategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRow.swift; sourceTree = "<group>"; };
+		060024FD236F99DA00A20C96 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		060024FF236F9A8000A20C96 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
 		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
@@ -290,7 +290,7 @@
 			children = (
 				066EF45D235CF74500E94CE4 /* User.swift */,
 				06AB2C8123627B2D0076516E /* File.swift */,
-				060024FD236F99DA00A20C96 /* CategoryRow.swift */,
+				060024FD236F99DA00A20C96 /* Category.swift */,
 				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalancesMetadata.swift */,
@@ -775,7 +775,7 @@
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
-				060024FE236F99DA00A20C96 /* CategoryRow.swift in Sources */,
+				060024FE236F99DA00A20C96 /* Category.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
 				069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */,
