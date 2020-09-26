@@ -30,6 +30,19 @@ struct DashboardViewModel {
     return items
   }
 
+  func filteredCategories(filter: String) -> [Category] {
+    guard !filter.isEmpty else { return [Category]() }
+    var categories = [Category]()
+    if let groups = dashboard?.groups {
+      categories = groups.flatMap { $0.categories
+        .filter { $0.categoryName
+          .range(of: filter, options: .caseInsensitive) != nil
+        }
+      }
+    }
+    return categories
+  }
+
   private let refreshAction: (() -> Void)
 
   init(result: Result<Dashboard>?,
