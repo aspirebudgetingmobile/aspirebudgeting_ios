@@ -20,20 +20,12 @@ struct DashboardViewModel {
       let spentTotal = dashboard!.spentTotalForGroup(at: idx)
       var progressFactor = availableTotal /| budgetedTotal
 
-      if progressFactor < 0 {
-        progressFactor = 0
-      }
-
-      if progressFactor > 1 ||
-          availableTotal >= budgetedTotal {
-        progressFactor = 1
-      }
-
       items.append(.init(title: title,
                          availableTotal: availableTotal,
                          budgetedTotal: budgetedTotal,
                          spentTotal: spentTotal,
-                         progressFactor: progressFactor))
+                         progressFactor: progressFactor,
+                         categories: group.categories))
     }
     return items
   }

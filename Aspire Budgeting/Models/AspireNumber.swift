@@ -34,12 +34,19 @@ struct AspireNumber: Equatable, Hashable {
   /// Get the ratio of two AspireNumbers as a Double
   /// - parameter num : The numerator
   /// - parameter den : The denominator
-  /// - returns: 1 if den is 0, fraction otherwise.
+  /// - returns: 0 if: num is negative or num is 0;
+  ///            1 if: den is 0 or num is greater than den or ratio is greater than 1
   static func /| (num: AspireNumber, den: AspireNumber) -> Double {
-    if den.decimalValue == 0 {
+    if num.isNegative || num.decimalValue == 0 {
+      return 0
+    }
+
+    if den.decimalValue == 0 || num.decimalValue > den.decimalValue {
       return 1
     }
-    return Double(truncating: (num.decimalValue / den.decimalValue) as NSNumber)
+
+    let ratio = Double(truncating: (num.decimalValue / den.decimalValue) as NSNumber)
+    return ratio > 1 ? 1 : ratio
   }
 
   static func >= (lhs: AspireNumber, rhs: AspireNumber) -> Bool {

@@ -12,6 +12,10 @@ struct CategoryDetailsView: View {
   private let bannerHeight: CGFloat = 100
   private let cornerRadius: CGFloat = 24
 
+  private func getAuxillaryText(spent: AspireNumber, budgeted: AspireNumber) -> String {
+    "\(spent.stringValue) spent • \(budgeted.stringValue) budgeted"
+  }
+
     var body: some View {
       VStack {
         banner
@@ -56,7 +60,48 @@ extension CategoryDetailsView {
         .shadow(radius: 10)
         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 
-      totals
+      VStack {
+        totals
+
+        Divider()
+          .padding([.top, .horizontal])
+
+        Text("Budget per category")
+          .font(.karlaBold(size: 15))
+          .foregroundColor(.secondaryTextColor)
+
+        ScrollView {
+          ForEach(cardDetails.categories, id: \.self) { category in
+            VStack(alignment: .leading) {
+              HStack {
+                Text(category.categoryName)
+                  .font(.karlaBold(size: 14))
+                  .foregroundColor(.primaryTextColor)
+                Spacer()
+                AspireNumberView(number: category.available)
+              }
+              HStack {
+                Text(getAuxillaryText(spent: category.spent,
+                                      budgeted: category.budgeted))
+                  .font(.karlaRegular(size: 12))
+                  .foregroundColor(.secondaryTextColor)
+                Spacer()
+
+                Text("available")
+                  .font(.karlaRegular(size: 12))
+                  .foregroundColor(.secondaryTextColor)
+              }
+
+              AspireProgressBar(barType: .minimal,
+                                shadowColor: .gray,
+                                tintColor: cardDetails.tintColor,
+                                progressFactor: category.available /| category.monthly)
+            }
+            .padding([.bottom, .horizontal])
+          }
+        }
+      }
+
     }
   }
 }
@@ -68,6 +113,8 @@ extension CategoryDetailsView {
     let budgetedTotal: AspireNumber
     let spentTotal: AspireNumber
     let availableTotal: AspireNumber
+    let categories: [Category]
+    let tintColor: Color
   }
 }
 struct CardExpandedView_Previews: PreviewProvider {
@@ -84,8 +131,12 @@ struct CardExpandedView_Previews: PreviewProvider {
         .CardDetails(title: title,
                      bannerGradient: bannerGradient,
                      budgetedTotal: AspireNumber(stringValue: "$500"),
-                     spentTotal: AspireNumber(stringValue: "$30"),
-                     availableTotal: AspireNumber(stringValue: "40"))
+                     spentTotal: AspireNumber(stringValue: "-$30"),
+                     availableTotal: AspireNumber(stringValue: "40"),
+                     categories: MockProvider
+                      .cardViewItems[0]
+                      .categories,
+                     tintColor: .blueFondEndColor)
 
     return details
   }
