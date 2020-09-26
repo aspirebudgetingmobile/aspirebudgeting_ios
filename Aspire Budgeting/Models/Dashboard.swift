@@ -48,7 +48,8 @@ struct Dashboard {
   }
 }
 
-extension Dashboard { //Computing Functions
+// MARK: Computing Functions
+extension Dashboard {
   private func getTotalOf(type: TotalType, at idx: Int) -> AspireNumber {
     guard idx < groups.count else { fatalError("Index out of bounds") }
 
@@ -77,15 +78,15 @@ extension Dashboard { //Computing Functions
     return AspireNumber(stringValue: numberString, decimalValue: total)
   }
 
-  func groupedAvailableTotal(idx: Int) -> AspireNumber {
+  func availableTotalForGroup(at idx: Int) -> AspireNumber {
     getTotalOf(type: .available, at: idx)
   }
 
-  func groupedBudgetedTotal(idx: Int) -> AspireNumber {
+  func budgetedTotalForGroup(at idx: Int) -> AspireNumber {
     getTotalOf(type: .budgeted, at: idx)
   }
 
-  func groupedSpentTotal(idx: Int) -> AspireNumber {
+  func spentTotalForGroup(at idx: Int) -> AspireNumber {
     getTotalOf(type: .spent, at: idx)
   }
 }

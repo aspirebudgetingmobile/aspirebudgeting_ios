@@ -8,16 +8,16 @@ import Foundation
 struct DashboardViewModel {
 
   let currentState: ViewModelState
-  let metadata: Dashboard?
+  let dashboard: Dashboard?
   let error: Error?
 
   var cardViewItems: [CardView.CardViewItem] {
     var items = [CardView.CardViewItem]()
-    for (idx, group) in metadata!.groups.enumerated() {
+    for (idx, group) in dashboard!.groups.enumerated() {
       let title = group.title
-      let availableTotal = metadata!.groupedAvailableTotal(idx: idx)
-      let budgetedTotal = metadata!.groupedBudgetedTotal(idx: idx)
-      let spentTotal = metadata!.groupedSpentTotal(idx: idx)
+      let availableTotal = dashboard!.availableTotalForGroup(at: idx)
+      let budgetedTotal = dashboard!.budgetedTotalForGroup(at: idx)
+      let spentTotal = dashboard!.spentTotalForGroup(at: idx)
       var progressFactor = availableTotal /| budgetedTotal
 
       if progressFactor < 0 {
@@ -49,16 +49,16 @@ struct DashboardViewModel {
       switch result {
       case .failure(let error):
         self.error = error
-        self.metadata = nil
+        self.dashboard = nil
         self.currentState = .error
 
-      case .success(let metadata):
-        self.metadata = metadata
+      case .success(let dashboard):
+        self.dashboard = dashboard
         self.error = nil
         self.currentState = .dataRetrieved
       }
     } else {
-      self.metadata = nil
+      self.dashboard = nil
       self.error = nil
       self.currentState = .isLoading
     }
