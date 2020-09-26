@@ -15,6 +15,7 @@ struct DashboardView: View {
       if viewModel.error == nil {
         if viewModel.dashboard?.groups != nil {
           SearchBar(text: $searchText)
+            .ignoreKeyboard()
           if searchText.isEmpty {
             CardListView(cardViewItems: viewModel.cardViewItems)
               .padding(.vertical, 10)
@@ -39,6 +40,17 @@ struct DashboardView: View {
       .onAppear {
         self.viewModel.refresh()
       }
+  }
+}
+
+extension View {
+  @ViewBuilder
+  func ignoreKeyboard() -> some View {
+    if #available(iOS 14.0, *) {
+      ignoresSafeArea(.keyboard, edges: .all)
+    } else {
+      self
+    }
   }
 }
 
