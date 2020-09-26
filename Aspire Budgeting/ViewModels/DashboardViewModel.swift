@@ -33,7 +33,8 @@ struct DashboardViewModel {
                          availableTotal: availableTotal,
                          budgetedTotal: budgetedTotal,
                          spentTotal: spentTotal,
-                         progressFactor: progressFactor))
+                         progressFactor: progressFactor,
+                         categories: group.categories))
     }
     return items
   }

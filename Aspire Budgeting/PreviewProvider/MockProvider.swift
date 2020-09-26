@@ -21,19 +21,25 @@ enum MockProvider {
                                availableTotal: AspireNumber(stringValue: "$0"),
                                budgetedTotal: AspireNumber(stringValue: "$1000"),
                                spentTotal: AspireNumber(stringValue: "$50"),
-                               progressFactor: 0.25))
+                               progressFactor: 0.25,
+                               categories: [
+                                Category(row: ["", "", "Dummy Category", "$30", "b", "c", "20", "e", "f", "15"]), ]))
 
     cardViewItems.append(.init(title: "Fixed Expenses",
                                availableTotal: AspireNumber(stringValue: "$0"),
                                budgetedTotal: AspireNumber(stringValue: "$2500"),
                                spentTotal: AspireNumber(stringValue: "$50"),
-                               progressFactor: 0.5))
+                               progressFactor: 0.5,
+                               categories: [
+                                Category(row: ["", "", "", "", "", "", "", "", "", ""]), ]))
 
     cardViewItems.append(.init(title: "Savings",
                                availableTotal: AspireNumber(stringValue: "$0"),
                                budgetedTotal: AspireNumber(stringValue: "$10000"),
                                spentTotal: AspireNumber(stringValue: "$50"),
-                               progressFactor: 0.7))
+                               progressFactor: 0.7,
+                               categories: [
+                                Category(row: ["", "", "", "", "", "", "", "", "", ""]), ]))
 
     return cardViewItems
   }

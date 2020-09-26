@@ -63,8 +63,34 @@ extension CategoryDetailsView {
           .padding([.top, .horizontal])
 
         Text("Budget per category")
-          .font(.karlaBold(size: 14))
+          .font(.karlaBold(size: 15))
           .foregroundColor(.secondaryTextColor)
+
+        ScrollView {
+          ForEach(cardDetails.categories, id: \.self) { category in
+            VStack(alignment: .leading) {
+              HStack {
+                Text(category.categoryName)
+                  .font(.karlaBold(size: 14))
+                  .foregroundColor(.primaryTextColor)
+                Spacer()
+                AspireNumberView(number: category.available)
+              }
+              HStack {
+                Text("\(category.spent.stringValue) spent • \(category.budgeted.stringValue) budgeted")
+                  .font(.karlaRegular(size: 12))
+                  .foregroundColor(.secondaryTextColor)
+                Spacer()
+
+                Text("available")
+                  .font(.karlaRegular(size: 12))
+                  .foregroundColor(.secondaryTextColor)
+              }
+              Rectangle().frame(height: 5)
+            }
+            .padding([.bottom, .horizontal])
+          }
+        }
       }
 
     }
@@ -78,6 +104,7 @@ extension CategoryDetailsView {
     let budgetedTotal: AspireNumber
     let spentTotal: AspireNumber
     let availableTotal: AspireNumber
+    let categories: [Category]
   }
 }
 struct CardExpandedView_Previews: PreviewProvider {
@@ -95,7 +122,8 @@ struct CardExpandedView_Previews: PreviewProvider {
                      bannerGradient: bannerGradient,
                      budgetedTotal: AspireNumber(stringValue: "$500"),
                      spentTotal: AspireNumber(stringValue: "-$30"),
-                     availableTotal: AspireNumber(stringValue: "40"))
+                     availableTotal: AspireNumber(stringValue: "40"),
+                     categories: MockProvider.cardViewItems[0].categories)
 
     return details
   }

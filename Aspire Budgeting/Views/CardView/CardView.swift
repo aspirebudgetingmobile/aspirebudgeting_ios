@@ -35,7 +35,8 @@ struct CardView: View {
                      bannerGradient: gradient,
                      budgetedTotal: cardViewItem.budgetedTotal,
                      spentTotal: cardViewItem.spentTotal,
-                     availableTotal: cardViewItem.availableTotal)
+                     availableTotal: cardViewItem.availableTotal,
+                     categories: cardViewItem.categories)
   }
 
   var body: some View {
@@ -179,6 +180,7 @@ extension CardView {
     let budgetedTotal: AspireNumber
     let spentTotal: AspireNumber
     let progressFactor: Double
+    let categories: [Category]
   }
 }
 
