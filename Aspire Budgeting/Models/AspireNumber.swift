@@ -5,6 +5,7 @@
 
 import Foundation
 
+infix operator /|
 struct AspireNumber: Equatable, Hashable {
   let stringValue: String
   let decimalValue: Decimal
@@ -30,7 +31,11 @@ struct AspireNumber: Equatable, Hashable {
     isNegative = decimalValue < 0
   }
 
-  static func / (num: AspireNumber, den: AspireNumber) -> Double {
+  /// Get the ratio of two AspireNumbers as a Double
+  /// - parameter num : The numerator
+  /// - parameter den : The denominator
+  /// - returns: 1 if den is 0, fraction otherwise.
+  static func /| (num: AspireNumber, den: AspireNumber) -> Double {
     if den.decimalValue == 0 {
       return 1
     }
@@ -38,6 +43,6 @@ struct AspireNumber: Equatable, Hashable {
   }
 
   static func >= (lhs: AspireNumber, rhs: AspireNumber) -> Bool {
-    return lhs.decimalValue >= rhs.decimalValue
+    lhs.decimalValue >= rhs.decimalValue
   }
 }

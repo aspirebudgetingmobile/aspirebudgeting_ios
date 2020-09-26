@@ -23,15 +23,15 @@ final class GoogleDriveManagerTests: XCTestCase {
   }()
 
   var mockFileList: [File] {
-    return mockGTLRFileList.files!.map { File(driveFile: $0) }
+    mockGTLRFileList.files!.map { File(driveFile: $0) }
   }
 
   var mockQuery: GTLRDriveQuery_FilesList {
-    return GTLRDriveQuery_FilesList.query()
+    GTLRDriveQuery_FilesList.query()
   }
 
   var mockAuthorizer: MockAuthorizer {
-    return MockAuthorizer()
+    MockAuthorizer()
   }
 
   var sinkCancellable: AnyCancellable?
@@ -44,7 +44,7 @@ final class GoogleDriveManagerTests: XCTestCase {
   }
 
   func createMockGTLRService(with fakedObject: Any?, error: Error?) -> GTLRService {
-    return GTLRService.mockService(withFakedObject: fakedObject, fakedError: error)
+    GTLRService.mockService(withFakedObject: fakedObject, fakedError: error)
   }
 
   func postNotification() {

@@ -10,13 +10,13 @@ import GTMSessionFetcher
 
 final class MockProfile: GIDProfileData {
   override var name: String! {
-    return "First Last"
+    "First Last"
   }
 }
 
 final class MockAuthentication: GIDAuthentication {
   override func fetcherAuthorizer() -> GTMFetcherAuthorizationProtocol! {
-    return MockAuthorizer()
+    MockAuthorizer()
   }
 }
 
@@ -26,6 +26,6 @@ final class MockUser: GIDGoogleUser {
   }
 
   override var authentication: GIDAuthentication! {
-    return MockAuthentication()
+    MockAuthentication()
   }
 }

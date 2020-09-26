@@ -11,7 +11,7 @@ protocol AppLocalAuthorizer {
   func authenticateUserLocally(completion: @escaping (Bool) -> Void)
 }
 
-//TODO: Remove
+#warning("Remove extension below")
 extension Notification.Name {
   static let authorizedLocally = Notification.Name("authorizedLocally")
 }
@@ -19,7 +19,7 @@ extension Notification.Name {
 final class LocalAuthorizationManager: AppLocalAuthorizer {
 
   private var context: LAContext {
-    return LAContext()
+    LAContext()
   }
 
   func authenticateUserLocally(completion: @escaping (Bool) -> Void) {

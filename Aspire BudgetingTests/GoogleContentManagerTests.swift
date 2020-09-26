@@ -22,10 +22,10 @@ final class MockRemoteFileReader: RemoteFileReader {
   init() {
     vr1.values = [["2.8"]]
     vr2.values = [
-      ["✦", "", "G1"],
+      ["✦", "", "G1", "", "", "", "", "", "", ""],
       ["✧", "", "G1:C1", "1", "2", "3", "4", "5", "6", "7"],
       ["✧", "", "G1:C2", "8", "9", "10", "11", "12", "13", "14"],
-      ["✦", "", "G2"],
+      ["✦", "", "G2", "", "", "", "", "", "", ""],
       ["✧", "", "G2:C1", "15", "16", "17", "18", "19", "20", "21"],
     ]
     vrs = [vr1, vr2]
@@ -67,12 +67,14 @@ final class GoogleContentManagerTests: XCTestCase {
       case .failure:
         XCTFail()
 
-      case .success(let metadata):
-        XCTAssertEqual(metadata.groups, ["G1", "G2"])
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].categoryName, "G1:C1")
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].available, "1")
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].spent, "4")
-        XCTAssertEqual(metadata.groupedCategoryRows[0][0].budgeted, "7")
+      case .success(let dashboard):
+        XCTAssertEqual(dashboard.groups.count, 2)
+        XCTAssertEqual(dashboard.groups[0].title, "G1")
+        XCTAssertEqual(dashboard.groups[1].title, "G2")
+        XCTAssertEqual(dashboard.groups[0].categories[0].categoryName, "G1:C1")
+        XCTAssertEqual(dashboard.groups[0].categories[0].available.stringValue, "1")
+        XCTAssertEqual(dashboard.groups[0].categories[0].spent.stringValue, "4")
+        XCTAssertEqual(dashboard.groups[0].categories[0].budgeted.stringValue, "7")
         exp.fulfill()
       }
     }
@@ -82,12 +84,4 @@ final class GoogleContentManagerTests: XCTestCase {
     XCTAssertEqual(file, reader.file!)
     XCTAssertEqual("Dashboard!F4:O", reader.location!)
   }
-
-  func testPerformanceExample() throws {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
-    }
-  }
-
 }

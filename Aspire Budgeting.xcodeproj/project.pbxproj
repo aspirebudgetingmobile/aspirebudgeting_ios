@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */; };
-		06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* DashboardMetadata.swift */; };
+		060024FE236F99DA00A20C96 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* Category.swift */; };
+		06002500236F9A8000A20C96 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* Dashboard.swift */; };
 		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
 		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
 		060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060025052373C08700A20C96 /* YoutubePlayerView.swift */; };
@@ -30,7 +30,7 @@
 		062F2BBF24EEDA7E004830F8 /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71562380B80D00DB46B2 /* StateManagerTests.swift */; };
-		065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */; };
+		065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardTests.swift */; };
 		065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717B2382075200DB46B2 /* DashboardCardView.swift */; };
 		065C718023838E9100DB46B2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717F23838E9100DB46B2 /* Colors.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
@@ -81,7 +81,7 @@
 		06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59E24EF372E00968C60 /* SearchBar.swift */; };
 		06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */; };
 		06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B5A224F2165E00968C60 /* LoadingView.swift */; };
-		06D4528F25166C4D00BFEE02 /* CardExpandedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */; };
+		06D4528F25166C4D00BFEE02 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */; };
 		06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06D452902516856600BFEE02 /* Karla-Bold.ttf */; };
 		06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4529225168C8900BFEE02 /* CardTotalsView.swift */; };
 		06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA080924F4637700927FE5 /* FileValidator.swift */; };
@@ -116,8 +116,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCategoryRow.swift; sourceTree = "<group>"; };
-		060024FF236F9A8000A20C96 /* DashboardMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadata.swift; sourceTree = "<group>"; };
+		060024FD236F99DA00A20C96 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		060024FF236F9A8000A20C96 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
 		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		060025052373C08700A20C96 /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 		062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065C71562380B80D00DB46B2 /* StateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagerTests.swift; sourceTree = "<group>"; };
-		065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadataTests.swift; sourceTree = "<group>"; };
+		065C71792381ED1D00DB46B2 /* DashboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTests.swift; sourceTree = "<group>"; };
 		065C717B2382075200DB46B2 /* DashboardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCardView.swift; sourceTree = "<group>"; };
 		065C717F23838E9100DB46B2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 		06C6B59E24EF372E00968C60 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		06C6B5A224F2165E00968C60 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardExpandedView.swift; sourceTree = "<group>"; };
+		06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		06D452902516856600BFEE02 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Bold.ttf"; sourceTree = "<group>"; };
 		06D4529225168C8900BFEE02 /* CardTotalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTotalsView.swift; sourceTree = "<group>"; };
 		06EA080924F4637700927FE5 /* FileValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileValidator.swift; sourceTree = "<group>"; };
@@ -280,6 +280,7 @@
 				066C3F342453560D003CDE73 /* AspireRadioControl.swift */,
 				06C6B59E24EF372E00968C60 /* SearchBar.swift */,
 				06C6B5A224F2165E00968C60 /* LoadingView.swift */,
+				06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -289,8 +290,8 @@
 			children = (
 				066EF45D235CF74500E94CE4 /* User.swift */,
 				06AB2C8123627B2D0076516E /* File.swift */,
-				060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */,
-				060024FF236F9A8000A20C96 /* DashboardMetadata.swift */,
+				060024FD236F99DA00A20C96 /* Category.swift */,
+				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalancesMetadata.swift */,
 			);
@@ -302,7 +303,6 @@
 			children = (
 				0685BBB8250EC76600728228 /* CardListView.swift */,
 				0685BBB6250EC74800728228 /* CardView.swift */,
-				06D4528E25166C4D00BFEE02 /* CardExpandedView.swift */,
 				06D4529225168C8900BFEE02 /* CardTotalsView.swift */,
 			);
 			path = CardView;
@@ -451,7 +451,7 @@
 				06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */,
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
-				065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */,
+				065C71792381ED1D00DB46B2 /* DashboardTests.swift */,
 				06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */,
 				0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */,
 				0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */,
@@ -531,7 +531,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1110;
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "TeraMo Labs";
 				TargetAttributes = {
 					06ED8A5E235A908E009BA6A7 = {
@@ -735,7 +735,7 @@
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */,
 				06F9A8D7243917EF005E5A13 /* AccountBalancesMetadata.swift in Sources */,
-				06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */,
+				06002500236F9A8000A20C96 /* Dashboard.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
 				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
 				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,
@@ -748,7 +748,7 @@
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */,
 				06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */,
-				06D4528F25166C4D00BFEE02 /* CardExpandedView.swift in Sources */,
+				06D4528F25166C4D00BFEE02 /* CategoryDetailsView.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */,
@@ -775,7 +775,7 @@
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
-				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,
+				060024FE236F99DA00A20C96 /* Category.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
 				069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */,
@@ -800,7 +800,7 @@
 				06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */,
 				065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */,
 				06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */,
-				065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */,
+				065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */,
 				06002502236F9D9500A20C96 /* MockFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -853,6 +853,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -913,6 +914,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

@@ -39,17 +39,17 @@ struct AddTransactionView: View {
   @State private var transactionAdded = false
 
   func getDateString() -> String {
-    return self.dateSelected ? self.dateFormatter.string(from: self.selectedDate) : "Select Date"
+    self.dateSelected ? self.dateFormatter.string(from: self.selectedDate) : "Select Date"
   }
 
   func getSelectedCategory() -> String {
-    return self.categorySelected
+    self.categorySelected
       ? self.sheetsManager.transactionCategories![self.selectedCategory]
       : "Select Category"
   }
 
   func getSelectedAccount() -> String {
-    return self.accountSelected
+    self.accountSelected
       ? self.sheetsManager.transactionAccounts![self.selectedAccount]
       : "Select Account"
   }

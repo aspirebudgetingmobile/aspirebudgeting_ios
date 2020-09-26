@@ -12,7 +12,7 @@ struct DashboardView: View {
   var body: some View {
     VStack {
       if viewModel.error == nil {
-        if viewModel.metadata?.groups != nil {
+        if viewModel.dashboard?.groups != nil {
           CardListView(cardViewItems: viewModel.cardViewItems)
             .padding(.vertical, 10)
         } else {

@@ -14,8 +14,9 @@ struct TabBarView: View {
   private let prominentItemWidth: CGFloat = 70
 
   private var prominentItemTopPadding: CGFloat {
-    return -prominentItemWidth
+    -prominentItemWidth
   }
+
   @Binding var selectedTab: Int
 
   let tabBarItems: [TabBarItem]
@@ -49,7 +50,7 @@ extension TabBarView {
   }
 
   private func tabBarItemWidth(from proxy: GeometryProxy) -> CGFloat {
-    return (proxy.frame(in: .global).width - prominentItemWidth) / 4
+    (proxy.frame(in: .global).width - prominentItemWidth) / 4
   }
 
   private var tabBarItemsView: some View {

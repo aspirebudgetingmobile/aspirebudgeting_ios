@@ -8,17 +8,17 @@ import Foundation
 struct DashboardViewModel {
 
   let currentState: ViewModelState
-  let metadata: DashboardMetadata?
+  let dashboard: Dashboard?
   let error: Error?
 
   var cardViewItems: [CardView.CardViewItem] {
     var items = [CardView.CardViewItem]()
-    for (idx, group) in metadata!.groups.enumerated() {
-      let title = group
-      let availableTotal = metadata!.groupedAvailableTotals[idx]
-      let budgetedTotal = metadata!.groupedBudgetedTotals[idx]
-      let spentTotal = metadata!.groupedSpentTotals[idx]
-      var progressFactor = availableTotal / budgetedTotal
+    for (idx, group) in dashboard!.groups.enumerated() {
+      let title = group.title
+      let availableTotal = dashboard!.availableTotalForGroup(at: idx)
+      let budgetedTotal = dashboard!.budgetedTotalForGroup(at: idx)
+      let spentTotal = dashboard!.spentTotalForGroup(at: idx)
+      var progressFactor = availableTotal /| budgetedTotal
 
       if progressFactor < 0 {
         progressFactor = 0
@@ -30,9 +30,9 @@ struct DashboardViewModel {
       }
 
       items.append(.init(title: title,
-                         availableTotal: availableTotal.stringValue,
-                         budgetedTotal: budgetedTotal.stringValue,
-                         spentTotal: spentTotal.stringValue,
+                         availableTotal: availableTotal,
+                         budgetedTotal: budgetedTotal,
+                         spentTotal: spentTotal,
                          progressFactor: progressFactor))
     }
     return items
@@ -40,7 +40,7 @@ struct DashboardViewModel {
 
   private let refreshAction: (() -> Void)
 
-  init(result: Result<DashboardMetadata>?,
+  init(result: Result<Dashboard>?,
        refreshAction: @escaping (() -> Void)) {
 
     self.refreshAction = refreshAction
@@ -49,16 +49,16 @@ struct DashboardViewModel {
       switch result {
       case .failure(let error):
         self.error = error
-        self.metadata = nil
+        self.dashboard = nil
         self.currentState = .error
 
-      case .success(let metadata):
-        self.metadata = metadata
+      case .success(let dashboard):
+        self.dashboard = dashboard
         self.error = nil
         self.currentState = .dataRetrieved
       }
     } else {
-      self.metadata = nil
+      self.dashboard = nil
       self.error = nil
       self.currentState = .isLoading
     }
