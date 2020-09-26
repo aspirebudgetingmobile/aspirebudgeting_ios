@@ -12,6 +12,10 @@ struct CategoryDetailsView: View {
   private let bannerHeight: CGFloat = 100
   private let cornerRadius: CGFloat = 24
 
+  private func getAuxillaryText(spent: AspireNumber, budgeted: AspireNumber) -> String {
+    "\(spent.stringValue) spent • \(budgeted.stringValue) budgeted"
+  }
+
     var body: some View {
       VStack {
         banner
@@ -77,7 +81,8 @@ extension CategoryDetailsView {
                 AspireNumberView(number: category.available)
               }
               HStack {
-                Text("\(category.spent.stringValue) spent • \(category.budgeted.stringValue) budgeted")
+                Text(getAuxillaryText(spent: category.spent,
+                                      budgeted: category.budgeted))
                   .font(.karlaRegular(size: 12))
                   .foregroundColor(.secondaryTextColor)
                 Spacer()
@@ -128,7 +133,10 @@ struct CardExpandedView_Previews: PreviewProvider {
                      budgetedTotal: AspireNumber(stringValue: "$500"),
                      spentTotal: AspireNumber(stringValue: "-$30"),
                      availableTotal: AspireNumber(stringValue: "40"),
-                     categories: MockProvider.cardViewItems[0].categories, tintColor: .blueFondEndColor)
+                     categories: MockProvider
+                      .cardViewItems[0]
+                      .categories,
+                     tintColor: .blueFondEndColor)
 
     return details
   }
