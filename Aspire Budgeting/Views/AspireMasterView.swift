@@ -18,34 +18,36 @@ struct AspireMasterView: View {
   @State private var navTitle: String = ""
 
   var body: some View {
-    VStack {
-      AspireNavigationBar(title: $navTitle)
-        .edgesIgnoringSafeArea(.all)
-        .frame(height: 50)
-      Group {
-        if selectedTab == 0 {
-          DashboardView(viewModel: appCoordinator.dashboardVM)
-            .onAppear {
-              self.navTitle = "Dashboard"
-            }
-        } else if selectedTab == 1 {
-          AccountBalancesView()
-            .onAppear {
-              self.navTitle = "Accounts"
-            }
+    GeometryReader { _ in
+      VStack {
+        AspireNavigationBar(title: $navTitle)
+          .edgesIgnoringSafeArea(.all)
+          .frame(height: 50)
+        Group {
+          if selectedTab == 0 {
+            DashboardView(viewModel: appCoordinator.dashboardVM)
+              .onAppear {
+                self.navTitle = "Dashboard"
+              }
+          } else if selectedTab == 1 {
+            AccountBalancesView()
+              .onAppear {
+                self.navTitle = "Accounts"
+              }
+          }
         }
-      }
-      .frame(height: UIScreen.main.bounds.height - 200)
+        .frame(height: UIScreen.main.bounds.height - 200)
 
-      TabBarView(selectedTab: $selectedTab,
-                 tabBarItems: tabBarItems,
-                 prominentItemImageName: "plus") {
-                  print("Hoogah boogah")
+        TabBarView(selectedTab: $selectedTab,
+                   tabBarItems: tabBarItems,
+                   prominentItemImageName: "plus") {
+                    print("Hoogah boogah")
+        }
+        .frame(height: 95)
+        .padding(.horizontal, 5)
+        .background(Color.primaryBackgroundColor)
       }
-      .frame(height: 95)
-      .padding(.horizontal, 5)
-      .background(Color.primaryBackgroundColor)
-    }.frame(maxHeight: .infinity)
+    }
   }
 }
 

@@ -74,6 +74,7 @@
 		06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BD7EAE24DDEA81003C5D32 /* Images.swift */; };
 		06BE37AE251ECB50000CF5C9 /* AspireNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */; };
 		06BE37B2251ED2D0000CF5C9 /* AspireProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */; };
+		06BE37D0251F9BA4000CF5C9 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BE37CF251F9BA4000CF5C9 /* CategoryListView.swift */; };
 		06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFF92500A151007B3D73 /* TabBarItemView.swift */; };
 		06C2BFFD2500A151007B3D73 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFFA2500A151007B3D73 /* TabBarView.swift */; };
 		06C2BFFE2500A151007B3D73 /* ProminentTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */; };
@@ -185,6 +186,7 @@
 		06BD7EAE24DDEA81003C5D32 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNumberView.swift; sourceTree = "<group>"; };
 		06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireProgressBar.swift; sourceTree = "<group>"; };
+		06BE37CF251F9BA4000CF5C9 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		06C2BFF92500A151007B3D73 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		06C2BFFA2500A151007B3D73 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProminentTabBarItemView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */,
 				06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */,
 				06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */,
+				06BE37CF251F9BA4000CF5C9 /* CategoryListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */,
 				06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
+				06BE37D0251F9BA4000CF5C9 /* CategoryListView.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
 				06C2C0012500A19F007B3D73 /* MockProvider.swift in Sources */,
 				06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */,

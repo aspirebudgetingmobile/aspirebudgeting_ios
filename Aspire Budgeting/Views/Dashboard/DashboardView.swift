@@ -8,13 +8,22 @@ import SwiftUI
 struct DashboardView: View {
 
   let viewModel: DashboardViewModel
+  @State private var searchText = ""
 
   var body: some View {
     VStack {
       if viewModel.error == nil {
         if viewModel.dashboard?.groups != nil {
-          CardListView(cardViewItems: viewModel.cardViewItems)
-            .padding(.vertical, 10)
+          SearchBar(text: $searchText)
+            .ignoreKeyboard()
+          if searchText.isEmpty {
+            CardListView(cardViewItems: viewModel.cardViewItems)
+              .padding(.vertical, 10)
+          } else {
+            CategoryListView(categories: viewModel.filteredCategories(filter: searchText),
+                             tintColor: .greenFondEndColor)
+          }
+
         } else {
           GeometryReader { geo in
             LoadingView(height: geo.frame(in: .local).size.height)
@@ -31,6 +40,17 @@ struct DashboardView: View {
       .onAppear {
         self.viewModel.refresh()
       }
+  }
+}
+
+extension View {
+  @ViewBuilder
+  func ignoreKeyboard() -> some View {
+    if #available(iOS 14.0, *) {
+      ignoresSafeArea(.keyboard, edges: .all)
+    } else {
+      self
+    }
   }
 }
 
