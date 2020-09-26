@@ -73,6 +73,7 @@
 		06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */; };
 		06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BD7EAE24DDEA81003C5D32 /* Images.swift */; };
 		06BE37AE251ECB50000CF5C9 /* AspireNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */; };
+		06BE37B2251ED2D0000CF5C9 /* AspireProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */; };
 		06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFF92500A151007B3D73 /* TabBarItemView.swift */; };
 		06C2BFFD2500A151007B3D73 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFFA2500A151007B3D73 /* TabBarView.swift */; };
 		06C2BFFE2500A151007B3D73 /* ProminentTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */; };
@@ -183,6 +184,7 @@
 		06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSegmentedView.swift; sourceTree = "<group>"; };
 		06BD7EAE24DDEA81003C5D32 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNumberView.swift; sourceTree = "<group>"; };
+		06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireProgressBar.swift; sourceTree = "<group>"; };
 		06C2BFF92500A151007B3D73 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		06C2BFFA2500A151007B3D73 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProminentTabBarItemView.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				06C6B5A224F2165E00968C60 /* LoadingView.swift */,
 				06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */,
 				06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */,
+				06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -721,6 +724,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06BE37B2251ED2D0000CF5C9 /* AspireProgressBar.swift in Sources */,
 				0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */,
 				065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */,
 				06BE37AE251ECB50000CF5C9 /* AspireNumberView.swift in Sources */,

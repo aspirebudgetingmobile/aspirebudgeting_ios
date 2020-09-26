@@ -36,7 +36,8 @@ struct CardView: View {
                      budgetedTotal: cardViewItem.budgetedTotal,
                      spentTotal: cardViewItem.spentTotal,
                      availableTotal: cardViewItem.availableTotal,
-                     categories: cardViewItem.categories)
+                     categories: cardViewItem.categories,
+                     tintColor: colorInfo.gradientEndColor)
   }
 
   var body: some View {
@@ -118,33 +119,11 @@ extension CardView {
   }
 
   private var progressBar: some View {
-    ZStack(alignment: .leading) {
-      GeometryReader { geo in
-        RoundedRectangle(cornerRadius: 6)
-          .fill(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.12)))
-
-        RoundedRectangle(cornerRadius: 6)
-          .strokeBorder(self.colorInfo.shadowColor, lineWidth: 0.5)
-
-        RoundedRectangle(cornerRadius: 6)
-          .fill(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-          .frame(width: geo.frame(in: .local).width *
-                  CGFloat(self.cardViewItem.progressFactor == 0 ?
-                            0.1 : self.cardViewItem.progressFactor),
-                 height: 12)
-          .shadow(color: Color(#colorLiteral(red: 0.8198039531707764, green: 0.8295795917510986, blue: 0.8882334232330322, alpha: 0.5033401250839233)), radius: 14, x: 0, y: 12)
-      }
-
-      Text("\(String(format: "%.1f", self.cardViewItem.progressFactor * 100))%")
-        .font(.custom("Karla Bold", size:10))
-        .foregroundColor(self.colorInfo.gradientEndColor)
-        .lineSpacing(3)
-        .padding(.leading, 10)
-    }
-    .compositingGroup()
-    .frame(height: 12)
-    .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)), radius: 1, x: 0, y: 2)
-    .padding(.horizontal, 10)
+    AspireProgressBar(barType: .detailed,
+                      shadowColor: self.colorInfo.shadowColor,
+                      tintColor: self.colorInfo.gradientEndColor,
+                      progressFactor: self.cardViewItem.progressFactor)
+      .padding(.horizontal, 10)
   }
 
   private var fourthRow: some View {

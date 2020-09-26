@@ -86,7 +86,11 @@ extension CategoryDetailsView {
                   .font(.karlaRegular(size: 12))
                   .foregroundColor(.secondaryTextColor)
               }
-              Rectangle().frame(height: 5)
+
+              AspireProgressBar(barType: .minimal,
+                                shadowColor: .gray,
+                                tintColor: cardDetails.tintColor,
+                                progressFactor: category.available /| category.monthly)
             }
             .padding([.bottom, .horizontal])
           }
@@ -105,6 +109,7 @@ extension CategoryDetailsView {
     let spentTotal: AspireNumber
     let availableTotal: AspireNumber
     let categories: [Category]
+    let tintColor: Color
   }
 }
 struct CardExpandedView_Previews: PreviewProvider {
@@ -123,7 +128,7 @@ struct CardExpandedView_Previews: PreviewProvider {
                      budgetedTotal: AspireNumber(stringValue: "$500"),
                      spentTotal: AspireNumber(stringValue: "-$30"),
                      availableTotal: AspireNumber(stringValue: "40"),
-                     categories: MockProvider.cardViewItems[0].categories)
+                     categories: MockProvider.cardViewItems[0].categories, tintColor: .blueFondEndColor)
 
     return details
   }
