@@ -7,8 +7,9 @@
 //
 import SwiftUI
 
+#warning("Remove DashboardRow")
 struct DashboardRow: View {
-  var categoryRow: DashboardCategoryRow
+  var categoryRow: Category
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -21,7 +22,7 @@ struct DashboardRow: View {
       HStack {
         VStack {
           GradientTextView(
-            string: categoryRow.budgeted,
+            string: categoryRow.budgeted.stringValue,
             tracking: 1,
             font: .rubikRegular(size: 16),
             paddingEdges: .horizontal,
@@ -41,7 +42,7 @@ struct DashboardRow: View {
         Spacer()
         VStack {
           GradientTextView(
-            string: categoryRow.available,
+            string: categoryRow.available.stringValue,
             tracking: 1,
             font: .rubikRegular(size: 16),
             paddingEdges: .horizontal,
@@ -61,7 +62,7 @@ struct DashboardRow: View {
         Spacer()
         VStack {
           GradientTextView(
-            string: categoryRow.spent,
+            string: categoryRow.spent.stringValue,
             tracking: 1,
             font: .rubikRegular(size: 16),
             paddingEdges: .horizontal,

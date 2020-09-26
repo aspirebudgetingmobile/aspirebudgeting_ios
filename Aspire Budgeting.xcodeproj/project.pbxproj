@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */; };
-		06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* DashboardMetadata.swift */; };
+		060024FE236F99DA00A20C96 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* Category.swift */; };
+		06002500236F9A8000A20C96 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* Dashboard.swift */; };
 		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
 		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
 		060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060025052373C08700A20C96 /* YoutubePlayerView.swift */; };
 		0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002509237511C300A20C96 /* LocalAuthorizationManager.swift */; };
+		0601E3E024FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */; };
+		0601E3E224FD9335005E3C9D /* MockSpreadsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */; };
 		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
 		06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157E9F2411E831000161C3 /* AspireBugTracker.swift */; };
@@ -24,9 +26,11 @@
 		061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AspireTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
 		061F103A2377801600089D11 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F10392377801600089D11 /* FaceIDView.swift */; };
+		062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */; };
+		062F2BBF24EEDA7E004830F8 /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */; };
 		065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C7152237FAC3200DB46B2 /* AspireButton.swift */; };
 		065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71562380B80D00DB46B2 /* StateManagerTests.swift */; };
-		065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */; };
+		065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardTests.swift */; };
 		065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717B2382075200DB46B2 /* DashboardCardView.swift */; };
 		065C718023838E9100DB46B2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717F23838E9100DB46B2 /* Colors.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
@@ -38,10 +42,16 @@
 		066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */; };
 		066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */; };
 		066EF45E235CF74500E94CE4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45D235CF74500E94CE4 /* User.swift */; };
-		066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* UserManager.swift */; };
+		066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */; };
 		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
+		0685BBB7250EC74800728228 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB6250EC74800728228 /* CardView.swift */; };
+		0685BBB9250EC76600728228 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB8250EC76600728228 /* CardListView.swift */; };
+		0685BBBB250EC80400728228 /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0685BBBA250EC80400728228 /* Karla-Regular.ttf */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
+		069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */; };
+		069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830725003EBB009DD3E9 /* GoogleContentManager.swift */; };
+		069F830A25005CA9009DD3E9 /* GoogleContentManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */; };
 		069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FDF912383A1C60023E86A /* AspireNavigationBar.swift */; };
 		069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF932384F3840023E86A /* Rubik-Medium.ttf */; };
 		069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069FDF952384F43E0023E86A /* Rubik-Regular.ttf */; };
@@ -61,7 +71,20 @@
 		06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE1239C301300F24BF2 /* AspireFonts.swift */; };
 		06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */; };
 		06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */; };
+		06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BD7EAE24DDEA81003C5D32 /* Images.swift */; };
+		06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFF92500A151007B3D73 /* TabBarItemView.swift */; };
+		06C2BFFD2500A151007B3D73 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFFA2500A151007B3D73 /* TabBarView.swift */; };
+		06C2BFFE2500A151007B3D73 /* ProminentTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */; };
+		06C2C0012500A19F007B3D73 /* MockProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C2C0002500A19F007B3D73 /* MockProvider.swift */; };
 		06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C6A723690AEB00862196 /* FileSelectorView.swift */; };
+		06C6B59D24EF259B00968C60 /* FileSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */; };
+		06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59E24EF372E00968C60 /* SearchBar.swift */; };
+		06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */; };
+		06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B5A224F2165E00968C60 /* LoadingView.swift */; };
+		06D4528F25166C4D00BFEE02 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */; };
+		06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06D452902516856600BFEE02 /* Karla-Bold.ttf */; };
+		06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4529225168C8900BFEE02 /* CardTotalsView.swift */; };
+		06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA080924F4637700927FE5 /* FileValidator.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
 		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */; };
@@ -93,12 +116,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCategoryRow.swift; sourceTree = "<group>"; };
-		060024FF236F9A8000A20C96 /* DashboardMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadata.swift; sourceTree = "<group>"; };
+		060024FD236F99DA00A20C96 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		060024FF236F9A8000A20C96 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
 		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		060025052373C08700A20C96 /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
 		06002509237511C300A20C96 /* LocalAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationManager.swift; sourceTree = "<group>"; };
+		0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSheetsValidatorTests.swift; sourceTree = "<group>"; };
+		0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSpreadsheet.swift; sourceTree = "<group>"; };
 		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
 		06157E9F2411E831000161C3 /* AspireBugTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTracker.swift; sourceTree = "<group>"; };
@@ -110,9 +135,11 @@
 		061EEF3123A1F7D300A684EB /* AspireTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireTextField.swift; sourceTree = "<group>"; };
 		061F103723776D1700089D11 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		061F10392377801600089D11 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
+		062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		065C7152237FAC3200DB46B2 /* AspireButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireButton.swift; sourceTree = "<group>"; };
 		065C71562380B80D00DB46B2 /* StateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagerTests.swift; sourceTree = "<group>"; };
-		065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMetadataTests.swift; sourceTree = "<group>"; };
+		065C71792381ED1D00DB46B2 /* DashboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTests.swift; sourceTree = "<group>"; };
 		065C717B2382075200DB46B2 /* DashboardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCardView.swift; sourceTree = "<group>"; };
 		065C717F23838E9100DB46B2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
@@ -124,10 +151,16 @@
 		066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSplitColorView.swift; sourceTree = "<group>"; };
 		066EF45D235CF74500E94CE4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		066EF45F235D3D6000E94CE4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleUserManager.swift; sourceTree = "<group>"; };
 		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
+		0685BBB6250EC74800728228 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		0685BBB8250EC76600728228 /* CardListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
+		0685BBBA250EC80400728228 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Regular.ttf"; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		069F830725003EBB009DD3E9 /* GoogleContentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleContentManager.swift; sourceTree = "<group>"; };
+		069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleContentManagerTests.swift; sourceTree = "<group>"; };
 		069FDF912383A1C60023E86A /* AspireNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireNavigationBar.swift; sourceTree = "<group>"; };
 		069FDF932384F3840023E86A /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		069FDF952384F43E0023E86A /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
@@ -147,7 +180,20 @@
 		06BAAFE1239C301300F24BF2 /* AspireFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireFonts.swift; sourceTree = "<group>"; };
 		06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireMasterView.swift; sourceTree = "<group>"; };
 		06BAAFE5239C5EFD00F24BF2 /* AspireSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSegmentedView.swift; sourceTree = "<group>"; };
+		06BD7EAE24DDEA81003C5D32 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		06C2BFF92500A151007B3D73 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
+		06C2BFFA2500A151007B3D73 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProminentTabBarItemView.swift; sourceTree = "<group>"; };
+		06C2C0002500A19F007B3D73 /* MockProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProvider.swift; sourceTree = "<group>"; };
 		06C5C6A723690AEB00862196 /* FileSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorView.swift; sourceTree = "<group>"; };
+		06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorViewModel.swift; sourceTree = "<group>"; };
+		06C6B59E24EF372E00968C60 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		06C6B5A224F2165E00968C60 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
+		06D452902516856600BFEE02 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Bold.ttf"; sourceTree = "<group>"; };
+		06D4529225168C8900BFEE02 /* CardTotalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTotalsView.swift; sourceTree = "<group>"; };
+		06EA080924F4637700927FE5 /* FileValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileValidator.swift; sourceTree = "<group>"; };
 		06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGIDSignIn.swift; sourceTree = "<group>"; };
 		06EA7A49236CC64000D70CC9 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationCenter.swift; sourceTree = "<group>"; };
@@ -211,6 +257,8 @@
 		066EF457235CE05100E94CE4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0685BBB5250EC73A00728228 /* CardView */,
+				06C2BFF82500A136007B3D73 /* TabBarView */,
 				060CDA6B238F75F6005CD74B /* Dashboard */,
 				066EF458235CE07C00E94CE4 /* GoogleSignInButton.swift */,
 				066EF45A235CF2C900E94CE4 /* BackgroundSplitColorView.swift */,
@@ -230,6 +278,9 @@
 				06F9A8D424391357005E5A13 /* AccountBalancesView.swift */,
 				066C3F32244E67CD003CDE73 /* AspirePickerButton.swift */,
 				066C3F342453560D003CDE73 /* AspireRadioControl.swift */,
+				06C6B59E24EF372E00968C60 /* SearchBar.swift */,
+				06C6B5A224F2165E00968C60 /* LoadingView.swift */,
+				06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -239,17 +290,30 @@
 			children = (
 				066EF45D235CF74500E94CE4 /* User.swift */,
 				06AB2C8123627B2D0076516E /* File.swift */,
-				060024FD236F99DA00A20C96 /* DashboardCategoryRow.swift */,
-				060024FF236F9A8000A20C96 /* DashboardMetadata.swift */,
+				060024FD236F99DA00A20C96 /* Category.swift */,
+				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalancesMetadata.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
+		0685BBB5250EC73A00728228 /* CardView */ = {
+			isa = PBXGroup;
+			children = (
+				0685BBB8250EC76600728228 /* CardListView.swift */,
+				0685BBB6250EC74800728228 /* CardView.swift */,
+				06D4529225168C8900BFEE02 /* CardTotalsView.swift */,
+			);
+			path = CardView;
+			sourceTree = "<group>";
+		};
 		06A0DAA6235BF98100AEF9FE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				06D452902516856600BFEE02 /* Karla-Bold.ttf */,
+				0685BBBA250EC80400728228 /* Karla-Regular.ttf */,
+				06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */,
 				066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */,
 				06157EA52411F22D000161C3 /* instabug.plist */,
 				069FDF972384F4AC0023E86A /* Rubik-Light.ttf */,
@@ -265,7 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				06A0DAAB235BFE6700AEF9FE /* GoogleSDKCredentials.swift */,
-				066EF45F235D3D6000E94CE4 /* UserManager.swift */,
+				066EF45F235D3D6000E94CE4 /* GoogleUserManager.swift */,
 				066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */,
 				06A96051235FD2A60058EE64 /* ObjectFactory.swift */,
 				06EA7A4F236CC8F900D70CC9 /* GoogleSheetsManager.swift */,
@@ -277,6 +341,11 @@
 				06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */,
 				06157E9F2411E831000161C3 /* AspireBugTracker.swift */,
 				06157EA32411EC7A000161C3 /* InstabugCredentials.swift */,
+				06BD7EAE24DDEA81003C5D32 /* Images.swift */,
+				062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */,
+				062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */,
+				06EA080924F4637700927FE5 /* FileValidator.swift */,
+				069F830725003EBB009DD3E9 /* GoogleContentManager.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -290,6 +359,33 @@
 				06F121F32429A66600BC4766 /* instabug.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		06C2BFF82500A136007B3D73 /* TabBarView */ = {
+			isa = PBXGroup;
+			children = (
+				06C2BFFB2500A151007B3D73 /* ProminentTabBarItemView.swift */,
+				06C2BFF92500A151007B3D73 /* TabBarItemView.swift */,
+				06C2BFFA2500A151007B3D73 /* TabBarView.swift */,
+			);
+			path = TabBarView;
+			sourceTree = "<group>";
+		};
+		06C2BFFF2500A18B007B3D73 /* PreviewProvider */ = {
+			isa = PBXGroup;
+			children = (
+				06C2C0002500A19F007B3D73 /* MockProvider.swift */,
+			);
+			path = PreviewProvider;
+			sourceTree = "<group>";
+		};
+		06C6B59B24EF258700968C60 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */,
+				069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		06ED8A56235A908E009BA6A7 = {
@@ -315,6 +411,8 @@
 		06ED8A61235A908E009BA6A7 /* Aspire Budgeting */ = {
 			isa = PBXGroup;
 			children = (
+				06C2BFFF2500A18B007B3D73 /* PreviewProvider */,
+				06C6B59B24EF258700968C60 /* ViewModels */,
 				066EF45C235CF72700E94CE4 /* Models */,
 				066EF457235CE05100E94CE4 /* Views */,
 				06A0DAAA235BFE4F00AEF9FE /* Facilities */,
@@ -353,8 +451,11 @@
 				06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */,
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
-				065C71792381ED1D00DB46B2 /* DashboardMetadataTests.swift */,
+				065C71792381ED1D00DB46B2 /* DashboardTests.swift */,
 				06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */,
+				0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */,
+				0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */,
+				069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -430,7 +531,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1110;
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "TeraMo Labs";
 				TargetAttributes = {
 					06ED8A5E235A908E009BA6A7 = {
@@ -466,16 +567,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */,
 				060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */,
 				069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */,
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
 				06157EA62411F22D000161C3 /* instabug.plist in Resources */,
 				066C3F31244E4732003CDE73 /* Nunito-SemiBold.ttf in Resources */,
 				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
+				06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */,
 				069FDF942384F3840023E86A /* Rubik-Medium.ttf in Resources */,
 				069FDF982384F4AC0023E86A /* Rubik-Light.ttf in Resources */,
 				06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */,
 				06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */,
+				0685BBBB250EC80400728228 /* Karla-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,48 +720,65 @@
 			files = (
 				0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */,
 				065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */,
+				06C2BFFD2500A151007B3D73 /* TabBarView.swift in Sources */,
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
 				060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */,
+				062F2BBF24EEDA7E004830F8 /* AppDefaults.swift in Sources */,
 				066C3F352453560E003CDE73 /* AspireRadioControl.swift in Sources */,
+				06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */,
 				06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */,
 				06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */,
+				06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */,
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */,
 				06F9A8D7243917EF005E5A13 /* AccountBalancesMetadata.swift in Sources */,
-				06002500236F9A8000A20C96 /* DashboardMetadata.swift in Sources */,
+				06002500236F9A8000A20C96 /* Dashboard.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
+				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
+				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,
+				062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */,
+				0685BBB9250EC76600728228 /* CardListView.swift in Sources */,
 				06639B3D23BF53B3008E6E4C /* AspireOSLogs.swift in Sources */,
+				069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */,
 				0694C2232369EDB90039528A /* DashboardView.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */,
 				06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */,
+				06D4528F25166C4D00BFEE02 /* CategoryDetailsView.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */,
 				065C718023838E9100DB46B2 /* Colors.swift in Sources */,
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
 				066C3F33244E67CD003CDE73 /* AspirePickerButton.swift in Sources */,
+				06C2BFFE2500A151007B3D73 /* ProminentTabBarItemView.swift in Sources */,
 				060025062373C08700A20C96 /* YoutubePlayerView.swift in Sources */,
 				069FDF922383A1C60023E86A /* AspireNavigationBar.swift in Sources */,
 				06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */,
 				06A0DAAC235BFE6700AEF9FE /* GoogleSDKCredentials.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
+				06C2C0012500A19F007B3D73 /* MockProvider.swift in Sources */,
+				06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
+				06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
-				066EF460235D3D6000E94CE4 /* UserManager.swift in Sources */,
+				06C6B59D24EF259B00968C60 /* FileSelectorViewModel.swift in Sources */,
+				066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */,
 				069FDF9A23878CD10023E86A /* AspireNumber.swift in Sources */,
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
+				0685BBB7250EC74800728228 /* CardView.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
-				060024FE236F99DA00A20C96 /* DashboardCategoryRow.swift in Sources */,
+				060024FE236F99DA00A20C96 /* Category.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
+				069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */,
 				06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,14 +790,17 @@
 				06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */,
 				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
 				06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */,
+				069F830A25005CA9009DD3E9 /* GoogleContentManagerTests.swift in Sources */,
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
+				0601E3E224FD9335005E3C9D /* MockSpreadsheet.swift in Sources */,
+				0601E3E024FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift in Sources */,
 				06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */,
 				06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */,
 				065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */,
 				06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */,
-				065C717A2381ED1D00DB46B2 /* DashboardMetadataTests.swift in Sources */,
+				065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */,
 				06002502236F9D9500A20C96 /* MockFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -729,6 +853,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -789,6 +914,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

@@ -2,9 +2,6 @@
 //  UserManager.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 10/20/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Combine
 import Foundation
@@ -13,7 +10,7 @@ import GoogleSignIn
 import GTMSessionFetcher
 import os.log
 
-protocol AspireSignInInstance: AnyObject {
+protocol IGIDSignIn: AnyObject {
   var clientID: String! { get set }
   var delegate: GIDSignInDelegate! { get set }
   var presentingViewController: UIViewController! { get set }
@@ -23,8 +20,9 @@ protocol AspireSignInInstance: AnyObject {
   func signIn()
 }
 
-extension GIDSignIn: AspireSignInInstance {}
+extension GIDSignIn: IGIDSignIn {}
 
+//TODO: Remove NotificationCenter extensions
 extension Notification.Name {
   static let authorizerUpdated = Notification.Name("authorizerUpdated")
 
@@ -41,53 +39,40 @@ protocol AspireNotificationCenter: AnyObject {
 
 extension NotificationCenter: AspireNotificationCenter {}
 
-final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableObject {
-  private let gidSignInInstance: AspireSignInInstance
-  private let credentials: GoogleSDKCredentials
-  private let notificationCenter: AspireNotificationCenter
-  private let localAuthManager = LocalAuthorizationManager()
+enum UserManagerState {
+  case notAuthenticated
+  case authenticated(User)
+  case error(Error)
+}
 
-  @Published private(set) var userAuthenticated = false
-  @Published private(set) var user: User?
-  @Published private(set) var error: Error?
+protocol UserManager {
+  var currentState: CurrentValueSubject<UserManagerState, Never> { get }
+  func authenticateWithService()
+}
+
+//TODO: Remove conformance to ObservableObject
+final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, ObservableObject {
+  private let gidSignInInstance: IGIDSignIn
+  private let credentials: GoogleSDKCredentials
+
+  private(set) var currentState =
+    CurrentValueSubject<UserManagerState, Never>(.notAuthenticated)
 
   init(
     credentials: GoogleSDKCredentials,
-    gidSignInInstance: AspireSignInInstance = GIDSignIn.sharedInstance(),
-    notificationCenter: AspireNotificationCenter = NotificationCenter.default
+    gidSignInInstance: IGIDSignIn = GIDSignIn.sharedInstance()
   ) {
     self.credentials = credentials
     self.gidSignInInstance = gidSignInInstance
-    self.notificationCenter = notificationCenter
   }
 
-  var subscription: AnyCancellable!
-
-  func authenticateWithGoogle() {
+  func authenticateWithService() {
     os_log(
       "Attempting to authenticate with Google",
       log: .userManager,
       type: .default
     )
     fetchUser()
-  }
-
-  func signInWithGoogle(in presentingViewController: UIViewController?) {
-    guard let presentingVC = presentingViewController else {
-      return
-    }
-
-    gidSignInInstance.presentingViewController = presentingVC
-    gidSignInInstance.signIn()
-  }
-
-  func authenticateLocally() {
-    os_log(
-      "Attempting to authenticate user locally",
-      log: .userManager,
-      type: .default
-    )
-    localAuthManager.authenticateUserLocally()
   }
 
   private func fetchUser() {
@@ -108,7 +93,7 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     withError error: Error!
   ) {
     if let error = error {
-      self.error = error
+      self.currentState.value = .error(error)
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
         os_log(
           // swiftlint:disable line_length
@@ -131,31 +116,27 @@ final class UserManager<U: AspireUser>: NSObject, GIDSignInDelegate, ObservableO
     self.signIn(user: user)
   }
 
-  func signIn<U: AspireUser>(user: U) {
+  private func signIn(user: GIDGoogleUser) {
     os_log(
       "User authenticated with Google successfully.",
       log: .userManager,
       type: .default
     )
 
-    self.user = User(googleUser: user)
-    notificationCenter.post(
-      name: Notification.Name.authorizerUpdated,
-      object: self,
-      userInfo: [Notification.Name.authorizerUpdated: self.user!.authorizer]
-    )
+    let user = User(name: user.profile.name,
+                    authorizer: user.authentication.fetcherAuthorizer())
+    self.currentState.value = .authenticated(user)
   }
 
   func signOut() {
     gidSignInInstance.signOut()
-    userAuthenticated = false
-    user = nil
+    currentState.value = .notAuthenticated
 
     os_log(
       "Logging out user from Google and locally",
       log: .userManager,
       type: .default
     )
-    notificationCenter.post(name: .logout, object: nil, userInfo: nil)
+    self.currentState.value = .notAuthenticated
   }
 }

@@ -2,12 +2,10 @@
 //  AspireNumber.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/21/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 
+infix operator /|
 struct AspireNumber: Equatable, Hashable {
   let stringValue: String
   let decimalValue: Decimal
@@ -31,5 +29,20 @@ struct AspireNumber: Equatable, Hashable {
     self.stringValue = stringValue
     self.decimalValue = decimalValue
     isNegative = decimalValue < 0
+  }
+
+  /// Get the ratio of two AspireNumbers as a Double
+  /// - parameter num : The numerator
+  /// - parameter den : The denominator
+  /// - returns: 1 if den is 0, fraction otherwise.
+  static func /| (num: AspireNumber, den: AspireNumber) -> Double {
+    if den.decimalValue == 0 {
+      return 1
+    }
+    return Double(truncating: (num.decimalValue / den.decimalValue) as NSNumber)
+  }
+
+  static func >= (lhs: AspireNumber, rhs: AspireNumber) -> Bool {
+    lhs.decimalValue >= rhs.decimalValue
   }
 }

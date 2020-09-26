@@ -2,9 +2,6 @@
 //  GoogleDriveManagerTests.swift
 //  Aspire BudgetingTests
 //
-//  Created by TeraMo Labs on 10/25/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Combine
 import GoogleAPIClientForREST
@@ -26,15 +23,15 @@ final class GoogleDriveManagerTests: XCTestCase {
   }()
 
   var mockFileList: [File] {
-    return mockGTLRFileList.files!.map { File(driveFile: $0) }
+    mockGTLRFileList.files!.map { File(driveFile: $0) }
   }
 
   var mockQuery: GTLRDriveQuery_FilesList {
-    return GTLRDriveQuery_FilesList.query()
+    GTLRDriveQuery_FilesList.query()
   }
 
   var mockAuthorizer: MockAuthorizer {
-    return MockAuthorizer()
+    MockAuthorizer()
   }
 
   var sinkCancellable: AnyCancellable?
@@ -47,7 +44,7 @@ final class GoogleDriveManagerTests: XCTestCase {
   }
 
   func createMockGTLRService(with fakedObject: Any?, error: Error?) -> GTLRService {
-    return GTLRService.mockService(withFakedObject: fakedObject, fakedError: error)
+    GTLRService.mockService(withFakedObject: fakedObject, fakedError: error)
   }
 
   func postNotification() {
@@ -62,25 +59,33 @@ final class GoogleDriveManagerTests: XCTestCase {
   }
 
   func testGetFileListErrorWithoutAuthorizer() {
+    let user = User(name: "dummy", authorizer: nil)
     let mockDriveService = createMockGTLRService(with: nil, error: nil)
     let driveManager = GoogleDriveManager(
       driveService: mockDriveService,
       googleFilesListQuery: mockQuery
     )
 
-    driveManager.getFileList()
+    driveManager.getFileList(for: user)
 
     let errorExpectation = XCTestExpectation()
-    sinkCancellable = driveManager.$error.sink { error in
-      let e = error as? GoogleDriveManagerError
-      XCTAssertNotNil(e)
-      XCTAssertEqual(e!, GoogleDriveManagerError.nilAuthorizer)
-      errorExpectation.fulfill()
+    sinkCancellable = driveManager.currentState.sink { state in
+      switch state {
+      case .error(error: let error):
+        let e = error as? GoogleDriveManagerError
+        XCTAssertNotNil(e)
+        XCTAssertEqual(e!, GoogleDriveManagerError.nilAuthorizer)
+        errorExpectation.fulfill()
+      default:
+        XCTFail()
+      }
+
     }
     wait(for: [errorExpectation], timeout: 5)
   }
 
   func testGetFileListErrorWithFakeError() {
+    let user = User(name: "dummy", authorizer: mockAuthorizer)
     let mockError = NSError(domain: "aspire_tests", code: 42, userInfo: nil)
     let mockDriveService = createMockGTLRService(with: nil, error: mockError)
     let driveManager = GoogleDriveManager(
@@ -89,7 +94,7 @@ final class GoogleDriveManagerTests: XCTestCase {
     )
 
     postNotification()
-    driveManager.getFileList()
+    driveManager.getFileList(for: user)
 
     let errorExpectation = XCTestExpectation()
     sinkCancellable = driveManager.$error.dropFirst().sink { error in
@@ -105,6 +110,7 @@ final class GoogleDriveManagerTests: XCTestCase {
   }
 
   func testGetFileList() {
+    let user = User(name: "dummy", authorizer: mockAuthorizer)
     let mockQuery = self.mockQuery
     let mockDriveService = createMockGTLRService(with: mockGTLRFileList, error: nil)
     let driveManager = GoogleDriveManager(
@@ -113,7 +119,7 @@ final class GoogleDriveManagerTests: XCTestCase {
     )
 
     postNotification()
-    driveManager.getFileList()
+    driveManager.getFileList(for: user)
 
     let expectation = XCTestExpectation()
 

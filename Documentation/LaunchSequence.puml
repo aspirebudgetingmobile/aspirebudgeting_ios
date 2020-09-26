@@ -1,0 +1,31 @@
+@startuml
+actor User
+User -> SceneDelegate : Launch app
+activate SceneDelegate
+
+SceneDelegate -> ObjectFactory : getBugTracker()
+activate ObjectFactory
+
+SceneDelegate -> AspireBugTracker : start()
+SceneDelegate -> ObjectFactory : getDriveManager()
+SceneDelegate -> ObjectFactory : getSheetsManager()
+SceneDelegate -> ObjectFactory : getLocalAuthorizationManager()
+SceneDelegate -> ObjectFactory : getStateManager()
+
+SceneDelegate -> StateManager : $currentStatePublisher()
+
+alt currentState == loggedOut
+SceneDelegate -> UserManager : authenticateWithGoogle()
+
+else currentState == verifiedGoogleUser
+SceneDelegate -> UserManager : authenticateLocally()
+
+else currentState == authenticatedLocally
+SceneDelegate -> SheetsManager : checkDefaultsForSpreadsheet()
+end
+
+SceneDelegate -> ContentView : init(userManager, driveManager, sheetsManager, localAuthorizationManager, stateManager)
+
+deactivate ObjectFactory
+deactivate SceneDelegate
+@enduml

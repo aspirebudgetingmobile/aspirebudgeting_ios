@@ -18,11 +18,11 @@ final class MockAuthorizer: NSObject, GTMFetcherAuthorizationProtocol {
   func stopAuthorization(for request: URLRequest) {}
 
   func isAuthorizingRequest(_ request: URLRequest) -> Bool {
-    return false
+    false
   }
 
   func isAuthorizedRequest(_ request: URLRequest) -> Bool {
-    return false
+    false
   }
 
   var userEmail: String?

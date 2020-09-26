@@ -52,32 +52,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       stateManager = objectFactory.stateManager
     }
 
-    stateManagerSink = stateManager.$currentStatePublisher
-      .sink { [weak self] currentState in
-        guard let weakSelf = self else { return }
-
-        switch currentState {
-        case .loggedOut:
-          weakSelf.userManager.authenticateWithGoogle()
-
-        case .verifiedGoogleUser:
-          weakSelf.userManager.authenticateLocally()
-
-        case .authenticatedLocally:
-          weakSelf.sheetsManager.checkDefaultsForSpreadsheet()
-
-        default:
-          print("The current state is \(currentState)")
-        }
-      }
+    objectFactory.appCoordinator.start()
 
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()
       .environmentObject(userManager)
       .environmentObject(driveManager)
       .environmentObject(sheetsManager)
-      .environmentObject(localAuthorizationManager)
-      .environmentObject(stateManager)
+      .environmentObject(objectFactory.appCoordinator)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
@@ -101,29 +83,19 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was
     // inactive.
-    if stateManager.currentState == .needsLocalAuthentication ||
-      stateManager.currentState == .localAuthFailed {
-      userManager.authenticateLocally()
-    }
+    objectFactory.appCoordinator.resume()
   }
 
   func sceneWillResignActive(_ scene: UIScene) {
     // Called when the scene will move from an active state to an inactive state.
     // This may occur due to temporary interruptions (ex. an incoming phone call).
-    NotificationCenter.default.post(
-      name: Notification.Name("background"),
-      object: nil,
-      userInfo: nil
-    )
+    objectFactory.appCoordinator.pause()
   }
 
   func sceneWillEnterForeground(_ scene: UIScene) {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
-    if stateManager.currentState == .needsLocalAuthentication ||
-      stateManager.currentState == .localAuthFailed {
-      userManager.authenticateLocally()
-    }
+    objectFactory.appCoordinator.resume()
   }
 
   func sceneDidEnterBackground(_ scene: UIScene) {
@@ -131,10 +103,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Use this method to save data, release shared resources, and store enough scene-specific state
     // information
     // to restore the scene back to its current state.
-    NotificationCenter.default.post(
-      name: Notification.Name("background"),
-      object: nil,
-      userInfo: nil
-    )
+    objectFactory.appCoordinator.pause()
   }
 }

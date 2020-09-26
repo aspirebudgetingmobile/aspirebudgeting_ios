@@ -2,37 +2,45 @@
 //  StateManager.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 11/9/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
+import Combine
 import Foundation
 import os.log
 
-final class StateManager: ObservableObject {
-  enum State: Equatable {
-    case loggedOut
-    case verifiedGoogleUser
-    case authenticatedLocally
-    case localAuthFailed
-    case needsLocalAuthentication
-    case hasDefaultSheet
-  }
+enum AppState: Equatable {
+  case loggedOut
+  case verifiedExternally
+  case authenticatedLocally
+  case localAuthFailed
+  case needsLocalAuthentication
+  case hasDefaultSheet
+}
 
-  @Published var currentStatePublisher: State = .loggedOut
-  private(set) var currentState: State = .loggedOut
+enum AppStateEvent {
+  case authenticatedLocally(result: Bool)
+  case enteredBackground
+  case hasDefaultFile
+  case verifiedExternally
+}
 
-  private var authorizerObserver: NSObjectProtocol?
-  private var localAuthObserver: NSObjectProtocol?
-  private var backgroundObserver: NSObjectProtocol?
-  private var defaultSheetObserver: NSObjectProtocol?
-  private var logoutObserver: NSObjectProtocol?
+protocol AppStateManager {
+  var currentState: CurrentValueSubject<AppState, Never> { get }
 
-  private lazy var transitions: [State: Set<State>] = {
-    var transitions = [State: Set<State>]()
+  var needsLocalAuth: Bool { get }
+  var isLoggedOut: Bool { get }
+  var hasDefaultSheet: Bool { get }
 
-    transitions[.loggedOut] = [.verifiedGoogleUser]
-    transitions[.verifiedGoogleUser] = [.authenticatedLocally, .localAuthFailed]
+  func processEvent(event: AppStateEvent)
+}
+
+final class StateManager: AppStateManager {
+  private(set) var currentState = CurrentValueSubject<AppState, Never>(.loggedOut)
+
+  private lazy var transitions: [AppState: Set<AppState>] = {
+    var transitions = [AppState: Set<AppState>]()
+
+    transitions[.loggedOut] = [.verifiedExternally]
+    transitions[.verifiedExternally] = [.authenticatedLocally, .localAuthFailed]
     transitions[.authenticatedLocally] = [
       .localAuthFailed,
       .hasDefaultSheet,
@@ -46,97 +54,9 @@ final class StateManager: ObservableObject {
     return transitions
   }()
 
-  init() {
-    authorizerObserver =
-      NotificationCenter.default.addObserver(
-        forName: .authorizerUpdated,
-        object: nil,
-        queue: nil
-      ) { _ in
-        os_log(
-          "Authorizer updated. Transitioning to verifiedGoogleUser",
-          log: .stateManager,
-          type: .default
-        )
-        self.transition(to: .verifiedGoogleUser)
-      }
-
-    localAuthObserver =
-      NotificationCenter.default.addObserver(
-        forName: .authorizedLocally,
-        object: nil,
-        queue: OperationQueue.main
-      ) { notification in
-        guard let userInfo = notification.userInfo,
-          let success = userInfo[Notification.Name.authorizedLocally] as? Bool else { return }
-
-        os_log(
-          "Received authorizedLocally.",
-          log: .stateManager,
-          type: .default
-        )
-        if success {
-          os_log(
-            "Transitioning to authenticatedLocally",
-            log: .stateManager,
-            type: .default
-          )
-          self.transition(to: .authenticatedLocally)
-        } else {
-          os_log(
-            "Transitioning to localAuthFailed",
-            log: .stateManager,
-            type: .error
-          )
-          self.transition(to: .localAuthFailed)
-        }
-      }
-
-    backgroundObserver =
-      NotificationCenter.default.addObserver(
-        forName: Notification.Name("background"),
-        object: nil,
-        queue: nil
-      ) { _ in
-        os_log(
-          "Received background. Transitioning to needsLocalAuthentication",
-          log: .stateManager,
-          type: .default
-        )
-        self.transition(to: .needsLocalAuthentication)
-      }
-
-    defaultSheetObserver = NotificationCenter.default.addObserver(
-      forName: .hasSheetInDefaults,
-      object: nil,
-      queue: nil
-    ) { _ in
-      os_log(
-        "Received hasSheetInDefaults. Transitioning to hasDefaultSheet",
-        log: .stateManager,
-        type: .default
-      )
-      self.transition(to: .hasDefaultSheet)
-    }
-
-    logoutObserver = NotificationCenter.default.addObserver(
-      forName: .logout,
-      object: nil,
-      queue: nil
-    ) { _ in
-      os_log(
-        "Received logout. Transitioning to logout",
-        log: .stateManager,
-        type: .default
-      )
-      self.transition(to: .loggedOut)
-    }
-  }
-
-  func transition(to nextState: State) {
+  func transition(to nextState: AppState) {
     if canTransition(to: nextState) {
-      currentState = nextState
-      currentStatePublisher = nextState
+      currentState.value = nextState
     } else {
       os_log(
         "Invalid state transition. No state transition performed.",
@@ -146,11 +66,83 @@ final class StateManager: ObservableObject {
     }
   }
 
-  func canTransition(to nextState: State) -> Bool {
-    guard let validTransitions = transitions[currentState] else {
+  func canTransition(to nextState: AppState) -> Bool {
+    guard let validTransitions = transitions[currentState.value] else {
       return false
     }
 
     return validTransitions.contains(nextState)
+  }
+}
+
+// MARK: - Computed Properties
+extension StateManager {
+  var needsLocalAuth: Bool {
+    let currentValue = currentState.value
+    return currentValue == .verifiedExternally
+      || currentValue == .localAuthFailed
+      || currentValue == .needsLocalAuthentication
+  }
+
+  var isLoggedOut: Bool {
+    let currentValue = currentState.value
+    return currentValue == .loggedOut
+  }
+
+  var hasDefaultSheet: Bool {
+    let currentValue = currentState.value
+    return currentValue == .hasDefaultSheet
+  }
+}
+
+// MARK: - … AppStateManager Protocol Methods
+extension StateManager {
+  func processEvent(event: AppStateEvent) {
+    switch event {
+    case .verifiedExternally:
+      verifiedExternally()
+
+    case .authenticatedLocally(let result):
+      authenticatedLocally(result: result)
+
+    case .enteredBackground:
+      enteredBackground()
+
+    case .hasDefaultFile:
+      foundDefaultFile()
+    }
+  }
+}
+
+// MARK: - Event Handlers
+extension StateManager {
+  private func verifiedExternally() {
+    self.transition(to: .verifiedExternally)
+  }
+
+  private func authenticatedLocally(result: Bool) {
+    if result {
+      os_log(
+        "Transitioning to authenticatedLocally",
+        log: .stateManager,
+        type: .default
+      )
+      self.transition(to: .authenticatedLocally)
+    } else {
+      os_log(
+        "Transitioning to localAuthFailed",
+        log: .stateManager,
+        type: .error
+      )
+      self.transition(to: .localAuthFailed)
+    }
+  }
+
+  private func enteredBackground() {
+    self.transition(to: .needsLocalAuthentication)
+  }
+
+  private func foundDefaultFile() {
+    self.transition(to: .hasDefaultSheet)
   }
 }

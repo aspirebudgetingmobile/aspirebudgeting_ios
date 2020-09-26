@@ -2,9 +2,6 @@
 //  AspireOSLogs.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 1/3/20.
-//  Copyright © 2020 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 import os.log
@@ -21,6 +18,8 @@ extension OSLog {
   static let googleDriveManager = OSLog(subsystem: subsystem, category: "GoogleDriveManager")
 
   static let sheetsManager = OSLog(subsystem: OSLog.subsystem, category: "SheetsManager")
+
+  static let appDefaults = OSLog(subsystem: OSLog.subsystem, category: "AppDefaults")
 
   static let localAuthorizationManager = OSLog(
     subsystem: OSLog.subsystem,

@@ -2,9 +2,6 @@
 //  StateManagerTests.swift
 //  Aspire BudgetingTests
 //
-//  Created by TeraMo Labs on 11/16/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 @testable import Aspire_Budgeting
 import XCTest
@@ -18,41 +15,36 @@ final class StateManagerTests: XCTestCase {
   func testStateManager() {
     let stateManager = StateManager()
 
-    XCTAssertEqual(stateManager.currentState, StateManager.State.loggedOut)
+    XCTAssertEqual(stateManager.currentState.value, .loggedOut)
 
-    postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState, StateManager.State.loggedOut)
+    stateManager.processEvent(event: .enteredBackground)
+    XCTAssertEqual(stateManager.currentState.value, .loggedOut)
 
-    postNotification(notificationName: .authorizerUpdated)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.verifiedGoogleUser)
+    stateManager.processEvent(event: .verifiedExternally)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedExternally)
 
-    postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState, StateManager.State.verifiedGoogleUser)
+    stateManager.processEvent(event: .enteredBackground)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedExternally)
 
-    postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.verifiedGoogleUser)
+    stateManager.processEvent(event: .hasDefaultFile)
+    XCTAssertEqual(stateManager.currentState.value, .verifiedExternally)
 
-    var userInfo = [AnyHashable: Any]()
-    userInfo[Notification.Name.authorizedLocally] = true
+    stateManager.processEvent(event: .authenticatedLocally(result: true))
+    XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
-    postNotification(notificationName: .authorizedLocally, userInfo: userInfo)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.authenticatedLocally)
+    stateManager.processEvent(event: .enteredBackground)
+    XCTAssertEqual(stateManager.currentState.value, .needsLocalAuthentication)
 
-    postNotification(notificationName: Notification.Name("background"))
-    XCTAssertEqual(stateManager.currentState, StateManager.State.needsLocalAuthentication)
+    stateManager.processEvent(event: .authenticatedLocally(result: false))
+    XCTAssertEqual(stateManager.currentState.value, .localAuthFailed)
 
-    userInfo[Notification.Name.authorizedLocally] = false
-    postNotification(notificationName: .authorizedLocally, userInfo: userInfo)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.localAuthFailed)
+    stateManager.processEvent(event: .hasDefaultFile)
+    XCTAssertEqual(stateManager.currentState.value, .localAuthFailed)
 
-    postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.localAuthFailed)
+    stateManager.processEvent(event: .authenticatedLocally(result: true))
+    XCTAssertEqual(stateManager.currentState.value, .authenticatedLocally)
 
-    userInfo[Notification.Name.authorizedLocally] = true
-    postNotification(notificationName: .authorizedLocally, userInfo: userInfo)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.authenticatedLocally)
-
-    postNotification(notificationName: .hasSheetInDefaults)
-    XCTAssertEqual(stateManager.currentState, StateManager.State.hasDefaultSheet)
+    stateManager.processEvent(event: .hasDefaultFile)
+    XCTAssertEqual(stateManager.currentState.value, .hasDefaultSheet)
   }
 }

@@ -2,9 +2,6 @@
 //  ObjectFactory.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 10/22/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 import GoogleSignIn
@@ -41,8 +38,8 @@ final class ObjectFactory {
     return instabugCredentials
   }()
 
-  lazy var userManager: UserManager = {
-    UserManager<GIDGoogleUser>(credentials: googleSDKCredentials)
+  lazy var userManager: GoogleUserManager = {
+    GoogleUserManager(credentials: googleSDKCredentials)
   }()
 
   lazy var driveManager: GoogleDriveManager = {
@@ -66,5 +63,27 @@ final class ObjectFactory {
 
   lazy var bugTracker: AspireBugTracker = {
     AspireBugTracker(credentials: instabugCredentials)
+  }()
+
+  lazy var appDefaultsManager: AppDefaultsManager = {
+    AppDefaultsManager()
+  }()
+
+  lazy var googleValidator: GoogleSheetsValidator = {
+    GoogleSheetsValidator()
+  }()
+
+  lazy var googleContentManager: GoogleContentManager = {
+    GoogleContentManager(fileReader: sheetsManager, fileWriter: sheetsManager)
+  }()
+
+  lazy var appCoordinator: AppCoordinator = {
+    AppCoordinator(stateManager: stateManager,
+                   localAuthorizer: localAuthorizationManager,
+                   appDefaults: appDefaultsManager,
+                   remoteFileManager: driveManager,
+                   userManager: userManager,
+                   fileValidator: googleValidator,
+                   contentProvider: googleContentManager)
   }()
 }
