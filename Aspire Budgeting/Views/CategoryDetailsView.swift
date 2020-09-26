@@ -56,7 +56,17 @@ extension CategoryDetailsView {
         .shadow(radius: 10)
         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 
-      totals
+      VStack {
+        totals
+
+        Divider()
+          .padding([.top, .horizontal])
+
+        Text("Budget per category")
+          .font(.karlaBold(size: 14))
+          .foregroundColor(.secondaryTextColor)
+      }
+
     }
   }
 }
@@ -84,7 +94,7 @@ struct CardExpandedView_Previews: PreviewProvider {
         .CardDetails(title: title,
                      bannerGradient: bannerGradient,
                      budgetedTotal: AspireNumber(stringValue: "$500"),
-                     spentTotal: AspireNumber(stringValue: "$30"),
+                     spentTotal: AspireNumber(stringValue: "-$30"),
                      availableTotal: AspireNumber(stringValue: "40"))
 
     return details
