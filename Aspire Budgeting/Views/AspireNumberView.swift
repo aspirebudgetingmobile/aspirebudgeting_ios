@@ -9,7 +9,7 @@ struct AspireNumberView: View {
   let number: AspireNumber
     var body: some View {
       Text(number.stringValue)
-        .font(.karlaBold(size: 14))
+        .font(.karlaBold(size: 16))
         .foregroundColor(number.isNegative ? .redPinkFondEndColor : .greenFondEndColor)
 
     }
