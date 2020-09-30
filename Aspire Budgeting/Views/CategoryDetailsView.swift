@@ -89,8 +89,8 @@ struct CardExpandedView_Previews: PreviewProvider {
   static var cardDetils: CategoryDetailsView.CardDetails {
     let title = "Investments"
     let bannerGradient = LinearGradient(gradient:
-                                          Gradient(colors: [.blueFondStartColor,
-                                                            .blueFondEndColor,
+                                          Gradient(colors: [.middleBluePurple,
+                                                            .middleBluePurple,
                                           ]),
                                         startPoint: UnitPoint(x: 0.5, y: -0.48),
                                         endPoint: UnitPoint(x: -0.46, y: 0.52))
@@ -104,7 +104,7 @@ struct CardExpandedView_Previews: PreviewProvider {
                      categories: MockProvider
                       .cardViewItems[0]
                       .categories,
-                     tintColor: .blueFondEndColor)
+                     tintColor: .keppel)
 
     return details
   }

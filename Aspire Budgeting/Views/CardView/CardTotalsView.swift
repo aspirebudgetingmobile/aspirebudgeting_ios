@@ -10,15 +10,7 @@ struct CardTotalsView: View {
     let amount: AspireNumber
 
     var startColor: Color {
-        amount.isNegative ? .redPinkFondStartColor : .greenFondStartColor
-    }
-
-    var endColor: Color {
-        amount.isNegative ? .redPinkFondEndColor : .greenFondEndColor
-    }
-
-    var shadowColor: Color {
-        amount.isNegative ? .redPinkFondShadowColor : .greenFondShadowColor
+        amount.isNegative ? .cyclamen : .paoloVeroneseGreen
     }
 
     var graphImage: Image {
@@ -28,9 +20,9 @@ struct CardTotalsView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color.fondGradientFrom(startColor: startColor, endColor: endColor))
+                .fill(startColor)
                 .cornerRadius(10)
-                .shadow(color: shadowColor, radius: 2, x: 0, y: 0)
+                .shadow(color: startColor, radius: 2, x: 0, y: 0)
 
             VStack(alignment: .leading) {
                 HStack {

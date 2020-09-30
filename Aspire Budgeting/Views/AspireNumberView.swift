@@ -10,7 +10,7 @@ struct AspireNumberView: View {
     var body: some View {
       Text(number.stringValue)
         .font(.karlaBold(size: 16))
-        .foregroundColor(number.isNegative ? .redPinkFondEndColor : .greenFondEndColor)
+        .foregroundColor(number.isNegative ? .cyclamen : .paoloVeroneseGreen)
 
     }
 }
