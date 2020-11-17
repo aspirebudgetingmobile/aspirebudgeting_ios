@@ -2,9 +2,6 @@
 //  GoogleSDKCredentialsTest.swift
 //  Aspire BudgetingTests
 //
-//  Created by TeraMo Labs on 10/22/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 @testable import Aspire_Budgeting
 import XCTest

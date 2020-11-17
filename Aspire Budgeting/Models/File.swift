@@ -2,9 +2,6 @@
 //  File.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 10/24/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 import GoogleAPIClientForREST
