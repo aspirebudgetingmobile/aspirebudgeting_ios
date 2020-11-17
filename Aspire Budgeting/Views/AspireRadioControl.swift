@@ -2,9 +2,6 @@
 //  AspireRadioControl.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 4/24/20.
-//  Copyright © 2020 TeraMo Labs. All rights reserved.
-//
 
 import SwiftUI
 

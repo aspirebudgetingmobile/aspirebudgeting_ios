@@ -2,7 +2,6 @@
 //  ContentView.swift
 //  Aspire Budgeting
 //
-//
 
 import Combine
 import GoogleSignIn

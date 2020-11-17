@@ -2,9 +2,6 @@
 //  InstabugCredentialsTests.swift
 //  Aspire BudgetingTests
 //
-//  Created by TeraMo Labs on 3/6/20.
-//  Copyright © 2020 TeraMo Labs. All rights reserved.
-//
 
 @testable import Aspire_Budgeting
 import XCTest

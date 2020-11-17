@@ -2,9 +2,6 @@
 //  AmountTextField.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 12/11/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import SwiftUI
 

@@ -2,9 +2,6 @@
 //  AspireVersionInfo.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 2/8/20.
-//  Copyright © 2020 TeraMo Labs. All rights reserved.
-//
 
 import Foundation
 

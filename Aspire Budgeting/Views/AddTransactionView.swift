@@ -2,9 +2,6 @@
 //  AddTransactionView.swift
 //  Aspire Budgeting
 //
-//  Created by TeraMo Labs on 12/8/19.
-//  Copyright © 2019 TeraMo Labs. All rights reserved.
-//
 
 import SwiftUI
 
