@@ -168,14 +168,14 @@ struct CardView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
       Group {
-        CardView(colorInfo: .init(gradientStartColor: .middleBluePurple,
-                                  gradientEndColor: .middleBluePurple,
-                                  shadowColor: .middleBluePurple),
+        CardView(colorInfo: .init(gradientStartColor: .materialBrown800,
+                                  gradientEndColor: .materialBrown800,
+                                  shadowColor: .materialBrown800),
                  cardViewItem: MockProvider.cardViewItems[0])
 
-        CardView(colorInfo: .init(gradientStartColor: .keppel,
-                                  gradientEndColor: .keppel,
-                                  shadowColor: .keppel),
+        CardView(colorInfo: .init(gradientStartColor: .materialDeepPurple800,
+                                  gradientEndColor: .materialDeepPurple800,
+                                  shadowColor: .materialDeepPurple800),
                  cardViewItem: MockProvider.cardViewItems[1])
       }
     }

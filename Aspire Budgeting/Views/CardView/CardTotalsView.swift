@@ -10,7 +10,7 @@ struct CardTotalsView: View {
     let amount: AspireNumber
 
     var startColor: Color {
-        amount.isNegative ? .cyclamen : .paoloVeroneseGreen
+        amount.isNegative ? .materialRed800 : .materialGreen800
     }
 
     var graphImage: Image {

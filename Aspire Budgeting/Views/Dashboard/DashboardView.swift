@@ -21,7 +21,7 @@ struct DashboardView: View {
               .padding(.vertical, 10)
           } else {
             CategoryListView(categories: viewModel.filteredCategories(filter: searchText),
-                             tintColor: .paoloVeroneseGreen)
+                             tintColor: .materialGreen800)
           }
 
         } else {
