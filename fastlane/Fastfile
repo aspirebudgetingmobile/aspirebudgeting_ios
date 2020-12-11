@@ -17,7 +17,7 @@ setup_travis
 default_platform(:ios)
 
 before_all do
-  xcversion(version: "12.0")
+  xcversion(version: "12.2")
   sh 'pod install'
 end
 
