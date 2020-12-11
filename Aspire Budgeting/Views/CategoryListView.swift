@@ -50,6 +50,6 @@ struct CategoryListView: View {
 struct CategoryListView_Previews: PreviewProvider {
   static var previews: some View {
     CategoryListView(categories: MockProvider.cardViewItems[0].categories,
-                     tintColor: .blueFondEndColor)
+                     tintColor: .materialBrown800)
   }
 }
