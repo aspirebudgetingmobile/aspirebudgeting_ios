@@ -4,8 +4,8 @@
 //
 
 import Foundation
-import os.log
 
+@available(*, deprecated, message: "To be removed as no value is added.")
 struct InstabugCredentials: Codable {
   let beta: String
   let live: String
@@ -21,9 +21,9 @@ struct InstabugCredentials: Codable {
     var credentials: InstabugCredentials
 
     guard let credentialsURL = bundle.url(forResource: fileName, withExtension: type) else {
-      os_log("instabug.plist file not found.",
-             log: OSLog.instabugCredentials,
-             type: .error)
+      Logger.error(
+        "instabug.plist file not found."
+      )
       throw CredentialsError.missingCredentialsPLIST
     }
 
@@ -31,11 +31,9 @@ struct InstabugCredentials: Codable {
       credentialsData = try Data(contentsOf: credentialsURL)
       credentials = try decoder.decode(InstabugCredentials.self, from: credentialsData)
     } catch {
-      os_log(
-        "Exception thrown while trying to create InstabugCredentials: %{public}s",
-        log: OSLog.instabugCredentials,
-        type: .error,
-        error.localizedDescription
+      Logger.error(
+        "Exception thrown while trying to create InstabugCredentials: ",
+        context: error.localizedDescription
       )
       throw CredentialsError.couldNotCreate
     }

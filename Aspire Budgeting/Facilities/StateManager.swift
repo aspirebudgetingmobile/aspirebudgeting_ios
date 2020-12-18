@@ -5,7 +5,6 @@
 
 import Combine
 import Foundation
-import os.log
 
 enum AppState: Equatable {
   case loggedOut
@@ -58,10 +57,8 @@ final class StateManager: AppStateManager {
     if canTransition(to: nextState) {
       currentState.value = nextState
     } else {
-      os_log(
-        "Invalid state transition. No state transition performed.",
-        log: .stateManager,
-        type: .error
+      Logger.error(
+        "Invalid state transition. No state transition performed."
       )
     }
   }
@@ -122,17 +119,13 @@ extension StateManager {
 
   private func authenticatedLocally(result: Bool) {
     if result {
-      os_log(
-        "Transitioning to authenticatedLocally",
-        log: .stateManager,
-        type: .default
+      Logger.info(
+        "Transitioning to authenticatedLocally"
       )
       self.transition(to: .authenticatedLocally)
     } else {
-      os_log(
-        "Transitioning to localAuthFailed",
-        log: .stateManager,
-        type: .error
+      Logger.error(
+        "Transitioning to localAuthFailed"
       )
       self.transition(to: .localAuthFailed)
     }

@@ -3,10 +3,24 @@
 //  Aspire Budgeting
 //
 
+import SwiftyBeaver
 import UIKit
+
+let Logger = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
+  fileprivate func setupLogger() {
+    let console = ConsoleDestination()
+    let file = FileDestination()
+
+    console.format = "$DHH:mm:ss$d $L $M $X"
+
+    Logger.addDestination(console)
+    Logger.addDestination(file)
+  }
+
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -15,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     UITableViewCell.appearance().backgroundColor = .clear
     UITableView.appearance().separatorColor = .clear
 
+    setupLogger()
     return true
   }
 

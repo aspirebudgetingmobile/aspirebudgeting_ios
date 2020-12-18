@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import os.log
 
 struct Dashboard {
   struct Group {

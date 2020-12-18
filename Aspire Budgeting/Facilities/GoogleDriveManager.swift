@@ -8,7 +8,6 @@ import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
-import os.log
 
 protocol RemoteFileManager {
   var currentState: CurrentValueSubject<RemoteFileManagerState, Never> { get }
@@ -77,22 +76,18 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
       weakSelf.googleFilesListQuery.isQueryInvalid = false
 
       if let error = error {
-        os_log(
-          "Error while getting list of files from Google Drive. %{public}s",
-          log: .googleDriveManager,
-          type: .error,
-          error.localizedDescription
+        Logger.error(
+          "Error while getting list of files from Google Drive.",
+          context: error.localizedDescription
         )
         weakSelf.currentState.value = .error(error: error)
         weakSelf.error = error
       } else {
         if let driveFileList = driveFileList as? GTLRDrive_FileList,
           let files = driveFileList.files {
-          os_log(
-            "File list retrieved. Converting to local model.",
-            log: .googleDriveManager,
-            type: .default
-          )
+          Logger.info(
+            "File list retrieved. Converting to local model."
+            )
           weakSelf.fileList = files
             .map { File(driveFile: $0) }
           weakSelf.currentState.value = .filesRetrieved(files: weakSelf.fileList)

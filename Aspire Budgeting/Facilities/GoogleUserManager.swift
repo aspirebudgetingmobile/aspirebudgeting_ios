@@ -8,7 +8,6 @@ import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
-import os.log
 
 protocol IGIDSignIn: AnyObject {
   var clientID: String! { get set }
@@ -67,19 +66,15 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
   }
 
   func authenticateWithService() {
-    os_log(
-      "Attempting to authenticate with Google",
-      log: .userManager,
-      type: .default
+    Logger.info(
+      "Attempting to authenticate with Google"
     )
     fetchUser()
   }
 
   private func fetchUser() {
-    os_log(
-      "Attempting to restore previous Google SignIn",
-      log: .userManager,
-      type: .default
+    Logger.info(
+      "Attempting to restore previous Google SignIn"
     )
     gidSignInInstance.clientID = credentials.CLIENT_ID
     gidSignInInstance.delegate = self
@@ -95,19 +90,15 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     if let error = error {
       self.currentState.value = .error(error)
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
-        os_log(
+        Logger.info(
           // swiftlint:disable line_length
-          "The user has not signed in before or has since signed out. Proceed with normal sign in flow.",
+          "The user has not signed in before or has since signed out. Proceed with normal sign in flow."
           // swiftlint:enable line_length
-          log: .userManager,
-          type: .default
         )
       } else {
-        os_log(
+        Logger.error(
           "A generic error occured. %{public}s",
-          log: .userManager,
-          type: .default,
-          error.localizedDescription
+          context: error.localizedDescription
         )
       }
       return
@@ -117,10 +108,8 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
   }
 
   private func signIn(user: GIDGoogleUser) {
-    os_log(
-      "User authenticated with Google successfully.",
-      log: .userManager,
-      type: .default
+    Logger.info(
+      "User authenticated with Google successfully."
     )
 
     let user = User(name: user.profile.name,
@@ -132,10 +121,8 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     gidSignInInstance.signOut()
     currentState.value = .notAuthenticated
 
-    os_log(
-      "Logging out user from Google and locally",
-      log: .userManager,
-      type: .default
+    Logger.info(
+      "Logging out user from Google and locally"
     )
     self.currentState.value = .notAuthenticated
   }
