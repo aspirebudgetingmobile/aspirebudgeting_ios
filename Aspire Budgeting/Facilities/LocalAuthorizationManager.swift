@@ -5,15 +5,9 @@
 
 import Foundation
 import LocalAuthentication
-import os.log
 
 protocol AppLocalAuthorizer {
   func authenticateUserLocally(completion: @escaping (Bool) -> Void)
-}
-
-#warning("Remove extension below")
-extension Notification.Name {
-  static let authorizedLocally = Notification.Name("authorizedLocally")
 }
 
 final class LocalAuthorizationManager: AppLocalAuthorizer {
@@ -23,10 +17,8 @@ final class LocalAuthorizationManager: AppLocalAuthorizer {
   }
 
   func authenticateUserLocally(completion: @escaping (Bool) -> Void) {
-    os_log(
-      "Authenticating user locally",
-      log: .localAuthorizationManager,
-      type: .default
+    Logger.info(
+      "Authenticating user locally"
     )
     let context = self.context
 
@@ -40,27 +32,21 @@ final class LocalAuthorizationManager: AppLocalAuthorizer {
         localizedReason: reason
       ) { success, error in
         if let error = error {
-          os_log(
-            "Encountered local authorization error. %{public}s",
-            log: .localAuthorizationManager,
-            type: .error,
-            error.localizedDescription
+          Logger.error(
+            "Encountered local authorization error.",
+            context: error.localizedDescription
           )
         }
-        os_log(
-          "Local Authorization success = %d",
-          log: .localAuthorizationManager,
-          type: .default,
-          success
+        Logger.info(
+          "Local Authorization success = ",
+          context: success
         )
         completion(success)
         context.invalidate()
       }
     } else {
-      os_log(
-        "Cannot evaluate deviceOwnerAuthentication policy",
-        log: .localAuthorizationManager,
-        type: .error
+      Logger.error(
+        "Cannot evaluate deviceOwnerAuthentication policy"
       )
     }
   }

@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import os.log
 
 protocol AppDefaults {
   func getDefaultFile() -> File?
@@ -38,18 +37,14 @@ struct AppDefaultsManager: AppDefaults {
   func getDefaultFile() -> File? {
     guard let data = userDefaults.data(forKey: defaultFileKey),
       let file = try? JSONDecoder().decode(File.self, from: data) else {
-      os_log(
-        "No default file found",
-        log: .appDefaults,
-        type: .default
+      Logger.info(
+        "No default file found"
       )
       return nil
     }
 
-    os_log(
-      "Default file found.",
-      log: .appDefaults,
-      type: .default
+    Logger.info(
+      "Default file found."
     )
     return file
   }

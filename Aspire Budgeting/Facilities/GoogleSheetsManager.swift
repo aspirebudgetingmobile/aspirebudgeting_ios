@@ -7,7 +7,6 @@ import Combine
 import Foundation
 import GoogleAPIClientForREST
 import GTMSessionFetcher
-import os.log
 
 protocol RemoteFileReader {
   func read(file: File,
@@ -92,10 +91,8 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     completion: @escaping (GTLRSheets_ValueRange?, Error?) -> Void
   ) {
     guard let authorizer = authorizer else {
-      os_log(
-        "Nil authorizer while trying to fetch data",
-        log: .sheetsManager,
-        type: .error
+      Logger.error(
+        "Nil authorizer while trying to fetch data"
       )
       completion(nil, GoogleDriveManagerError.nilAuthorizer)
       return
@@ -109,28 +106,23 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
 
     ticket = sheetsService.executeQuery(getSpreadsheetsQuery) { _, data, error in
       if let valueRange = data as? GTLRSheets_ValueRange {
-        os_log(
-          "Received GTLRSheets_ValueRange from Google Sheets",
-          log: .sheetsManager,
-          type: .default
+        Logger.info(
+          "Read succesful from Google Sheets: ",
+          context: spreadsheetRange
         )
         completion(valueRange, error)
       }
 
       if let error = error as NSError? {
         if error.domain == kGTLRErrorObjectDomain {
-          os_log(
-            "Encountered kGTLRErrorObjectDomain: %{public}s",
-            log: .sheetsManager,
-            type: .error,
-            error.localizedDescription
+          Logger.error(
+            "Encountered kGTLRErrorObjectDomain: ",
+            context: error.localizedDescription
           )
           completion(nil, GoogleDriveManagerError.inconsistentSheet)
         } else {
-          os_log(
-            "No internet connection",
-            log: .sheetsManager,
-            type: .error
+          Logger.error(
+            "No internet connection"
           )
           completion(nil, GoogleDriveManagerError.noInternet)
         }
@@ -199,17 +191,13 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
 
 extension GoogleSheetsManager {
   func getTransactionCategories(spreadsheet: File) {
-    os_log(
-      "Fetching transaction categories",
-      log: .sheetsManager,
-      type: .default
+    Logger.info(
+      "Fetching transaction categories"
     )
 
     guard let version = aspireVersion else {
-      os_log(
-        "Aspire version is nil",
-        log: .sheetsManager,
-        type: .error
+      Logger.error(
+        "Aspire version is nil"
       )
       fatalError("Aspire Version is nil")
     }
@@ -239,17 +227,13 @@ extension GoogleSheetsManager {
   }
 
   func getTransactionAccounts(spreadsheet: File) {
-    os_log(
-      "Fetching transaction accounts",
-      log: .sheetsManager,
-      type: .default
+    Logger.info(
+      "Fetching transaction accounts"
     )
 
     guard let version = aspireVersion else {
-      os_log(
-        "Aspire version is nil",
-        log: .sheetsManager,
-        type: .error
+      Logger.error(
+        "Aspire version is nil"
       )
       fatalError("Aspire Version is nil")
     }
@@ -282,10 +266,8 @@ extension GoogleSheetsManager {
   }
 
   func verifySheet(spreadsheet: File) {
-    os_log(
-      "Verifying selected Google Sheet",
-      log: .sheetsManager,
-      type: .default
+    Logger.info(
+      "Verifying selected Google Sheet"
     )
 
     //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { valueRange in
@@ -302,10 +284,8 @@ extension GoogleSheetsManager {
   }
 
   func fetchCategoriesAndGroups(spreadsheet: File, spreadsheetVersion: SupportedAspireVersions) {
-    os_log(
-      "Fetching Categories and groups",
-      log: .sheetsManager,
-      type: .default
+    Logger.info(
+      "Fetching Categories and groups"
     )
 
     let range: String
@@ -323,17 +303,13 @@ extension GoogleSheetsManager {
   }
 
   func fetchAccountBalances(spreadsheet: File) {
-    os_log(
-      "Fetching Account Balances",
-      log: .sheetsManager,
-      type: .default
+    Logger.info(
+      "Fetching Account Balances"
     )
 
     guard let version = aspireVersion else {
-      os_log(
-        "Aspire version is nil",
-        log: .sheetsManager,
-        type: .error
+      Logger.error(
+        "Aspire version is nil"
       )
       fatalError("Aspire Version is nil")
     }
@@ -367,10 +343,8 @@ extension GoogleSheetsManager {
     approvalType: Int,
     completion: @escaping (Bool) -> Void
   ) {
-    os_log(
-      "Adding transaction",
-      log: .sheetsManager,
-      type: .default
+    Logger.info(
+      "Adding transaction"
     )
 
     let valuesToInsert = createSheetsValueRangeFrom(
