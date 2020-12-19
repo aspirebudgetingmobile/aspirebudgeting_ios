@@ -5,8 +5,7 @@
 
 import SwiftUI
 
-struct BaseCardView: View {
-
+struct BaseCardView<Content: View>: View {
   let colorInfo: ColorInfo
   var minY: CGFloat = 0
   var curY: CGFloat = 0
@@ -17,6 +16,8 @@ struct BaseCardView: View {
   private let shadowRadius: CGFloat = 14
   private let shadowYOffset: CGFloat = 4
 
+  private let content: Content
+
   private var gradient: LinearGradient {
     Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
                            endColor: colorInfo.gradientEndColor)
@@ -26,9 +27,20 @@ struct BaseCardView: View {
     curY < minY ? minY - curY : 0
   }
 
+  init(colorInfo: BaseCardView<Content>.ColorInfo,
+       minY: CGFloat = 0,
+       curY: CGFloat = 0,
+       @ViewBuilder content: () -> Content) {
+    self.colorInfo = colorInfo
+    self.minY = minY
+    self.curY = curY
+    self.content = content()
+  }
+
   var body: some View {
     ZStack(alignment: .top) {
       containerBox
+      content
     }
     .offset(y: offsetY)
   }
@@ -66,15 +78,13 @@ struct CardView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
       Group {
-        BaseCardView(colorInfo: .init(gradientStartColor: .materialBrown800,
+        BaseCardView<Text>(colorInfo: .init(gradientStartColor: .materialBrown800,
                                   gradientEndColor: .materialBrown800,
-                                  shadowColor: .materialBrown800)/**,
-                 cardViewItem: MockProvider.cardViewItems[0]*/)
+                                  shadowColor: .materialBrown800)) {Text("Hello")}
 
-        BaseCardView(colorInfo: .init(gradientStartColor: .materialDeepPurple800,
+        BaseCardView<Text>(colorInfo: .init(gradientStartColor: .materialDeepPurple800,
                                   gradientEndColor: .materialDeepPurple800,
-                                  shadowColor: .materialDeepPurple800)/**,
-                 cardViewItem: MockProvider.cardViewItems[1]*/)
+                                  shadowColor: .materialDeepPurple800)) {Text("Hello")}
       }
     }
   }

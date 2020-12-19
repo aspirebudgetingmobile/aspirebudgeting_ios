@@ -15,8 +15,8 @@ enum MockProvider {
     return tabBarItems
   }
 
-  static var cardViewItems: [BaseCardView.CardViewItem] {
-    var cardViewItems = [BaseCardView.CardViewItem]()
+  static var cardViewItems: [BaseCardView<DashboardCardView>.CardViewItem] {
+    var cardViewItems = [BaseCardView<DashboardCardView>.CardViewItem]()
     cardViewItems.append(.init(title: "Credit Card Payments",
                                availableTotal: AspireNumber(stringValue: "$0"),
                                budgetedTotal: AspireNumber(stringValue: "$1000"),

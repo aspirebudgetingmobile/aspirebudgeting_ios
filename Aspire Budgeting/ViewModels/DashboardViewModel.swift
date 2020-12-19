@@ -11,8 +11,8 @@ struct DashboardViewModel {
   let dashboard: Dashboard?
   let error: Error?
 
-  var cardViewItems: [BaseCardView.CardViewItem] {
-    var items = [BaseCardView.CardViewItem]()
+  var cardViewItems: [BaseCardView<DashboardCardView>.CardViewItem] {
+    var items = [BaseCardView<DashboardCardView>.CardViewItem]()
     for (idx, group) in dashboard!.groups.enumerated() {
       let title = group.title
       let availableTotal = dashboard!.availableTotalForGroup(at: idx)

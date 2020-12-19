@@ -7,8 +7,8 @@ import SwiftUI
 
 struct DashboardCardView: View {
 
-  let cardViewItem: BaseCardView.CardViewItem
-  let colorInfo: BaseCardView.ColorInfo
+  let cardViewItem: BaseCardView<DashboardCardView>.CardViewItem
+  let colorInfo: BaseCardView<DashboardCardView>.ColorInfo
 
   private var gradient: LinearGradient {
     Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
