@@ -16,7 +16,6 @@ struct DashboardCardsListView: View {
           ForEach(0..<self.cardViewItems.count) { idx in
             GeometryReader { geo in
               BaseCardView<DashboardCardView>(
-//                       cardViewItem: self.cardViewItems[idx],
                        minY: g.frame(in: .global).minY,
                        curY: geo.frame(in: .global).minY,
                 baseColor: colorFor(idx: idx)) {
