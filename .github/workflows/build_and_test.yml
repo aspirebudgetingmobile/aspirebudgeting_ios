@@ -1,5 +1,5 @@
 name: Aspire Budgeting CI/CT
-on: push
+on: [push, pull_request]
 
 jobs:
   test:
