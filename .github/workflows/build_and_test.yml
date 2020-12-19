@@ -1,4 +1,4 @@
-name: Aspire Budgeting CI/CT
+name: Aspire Budgeting Build and Test
 on: [push, pull_request]
 
 jobs:
