@@ -24,6 +24,8 @@ jobs:
           bundle exec pod install
 
       - name: Code Validation
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
         run: bundle exec danger
 
       - name: Run Tests
