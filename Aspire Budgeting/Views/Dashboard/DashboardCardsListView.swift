@@ -1,11 +1,11 @@
 //
-//  DasboardCardsListView.swift
+//  DashboardCardsListView.swift
 //  Aspire Budgeting
 //
 
 import SwiftUI
 
-struct DasboardCardsListView: View {
+struct DashboardCardsListView: View {
 
   let cardViewItems: [DashboardCardView.DashboardCardItem]
 
@@ -34,7 +34,7 @@ struct DasboardCardsListView: View {
 }
 
 //MARK:- Internal Types
-extension DasboardCardsListView {
+extension DashboardCardsListView {
   static let baseColors: [Color] =
     [.materialRed800,
      .materialPink800,
@@ -50,13 +50,13 @@ extension DasboardCardsListView {
     ].shuffled()
 
   private func colorFor(idx: Int) -> Color {
-    DasboardCardsListView
-      .baseColors[idx % DasboardCardsListView.baseColors.count]
+    DashboardCardsListView
+      .baseColors[idx % DashboardCardsListView.baseColors.count]
   }
 }
 
 struct CardListView_Previews: PreviewProvider {
   static var previews: some View {
-    DasboardCardsListView(cardViewItems: MockProvider.cardViewItems)
+    DashboardCardsListView(cardViewItems: MockProvider.cardViewItems)
   }
 }
