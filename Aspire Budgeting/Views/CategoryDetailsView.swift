@@ -9,12 +9,12 @@ struct CategoryDetailsView: View {
 
   let cardDetails: CardDetails
 
-  private let bannerHeight: CGFloat = 100
   private let cornerRadius: CGFloat = 24
 
     var body: some View {
       VStack {
-        banner
+        BannerView(title: cardDetails.title,
+                   baseColor: cardDetails.baseColor)
         details
       }
 
@@ -22,16 +22,6 @@ struct CategoryDetailsView: View {
 }
 
 extension CategoryDetailsView {
-  private var banner: some View {
-    ZStack {
-      Rectangle()
-        .fill(cardDetails.baseColor)
-        .frame(height: bannerHeight)
-      Text(cardDetails.title)
-        .font(.nunitoBold(size: 22))
-        .foregroundColor(.white)
-    }
-  }
 
   private var totals: some View {
     HStack(spacing: 30) {

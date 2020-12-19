@@ -47,6 +47,7 @@
 		0685BBB7250EC74800728228 /* BaseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB6250EC74800728228 /* BaseCardView.swift */; };
 		0685BBB9250EC76600728228 /* DashboardCardsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB8250EC76600728228 /* DashboardCardsListView.swift */; };
 		0685BBBB250EC80400728228 /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0685BBBA250EC80400728228 /* Karla-Regular.ttf */; };
+		068B12A0258EB2A5006B64FE /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068B129F258EB2A5006B64FE /* BannerView.swift */; };
 		0694C2232369EDB90039528A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0694C2222369EDB90039528A /* DashboardView.swift */; };
 		0695DF41258D68E900BBCD19 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 0695DF40258D68E900BBCD19 /* SwiftyBeaver */; };
 		069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */; };
@@ -159,6 +160,7 @@
 		0685BBB6250EC74800728228 /* BaseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCardView.swift; sourceTree = "<group>"; };
 		0685BBB8250EC76600728228 /* DashboardCardsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardCardsListView.swift; sourceTree = "<group>"; };
 		0685BBBA250EC80400728228 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Regular.ttf"; sourceTree = "<group>"; };
+		068B129F258EB2A5006B64FE /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		0694C2222369EDB90039528A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		069F830725003EBB009DD3E9 /* GoogleContentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleContentManager.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				06BE37AD251ECB50000CF5C9 /* AspireNumberView.swift */,
 				06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */,
 				06BE37CF251F9BA4000CF5C9 /* CategoryListView.swift */,
+				068B129F258EB2A5006B64FE /* BannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
 				06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */,
+				068B12A0258EB2A5006B64FE /* BannerView.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,
 				06C6B59D24EF259B00968C60 /* FileSelectorViewModel.swift in Sources */,
 				066EF460235D3D6000E94CE4 /* GoogleUserManager.swift in Sources */,
