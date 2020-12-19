@@ -9,18 +9,17 @@ struct DashboardCardView: View {
 
   let cardViewItem: DashboardCardItem
   let baseColor: Color
-  
   @State private var showDetails = false
 
   private var expandedDetails: CategoryDetailsView.CardDetails {
     CategoryDetailsView
-        .CardDetails(title: cardViewItem.title,
-                     baseColor: baseColor,
-                     budgetedTotal: cardViewItem.budgetedTotal,
-                     spentTotal: cardViewItem.spentTotal,
-                     availableTotal: cardViewItem.availableTotal,
-                     categories: cardViewItem.categories,
-                     tintColor: baseColor)
+      .CardDetails(title: cardViewItem.title,
+                   baseColor: baseColor,
+                   budgetedTotal: cardViewItem.budgetedTotal,
+                   spentTotal: cardViewItem.spentTotal,
+                   availableTotal: cardViewItem.availableTotal,
+                   categories: cardViewItem.categories,
+                   tintColor: baseColor)
   }
 
   var body: some View {
@@ -117,7 +116,7 @@ extension DashboardCardView {
   }
 }
 
-//MARK:- Internal Types
+// MARK: - Internal Types
 extension DashboardCardView {
   struct DashboardCardItem {
     let title: String
@@ -128,8 +127,28 @@ extension DashboardCardView {
     let categories: [Category]
   }
 }
-// struct DashboardCardVIew_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DashboardCardVIew()
-//    }
-// }
+
+struct DashboardCardView_Previews: PreviewProvider {
+  static var previews: some View {
+    DashboardCardView(cardViewItem:
+                        DashboardCardView.DashboardCardItem(
+                          title: "Investments",
+                          availableTotal: AspireNumber(stringValue: "$50"),
+                          budgetedTotal: AspireNumber(stringValue: "$40"),
+                          spentTotal: AspireNumber(stringValue: "$30"),
+                          progressFactor: 0.5,
+                          categories: [Category.init(row: ["$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                          ]),
+                          ]),
+                      baseColor: .materialTeal800)
+  }
+}
