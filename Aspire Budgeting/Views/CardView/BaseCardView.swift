@@ -12,9 +12,6 @@ struct BaseCardView<Content: View>: View {
   private let cornerRadius: CGFloat = 24
   private let height: CGFloat = 163
 
-  private let shadowRadius: CGFloat = 14
-  private let shadowYOffset: CGFloat = 4
-
   private var baseColor: Color
   private let content: Content
 
