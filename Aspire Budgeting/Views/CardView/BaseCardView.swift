@@ -6,7 +6,6 @@
 import SwiftUI
 
 struct BaseCardView<Content: View>: View {
-  let colorInfo: ColorInfo
   var minY: CGFloat = 0
   var curY: CGFloat = 0
 
@@ -16,24 +15,25 @@ struct BaseCardView<Content: View>: View {
   private let shadowRadius: CGFloat = 14
   private let shadowYOffset: CGFloat = 4
 
+  private var baseColor: Color
   private let content: Content
 
-  private var gradient: LinearGradient {
-    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
-                           endColor: colorInfo.gradientEndColor)
-  }
+//  private var gradient: LinearGradient {
+//    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
+//                           endColor: colorInfo.gradientEndColor)
+//  }
 
   private var offsetY: CGFloat {
     curY < minY ? minY - curY : 0
   }
 
-  init(colorInfo: BaseCardView<Content>.ColorInfo,
-       minY: CGFloat = 0,
+  init(minY: CGFloat = 0,
        curY: CGFloat = 0,
+       baseColor: Color,
        @ViewBuilder content: () -> Content) {
-    self.colorInfo = colorInfo
     self.minY = minY
     self.curY = curY
+    self.baseColor = baseColor
     self.content = content()
   }
 
@@ -49,7 +49,7 @@ struct BaseCardView<Content: View>: View {
 extension BaseCardView {
   private var containerBox: some View {
     Rectangle()
-      .fill(gradient)
+      .fill(baseColor)
       .cornerRadius(cornerRadius)
       .frame(height: height)
   }
@@ -57,12 +57,6 @@ extension BaseCardView {
 
 // MARK: - Internal Types
 extension BaseCardView {
-  struct ColorInfo {
-    let gradientStartColor: Color
-    let gradientEndColor: Color
-    let shadowColor: Color
-  }
-
   struct CardViewItem {
     let title: String
     let availableTotal: AspireNumber
@@ -78,13 +72,9 @@ struct CardView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
       Group {
-        BaseCardView<Text>(colorInfo: .init(gradientStartColor: .materialBrown800,
-                                  gradientEndColor: .materialBrown800,
-                                  shadowColor: .materialBrown800)) {Text("Hello")}
+        BaseCardView<Color>(baseColor: .materialBlue800) {Color.materialBlue800}
 
-        BaseCardView<Text>(colorInfo: .init(gradientStartColor: .materialDeepPurple800,
-                                  gradientEndColor: .materialDeepPurple800,
-                                  shadowColor: .materialDeepPurple800)) {Text("Hello")}
+        BaseCardView<Color>(baseColor: .materialTeal800) {Color.materialTeal800}
       }
     }
   }

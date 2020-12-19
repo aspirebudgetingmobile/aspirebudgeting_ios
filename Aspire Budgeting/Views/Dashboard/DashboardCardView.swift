@@ -8,24 +8,19 @@ import SwiftUI
 struct DashboardCardView: View {
 
   let cardViewItem: BaseCardView<DashboardCardView>.CardViewItem
-  let colorInfo: BaseCardView<DashboardCardView>.ColorInfo
-
-  private var gradient: LinearGradient {
-    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
-                           endColor: colorInfo.gradientEndColor)
-  }
+  let baseColor: Color
   
   @State private var showDetails = false
 
   private var expandedDetails: CategoryDetailsView.CardDetails {
     CategoryDetailsView
         .CardDetails(title: cardViewItem.title,
-                     bannerGradient: gradient,
+                     baseColor: baseColor,
                      budgetedTotal: cardViewItem.budgetedTotal,
                      spentTotal: cardViewItem.spentTotal,
                      availableTotal: cardViewItem.availableTotal,
                      categories: cardViewItem.categories,
-                     tintColor: colorInfo.gradientEndColor)
+                     tintColor: baseColor)
   }
 
   var body: some View {
@@ -97,8 +92,8 @@ extension DashboardCardView {
 
   private var progressBar: some View {
     AspireProgressBar(barType: .detailed,
-                      shadowColor: self.colorInfo.shadowColor,
-                      tintColor: self.colorInfo.gradientEndColor,
+                      shadowColor: baseColor,
+                      tintColor: baseColor,
                       progressFactor: self.cardViewItem.progressFactor)
       .padding(.horizontal, 10)
   }
