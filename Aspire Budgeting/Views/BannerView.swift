@@ -5,26 +5,32 @@
 
 import SwiftUI
 
-struct BannerView: View {
-  let title: String
+struct BannerView<Content: View>: View {
+  let content: Content
   let baseColor: Color
 
   private let bannerHeight: CGFloat = 100
+
+  init(baseColor: Color,
+       @ViewBuilder content: () -> Content) {
+    self.baseColor = baseColor
+    self.content = content()
+  }
 
   var body: some View {
     ZStack {
       Rectangle()
         .fill(baseColor)
         .frame(height: bannerHeight)
-      Text(title)
-        .font(.nunitoBold(size: 22))
-        .foregroundColor(.white)
+      content
     }
   }
 }
 
 struct BannerView_Previews: PreviewProvider {
   static var previews: some View {
-    BannerView(title: "Category Transfer", baseColor: .materialBlue800)
+    BannerView(baseColor: .materialBlue800) {
+      Text("Investments")
+    }
   }
 }
