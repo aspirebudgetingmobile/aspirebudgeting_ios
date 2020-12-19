@@ -11,17 +11,24 @@ struct CategoryDetailsView: View {
 
   private let cornerRadius: CGFloat = 24
 
-    var body: some View {
-      VStack {
-        BannerView(title: cardDetails.title,
-                   baseColor: cardDetails.baseColor)
-        details
-      }
-
+  var body: some View {
+    VStack {
+      banner
+      details
     }
+
+  }
 }
 
 extension CategoryDetailsView {
+
+  private var banner: some View {
+    BannerView(baseColor: cardDetails.baseColor) {
+      Text(cardDetails.title)
+        .font(.nunitoBold(size: 22))
+        .foregroundColor(.white)
+    }
+  }
 
   private var totals: some View {
     HStack(spacing: 30) {
@@ -81,19 +88,19 @@ struct CardExpandedView_Previews: PreviewProvider {
     let baseColor = Color.materialBrown800
 
     let details = CategoryDetailsView
-        .CardDetails(title: title,
-                     baseColor: baseColor,
-                     budgetedTotal: AspireNumber(stringValue: "$500"),
-                     spentTotal: AspireNumber(stringValue: "-$30"),
-                     availableTotal: AspireNumber(stringValue: "40"),
-                     categories: MockProvider
-                      .cardViewItems[0]
-                      .categories,
-                     tintColor: .materialDeepPurple800)
+      .CardDetails(title: title,
+                   baseColor: baseColor,
+                   budgetedTotal: AspireNumber(stringValue: "$500"),
+                   spentTotal: AspireNumber(stringValue: "-$30"),
+                   availableTotal: AspireNumber(stringValue: "40"),
+                   categories: MockProvider
+                    .cardViewItems[0]
+                    .categories,
+                   tintColor: .materialDeepPurple800)
 
     return details
   }
-    static var previews: some View {
-      CategoryDetailsView(cardDetails: CardExpandedView_Previews.cardDetils)
-    }
+  static var previews: some View {
+    CategoryDetailsView(cardDetails: CardExpandedView_Previews.cardDetils)
+  }
 }
