@@ -13,7 +13,7 @@ jobs:
       xcode: ['/Applications/Xcode_12.3.app/Contents/Developer']
 
   steps:
-  - name: Checkoutt
+  - name: Checkout
     uses: actions/checkout@v2
   
   - name: Inject PLIST files
