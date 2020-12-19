@@ -16,15 +16,15 @@ struct DashboardCardsListView: View {
           ForEach(0..<self.cardViewItems.count) { idx in
             GeometryReader { geo in
               BaseCardView<DashboardCardView>(
-                       minY: g.frame(in: .global).minY,
-                       curY: geo.frame(in: .global).minY,
+                minY: g.frame(in: .global).minY,
+                curY: geo.frame(in: .global).minY,
                 baseColor: colorFor(idx: idx)) {
                 DashboardCardView(cardViewItem: self.cardViewItems[idx],
                                   baseColor: colorFor(idx: idx))
               }
-                .padding(.horizontal)
+              .padding(.horizontal)
             }.frame(maxWidth: .infinity)
-              .frame(height: 125)
+            .frame(height: 125)
           }
         }
       }.background(Color.primaryBackgroundColor)
@@ -32,7 +32,7 @@ struct DashboardCardsListView: View {
   }
 }
 
-//MARK:- Internal Types
+// MARK: - Internal Types
 extension DashboardCardsListView {
   static let baseColors: [Color] =
     [.materialRed800,
