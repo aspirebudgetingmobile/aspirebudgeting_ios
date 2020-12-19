@@ -1,44 +1,154 @@
 //
-//  DashboardCardVIew.swift
+//  DashboardCardView.swift
 //  Aspire Budgeting
 //
 
 import SwiftUI
 
 struct DashboardCardView: View {
-  struct Totals {
-    var availableTotal: AspireNumber
-    var budgetedTotal: AspireNumber
-    var spentTotals: AspireNumber
+
+  let cardViewItem: DashboardCardItem
+  let baseColor: Color
+  @State private var showDetails = false
+
+  private var expandedDetails: CategoryDetailsView.CardDetails {
+    CategoryDetailsView
+      .CardDetails(title: cardViewItem.title,
+                   baseColor: baseColor,
+                   budgetedTotal: cardViewItem.budgetedTotal,
+                   spentTotal: cardViewItem.spentTotal,
+                   availableTotal: cardViewItem.availableTotal,
+                   categories: cardViewItem.categories,
+                   tintColor: baseColor)
   }
 
-  let categoryName: String
-  let totals: Totals
-  let categoryRows: [Category]
-
-  @State var expanded = false
-
   var body: some View {
-    VStack {
-      if !self.expanded {
-        CollapsedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
-      } else {
-        ExpandedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
-      }
-    }.background(Color.white.opacity(0.07))
-      .cornerRadius(10)
-      .shadow(radius: 5)
-      .padding()
-      .gesture(TapGesture().onEnded { _ in
-        withAnimation {
-          self.expanded.toggle()
-        }
-      })
+    VStack(alignment: .leading) {
+      topRow
+      secondRow
+      progressBar
+      fourthRow
+    }.sheet(isPresented: $showDetails) {
+      CategoryDetailsView(cardDetails: self.expandedDetails)
+    }
   }
 }
 
-// struct DashboardCardVIew_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DashboardCardVIew()
-//    }
-// }
+extension DashboardCardView {
+  private var topRow: some View {
+    HStack {
+      ZStack {
+        Circle()
+          .fill(Color.white)
+          .opacity(0.2)
+          .frame(width: 32, height: 32)
+
+        Image("moneyBag")
+      }.padding(.horizontal, 10)
+
+      Text(cardViewItem.title)
+        .font(.nunitoBold(size: 18))
+        .foregroundColor(.white)
+
+      Spacer()
+
+      Button(action: {
+        self.showDetails.toggle()
+      }, label: {
+        Text("Details >")
+          .font(.karlaRegular(size: 12))
+          .lineSpacing(3)
+          .foregroundColor(.white)
+          .overlay(
+            RoundedRectangle(cornerRadius: 14)
+              .stroke(Color.white, lineWidth: 1)
+              .frame(width: 79, height: 28)
+          )
+          .padding()
+          .padding(.trailing)
+      })
+
+    }.padding(.top, 5)
+  }
+
+  private var secondRow: some View {
+    HStack {
+      Text("AVAILABLE")
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.horizontal, 10)
+
+      Spacer()
+
+      Text("BUDGETED")
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.trailing)
+    }
+  }
+
+  private var progressBar: some View {
+    AspireProgressBar(barType: .detailed,
+                      shadowColor: baseColor,
+                      tintColor: baseColor,
+                      progressFactor: self.cardViewItem.progressFactor)
+      .padding(.horizontal, 10)
+  }
+
+  private var fourthRow: some View {
+    HStack {
+      Text(self.cardViewItem.availableTotal.stringValue)
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.horizontal, 10)
+
+      Spacer()
+
+      Text(self.cardViewItem.budgetedTotal.stringValue)
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.trailing)
+    }
+  }
+}
+
+// MARK: - Internal Types
+extension DashboardCardView {
+  struct DashboardCardItem {
+    let title: String
+    let availableTotal: AspireNumber
+    let budgetedTotal: AspireNumber
+    let spentTotal: AspireNumber
+    let progressFactor: Double
+    let categories: [Category]
+  }
+}
+
+struct DashboardCardView_Previews: PreviewProvider {
+  static var previews: some View {
+    DashboardCardView(cardViewItem:
+                        DashboardCardView.DashboardCardItem(
+                          title: "Investments",
+                          availableTotal: AspireNumber(stringValue: "$50"),
+                          budgetedTotal: AspireNumber(stringValue: "$40"),
+                          spentTotal: AspireNumber(stringValue: "$30"),
+                          progressFactor: 0.5,
+                          categories: [Category.init(row: ["$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                                                           "$1",
+                          ]),
+                          ]),
+                      baseColor: .materialTeal800)
+  }
+}

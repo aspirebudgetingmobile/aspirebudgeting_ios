@@ -5,77 +5,78 @@
 
 import SwiftUI
 
+@available(*, deprecated, message: "Replaced with new views in v2.0")
 struct ExpandedCardView: View {
-  let categoryName: String
-  let totals: DashboardCardView.Totals
-  let categoryRows: [Category]
+//  let categoryName: String
+//  let totals: DashboardCardView.Totals
+//  let categoryRows: [Category]
 
   var body: some View {
     VStack {
-      Text(categoryName)
-        .tracking(1)
-        .font(.rubikRegular(size: 20))
-        .padding(.vertical)
-        .foregroundColor(.white)
-      HStack {
-        VStack {
-          GradientTextView(
-            string: totals.budgetedTotal.stringValue,
-            tracking: 1.35,
-            font: .rubikMedium(size: 18),
-            paddingEdges: .horizontal,
-            paddingLength: nil,
-            gradient: Colors.yellowGradient
-          )
-          Text("Budgeted")
-            .tracking(0.5)
-            .font(.rubikLight(size: 7.5))
-            .padding(.top, 2)
-            .foregroundColor(.white)
-            .opacity(0.6)
-        }
-        VStack {
-          GradientTextView(
-            string: totals.availableTotal.stringValue,
-            tracking: 1.35,
-            font: .rubikMedium(size: 18),
-            paddingEdges: .horizontal,
-            paddingLength: nil,
-            gradient: Colors.greenGradient
-          )
-
-          Text("Available")
-            .tracking(0.5)
-            .font(.rubikLight(size: 7.5))
-            .padding(.top, 2)
-            .foregroundColor(.white)
-            .opacity(0.6)
-        }
-        VStack {
-          GradientTextView(
-            string: totals.spentTotals.stringValue,
-            tracking: 1.35,
-            font: .rubikMedium(size: 18),
-            paddingEdges: .horizontal,
-            paddingLength: nil,
-            gradient: Colors.redGradient
-          )
-
-          Text("Spent")
-            .tracking(0.5)
-            .font(.rubikLight(size: 7.5))
-            .padding(.top, 2)
-            .foregroundColor(.white)
-            .opacity(0.6)
-        }
-      }
-      Divider().padding(.horizontal)
-      ForEach(self.categoryRows, id: \.self) { row in
-        VStack {
-          DashboardRow(categoryRow: row).padding().transition(.identity)
-          Divider().padding(.horizontal)
-        }
-      }
+//      Text(categoryName)
+//        .tracking(1)
+//        .font(.rubikRegular(size: 20))
+//        .padding(.vertical)
+//        .foregroundColor(.white)
+//      HStack {
+//        VStack {
+//          GradientTextView(
+//            string: totals.budgetedTotal.stringValue,
+//            tracking: 1.35,
+//            font: .rubikMedium(size: 18),
+//            paddingEdges: .horizontal,
+//            paddingLength: nil,
+//            gradient: Colors.yellowGradient
+//          )
+//          Text("Budgeted")
+//            .tracking(0.5)
+//            .font(.rubikLight(size: 7.5))
+//            .padding(.top, 2)
+//            .foregroundColor(.white)
+//            .opacity(0.6)
+//        }
+//        VStack {
+//          GradientTextView(
+//            string: totals.availableTotal.stringValue,
+//            tracking: 1.35,
+//            font: .rubikMedium(size: 18),
+//            paddingEdges: .horizontal,
+//            paddingLength: nil,
+//            gradient: Colors.greenGradient
+//          )
+//
+//          Text("Available")
+//            .tracking(0.5)
+//            .font(.rubikLight(size: 7.5))
+//            .padding(.top, 2)
+//            .foregroundColor(.white)
+//            .opacity(0.6)
+//        }
+//        VStack {
+//          GradientTextView(
+//            string: totals.spentTotals.stringValue,
+//            tracking: 1.35,
+//            font: .rubikMedium(size: 18),
+//            paddingEdges: .horizontal,
+//            paddingLength: nil,
+//            gradient: Colors.redGradient
+//          )
+//
+//          Text("Spent")
+//            .tracking(0.5)
+//            .font(.rubikLight(size: 7.5))
+//            .padding(.top, 2)
+//            .foregroundColor(.white)
+//            .opacity(0.6)
+//        }
+//      }
+//      Divider().padding(.horizontal)
+//      ForEach(self.categoryRows, id: \.self) { row in
+//        VStack {
+//          DashboardRow(categoryRow: row).padding().transition(.identity)
+//          Divider().padding(.horizontal)
+//        }
+//      }
     }
   }
 }

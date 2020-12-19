@@ -25,7 +25,7 @@ extension CategoryDetailsView {
   private var banner: some View {
     ZStack {
       Rectangle()
-        .fill(cardDetails.bannerGradient)
+        .fill(cardDetails.baseColor)
         .frame(height: bannerHeight)
       Text(cardDetails.title)
         .font(.nunitoBold(size: 22))
@@ -77,7 +77,7 @@ extension CategoryDetailsView {
 extension CategoryDetailsView {
   struct CardDetails {
     let title: String
-    let bannerGradient: LinearGradient
+    let baseColor: Color
     let budgetedTotal: AspireNumber
     let spentTotal: AspireNumber
     let availableTotal: AspireNumber
@@ -88,16 +88,11 @@ extension CategoryDetailsView {
 struct CardExpandedView_Previews: PreviewProvider {
   static var cardDetils: CategoryDetailsView.CardDetails {
     let title = "Investments"
-    let bannerGradient = LinearGradient(gradient:
-                                          Gradient(colors: [.materialBrown800,
-                                                            .materialBrown800,
-                                          ]),
-                                        startPoint: UnitPoint(x: 0.5, y: -0.48),
-                                        endPoint: UnitPoint(x: -0.46, y: 0.52))
+    let baseColor = Color.materialBrown800
 
     let details = CategoryDetailsView
         .CardDetails(title: title,
-                     bannerGradient: bannerGradient,
+                     baseColor: baseColor,
                      budgetedTotal: AspireNumber(stringValue: "$500"),
                      spentTotal: AspireNumber(stringValue: "-$30"),
                      availableTotal: AspireNumber(stringValue: "40"),
