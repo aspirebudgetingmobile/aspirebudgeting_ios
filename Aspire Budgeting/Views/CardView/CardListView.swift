@@ -7,7 +7,7 @@ import SwiftUI
 
 struct CardListView: View {
 
-  let cardViewItems: [CardView.CardViewItem]
+  let cardViewItems: [BaseCardView.CardViewItem]
 
   var body: some View {
     GeometryReader {g in
@@ -15,8 +15,8 @@ struct CardListView: View {
         VStack {
           ForEach(0..<self.cardViewItems.count) { idx in
             GeometryReader { geo in
-              CardView(colorInfo: CardListView.colorInfos[idx % CardListView.colorInfos.count],
-                       cardViewItem: self.cardViewItems[idx],
+              BaseCardView(colorInfo: CardListView.colorInfos[idx % CardListView.colorInfos.count],
+//                       cardViewItem: self.cardViewItems[idx],
                        minY: g.frame(in: .global).minY,
                        curY: geo.frame(in: .global).minY)
                 .padding(.horizontal)
@@ -30,7 +30,7 @@ struct CardListView: View {
 }
 
 extension CardListView {
-  static let colorInfos: [CardView.ColorInfo] =
+  static let colorInfos: [BaseCardView.ColorInfo] =
     [.init(gradientStartColor: .materialRed800,
            gradientEndColor: .materialRed800,
            shadowColor: .materialRed800),

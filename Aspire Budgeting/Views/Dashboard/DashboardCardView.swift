@@ -1,39 +1,124 @@
 //
-//  DashboardCardVIew.swift
+//  DashboardCardView.swift
 //  Aspire Budgeting
 //
 
 import SwiftUI
 
 struct DashboardCardView: View {
-  struct Totals {
-    var availableTotal: AspireNumber
-    var budgetedTotal: AspireNumber
-    var spentTotals: AspireNumber
+
+  let cardViewItem: BaseCardView.CardViewItem
+  let colorInfo: BaseCardView.ColorInfo
+
+  private var gradient: LinearGradient {
+    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
+                           endColor: colorInfo.gradientEndColor)
+  }
+  
+  @State private var showDetails = false
+
+  private var expandedDetails: CategoryDetailsView.CardDetails {
+    CategoryDetailsView
+        .CardDetails(title: cardViewItem.title,
+                     bannerGradient: gradient,
+                     budgetedTotal: cardViewItem.budgetedTotal,
+                     spentTotal: cardViewItem.spentTotal,
+                     availableTotal: cardViewItem.availableTotal,
+                     categories: cardViewItem.categories,
+                     tintColor: colorInfo.gradientEndColor)
   }
 
-  let categoryName: String
-  let totals: Totals
-  let categoryRows: [Category]
-
-  @State var expanded = false
-
   var body: some View {
-    VStack {
-      if !self.expanded {
-        CollapsedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
-      } else {
-        ExpandedCardView(categoryName: categoryName, totals: totals, categoryRows: categoryRows)
-      }
-    }.background(Color.white.opacity(0.07))
-      .cornerRadius(10)
-      .shadow(radius: 5)
-      .padding()
-      .gesture(TapGesture().onEnded { _ in
-        withAnimation {
-          self.expanded.toggle()
-        }
+    VStack(alignment: .leading) {
+      topRow
+      secondRow
+      progressBar
+      fourthRow
+    }.sheet(isPresented: $showDetails) {
+      CategoryDetailsView(cardDetails: self.expandedDetails)
+    }
+  }
+}
+
+extension DashboardCardView {
+  private var topRow: some View {
+    HStack {
+      ZStack {
+        Circle()
+          .fill(Color.white)
+          .opacity(0.2)
+          .frame(width: 32, height: 32)
+
+        Image("moneyBag")
+      }.padding(.horizontal, 10)
+
+      Text(cardViewItem.title)
+        .font(.nunitoBold(size: 18))
+        .foregroundColor(.white)
+
+      Spacer()
+
+      Button(action: {
+        self.showDetails.toggle()
+      }, label: {
+        Text("Details >")
+          .font(.karlaRegular(size: 12))
+          .lineSpacing(3)
+          .foregroundColor(.white)
+          .overlay(
+            RoundedRectangle(cornerRadius: 14)
+              .stroke(Color.white, lineWidth: 1)
+              .frame(width: 79, height: 28)
+          )
+          .padding()
+          .padding(.trailing)
       })
+
+    }.padding(.top, 5)
+  }
+
+  private var secondRow: some View {
+    HStack {
+      Text("AVAILABLE")
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.horizontal, 10)
+
+      Spacer()
+
+      Text("BUDGETED")
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.trailing)
+    }
+  }
+
+  private var progressBar: some View {
+    AspireProgressBar(barType: .detailed,
+                      shadowColor: self.colorInfo.shadowColor,
+                      tintColor: self.colorInfo.gradientEndColor,
+                      progressFactor: self.cardViewItem.progressFactor)
+      .padding(.horizontal, 10)
+  }
+
+  private var fourthRow: some View {
+    HStack {
+      Text(self.cardViewItem.availableTotal.stringValue)
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.horizontal, 10)
+
+      Spacer()
+
+      Text(self.cardViewItem.budgetedTotal.stringValue)
+        .foregroundColor(.white)
+        .font(.nunitoRegular(size: 13))
+        .lineSpacing(3)
+        .padding(.trailing)
+    }
   }
 }
 
