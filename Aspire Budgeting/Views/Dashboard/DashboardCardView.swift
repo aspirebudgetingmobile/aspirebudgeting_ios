@@ -7,7 +7,7 @@ import SwiftUI
 
 struct DashboardCardView: View {
 
-  let cardViewItem: BaseCardView<DashboardCardView>.CardViewItem
+  let cardViewItem: DashboardCardItem
   let baseColor: Color
   
   @State private var showDetails = false
@@ -117,6 +117,17 @@ extension DashboardCardView {
   }
 }
 
+//MARK:- Internal Types
+extension DashboardCardView {
+  struct DashboardCardItem {
+    let title: String
+    let availableTotal: AspireNumber
+    let budgetedTotal: AspireNumber
+    let spentTotal: AspireNumber
+    let progressFactor: Double
+    let categories: [Category]
+  }
+}
 // struct DashboardCardVIew_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DashboardCardVIew()

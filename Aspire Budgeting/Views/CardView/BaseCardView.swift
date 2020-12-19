@@ -55,18 +55,6 @@ extension BaseCardView {
   }
 }
 
-// MARK: - Internal Types
-extension BaseCardView {
-  struct CardViewItem {
-    let title: String
-    let availableTotal: AspireNumber
-    let budgetedTotal: AspireNumber
-    let spentTotal: AspireNumber
-    let progressFactor: Double
-    let categories: [Category]
-  }
-}
-
 // MARK: - Previews
 struct CardView_Previews: PreviewProvider {
   static var previews: some View {

@@ -1,5 +1,5 @@
 //
-//  CardListView.swift
+//  DasboardCardsListView.swift
 //  Aspire Budgeting
 //
 
@@ -7,7 +7,7 @@ import SwiftUI
 
 struct DasboardCardsListView: View {
 
-  let cardViewItems: [BaseCardView<DashboardCardView>.CardViewItem]
+  let cardViewItems: [DashboardCardView.DashboardCardItem]
 
   var body: some View {
     GeometryReader {g in
@@ -19,9 +19,9 @@ struct DasboardCardsListView: View {
 //                       cardViewItem: self.cardViewItems[idx],
                        minY: g.frame(in: .global).minY,
                        curY: geo.frame(in: .global).minY,
-                baseColor: DasboardCardsListView.baseColors[idx % DasboardCardsListView.baseColors.count]) {
+                baseColor: colorFor(idx: idx)) {
                 DashboardCardView(cardViewItem: self.cardViewItems[idx],
-                                  baseColor: DasboardCardsListView.baseColors[idx % DasboardCardsListView.baseColors.count])
+                                  baseColor: colorFor(idx: idx))
               }
                 .padding(.horizontal)
             }.frame(maxWidth: .infinity)
@@ -49,13 +49,9 @@ extension DasboardCardsListView {
      .materialGrey800,
     ].shuffled()
 
-  struct CardViewItem {
-    let title: String
-    let availableTotal: AspireNumber
-    let budgetedTotal: AspireNumber
-    let spentTotal: AspireNumber
-    let progressFactor: Double
-    let categories: [Category]
+  private func colorFor(idx: Int) -> Color {
+    DasboardCardsListView
+      .baseColors[idx % DasboardCardsListView.baseColors.count]
   }
 }
 

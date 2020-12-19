@@ -17,7 +17,7 @@ struct DashboardView: View {
           SearchBar(text: $searchText)
             .ignoreKeyboard()
           if searchText.isEmpty {
-            CardListView(cardViewItems: viewModel.cardViewItems)
+            DasboardCardsListView(cardViewItems: viewModel.cardViewItems)
               .padding(.vertical, 10)
           } else {
             CategoryListView(categories: viewModel.filteredCategories(filter: searchText),
