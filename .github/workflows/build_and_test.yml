@@ -22,3 +22,9 @@ jobs:
         run: |
           bundle install
           bundle exec pod install
+
+      - name: Code Validation
+        run: bundle exec danger
+
+      - name: Run Tests
+        run: bundle exec fastlane unit_test
