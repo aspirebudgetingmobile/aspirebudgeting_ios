@@ -6,8 +6,8 @@
 import SwiftUI
 
 struct BaseCardView<Content: View>: View {
-  var minY: CGFloat = 0
-  var curY: CGFloat = 0
+  var minY: CGFloat
+  var curY: CGFloat
 
   private let cornerRadius: CGFloat = 24
   private let height: CGFloat = 163
@@ -18,17 +18,12 @@ struct BaseCardView<Content: View>: View {
   private var baseColor: Color
   private let content: Content
 
-//  private var gradient: LinearGradient {
-//    Color.fondGradientFrom(startColor: colorInfo.gradientStartColor,
-//                           endColor: colorInfo.gradientEndColor)
-//  }
-
   private var offsetY: CGFloat {
     curY < minY ? minY - curY : 0
   }
 
-  init(minY: CGFloat = 0,
-       curY: CGFloat = 0,
+  init(minY: CGFloat,
+       curY: CGFloat,
        baseColor: Color,
        @ViewBuilder content: () -> Content) {
     self.minY = minY
@@ -60,9 +55,13 @@ struct CardView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
       Group {
-        BaseCardView<Color>(baseColor: .materialBlue800) {Color.materialBlue800}
+        BaseCardView<Color>(minY: 0,
+                            curY: 0,
+                            baseColor: .materialBlue800) { Color.materialBlue800 }
 
-        BaseCardView<Color>(baseColor: .materialTeal800) {Color.materialTeal800}
+        BaseCardView<Color>(minY: 0,
+                            curY: 0,
+                            baseColor: .materialTeal800) { Color.materialTeal800 }
       }
     }
   }
