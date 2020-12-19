@@ -15,5 +15,5 @@ jobs:
 
       - name: Inject PLIST files
         run: |
-          cd "Aspire Budgeting"; mkdir Resources; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cat Resources/credentials.plist; cd ..
+          cd "Aspire Budgeting"; cp ../"Aspire BudgetingTests"/Resources/credentials.plist Resources/; cat Resources/credentials.plist; cd ..
           cd "Aspire Budgeting"; cp ../"Aspire BudgetingTests"/Resources/instabug.plist Resources/instabug.plist; cd ..
