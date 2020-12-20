@@ -14,7 +14,7 @@ struct AddTransactionView: View {
 //    return formatter
 //  }
 
-//  @State private var amountString = ""
+  @State private var amountString = ""
 //  @State private var memoString = ""
 //
 //  @State private var showDatePicker = false
@@ -64,19 +64,25 @@ struct AddTransactionView: View {
   var body: some View {
     VStack {
       BannerView(baseColor: .materialLightBlue800) {
-        Text("Enter Trasnsaction")
+        Text("Add Trasnsaction")
           .bannerTitle()
       }
 
       BannerView(baseColor: .materialBlue800) {
-        Text("$500")
-          .padding(.top, -30)
-          .bannerTitle()
+        VStack(spacing: 2) {
+          Text("Enter amount")
+            .font(.karlaBold(size: 12))
+            .foregroundColor(.white)
 
+          TextField("0.00", text: $amountString)
+            .multilineTextAlignment(.center)
+            .keyboardType(.decimalPad)
+            .bannerTitle()
+        }.padding(.top, -30)
       }
       .cornerRadius(24)
       .shadow(radius: 5)
-      .padding(.top, -35)
+      .padding(.top, -30)
 
       ScrollView {
 
