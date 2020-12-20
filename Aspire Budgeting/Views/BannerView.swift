@@ -4,7 +4,19 @@
 //
 
 import SwiftUI
+struct BannerViewTitle: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .font(.nunitoBold(size: 22))
+      .foregroundColor(.white)
+  }
+}
 
+extension View {
+  func bannerTitle() -> some View {
+    self.modifier(BannerViewTitle())
+  }
+}
 struct BannerView<Content: View>: View {
   let content: Content
   let baseColor: Color
