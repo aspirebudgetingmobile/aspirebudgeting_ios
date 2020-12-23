@@ -24,6 +24,9 @@ final class AppCoordinator: ObservableObject {
   private(set) lazy var dashboardVM: DashboardViewModel = {
     DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
   }()
+  private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
+    AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+  }()
 
   private var user: User?
 
@@ -125,6 +128,10 @@ extension AppCoordinator {
                                            refreshAction: self.dashboardRefreshCallback)
                       self.objectWillChange.send()
       }
+  }
+
+  func accountBalancesRefreshCallback() {
+    Logger.info("Fetch Account Balance")
   }
 }
 

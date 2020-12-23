@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct AccountBalancesView: View {
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
+  let viewModel: AccountBalancesViewModel
 
   func getColorForNumber(number: AspireNumber) -> Color {
     if number.isNegative {
@@ -16,14 +16,12 @@ struct AccountBalancesView: View {
   }
 
   var body: some View {
-    ZStack {
-      Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-
-      if sheetsManager.error == nil {
-        if sheetsManager.accountBalancesMetadata?.accountBalances != nil {
+    ZStack { //TODO: ZStack is probably not needed.
+      if viewModel.error == nil {
+        if viewModel.accountBalances != nil {
           List {
             ForEach(
-              sheetsManager.accountBalancesMetadata!.accountBalances,
+              viewModel.accountBalances!,
               id: \.self
             ) { accountBalance in
               VStack(alignment: .leading) {
@@ -51,27 +49,26 @@ struct AccountBalancesView: View {
             }.background(Colors.aspireGray)
           }
         } else {
-          ZStack {
-            Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-            Text("Fetching data...")
-              .font(.custom("Rubik-Light", size: 18))
-              .foregroundColor(.white)
-              .opacity(0.6)
+          GeometryReader { geo in
+            LoadingView(height: geo.frame(in: .local).size.height)
           }
         }
-
       } else {
         ZStack {
           Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-          ErrorBannerView(error: sheetsManager.error!)
+          ErrorBannerView(error: viewModel.error!)
         }
       }
     }
+    .background(Color.primaryBackgroundColor)
+      .onAppear {
+        self.viewModel.refresh()
+      }
   }
 }
 
-struct AccountBalancesView_Previews: PreviewProvider {
-  static var previews: some View {
-    AccountBalancesView()
-  }
-}
+//struct AccountBalancesView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    AccountBalancesView(viewModel: <#AccountBalancesViewModel#>)
+//  }
+//}
