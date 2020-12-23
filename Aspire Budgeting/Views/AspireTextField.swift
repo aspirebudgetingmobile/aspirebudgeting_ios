@@ -29,11 +29,11 @@ struct AspireTextField: View {
 
   var body: some View {
     ZStack {
-      Rectangle()
-        .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
-        .frame(height: 50)
-        .cornerRadius(5)
-        .padding()
+//      Rectangle()
+//        .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
+//        .frame(height: 50)
+//        .cornerRadius(5)
+//        .padding()
 
       HStack {
         Image(imageName).padding(.horizontal)

@@ -25,7 +25,7 @@ extension CategoryDetailsView {
   private var banner: some View {
     BannerView(baseColor: cardDetails.baseColor) {
       Text(cardDetails.title)
-        .bannerTitle()
+        .bannerTitle(size: .medium)
     }
   }
 
