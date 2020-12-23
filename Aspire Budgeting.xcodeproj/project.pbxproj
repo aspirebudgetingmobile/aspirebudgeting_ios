@@ -45,7 +45,6 @@
 		066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF461235D4FBD00E94CE4 /* SignInView.swift */; };
 		066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */; };
 		067B3C252593FB6000634EF4 /* AccountBalancesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067B3C242593FB6000634EF4 /* AccountBalancesViewModel.swift */; };
-		067B3C292593FBCE00634EF4 /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067B3C282593FBCE00634EF4 /* AccountBalance.swift */; };
 		0685BBB7250EC74800728228 /* BaseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB6250EC74800728228 /* BaseCardView.swift */; };
 		0685BBB9250EC76600728228 /* DashboardCardsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685BBB8250EC76600728228 /* DashboardCardsListView.swift */; };
 		0685BBBB250EC80400728228 /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0685BBBA250EC80400728228 /* Karla-Regular.ttf */; };
@@ -160,7 +159,6 @@
 		066EF461235D4FBD00E94CE4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		066EF463235E92AF00E94CE4 /* GoogleDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManager.swift; sourceTree = "<group>"; };
 		067B3C242593FB6000634EF4 /* AccountBalancesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalancesViewModel.swift; sourceTree = "<group>"; };
-		067B3C282593FBCE00634EF4 /* AccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalance.swift; sourceTree = "<group>"; };
 		0685BBB6250EC74800728228 /* BaseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCardView.swift; sourceTree = "<group>"; };
 		0685BBB8250EC76600728228 /* DashboardCardsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardCardsListView.swift; sourceTree = "<group>"; };
 		0685BBBA250EC80400728228 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Regular.ttf"; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalancesMetadata.swift */,
-				067B3C282593FBCE00634EF4 /* AccountBalance.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -747,7 +744,6 @@
 				06BE37AE251ECB50000CF5C9 /* AspireNumberView.swift in Sources */,
 				06C2BFFD2500A151007B3D73 /* TabBarView.swift in Sources */,
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
-				067B3C292593FBCE00634EF4 /* AccountBalance.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
 				060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */,
 				062F2BBF24EEDA7E004830F8 /* AppDefaults.swift in Sources */,

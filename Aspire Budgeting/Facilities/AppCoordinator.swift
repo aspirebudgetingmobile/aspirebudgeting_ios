@@ -131,7 +131,15 @@ extension AppCoordinator {
   }
 
   func accountBalancesRefreshCallback() {
-    Logger.info("Fetch Account Balance")
+    self.contentProvider
+      .getAccountBalances(for: self.user!,
+                          from: self.selectedFile!,
+                          using: self.dataLocationMap!) {
+        self.accountBalancesVM = AccountBalancesViewModel(result: $0,
+                                                          refreshAction:
+                                                            self.accountBalancesRefreshCallback)
+        self.objectWillChange.send()
+      }
   }
 }
 
