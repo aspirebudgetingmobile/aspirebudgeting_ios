@@ -15,7 +15,7 @@ struct AddTransactionView: View {
 //  }
 
   @State private var amountString = ""
-//  @State private var memoString = ""
+  @State private var memoString = ""
 //
 //  @State private var showDatePicker = false
 //  @State private var selectedDate = Date()
@@ -65,7 +65,7 @@ struct AddTransactionView: View {
     VStack {
       BannerView(baseColor: .materialLightBlue800) {
         Text("Add Trasnsaction")
-          .bannerTitle()
+          .bannerTitle(size: .medium)
       }
 
       BannerView(baseColor: .materialBlue800) {
@@ -77,7 +77,7 @@ struct AddTransactionView: View {
           TextField("0.00", text: $amountString)
             .multilineTextAlignment(.center)
             .keyboardType(.decimalPad)
-            .bannerTitle()
+            .bannerTitle(size: .large)
         }.padding(.top, -30)
       }
       .cornerRadius(24)
@@ -86,10 +86,19 @@ struct AddTransactionView: View {
 
       ScrollView {
 
+//        AspireTextField(
+//          text: $memoString,
+//          placeHolder: "Add Memo",
+//          imageName: "memo_icon",
+//          keyboardType: .default
+//        )
+//
+//        CardTotalsView(title: "Category", amount: AspireNumber(stringValue: "$-500"))
+
       }.background(Color.primaryBackgroundColor)
       .cornerRadius(24)
       .shadow(radius: 5)
-      .padding(.top, -50)
+      .padding(.top, -40)
       .edgesIgnoringSafeArea(.all)
     }
 //    ScrollView {
@@ -101,12 +110,7 @@ struct AddTransactionView: View {
 //          keyboardType: .decimalPad
 //        )
 //
-//        AspireTextField(
-//          text: $memoString,
-//          placeHolder: "Add Memo",
-//          imageName: "memo_icon",
-//          keyboardType: .default
-//        )
+
 //      }
 //
 //      AspirePickerButton(title: getDateString(), imageName: "calendar_icon") {
