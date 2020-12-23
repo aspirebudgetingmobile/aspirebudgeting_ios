@@ -34,6 +34,12 @@ struct AccountBalancesView: View {
                   .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
                   .font(.nunitoSemiBold(size: 25))
                   .frame(maxWidth: .infinity, alignment: .leading)
+
+                Text(accountBalance.additionalText)
+                  .padding(.horizontal)
+                  .foregroundColor(Color.primaryTextColor)
+                  .font(.nunitoRegular(size: 12))
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
             }
           }
