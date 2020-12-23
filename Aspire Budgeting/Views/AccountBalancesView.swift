@@ -26,27 +26,16 @@ struct AccountBalancesView: View {
             ) { accountBalance in
               VStack(alignment: .leading) {
                 Text(accountBalance.accountName)
-                  .foregroundColor(Color.white)
+                  .foregroundColor(Color.primaryTextColor)
                   .font(.nunitoSemiBold(size: 20))
 
-                ZStack {
-                  Rectangle()
-                    .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
-                    .frame(height: 50)
-                    .cornerRadius(10)
-                    .overlay(
-                      RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color(red: 0.679, green: 0.674, blue: 0.674), lineWidth: 5)
-                    )
-
-                  Text(accountBalance.balance.stringValue)
-                    .padding(.horizontal)
-                    .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
-                    .font(.nunitoSemiBold(size: 25))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }.padding(.top, -10)
+                Text(accountBalance.balance.stringValue)
+                  .padding(.horizontal)
+                  .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
+                  .font(.nunitoSemiBold(size: 25))
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
-            }.background(Colors.aspireGray)
+            }
           }
         } else {
           GeometryReader { geo in
@@ -61,9 +50,9 @@ struct AccountBalancesView: View {
       }
     }
     .background(Color.primaryBackgroundColor)
-      .onAppear {
-        self.viewModel.refresh()
-      }
+    .onAppear {
+      self.viewModel.refresh()
+    }
   }
 }
 
