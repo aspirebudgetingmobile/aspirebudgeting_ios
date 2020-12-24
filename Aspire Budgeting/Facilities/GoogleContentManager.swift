@@ -63,7 +63,7 @@ extension GoogleContentManager: ContentReader {
       readSink = fileReader
         .read(file: file, user: user, location: kVersionLocation)
         .map { self.getAccountBalancesRangeForVersion(in: $0) }
-        .flatMap{ self.fileReader.read(file: file, user: user, location: $0) }
+        .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
         .sink(receiveCompletion: { status in
           switch status {
           case.failure(let error):

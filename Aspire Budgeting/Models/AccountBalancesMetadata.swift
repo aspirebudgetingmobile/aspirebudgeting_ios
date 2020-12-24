@@ -29,8 +29,7 @@ struct AccountBalancesMetadata {
       if row.count == 2 {
         accountName = row[0]
         balance = AspireNumber(stringValue: row[1])
-      }
-      else if row.count == 1 {
+      } else if row.count == 1 {
         additionalText = row[0]
         accountBalances.append(
           AccountBalance(accountName: accountName!,
