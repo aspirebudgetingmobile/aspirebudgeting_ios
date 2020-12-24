@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct AccountBalancesView: View {
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
+  let viewModel: AccountBalancesViewModel
 
   func getColorForNumber(number: AspireNumber) -> Color {
     if number.isNegative {
@@ -16,62 +16,54 @@ struct AccountBalancesView: View {
   }
 
   var body: some View {
-    ZStack {
-      Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-
-      if sheetsManager.error == nil {
-        if sheetsManager.accountBalancesMetadata?.accountBalances != nil {
+    ZStack { //TODO: ZStack is probably not needed.
+      if viewModel.error == nil {
+        if viewModel.accountBalances != nil {
           List {
             ForEach(
-              sheetsManager.accountBalancesMetadata!.accountBalances,
+              viewModel.accountBalances!,
               id: \.self
             ) { accountBalance in
               VStack(alignment: .leading) {
                 Text(accountBalance.accountName)
-                  .foregroundColor(Color.white)
+                  .foregroundColor(Color.primaryTextColor)
                   .font(.nunitoSemiBold(size: 20))
 
-                ZStack {
-                  Rectangle()
-                    .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
-                    .frame(height: 50)
-                    .cornerRadius(10)
-                    .overlay(
-                      RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color(red: 0.679, green: 0.674, blue: 0.674), lineWidth: 5)
-                    )
+                Text(accountBalance.balance.stringValue)
+                  .padding(.horizontal)
+                  .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
+                  .font(.nunitoSemiBold(size: 25))
+                  .frame(maxWidth: .infinity, alignment: .leading)
 
-                  Text(accountBalance.balance.stringValue)
-                    .padding(.horizontal)
-                    .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
-                    .font(.nunitoSemiBold(size: 25))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }.padding(.top, -10)
+                Text(accountBalance.additionalText)
+                  .padding(.horizontal)
+                  .foregroundColor(Color.primaryTextColor)
+                  .font(.nunitoRegular(size: 12))
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
-            }.background(Colors.aspireGray)
+            }
           }
         } else {
-          ZStack {
-            Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-            Text("Fetching data...")
-              .font(.custom("Rubik-Light", size: 18))
-              .foregroundColor(.white)
-              .opacity(0.6)
+          GeometryReader { geo in
+            LoadingView(height: geo.frame(in: .local).size.height)
           }
         }
-
       } else {
         ZStack {
           Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-          ErrorBannerView(error: sheetsManager.error!)
+          ErrorBannerView(error: viewModel.error!)
         }
       }
+    }
+    .background(Color.primaryBackgroundColor)
+    .onAppear {
+      self.viewModel.refresh()
     }
   }
 }
 
-struct AccountBalancesView_Previews: PreviewProvider {
-  static var previews: some View {
-    AccountBalancesView()
-  }
-}
+//struct AccountBalancesView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    AccountBalancesView(viewModel: <#AccountBalancesViewModel#>)
+//  }
+//}

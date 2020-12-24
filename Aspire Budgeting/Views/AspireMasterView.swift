@@ -31,7 +31,7 @@ struct AspireMasterView: View {
                 self.navTitle = "Dashboard"
               }
           } else if selectedTab == 1 {
-            AccountBalancesView()
+            AccountBalancesView(viewModel: appCoordinator.accountBalancesVM)
               .onAppear {
                 self.navTitle = "Accounts"
               }

@@ -24,6 +24,9 @@ final class AppCoordinator: ObservableObject {
   private(set) lazy var dashboardVM: DashboardViewModel = {
     DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
   }()
+  private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
+    AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+  }()
 
   private var user: User?
 
@@ -124,6 +127,18 @@ extension AppCoordinator {
                         DashboardViewModel(result: $0,
                                            refreshAction: self.dashboardRefreshCallback)
                       self.objectWillChange.send()
+      }
+  }
+
+  func accountBalancesRefreshCallback() {
+    self.contentProvider
+      .getAccountBalances(for: self.user!,
+                          from: self.selectedFile!,
+                          using: self.dataLocationMap!) {
+        self.accountBalancesVM = AccountBalancesViewModel(result: $0,
+                                                          refreshAction:
+                                                            self.accountBalancesRefreshCallback)
+        self.objectWillChange.send()
       }
   }
 }

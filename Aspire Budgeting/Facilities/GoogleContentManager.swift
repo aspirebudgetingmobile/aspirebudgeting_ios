@@ -12,6 +12,11 @@ protocol ContentReader {
                     from file: File,
                     using dataMap: [String: String],
                     completion: @escaping (Result<Dashboard>) -> Void)
+
+  func getAccountBalances(for user: User,
+                          from file: File,
+                          using dataMap: [String: String],
+                          completion: @escaping (Result<AccountBalances>) -> Void)
 }
 
 protocol ContentWriter {
@@ -26,6 +31,7 @@ final class GoogleContentManager {
   private var readSink: AnyCancellable!
 
   private let kDashboard = "Dashboard"
+  private let kAccountBalances = "Account Balances"
   private let kVersionLocation = "BackendData!2:2"
 
   enum SupportedLegacyVersion: String {
@@ -43,22 +49,38 @@ final class GoogleContentManager {
 }
 
 extension GoogleContentManager: ContentReader {
-  private func getDashboardRangeForVersion(in valueRange: AnyObject) -> String {
-    guard let version = (valueRange as? GTLRSheets_ValueRange)?
-      .values?
-      .last?
-      .last as? String,
-      let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
-        return ""
+  func getAccountBalances(for user: User,
+                          from file: File,
+                          using dataMap: [String: String],
+                          completion: @escaping (Result<AccountBalances>) -> Void) {
+    if let location = dataMap[kAccountBalances] {
+      readSink = fileReader
+        .read(file: file, user: user, location: location)
+        .sink(receiveCompletion: { _ in //TODO: To be implemented for 3.3+
+        }, receiveValue: { _ in //TODO: To be implemented for 3.3+
+        })
+    } else {
+      readSink = fileReader
+        .read(file: file, user: user, location: kVersionLocation)
+        .map { self.getAccountBalancesRangeForVersion(in: $0) }
+        .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
+        .sink(receiveCompletion: { status in
+          switch status {
+          case.failure(let error):
+            completion(.failure(error))
+          default:
+            Logger.info("Account Balances retrieved")
+          }
+        }, receiveValue: { valueRange in
+          guard let rows =
+                  (valueRange as? GTLRSheets_ValueRange)?.values as? [[String]] else {
+            completion(.failure(GoogleDriveManagerError.inconsistentSheet))
+            return
+          }
+          let accountBalancesMetadata = AccountBalancesMetadata(metadata: rows)
+          completion(.success(accountBalancesMetadata.accountBalances))
+        })
     }
-    let range: String
-    switch supportedVersion {
-    case .twoEight, .three, .threeOne:
-      range = "Dashboard!F4:O"
-    case .threeTwo:
-      range = "Dashboard!F6:O"
-    }
-    return range
   }
 
   func getDashboard(for user: User,
@@ -81,7 +103,7 @@ extension GoogleContentManager: ContentReader {
           case .failure(let error):
             completion(.failure(error))
           default:
-            print("Dashboard data retrieved")
+            Logger.info("Dashboard data retrieved")
           }
         }, receiveValue: { valueRange in
         guard let rows =
@@ -99,5 +121,48 @@ extension GoogleContentManager: ContentReader {
 extension GoogleContentManager: ContentWriter {
   func addTransaction() {
 
+  }
+}
+
+extension GoogleContentManager {
+  private func getVersionFrom(_ valueRange: AnyObject) -> SupportedLegacyVersion? {
+    guard let version = (valueRange as? GTLRSheets_ValueRange)?
+            .values?
+            .last?
+            .last as? String,
+          let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
+      return nil
+    }
+    return supportedVersion
+  }
+
+  private func getAccountBalancesRangeForVersion(in valueRange: AnyObject) -> String {
+    guard let supportedVersion = getVersionFrom(valueRange) else {
+      return ""
+    }
+
+    let range: String
+    switch supportedVersion {
+    case .twoEight, .three, .threeOne:
+      range = "Dashboard!B10:C"
+    case .threeTwo:
+      range = "Dashboard!B8:C"
+    }
+    return range
+  }
+
+  private func getDashboardRangeForVersion(in valueRange: AnyObject) -> String {
+    guard let supportedVersion = getVersionFrom(valueRange) else {
+        return ""
+    }
+
+    let range: String
+    switch supportedVersion {
+    case .twoEight, .three, .threeOne:
+      range = "Dashboard!F4:O"
+    case .threeTwo:
+      range = "Dashboard!F6:O"
+    }
+    return range
   }
 }
