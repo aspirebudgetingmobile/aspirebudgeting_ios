@@ -120,24 +120,25 @@ extension AppCoordinator {
 
   func dashboardRefreshCallback() {
     self.contentProvider
-      .getDashboard(for: self.user!,
-                    from: self.selectedFile!,
-                    using: self.dataLocationMap!) {
-                      self.dashboardVM =
-                        DashboardViewModel(result: $0,
-                                           refreshAction: self.dashboardRefreshCallback)
-                      self.objectWillChange.send()
+      .getData(for: self.user!,
+               from: self.selectedFile!,
+               using: self.dataLocationMap!) { (result: Result<Dashboard>) in
+        self.dashboardVM =
+          DashboardViewModel(result: result,
+                             refreshAction: self.dashboardRefreshCallback)
+        self.objectWillChange.send()
       }
   }
 
   func accountBalancesRefreshCallback() {
     self.contentProvider
-      .getAccountBalances(for: self.user!,
-                          from: self.selectedFile!,
-                          using: self.dataLocationMap!) {
-        self.accountBalancesVM = AccountBalancesViewModel(result: $0,
-                                                          refreshAction:
-                                                            self.accountBalancesRefreshCallback)
+      .getData(for: self.user!,
+               from: self.selectedFile!,
+               using: self.dataLocationMap!) { (result: Result<AccountBalances>) in
+        self.accountBalancesVM =
+          AccountBalancesViewModel(result: result,
+                                   refreshAction:
+                                    self.accountBalancesRefreshCallback)
         self.objectWillChange.send()
       }
   }

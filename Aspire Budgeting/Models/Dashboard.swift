@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct Dashboard {
+struct Dashboard: ConstructableFromRows {
   struct Group {
     let title: String
     let categories: [Category]

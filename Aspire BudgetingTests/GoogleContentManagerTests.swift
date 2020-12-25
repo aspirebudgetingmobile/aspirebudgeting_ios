@@ -62,8 +62,8 @@ final class GoogleContentManagerTests: XCTestCase {
     let dataMap = ["A": "B"]
 
     let exp = XCTestExpectation()
-    contentManager.getDashboard(for: user, from: file, using: dataMap) {
-      switch $0 {
+    contentManager.getData(for: user, from: file, using: dataMap) { (result: Result<Dashboard>) in
+      switch result {
       case .failure:
         XCTFail()
 
