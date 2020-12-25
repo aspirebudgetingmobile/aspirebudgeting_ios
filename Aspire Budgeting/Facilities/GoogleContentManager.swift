@@ -58,7 +58,7 @@ extension GoogleContentManager: ContentReader {
       dataLocationKey = kDashboard
 
     default:
-      Logger.info("Data requested for unknown type.")
+      Logger.info("Data requested for unknown type \(T.self).")
     }
 
     if let location = dataMap[dataLocationKey] {
@@ -79,7 +79,7 @@ extension GoogleContentManager: ContentReader {
             return self.getDashboardRangeForVersion(in: $0)
 
           default:
-            Logger.info("Data requested for unknown type.")
+            Logger.info("Data requested for unknown type \(T.self).")
             return ""
           }
         }
@@ -89,7 +89,7 @@ extension GoogleContentManager: ContentReader {
           case.failure(let error):
             completion(.failure(error))
           default:
-            Logger.info("Account Balances retrieved")
+            Logger.info("\(T.self) retrieved")
           }
         }, receiveValue: { valueRange in
           guard let rows =
