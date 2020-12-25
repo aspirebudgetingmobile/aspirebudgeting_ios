@@ -32,7 +32,7 @@ class MockRemoteFileReader: RemoteFileReader {
   }
 }
 
-class MockDahboardReader: MockRemoteFileReader {
+final class MockDashboardReader: MockRemoteFileReader {
   let vr1 = GTLRSheets_ValueRange()
   let vr2 = GTLRSheets_ValueRange()
   init() {
@@ -48,7 +48,7 @@ class MockDahboardReader: MockRemoteFileReader {
   }
 }
 
-class MockAccountBalancesReader: MockRemoteFileReader {
+final class MockAccountBalancesReader: MockRemoteFileReader {
   let vr1 = GTLRSheets_ValueRange()
   let vr2 = GTLRSheets_ValueRange()
   init() {
@@ -71,7 +71,7 @@ struct MockRemoteFileWriter: RemoteFileWriter {
 
 final class GoogleContentManagerTests: XCTestCase {
 
-  let dashboardReader = MockDahboardReader()
+  let dashboardReader = MockDashboardReader()
   let accountBalancesReader = MockAccountBalancesReader()
   let writer = MockRemoteFileWriter()
 
