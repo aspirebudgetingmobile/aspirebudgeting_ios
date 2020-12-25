@@ -21,7 +21,7 @@ struct AccountBalancesView: View {
         if viewModel.accountBalances != nil {
           List {
             ForEach(
-              viewModel.accountBalances!,
+              viewModel.accountBalances!.accountBalances,
               id: \.self
             ) { accountBalance in
               VStack(alignment: .leading) {
