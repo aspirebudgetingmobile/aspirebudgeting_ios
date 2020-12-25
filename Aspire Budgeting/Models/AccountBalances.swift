@@ -11,12 +11,16 @@ struct AccountBalance: Hashable {
   let additionalText: String
 }
 
-typealias AccountBalances = [AccountBalance]
+//typealias AccountBalances = [AccountBalance]
 
-struct AccountBalancesMetadata {
-  let accountBalances: AccountBalances
-  init(metadata: [[String]]) {
-    accountBalances = AccountBalancesMetadata.parse(metadata: metadata)
+protocol ConstructableFromRows {
+  init(rows: [[String]])
+}
+
+struct AccountBalances:ConstructableFromRows {
+  let accountBalances: [AccountBalance]
+  init(rows: [[String]]) {
+    accountBalances = AccountBalances.parse(metadata: rows)
   }
 
   private static func parse(metadata: [[String]]) -> [AccountBalance] {

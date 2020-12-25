@@ -8,15 +8,10 @@ import Foundation
 import GoogleAPIClientForREST
 
 protocol ContentReader {
-  func getDashboard(for user: User,
-                    from file: File,
-                    using dataMap: [String: String],
-                    completion: @escaping (Result<Dashboard>) -> Void)
-
-  func getAccountBalances(for user: User,
-                          from file: File,
-                          using dataMap: [String: String],
-                          completion: @escaping (Result<AccountBalances>) -> Void)
+  func getData<T: ConstructableFromRows>(for user: User,
+                                         from file: File,
+                                         using dataMap: [String: String],
+                                         completion: @escaping (Result<T>) -> Void)
 }
 
 protocol ContentWriter {
@@ -49,11 +44,24 @@ final class GoogleContentManager {
 }
 
 extension GoogleContentManager: ContentReader {
-  func getAccountBalances(for user: User,
-                          from file: File,
-                          using dataMap: [String: String],
-                          completion: @escaping (Result<AccountBalances>) -> Void) {
-    if let location = dataMap[kAccountBalances] {
+  func getData<T: ConstructableFromRows>(for user: User,
+                                         from file: File,
+                                         using dataMap: [String: String],
+                                         completion: @escaping (Result<T>) -> Void) {
+
+    var dataLocationKey = ""
+    switch T.self {
+    case is AccountBalances.Type:
+      dataLocationKey = kAccountBalances
+
+    case is Dashboard.Type:
+      dataLocationKey = kDashboard
+
+    default:
+      Logger.info("Data requested for unknown type.")
+    }
+
+    if let location = dataMap[dataLocationKey] {
       readSink = fileReader
         .read(file: file, user: user, location: location)
         .sink(receiveCompletion: { _ in //TODO: To be implemented for 3.3+
@@ -61,8 +69,20 @@ extension GoogleContentManager: ContentReader {
         })
     } else {
       readSink = fileReader
-        .read(file: file, user: user, location: kVersionLocation)
-        .map { self.getAccountBalancesRangeForVersion(in: $0) }
+        .read(file: file, user: user, location: kVersionLocation) //Get the version
+        .map {
+          switch T.self {
+          case is AccountBalances.Type:
+            return self.getAccountBalancesRangeForVersion(in: $0)
+
+          case is Dashboard.Type:
+            return self.getDashboardRangeForVersion(in: $0)
+
+          default:
+            Logger.info("Data requested for unknown type.")
+            return ""
+          }
+        }
         .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
         .sink(receiveCompletion: { status in
           switch status {
@@ -77,43 +97,9 @@ extension GoogleContentManager: ContentReader {
             completion(.failure(GoogleDriveManagerError.inconsistentSheet))
             return
           }
-          let accountBalancesMetadata = AccountBalancesMetadata(metadata: rows)
-          completion(.success(accountBalancesMetadata.accountBalances))
+          let data = T(rows: rows)
+          completion(.success(data))
         })
-    }
-  }
-
-  func getDashboard(for user: User,
-                    from file: File,
-                    using dataMap: [String: String],
-                    completion: @escaping (Result<Dashboard>) -> Void) {
-    if let location = dataMap[kDashboard] {
-      readSink = fileReader
-        .read(file: file, user: user, location: location)
-        .sink(receiveCompletion: { _ in //TODO: To be implemented for 3.3+
-        }, receiveValue: { _ in //TODO: To be implemented for 3.3+
-        })
-    } else {
-      readSink = fileReader
-        .read(file: file, user: user, location: kVersionLocation)
-        .map { self.getDashboardRangeForVersion(in: $0) }
-        .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
-        .sink(receiveCompletion: { status in
-          switch status {
-          case .failure(let error):
-            completion(.failure(error))
-          default:
-            Logger.info("Dashboard data retrieved")
-          }
-        }, receiveValue: { valueRange in
-        guard let rows =
-          (valueRange as? GTLRSheets_ValueRange)?.values as? [[String]] else {
-          completion(.failure(GoogleDriveManagerError.inconsistentSheet))
-          return
-        }
-        let metadata = Dashboard(rows: rows)
-        completion(.success(metadata))
-      })
     }
   }
 }

@@ -73,7 +73,7 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
   @Published private(set) var dashboardMetadata: Dashboard?
   @Published private(set) var transactionCategories: [String]?
   @Published private(set) var transactionAccounts: [String]?
-  @Published private(set) var accountBalancesMetadata: AccountBalancesMetadata?
+  @Published private(set) var accountBalancesMetadata: AccountBalances?
 
   init(
     sheetsService: GTLRService = GTLRSheetsService(),
