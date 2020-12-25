@@ -8,10 +8,7 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
-final class MockRemoteFileReader: RemoteFileReader {
-  let vr1 = GTLRSheets_ValueRange()
-  let vr2 = GTLRSheets_ValueRange()
-
+class MockRemoteFileReader: RemoteFileReader {
   let vrs: [GTLRSheets_ValueRange]
   var idx = 0
 
@@ -19,17 +16,10 @@ final class MockRemoteFileReader: RemoteFileReader {
   var user: User?
   var location: String?
 
-  init() {
-    vr1.values = [["2.8"]]
-    vr2.values = [
-      ["✦", "", "G1", "", "", "", "", "", "", ""],
-      ["✧", "", "G1:C1", "1", "2", "3", "4", "5", "6", "7"],
-      ["✧", "", "G1:C2", "8", "9", "10", "11", "12", "13", "14"],
-      ["✦", "", "G2", "", "", "", "", "", "", ""],
-      ["✧", "", "G2:C1", "15", "16", "17", "18", "19", "20", "21"],
-    ]
+  init(vr1: GTLRSheets_ValueRange, vr2: GTLRSheets_ValueRange) {
     vrs = [vr1, vr2]
   }
+
   func read(file: File, user: User, location: String) -> AnyPublisher<AnyObject, Error> {
     self.file = file
     self.user = user
@@ -42,6 +32,37 @@ final class MockRemoteFileReader: RemoteFileReader {
   }
 }
 
+class MockDahboardReader: MockRemoteFileReader {
+  let vr1 = GTLRSheets_ValueRange()
+  let vr2 = GTLRSheets_ValueRange()
+  init() {
+    vr1.values = [["2.8"]]
+    vr2.values = [
+      ["✦", "", "G1", "", "", "", "", "", "", ""],
+      ["✧", "", "G1:C1", "1", "2", "3", "4", "5", "6", "7"],
+      ["✧", "", "G1:C2", "8", "9", "10", "11", "12", "13", "14"],
+      ["✦", "", "G2", "", "", "", "", "", "", ""],
+      ["✧", "", "G2:C1", "15", "16", "17", "18", "19", "20", "21"],
+    ]
+    super.init(vr1: vr1, vr2: vr2)
+  }
+}
+
+class MockAccountBalancesReader: MockRemoteFileReader {
+  let vr1 = GTLRSheets_ValueRange()
+  let vr2 = GTLRSheets_ValueRange()
+  init() {
+    vr1.values = [["3.2.0"]]
+    vr2.values = [
+      ["Account 1", "$500"],
+      ["Additional 1"],
+      ["Account 2", "-$50"],
+      ["Additional 2"],
+    ]
+    super.init(vr1: vr1, vr2: vr2)
+  }
+}
+
 struct MockRemoteFileWriter: RemoteFileWriter {
   func write(file: File, user: User, location: String) {
 
@@ -50,16 +71,17 @@ struct MockRemoteFileWriter: RemoteFileWriter {
 
 final class GoogleContentManagerTests: XCTestCase {
 
-  let reader = MockRemoteFileReader()
+  let dashboardReader = MockDahboardReader()
+  let accountBalancesReader = MockAccountBalancesReader()
   let writer = MockRemoteFileWriter()
+
+  let user = User(name: "Test User", authorizer: 42 as AnyObject)
+  let file = File(id: "test_file", name: "Test File")
+  let dataMap = ["A": "B"]
 
   func testGetDashboard() {
     let contentManager =
-      GoogleContentManager(fileReader: reader, fileWriter: writer)
-
-    let user = User(name: "Test User", authorizer: 42 as AnyObject)
-    let file = File(id: "test_file", name: "Test File")
-    let dataMap = ["A": "B"]
+      GoogleContentManager(fileReader: dashboardReader, fileWriter: writer)
 
     let exp = XCTestExpectation()
     contentManager.getData(for: user, from: file, using: dataMap) { (result: Result<Dashboard>) in
@@ -80,8 +102,36 @@ final class GoogleContentManagerTests: XCTestCase {
     }
     wait(for: [exp], timeout: 1)
 
-    XCTAssertEqual(user.name, reader.user!.name)
-    XCTAssertEqual(file, reader.file!)
-    XCTAssertEqual("Dashboard!F4:O", reader.location!)
+    XCTAssertEqual(user.name, dashboardReader.user!.name)
+    XCTAssertEqual(file, dashboardReader.file!)
+    XCTAssertEqual("Dashboard!F4:O", dashboardReader.location!)
+  }
+
+  func testGetAccountBalances() {
+    let contentManager =
+      GoogleContentManager(fileReader: accountBalancesReader, fileWriter: writer)
+
+    let exp = XCTestExpectation()
+    contentManager.getData(for: user,
+                           from: file,
+                           using: dataMap) { (result: Result<AccountBalances>) in
+      switch result {
+      case .failure:
+        XCTFail()
+
+      case .success(let accountBalances):
+        XCTAssertEqual(accountBalances.accountBalances.count, 2)
+        XCTAssertEqual(accountBalances.accountBalances[0].accountName, "Account 1")
+        XCTAssertEqual(accountBalances.accountBalances[0].balance.decimalValue, 500)
+        XCTAssertEqual(accountBalances.accountBalances[0].additionalText, "Additional 1")
+        XCTAssertEqual(accountBalances.accountBalances[1].accountName, "Account 2")
+        XCTAssertEqual(accountBalances.accountBalances[1].balance.decimalValue, -50)
+        XCTAssertEqual(accountBalances.accountBalances[1].additionalText, "Additional 2")
+        exp.fulfill()
+      }
+    }
+    wait(for: [exp], timeout: 1)
+
+    XCTAssertEqual("Dashboard!B8:C", accountBalancesReader.location!)
   }
 }
