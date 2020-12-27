@@ -70,13 +70,23 @@ extension GoogleContentManager: ContentReader {
     } else {
       readSink = fileReader
         .read(file: file, user: user, location: kVersionLocation) //Get the version
+        .tryMap { valueRange -> SupportedLegacyVersion in
+          guard let version = (valueRange as? GTLRSheets_ValueRange)?
+                  .values?
+                  .last?
+                  .last as? String,
+                let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
+            throw GoogleSheetsValidationError.invalidSheet
+          }
+          return supportedVersion
+        }
         .map {
           switch T.self {
           case is AccountBalances.Type:
-            return self.getAccountBalancesRangeForVersion(in: $0)
+            return self.getAccountBalancesRangeForVersion($0)
 
           case is Dashboard.Type:
-            return self.getDashboardRangeForVersion(in: $0)
+            return self.getDashboardRangeForVersion($0)
 
           default:
             Logger.info("Data requested for unknown type \(T.self).")
@@ -111,22 +121,18 @@ extension GoogleContentManager: ContentWriter {
 }
 
 extension GoogleContentManager {
-  private func getVersionFrom(_ valueRange: AnyObject) -> SupportedLegacyVersion? {
-    guard let version = (valueRange as? GTLRSheets_ValueRange)?
-            .values?
-            .last?
-            .last as? String,
-          let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
-      return nil
-    }
-    return supportedVersion
-  }
+//  private func getVersionFrom(_ valueRange: AnyObject) throws -> SupportedLegacyVersion? {
+//    guard let version = (valueRange as? GTLRSheets_ValueRange)?
+//            .values?
+//            .last?
+//            .last as? String,
+//          let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
+//      throw GoogleSheetsValidationError.invalidSheet
+//    }
+//    return supportedVersion
+//  }
 
-  private func getAccountBalancesRangeForVersion(in valueRange: AnyObject) -> String {
-    guard let supportedVersion = getVersionFrom(valueRange) else {
-      return ""
-    }
-
+  private func getAccountBalancesRangeForVersion(_ supportedVersion: SupportedLegacyVersion) -> String {
     let range: String
     switch supportedVersion {
     case .twoEight, .three, .threeOne:
@@ -137,11 +143,7 @@ extension GoogleContentManager {
     return range
   }
 
-  private func getDashboardRangeForVersion(in valueRange: AnyObject) -> String {
-    guard let supportedVersion = getVersionFrom(valueRange) else {
-        return ""
-    }
-
+  private func getDashboardRangeForVersion(_ supportedVersion: SupportedLegacyVersion) -> String {
     let range: String
     switch supportedVersion {
     case .twoEight, .three, .threeOne:
