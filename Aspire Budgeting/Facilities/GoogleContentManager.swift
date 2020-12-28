@@ -49,19 +49,7 @@ extension GoogleContentManager: ContentReader {
                                          using dataMap: [String: String],
                                          completion: @escaping (Result<T>) -> Void) {
 
-    var dataLocationKey = ""
-    switch T.self {
-    case is AccountBalances.Type:
-      dataLocationKey = kAccountBalances
-
-    case is Dashboard.Type:
-      dataLocationKey = kDashboard
-
-    default:
-      Logger.info("Data requested for unknown type \(T.self).")
-    }
-
-    if let location = dataMap[dataLocationKey] {
+    if let location = getRange(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, location: location)
         .sink(receiveCompletion: { _ in //TODO: To be implemented for 3.3+
@@ -70,29 +58,25 @@ extension GoogleContentManager: ContentReader {
     } else {
       readSink = fileReader
         .read(file: file, user: user, location: kVersionLocation) //Get the version
-        .tryMap { valueRange -> SupportedLegacyVersion in
+        .tryMap { valueRange -> String in
           guard let version = (valueRange as? GTLRSheets_ValueRange)?
                   .values?
                   .last?
-                  .last as? String,
-                let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
+                  .last as? String else {
+            Logger.error("Unable to extract version from GTLRSheets_ValueRange")
+            throw GoogleDriveManagerError.inconsistentSheet
+          }
+          return version
+        }
+        .tryMap {
+          guard let supportedVersion = SupportedLegacyVersion(rawValue: $0) else {
+            Logger.error("Unsupported version: ", context: $0)
             throw GoogleSheetsValidationError.invalidSheet
           }
+          Logger.info("Using Aspire Version: ", context: $0)
           return supportedVersion
         }
-        .map {
-          switch T.self {
-          case is AccountBalances.Type:
-            return self.getAccountBalancesRangeForVersion($0)
-
-          case is Dashboard.Type:
-            return self.getDashboardRangeForVersion($0)
-
-          default:
-            Logger.info("Data requested for unknown type \(T.self).")
-            return ""
-          }
-        }
+        .compactMap { self.getRange(of: T.self, for: $0) }
         .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
         .sink(receiveCompletion: { status in
           switch status {
@@ -121,18 +105,38 @@ extension GoogleContentManager: ContentWriter {
 }
 
 extension GoogleContentManager {
-//  private func getVersionFrom(_ valueRange: AnyObject) throws -> SupportedLegacyVersion? {
-//    guard let version = (valueRange as? GTLRSheets_ValueRange)?
-//            .values?
-//            .last?
-//            .last as? String,
-//          let supportedVersion = SupportedLegacyVersion(rawValue: version) else {
-//      throw GoogleSheetsValidationError.invalidSheet
-//    }
-//    return supportedVersion
-//  }
+  private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> String? {
+    switch T.self {
+    case is AccountBalances.Type:
+      return self.getAccountBalancesRangeForVersion(version)
 
-  private func getAccountBalancesRangeForVersion(_ supportedVersion: SupportedLegacyVersion) -> String {
+    case is Dashboard.Type:
+      return self.getDashboardRangeForVersion(version)
+
+    default:
+      Logger.info("Data requested for unknown type \(T.self).")
+      return nil
+    }
+  }
+
+  private func getRange<T>(of type: T.Type, from dataMap: [String: String]) -> String? {
+    var dataLocationKey = ""
+    switch T.self {
+    case is AccountBalances.Type:
+      dataLocationKey = kAccountBalances
+
+    case is Dashboard.Type:
+      dataLocationKey = kDashboard
+
+    default:
+      Logger.info("Data requested for unknown type \(T.self).")
+      return nil
+    }
+    return dataMap[dataLocationKey]
+  }
+
+  private func getAccountBalancesRangeForVersion(_ supportedVersion: SupportedLegacyVersion)
+  -> String {
     let range: String
     switch supportedVersion {
     case .twoEight, .three, .threeOne:
