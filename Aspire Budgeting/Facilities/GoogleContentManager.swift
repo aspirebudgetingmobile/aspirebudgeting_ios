@@ -29,6 +29,8 @@ final class GoogleContentManager {
   private let kAccountBalances = "Account Balances"
   private let kVersionLocation = "BackendData!2:2"
 
+  private var supportedLegacyVersion: SupportedLegacyVersion?
+
   enum SupportedLegacyVersion: String {
     case twoEight = "2.8"
     case three = "3.0"
@@ -56,26 +58,7 @@ extension GoogleContentManager: ContentReader {
         }, receiveValue: { _ in //TODO: To be implemented for 3.3+
         })
     } else {
-      readSink = fileReader
-        .read(file: file, user: user, location: kVersionLocation) //Get the version
-        .tryMap { valueRange -> String in
-          guard let version = (valueRange as? GTLRSheets_ValueRange)?
-                  .values?
-                  .last?
-                  .last as? String else {
-            Logger.error("Unable to extract version from GTLRSheets_ValueRange")
-            throw GoogleDriveManagerError.inconsistentSheet
-          }
-          return version
-        }
-        .tryMap {
-          guard let supportedVersion = SupportedLegacyVersion(rawValue: $0) else {
-            Logger.error("Unsupported version: ", context: $0)
-            throw GoogleSheetsValidationError.invalidSheet
-          }
-          Logger.info("Using Aspire Version: ", context: $0)
-          return supportedVersion
-        }
+      readSink = getVersion(for: file, user: user)
         .compactMap { self.getRange(of: T.self, for: $0) }
         .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
         .sink(receiveCompletion: { status in
@@ -105,6 +88,38 @@ extension GoogleContentManager: ContentWriter {
 }
 
 extension GoogleContentManager {
+  private func getVersion(for file: File,
+                          user: User) -> AnyPublisher<SupportedLegacyVersion, Error> {
+    if let legacyVersion = supportedLegacyVersion {
+      return Just(legacyVersion)
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
+    }
+
+    return self.fileReader
+      .read(file: file, user: user, location: kVersionLocation)
+      .tryMap { valueRange -> String in
+        guard let version = (valueRange as? GTLRSheets_ValueRange)?
+                .values?
+                .last?
+                .last as? String else {
+          Logger.error("Unable to extract version from GTLRSheets_ValueRange")
+          throw GoogleDriveManagerError.inconsistentSheet
+        }
+        return version
+      }
+      .tryMap {
+        guard let supportedVersion = SupportedLegacyVersion(rawValue: $0) else {
+          Logger.error("Unsupported version: ", context: $0)
+          throw GoogleSheetsValidationError.invalidSheet
+        }
+        Logger.info("Using Aspire Version: ", context: $0)
+        self.supportedLegacyVersion = supportedVersion
+        return supportedVersion
+      }
+      .eraseToAnyPublisher()
+  }
+
   private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> String? {
     switch T.self {
     case is AccountBalances.Type:

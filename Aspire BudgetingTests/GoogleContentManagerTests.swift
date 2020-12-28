@@ -20,12 +20,12 @@ class MockRemoteFileReader: RemoteFileReader {
     vrs = [vr1, vr2]
   }
 
-  func read(file: File, user: User, location: String) -> AnyPublisher<AnyObject, Error> {
+  func read(file: File, user: User, location: String) -> AnyPublisher<Any, Error> {
     self.file = file
     self.user = user
     self.location = location
 
-    return Future<AnyObject, Error> { promise in
+    return Future<Any, Error> { promise in
       promise(.success(self.vrs[self.idx]))
       self.idx += 1
     }.eraseToAnyPublisher()

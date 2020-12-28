@@ -11,7 +11,7 @@ import GTMSessionFetcher
 protocol RemoteFileReader {
   func read(file: File,
             user: User,
-            location: String) -> AnyPublisher<AnyObject, Error>
+            location: String) -> AnyPublisher<Any, Error>
 }
 
 protocol RemoteFileWriter {
@@ -28,9 +28,9 @@ enum Result<T> {
 final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
   func read(file: File,
             user: User,
-            location: String) -> AnyPublisher<AnyObject, Error> {
+            location: String) -> AnyPublisher<Any, Error> {
 
-    let future = Future<AnyObject, Error> { promise in
+    let future = Future<Any, Error> { promise in
       let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
 
       self.fetchData(spreadsheet: file,
