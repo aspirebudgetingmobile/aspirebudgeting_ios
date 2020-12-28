@@ -63,7 +63,10 @@ struct AppDefaultsManager: AppDefaults {
   }
 
   func getDataLocationMap() -> [String: String] {
-    let map = userDefaults.dictionary(forKey: self.dataMapKey)
-    return map as! [String: String]
+    guard let map = userDefaults
+            .dictionary(forKey: self.dataMapKey) as? [String: String] else {
+      return [String: String]()
+    }
+    return map
   }
 }
