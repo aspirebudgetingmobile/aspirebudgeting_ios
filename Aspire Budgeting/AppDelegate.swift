@@ -11,11 +11,18 @@ let Logger = SwiftyBeaver.self
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+  var logURL: URL {
+    var url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    url.appendPathComponent("aspire_budgeting.log")
+    return url
+  }
+
   fileprivate func setupLogger() {
     let console = ConsoleDestination()
-    let file = FileDestination()
+    let file = FileDestination(logFileURL: logURL)
 
     console.format = "$DHH:mm:ss$d $L $M $X"
+    file.format += " $X"
 
     Logger.addDestination(console)
     Logger.addDestination(file)
