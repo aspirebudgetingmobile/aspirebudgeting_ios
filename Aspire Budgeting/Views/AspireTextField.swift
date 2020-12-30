@@ -9,7 +9,6 @@ struct AspireTextField: View {
   @Binding var text: String
 
   let placeholder: String
-  let imageName: String
   let keyboardType: UIKeyboardType
   let disabled: Bool
 
@@ -22,29 +21,24 @@ struct AspireTextField: View {
   ) {
     self._text = text
     self.placeholder = placeHolder
-    self.imageName = imageName
     self.keyboardType = keyboardType
     self.disabled = disabled
   }
 
   var body: some View {
     ZStack {
-//      Rectangle()
-//        .foregroundColor(Color(red: 0.769, green: 0.769, blue: 0.769))
-//        .frame(height: 50)
-//        .cornerRadius(5)
-//        .padding()
+      RoundedRectangle(cornerRadius: 5)
+        .strokeBorder(Color(#colorLiteral(red: 0.8470588326454163, green: 0.8470588326454163, blue: 0.8470588326454163, alpha: 1)), lineWidth: 1)
+        .frame(height: 50)
+        .padding()
 
-      HStack {
-        Image(imageName).padding(.horizontal)
-        Spacer()
-        TextField(placeholder, text: $text)
-          .keyboardType(keyboardType)
-          .padding(.horizontal)
-          .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
-          .font(.nunitoSemiBold(size: 25))
-          .disabled(disabled)
-      }.padding()
+      TextField(placeholder, text: $text)
+        .keyboardType(keyboardType)
+        .padding(.horizontal)
+        .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
+        .font(.nunitoSemiBold(size: 25))
+        .disabled(disabled)
+        .padding()
     }
   }
 }

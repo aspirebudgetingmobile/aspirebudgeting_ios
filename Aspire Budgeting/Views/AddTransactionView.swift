@@ -86,12 +86,12 @@ struct AddTransactionView: View {
 
       ScrollView {
 
-//        AspireTextField(
-//          text: $memoString,
-//          placeHolder: "Add Memo",
-//          imageName: "memo_icon",
-//          keyboardType: .default
-//        )
+        AspireTextField(
+          text: $memoString,
+          placeHolder: "Add Memo",
+          imageName: "memo_icon",
+          keyboardType: .default
+        )
 //
 //        CardTotalsView(title: "Category", amount: AspireNumber(stringValue: "$-500"))
 
