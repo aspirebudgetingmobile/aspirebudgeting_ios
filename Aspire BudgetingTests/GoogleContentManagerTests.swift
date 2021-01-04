@@ -14,19 +14,19 @@ class MockRemoteFileReader: RemoteFileReader {
 
   var file: File?
   var user: User?
-  var location: String?
+  var locations: [String]?
 
   init(vr1: GTLRSheets_ValueRange, vr2: GTLRSheets_ValueRange) {
     vrs = [vr1, vr2]
   }
 
-  func read(file: File, user: User, locations: String) -> AnyPublisher<Any, Error> {
+  func read(file: File, user: User, locations: [String]) -> AnyPublisher<Any, Error> {
     self.file = file
     self.user = user
-    self.location = locations
+    self.locations = locations
 
     return Future<Any, Error> { promise in
-      promise(.success(self.vrs[self.idx]))
+      promise(.success([self.vrs[self.idx]]))
       self.idx += 1
     }.eraseToAnyPublisher()
   }
@@ -104,7 +104,7 @@ final class GoogleContentManagerTests: XCTestCase {
 
     XCTAssertEqual(user.name, dashboardReader.user!.name)
     XCTAssertEqual(file, dashboardReader.file!)
-    XCTAssertEqual("Dashboard!F4:O", dashboardReader.location!)
+    XCTAssertEqual("Dashboard!F4:O", dashboardReader.locations?.first!)
   }
 
   func testGetAccountBalances() {
@@ -132,6 +132,6 @@ final class GoogleContentManagerTests: XCTestCase {
     }
     wait(for: [exp], timeout: 1)
 
-    XCTAssertEqual("Dashboard!B8:C", accountBalancesReader.location!)
+    XCTAssertEqual("Dashboard!B8:C", accountBalancesReader.locations?.first!)
   }
 }
