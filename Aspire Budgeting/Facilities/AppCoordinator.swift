@@ -145,6 +145,15 @@ extension AppCoordinator {
         self.objectWillChange.send()
       }
   }
+
+  func addTransactionRefreshCallback() {
+//    self.contentProvider
+//      .getData(for: self.user!,
+//               from: self.selectedFile!,
+//               using: self.dataLocationMap) { (result: Result<AddTransactionMetadata>) in
+//        
+//      }
+  }
 }
 
 // MARK: - State Management

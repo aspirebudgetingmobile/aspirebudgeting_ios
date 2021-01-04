@@ -53,14 +53,14 @@ extension GoogleContentManager: ContentReader {
 
     if let location = getRange(of: T.self, from: dataMap) {
       readSink = fileReader
-        .read(file: file, user: user, location: location)
+        .read(file: file, user: user, locations: [location])
         .sink(receiveCompletion: { _ in //TODO: To be implemented for 3.3+
         }, receiveValue: { _ in //TODO: To be implemented for 3.3+
         })
     } else {
       readSink = getVersion(for: file, user: user)
         .compactMap { self.getRange(of: T.self, for: $0) }
-        .flatMap { self.fileReader.read(file: file, user: user, location: $0) }
+        .flatMap { self.fileReader.read(file: file, user: user, locations: [$0]) }
         .sink(receiveCompletion: { status in
           switch status {
           case.failure(let error):
@@ -68,9 +68,11 @@ extension GoogleContentManager: ContentReader {
           default:
             Logger.info("\(T.self) retrieved")
           }
-        }, receiveValue: { valueRange in
+        }, receiveValue: { valueRanges in
           guard let rows =
-                  (valueRange as? GTLRSheets_ValueRange)?.values as? [[String]] else {
+                  (valueRanges as? [GTLRSheets_ValueRange])?
+                  .first?
+                  .values as? [[String]] else {
             completion(.failure(GoogleDriveManagerError.inconsistentSheet))
             return
           }
@@ -97,9 +99,10 @@ extension GoogleContentManager {
     }
 
     return self.fileReader
-      .read(file: file, user: user, location: kVersionLocation)
-      .tryMap { valueRange -> String in
-        guard let version = (valueRange as? GTLRSheets_ValueRange)?
+      .read(file: file, user: user, locations: [kVersionLocation])
+      .tryMap { valueRanges -> String in
+        guard let version = (valueRanges as? [GTLRSheets_ValueRange])?
+                .first?
                 .values?
                 .last?
                 .last as? String else {
@@ -169,6 +172,34 @@ extension GoogleContentManager {
       range = "Dashboard!F4:O"
     case .threeTwo:
       range = "Dashboard!F6:O"
+    }
+    return range
+  }
+
+  private func getTransactionCategoriesRangeForVersion(_ supportedVersion: SupportedLegacyVersion) -> String {
+    let range: String
+    switch supportedVersion {
+    case .twoEight:
+      range = "BackendData!B2:B"
+    case .three, .threeOne:
+      range = "BackendData!F2:F"
+    case .threeTwo:
+      range = "BackendData!G2:G"
+    }
+    return range
+  }
+
+  private func getTransactionAccountsRangeForVersion(_ supported: SupportedLegacyVersion) -> String {
+    let range: String
+    switch supported {
+    case .twoEight:
+      range = "BackendData!E2:E"
+    case .three:
+      range = "BackendData!H2:H"
+    case .threeOne:
+      range = "BackendData!J2:J"
+    case .threeTwo:
+      range = "BackendData!M2:M"
     }
     return range
   }

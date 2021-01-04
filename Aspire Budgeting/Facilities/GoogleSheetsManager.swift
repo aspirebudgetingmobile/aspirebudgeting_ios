@@ -11,7 +11,7 @@ import GTMSessionFetcher
 protocol RemoteFileReader {
   func read(file: File,
             user: User,
-            location: String) -> AnyPublisher<Any, Error>
+            locations: [String]) -> AnyPublisher<Any, Error>
 }
 
 protocol RemoteFileWriter {
@@ -28,13 +28,13 @@ enum Result<T> {
 final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
   func read(file: File,
             user: User,
-            location: String) -> AnyPublisher<Any, Error> {
+            locations: [String]) -> AnyPublisher<Any, Error> {
 
     let future = Future<Any, Error> { promise in
       let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
 
       self.fetchData(spreadsheet: file,
-                     spreadsheetRange: location,
+                     spreadsheetRanges: locations,
                      authorizer: authorizer) { valueRange, error in
                       if let error = error {
                         promise(.failure(error))
@@ -62,7 +62,7 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
   }
 
   private let sheetsService: GTLRService
-  private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet
+  private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
 
   private var logoutObserver: NSObjectProtocol?
 
@@ -75,8 +75,8 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
 
   init(
     sheetsService: GTLRService = GTLRSheetsService(),
-    getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesGet
-    = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: "", range: "")
+    getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+    = GTLRSheetsQuery_SpreadsheetsValuesBatchGet.query(withSpreadsheetId: "")
   ) {
     self.sheetsService = sheetsService
     self.getSpreadsheetsQuery = getSpreadsheetsQuery
@@ -84,9 +84,9 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
 
   private func fetchData(
     spreadsheet: File,
-    spreadsheetRange: String,
+    spreadsheetRanges: [String],
     authorizer: GTMFetcherAuthorizationProtocol?,
-    completion: @escaping (GTLRSheets_ValueRange?, Error?) -> Void
+    completion: @escaping ([GTLRSheets_ValueRange]?, Error?) -> Void
   ) {
     guard let authorizer = authorizer else {
       Logger.error(
@@ -100,15 +100,15 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     getSpreadsheetsQuery.isQueryInvalid = false
 
     getSpreadsheetsQuery.spreadsheetId = spreadsheet.id
-    getSpreadsheetsQuery.range = spreadsheetRange
+    getSpreadsheetsQuery.ranges = spreadsheetRanges
 
     ticket = sheetsService.executeQuery(getSpreadsheetsQuery) { _, data, error in
-      if let valueRange = data as? GTLRSheets_ValueRange {
+      if let valueRanges = (data as? GTLRSheets_BatchGetValuesResponse)?.valueRanges {
         Logger.info(
           "Read succesful from Google Sheets: ",
-          context: spreadsheetRange
+          context: spreadsheetRanges
         )
-        completion(valueRange, error)
+        completion(valueRanges, error)
       }
 
       if let error = error as NSError? {
@@ -182,149 +182,6 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
 
     sheetsValueRange.values = [valuesToInsert]
     return sheetsValueRange
-  }
-}
-
-// MARK: Reading from Google Sheets
-
-extension GoogleSheetsManager {
-  func getTransactionCategories(spreadsheet: File) {
-    Logger.info(
-      "Fetching transaction categories"
-    )
-
-    guard let version = aspireVersion else {
-      Logger.error(
-        "Aspire version is nil"
-      )
-      fatalError("Aspire Version is nil")
-    }
-
-    let range: String
-    switch version {
-    case .twoEight:
-      range = "BackendData!B2:B"
-    case .three, .threeOne:
-      range = "BackendData!F2:F"
-    case .threeTwo:
-      range = "BackendData!G2:G"
-    }
-
-    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-    //      guard let values = valueRange.values as? [[String]] else {
-    //        fatalError("Values from Google sheet is nil")
-    //      }
-    //
-    //      os_log(
-    //        "Received transaction categories",
-    //        log: .sheetsManager,
-    //        type: .default
-    //      )
-    //      self.transactionCategories = values.map { $0.first! }
-    //    }
-  }
-
-  func getTransactionAccounts(spreadsheet: File) {
-    Logger.info(
-      "Fetching transaction accounts"
-    )
-
-    guard let version = aspireVersion else {
-      Logger.error(
-        "Aspire version is nil"
-      )
-      fatalError("Aspire Version is nil")
-    }
-
-    let range: String
-    switch version {
-    case .twoEight:
-      range = "BackendData!E2:E"
-    case .three:
-      range = "BackendData!H2:H"
-    case .threeOne:
-      range = "BackendData!J2:J"
-    case .threeTwo:
-      range = "BackendData!M2:M"
-    }
-
-    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-    //      guard let values = valueRange.values as? [[String]] else {
-    //        fatalError("Values from Google sheet is nil")
-    //      }
-    //
-    //      os_log(
-    //        "Received transaction accounts",
-    //        log: .sheetsManager,
-    //        type: .default
-    //      )
-    //
-    //      self.transactionAccounts = values.map { $0.first! }
-    //    }
-  }
-
-  func verifySheet(spreadsheet: File) {
-    Logger.info(
-      "Verifying selected Google Sheet"
-    )
-
-    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: "BackendData!2:2") { valueRange in
-    //      if let version = valueRange.values?.first?.last as? String {
-    //        self.aspireVersion = SupportedAspireVersions(rawValue: version)
-    //        self.persistSheetID(spreadsheet: spreadsheet)
-    //        self.fetchCategoriesAndGroups(spreadsheet: spreadsheet,
-    //                                      spreadsheetVersion: self.aspireVersion!)
-    //        self.getTransactionCategories(spreadsheet: spreadsheet)
-    //        self.getTransactionAccounts(spreadsheet: spreadsheet)
-    //        self.fetchAccountBalances(spreadsheet: spreadsheet)
-    //      }
-    //    }
-  }
-
-  func fetchCategoriesAndGroups(spreadsheet: File, spreadsheetVersion: SupportedAspireVersions) {
-    Logger.info(
-      "Fetching Categories and groups"
-    )
-
-    let range: String
-    switch spreadsheetVersion {
-    case .twoEight, .three, .threeOne:
-      range = "Dashboard!F4:O"
-    case .threeTwo:
-      range = "Dashboard!F6:O"
-    }
-    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-    //      if let values = valueRange.values as? [[String]] {
-    //        self.dashboardMetadata = DashboardMetadata(rows: values)
-    //      }
-    //    }
-  }
-
-  func fetchAccountBalances(spreadsheet: File) {
-    Logger.info(
-      "Fetching Account Balances"
-    )
-
-    guard let version = aspireVersion else {
-      Logger.error(
-        "Aspire version is nil"
-      )
-      fatalError("Aspire Version is nil")
-    }
-
-    let range: String
-    switch version {
-    case .twoEight, .three, .threeOne:
-      range = "Dashboard!B10:C"
-    case .threeTwo:
-      range = "Dashboard!B8:C"
-    }
-
-    //    fetchData(spreadsheet: spreadsheet, spreadsheetRange: range) { valueRange in
-    //      if let values = valueRange.values as? [[String]] {
-    //        self.accountBalancesMetadata = AccountBalancesMetadata(metadata: values)
-    //      }
-    //    }
   }
 }
 
