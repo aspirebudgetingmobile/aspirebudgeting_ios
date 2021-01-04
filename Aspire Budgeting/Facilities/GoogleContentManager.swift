@@ -126,10 +126,10 @@ extension GoogleContentManager {
   private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> String? {
     switch T.self {
     case is AccountBalances.Type:
-      return self.getAccountBalancesRangeForVersion(version)
+      return self.getAccountBalancesRange(for: version)
 
     case is Dashboard.Type:
-      return self.getDashboardRangeForVersion(version)
+      return self.getDashboardRange(for: version)
 
     default:
       Logger.info("Data requested for unknown type \(T.self).")
@@ -153,7 +153,7 @@ extension GoogleContentManager {
     return dataMap[dataLocationKey]
   }
 
-  private func getAccountBalancesRangeForVersion(_ supportedVersion: SupportedLegacyVersion)
+  private func getAccountBalancesRange(for supportedVersion: SupportedLegacyVersion)
   -> String {
     let range: String
     switch supportedVersion {
@@ -165,7 +165,7 @@ extension GoogleContentManager {
     return range
   }
 
-  private func getDashboardRangeForVersion(_ supportedVersion: SupportedLegacyVersion) -> String {
+  private func getDashboardRange(for supportedVersion: SupportedLegacyVersion) -> String {
     let range: String
     switch supportedVersion {
     case .twoEight, .three, .threeOne:
@@ -176,7 +176,7 @@ extension GoogleContentManager {
     return range
   }
 
-  private func getTransactionCategoriesRangeForVersion(_ supportedVersion: SupportedLegacyVersion) -> String {
+  private func getTrxCategoriesRange(for supportedVersion: SupportedLegacyVersion) -> String {
     let range: String
     switch supportedVersion {
     case .twoEight:
@@ -189,7 +189,7 @@ extension GoogleContentManager {
     return range
   }
 
-  private func getTransactionAccountsRangeForVersion(_ supported: SupportedLegacyVersion) -> String {
+  private func getTrxAccountsRange(for supported: SupportedLegacyVersion) -> String {
     let range: String
     switch supported {
     case .twoEight:

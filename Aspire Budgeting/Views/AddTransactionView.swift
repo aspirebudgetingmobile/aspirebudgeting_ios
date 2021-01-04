@@ -105,11 +105,11 @@ struct AddTransactionView: View {
         }.pickerStyle(SegmentedPickerStyle())
 
         if showAddButton {
-          Button {
+          Button(action: {
             print("Add Transaction")
-          } label: {
+          }, label: {
             Text("Add Transaction")
-          }
+          })
         }
       }.navigationBarTitle(Text("Add Transaction"))
     }.onTapGesture {
