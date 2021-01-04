@@ -16,6 +16,7 @@ struct AspireMasterView: View {
 
   @State private var selectedTab = 0
   @State private var navTitle: String = ""
+  @State private var addingTransaction = false
 
   var body: some View {
     GeometryReader { _ in
@@ -41,11 +42,14 @@ struct AspireMasterView: View {
         TabBarView(selectedTab: $selectedTab,
                    tabBarItems: tabBarItems,
                    prominentItemImageName: "plus") {
-                    print("Hoogah boogah")
+          self.addingTransaction.toggle()
         }
         .frame(height: 95)
         .padding(.horizontal, 5)
         .background(Color.primaryBackgroundColor)
+        .sheet(isPresented: $addingTransaction) {
+          AddTransactionView(viewModel: self.appCoordinator.addTransactionVM)
+        }
       }
     }
   }

@@ -69,6 +69,7 @@
 		06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A96053235FF2620058EE64 /* UserManagerTests.swift */; };
 		06AB2C8223627B2D0076516E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AB2C8123627B2D0076516E /* File.swift */; };
 		06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AB2C832363B4840076516E /* GoogleDriveManagerTests.swift */; };
+		06B0A21825A3BEA800E8DFBB /* AddTransactionMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */; };
 		06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFDF239C2FB700F24BF2 /* GradientTextView.swift */; };
 		06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE1239C301300F24BF2 /* AspireFonts.swift */; };
 		06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */; };
@@ -86,6 +87,7 @@
 		06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B59E24EF372E00968C60 /* SearchBar.swift */; };
 		06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */; };
 		06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C6B5A224F2165E00968C60 /* LoadingView.swift */; };
+		06C70393259C02E700A4ADD4 /* AddTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C70392259C02E700A4ADD4 /* AddTransactionViewModel.swift */; };
 		06D4528F25166C4D00BFEE02 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */; };
 		06D452912516856600BFEE02 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06D452902516856600BFEE02 /* Karla-Bold.ttf */; };
 		06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4529225168C8900BFEE02 /* CardTotalsView.swift */; };
@@ -182,6 +184,7 @@
 		06A96053235FF2620058EE64 /* UserManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagerTests.swift; sourceTree = "<group>"; };
 		06AB2C8123627B2D0076516E /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		06AB2C832363B4840076516E /* GoogleDriveManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManagerTests.swift; sourceTree = "<group>"; };
+		06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionMetadata.swift; sourceTree = "<group>"; };
 		06BAAFDF239C2FB700F24BF2 /* GradientTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTextView.swift; sourceTree = "<group>"; };
 		06BAAFE1239C301300F24BF2 /* AspireFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireFonts.swift; sourceTree = "<group>"; };
 		06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireMasterView.swift; sourceTree = "<group>"; };
@@ -199,6 +202,7 @@
 		06C6B59E24EF372E00968C60 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		06C6B5A224F2165E00968C60 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		06C70392259C02E700A4ADD4 /* AddTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewModel.swift; sourceTree = "<group>"; };
 		06D4528E25166C4D00BFEE02 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		06D452902516856600BFEE02 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Karla-Bold.ttf"; sourceTree = "<group>"; };
 		06D4529225168C8900BFEE02 /* CardTotalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTotalsView.swift; sourceTree = "<group>"; };
@@ -309,6 +313,7 @@
 				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalances.swift */,
+				06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				06C6B59C24EF259B00968C60 /* FileSelectorViewModel.swift */,
 				069F830524FFFC76009DD3E9 /* DashboardViewModel.swift */,
 				067B3C242593FB6000634EF4 /* AccountBalancesViewModel.swift */,
+				06C70392259C02E700A4ADD4 /* AddTransactionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -756,10 +762,12 @@
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
+				06C70393259C02E700A4ADD4 /* AddTransactionViewModel.swift in Sources */,
 				061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */,
 				06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */,
 				06002500236F9A8000A20C96 /* Dashboard.swift in Sources */,
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
+				06B0A21825A3BEA800E8DFBB /* AddTransactionMetadata.swift in Sources */,
 				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
 				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,
 				062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */,

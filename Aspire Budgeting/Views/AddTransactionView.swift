@@ -6,8 +6,7 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
-
+  let viewModel: AddTransactionViewModel
   var dateFormatter: DateFormatter {
     let formatter = DateFormatter()
     formatter.dateStyle = .long
@@ -17,158 +16,85 @@ struct AddTransactionView: View {
   @State private var amountString = ""
   @State private var memoString = ""
 
-  @State private var showDatePicker = false
   @State private var selectedDate = Date()
-  @State private var dateSelected = false
 
-  @State private var showCategoriesPicker = false
-  @State private var categorySelected = false
-  @State private var selectedCategory = 0
-
-  @State private var showAccountPicker = false
-  @State private var accountSelected = false
-  @State private var selectedAccount = 0
+  @State private var selectedCategory = -1
+  @State private var selectedAccount = -1
 
   @State private var transactionType = -1
   @State private var approvalType = -1
 
-  @State private var showingAlert = false
-  @State private var transactionAdded = false
+  var showAddButton: Bool {
+    !amountString.isEmpty &&
+      selectedCategory != -1 &&
+      selectedAccount != -1 &&
+      transactionType != -1 &&
+      approvalType != -1
+  }
 
   func getDateString() -> String {
-    self.dateSelected ? self.dateFormatter.string(from: self.selectedDate) : "Select Date"
-  }
-
-  func getSelectedCategory() -> String {
-    self.categorySelected
-      ? self.sheetsManager.transactionCategories![self.selectedCategory]
-      : "Select Category"
-  }
-
-  func getSelectedAccount() -> String {
-    self.accountSelected
-      ? self.sheetsManager.transactionAccounts![self.selectedAccount]
-      : "Select Account"
+    self.dateFormatter.string(from: self.selectedDate)
   }
 
   func clearInputs() {
     self.amountString = ""
     self.memoString = ""
-    self.dateSelected = false
-    self.categorySelected = false
-    self.accountSelected = false
     self.transactionType = -1
     self.approvalType = -1
   }
 
   var body: some View {
-    ScrollView {
-      Group {
-        AspireTextField(
-          text: $amountString,
-          placeHolder: "Enter Amount",
-          imageName: "dollar_icon",
-          keyboardType: .decimalPad
-        )
+    NavigationView {
+      Form {
+        TextField("Amount", text: $amountString).keyboardType(.decimalPad)
 
-        AspireTextField(
-          text: $memoString,
-          placeHolder: "Add Memo",
-          imageName: "memo_icon",
-          keyboardType: .default
-        )
-      }
+        TextField("Memo", text: $memoString)
 
-      AspirePickerButton(title: getDateString(), imageName: "calendar_icon") {
-        withAnimation {
-          self.dateSelected = true
-          self.showDatePicker.toggle()
+        DatePicker(selection: $selectedDate,
+                   in: ...Date(),
+                   displayedComponents: .date) {
+          Text("Transaction Date: ")
         }
-      }
-      if showDatePicker {
-        DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
-          Text("")
-        }.foregroundColor(Color.white)
-      }
-      AspirePickerButton(title: getSelectedCategory(), imageName: "categories_icon") {
-        withAnimation {
-          self.categorySelected = true
-          self.showCategoriesPicker.toggle()
-        }
-      }.disabled(self.sheetsManager.transactionCategories == nil)
-      if showCategoriesPicker {
-        Picker(selection: $selectedCategory, label: Text("")) {
-          ForEach(0..<self.sheetsManager.transactionCategories!.count) {
-            Text(self.sheetsManager.transactionCategories![$0])
-              .foregroundColor(.white)
+
+        Picker(selection: $selectedCategory, label: Text("Select Category")) {
+          ForEach(0..<self.viewModel.transactionCategories!.count) {
+            Text(self.viewModel.transactionCategories![$0])
           }
         }
-      }
 
-      AspirePickerButton(title: getSelectedAccount(), imageName: "accounts_icon") {
-        withAnimation {
-          self.accountSelected = true
-          self.showAccountPicker.toggle()
-        }
-      }.disabled(self.sheetsManager.transactionAccounts == nil)
-      if showAccountPicker {
-        Picker(selection: $selectedAccount, label: Text("")) {
-          ForEach(0..<self.sheetsManager.transactionAccounts!.count) {
-            Text(self.sheetsManager.transactionAccounts![$0])
-              .foregroundColor(.white)
+        Picker(selection: $selectedAccount, label: Text("Select Account")) {
+          ForEach(0..<self.viewModel.transactionAccounts!.count) {
+            Text(self.viewModel.transactionAccounts![$0])
           }
         }
-      }
 
-      AspireRadioControl(
-        selectedOption: $transactionType,
-        firstOption: "Inflow",
-        secondOption: "Outflow"
-      )
+        Picker(selection: $transactionType, label: Text("Transaction Type")) {
+          Text("Inflow").tag(0)
+          Text("Outflow").tag(1)
+        }.pickerStyle(SegmentedPickerStyle())
 
-      AspireRadioControl(
-        selectedOption: $approvalType,
-        firstOption: "Approved",
-        secondOption: "Pending"
-      )
+        Picker(selection: $approvalType, label: Text("Approval Type")) {
+          Text("Approved").tag(0)
+          Text("Pending").tag(1)
+        }.pickerStyle(SegmentedPickerStyle())
 
-      AspireButton(title: "Add", type: .green) {
-        if !self.amountString.isEmpty,
-          self.dateSelected,
-          self.categorySelected,
-          self.accountSelected {
-          self.sheetsManager.addTransaction(
-            amount: self.amountString,
-            memo: self.memoString,
-            date: self.selectedDate,
-            category: self.selectedCategory,
-            account: self.selectedAccount,
-            transactionType: self.transactionType,
-            approvalType: self.approvalType
-          ) { result in
-            self.clearInputs()
-            self.transactionAdded = result
-            self.showingAlert = true
-          }
+        if showAddButton {
+          Button(action: {
+            print("Add Transaction")
+          }, label: {
+            Text("Add Transaction")
+          })
         }
-      }.padding().alert(isPresented: $showingAlert) { () -> Alert in
-        if self.transactionAdded {
-          return Alert(title: Text("Transaction added"))
-        } else {
-          return Alert(title: Text("An error occured. Please try again."))
-        }
-      }
-    }.background(Colors.aspireGray)
-      .edgesIgnoringSafeArea(.all)
-      .onTapGesture {
-        UIApplication.shared.sendAction(
-          #selector(UIResponder.resignFirstResponder),
-          to: nil,
-          from:
+      }.navigationBarTitle(Text("Add Transaction"))
+    }.onTapGesture {
+      UIApplication.shared.sendAction(
+        #selector(UIResponder.resignFirstResponder),
+        to: nil,
+        from:
           nil,
-          for: nil
-        )
-      }
+        for: nil
+      )
+    }
   }
 }
 

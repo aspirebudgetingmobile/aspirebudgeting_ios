@@ -27,6 +27,9 @@ final class AppCoordinator: ObservableObject {
   private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
     AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
   }()
+  private(set) lazy var addTransactionVM: AddTransactionViewModel = {
+    AddTransactionViewModel()
+  }()
 
   private var user: User?
 
@@ -141,6 +144,15 @@ extension AppCoordinator {
                                     self.accountBalancesRefreshCallback)
         self.objectWillChange.send()
       }
+  }
+
+  func addTransactionRefreshCallback() {
+//    self.contentProvider
+//      .getData(for: self.user!,
+//               from: self.selectedFile!,
+//               using: self.dataLocationMap) { (result: Result<AddTransactionMetadata>) in
+//        
+//      }
   }
 }
 
