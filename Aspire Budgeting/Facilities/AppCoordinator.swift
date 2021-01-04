@@ -27,6 +27,9 @@ final class AppCoordinator: ObservableObject {
   private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
     AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
   }()
+  private(set) lazy var addTransactionVM: AddTransactionViewModel = {
+    AddTransactionViewModel()
+  }()
 
   private var user: User?
 

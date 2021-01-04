@@ -6,38 +6,46 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-//  @EnvironmentObject var sheetsManager: GoogleSheetsManager
-
-//  var dateFormatter: DateFormatter {
-//    let formatter = DateFormatter()
-//    formatter.dateStyle = .long
-//    return formatter
-//  }
+  let viewModel: AddTransactionViewModel
+  var dateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .long
+    return formatter
+  }
 
   @State private var amountString = ""
   @State private var memoString = ""
-//
+
 //  @State private var showDatePicker = false
-//  @State private var selectedDate = Date()
+  @State private var selectedDate = Date()
 //  @State private var dateSelected = false
-//
+
 //  @State private var showCategoriesPicker = false
 //  @State private var categorySelected = false
-//  @State private var selectedCategory = 0
+  @State private var selectedCategory = -1
 //
 //  @State private var showAccountPicker = false
 //  @State private var accountSelected = false
-//  @State private var selectedAccount = 0
+  @State private var selectedAccount = -1
 //
-//  @State private var transactionType = -1
-//  @State private var approvalType = -1
+  @State private var transactionType = -1
+  @State private var approvalType = -1
 //
 //  @State private var showingAlert = false
 //  @State private var transactionAdded = false
 //
-//  func getDateString() -> String {
-//    self.dateSelected ? self.dateFormatter.string(from: self.selectedDate) : "Select Date"
-//  }
+
+  var showAddButton: Bool {
+    !amountString.isEmpty &&
+      selectedCategory != -1 &&
+      selectedAccount != -1 &&
+      transactionType != -1 &&
+      approvalType != -1
+  }
+
+  func getDateString() -> String {
+    self.dateFormatter.string(from: self.selectedDate)
+  }
 //
 //  func getSelectedCategory() -> String {
 //    self.categorySelected
@@ -62,45 +70,122 @@ struct AddTransactionView: View {
 //  }
 
   var body: some View {
-    VStack {
-      BannerView(baseColor: .materialLightBlue800) {
-        Text("Add Trasnsaction")
-          .bannerTitle(size: .medium)
-      }
+    NavigationView {
+      Form {
+        TextField("Amount", text: $amountString).keyboardType(.decimalPad)
 
-      BannerView(baseColor: .materialBlue800) {
-        VStack(spacing: 2) {
-          Text("Enter amount")
-            .font(.karlaBold(size: 12))
-            .foregroundColor(.white)
+        TextField("Memo", text: $memoString)
 
-          TextField("0.00", text: $amountString)
-            .multilineTextAlignment(.center)
-            .keyboardType(.decimalPad)
-            .bannerTitle(size: .large)
-        }.padding(.top, -30)
-      }
-      .cornerRadius(24)
-      .shadow(radius: 5)
-      .padding(.top, -30)
+        DatePicker(selection: $selectedDate,
+                   in: ...Date(),
+                   displayedComponents: .date) {
+          Text("Transaction Date: ")
+        }
 
-      ScrollView {
+        Picker(selection: $selectedCategory, label: Text("Select Category")) {
+          ForEach(0..<self.viewModel.transactionCategories!.count) {
+            Text(self.viewModel.transactionCategories![$0])
+          }
+        }
 
-        AspireTextField(
-          text: $memoString,
-          placeHolder: "Add Memo",
-          imageName: "memo_icon",
-          keyboardType: .default
-        )
-//
-//        CardTotalsView(title: "Category", amount: AspireNumber(stringValue: "$-500"))
+        Picker(selection: $selectedAccount, label: Text("Select Account")) {
+          ForEach(0..<self.viewModel.transactionAccounts!.count) {
+            Text(self.viewModel.transactionAccounts![$0])
+          }
+        }
 
-      }.background(Color.primaryBackgroundColor)
-      .cornerRadius(24)
-      .shadow(radius: 5)
-      .padding(.top, -40)
-      .edgesIgnoringSafeArea(.all)
+        Picker(selection: $transactionType, label: Text("Transaction Type")) {
+          Text("Inflow").tag(0)
+          Text("Outflow").tag(1)
+        }.pickerStyle(SegmentedPickerStyle())
+
+        Picker(selection: $approvalType, label: Text("Approval Type")) {
+          Text("Approved").tag(0)
+          Text("Pending").tag(1)
+        }.pickerStyle(SegmentedPickerStyle())
+
+        if showAddButton {
+          Button {
+            print("Add Transaction")
+          } label: {
+            Text("Add Transaction")
+          }
+        }
+      }.navigationBarTitle(Text("Add Transaction"))
+    }.onTapGesture {
+      UIApplication.shared.sendAction(
+        #selector(UIResponder.resignFirstResponder),
+        to: nil,
+        from:
+          nil,
+        for: nil
+      )
     }
+//    VStack {
+//      BannerView(baseColor: .materialLightBlue800) {
+//        Text("Add Trasnsaction")
+//          .bannerTitle(size: .medium)
+//      }
+//
+//      BannerView(baseColor: .materialBlue800) {
+//        VStack(spacing: 2) {
+//          Text("Enter amount")
+//            .font(.karlaBold(size: 12))
+//            .foregroundColor(.white)
+//
+//          TextField("0.00", text: $amountString)
+//            .multilineTextAlignment(.center)
+//            .keyboardType(.decimalPad)
+//            .bannerTitle(size: .large)
+//        }.padding(.top, -30)
+//      }
+//      .cornerRadius(24)
+//      .shadow(radius: 5)
+//      .padding(.top, -30)
+//
+//      ScrollView {
+//
+//        AspireTextField(
+//          text: $memoString,
+//          placeHolder: "Add Memo",
+//          imageName: "memo_icon",
+//          keyboardType: .default
+//        )
+//
+//        DatePicker(selection: $selectedDate,
+//                   in: ...Date(),
+//                   displayedComponents: .date) {
+//          Text("Transaction Date: ")
+//        }.padding()
+//
+//        Button("Select Category") {
+//          self.showCategoriesPicker.toggle()
+//        }.popover(isPresented: self.$showCategoriesPicker, attachmentAnchor: .point(.bottom)) {
+//          Picker(selection: $selectedCategory, label: Text("Select Category")) {
+//            ForEach(0..<self.viewModel.transactionCategories!.count) {
+//              Text(self.viewModel.transactionCategories![$0])
+//                .foregroundColor(.primaryTextColor)
+//            }
+//          }
+//        }
+//
+//        AspirePickerButton(title: getDateString(), imageName: "calendar_icon") {
+//          withAnimation {
+//            self.dateSelected = true
+//            self.showDatePicker.toggle()
+//          }
+//        }.sheet(isPresented: self.$showDatePicker, content: {
+//          DatePicker(selection: $selectedDate, in: ...Date(), displayedComponents: .date) {
+//            Text("")
+//          }
+//        })
+//
+//      }.background(Color.primaryBackgroundColor)
+//      .cornerRadius(24)
+//      .shadow(radius: 5)
+//      .padding(.top, -40)
+//      .edgesIgnoringSafeArea(.all)
+//    }
 //    ScrollView {
 //      Group {
 //        AspireTextField(

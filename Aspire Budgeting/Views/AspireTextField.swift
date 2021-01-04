@@ -15,7 +15,7 @@ struct AspireTextField: View {
   init(
     text: Binding<String>,
     placeHolder: String,
-    imageName: String,
+    imageName: String, //TODO: Remove
     keyboardType: UIKeyboardType,
     disabled: Bool = false
   ) {

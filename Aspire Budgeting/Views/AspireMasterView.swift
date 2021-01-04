@@ -48,7 +48,7 @@ struct AspireMasterView: View {
         .padding(.horizontal, 5)
         .background(Color.primaryBackgroundColor)
         .sheet(isPresented: $addingTransaction) {
-          AddTransactionView()
+          AddTransactionView(viewModel: self.appCoordinator.addTransactionVM)
         }
       }
     }
