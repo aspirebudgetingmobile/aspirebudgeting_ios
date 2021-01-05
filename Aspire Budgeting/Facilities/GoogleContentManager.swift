@@ -43,6 +43,7 @@ final class GoogleContentManager {
     case three = "3.0"
     case threeOne = "3.1.0"
     case threeTwo = "3.2.0"
+    case threeThree = "3.3.0"
   }
 
   init(fileReader: RemoteFileReader,
@@ -62,8 +63,8 @@ extension GoogleContentManager: ContentReader {
     if let locations = getRanges(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: locations)
-        .sink(receiveCompletion: { _ in
-        }, receiveValue: { _ in
+        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
+        }, receiveValue: { _ in //TODO: To be implemented for >3.3
         })
     } else {
       readSink = getVersion(for: file, user: user)
@@ -117,8 +118,8 @@ extension GoogleContentManager: ContentReader {
     if let location = getRange(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: [location])
-        .sink(receiveCompletion: { _ in //TODO: To be implemented for 3.3+
-        }, receiveValue: { _ in //TODO: To be implemented for 3.3+
+        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
+        }, receiveValue: { _ in //TODO: To be implemented for >3.3
         })
     } else {
       readSink = getVersion(for: file, user: user)
@@ -252,7 +253,7 @@ extension GoogleContentManager {
     switch supportedVersion {
     case .twoEight, .three, .threeOne:
       range = "Dashboard!B10:C"
-    case .threeTwo:
+    case .threeTwo, .threeThree:
       range = "Dashboard!B8:C"
     }
     return range
@@ -263,7 +264,7 @@ extension GoogleContentManager {
     switch supportedVersion {
     case .twoEight, .three, .threeOne:
       range = "Dashboard!F4:O"
-    case .threeTwo:
+    case .threeTwo, .threeThree:
       range = "Dashboard!F6:O"
     }
     return range
@@ -276,7 +277,7 @@ extension GoogleContentManager {
       range = "BackendData!B2:B"
     case .three, .threeOne:
       range = "BackendData!F2:F"
-    case .threeTwo:
+    case .threeTwo, .threeThree:
       range = "BackendData!G2:G"
     }
     return range
@@ -291,7 +292,7 @@ extension GoogleContentManager {
       range = "BackendData!H2:H"
     case .threeOne:
       range = "BackendData!J2:J"
-    case .threeTwo:
+    case .threeTwo, .threeThree:
       range = "BackendData!M2:M"
     }
     return range
