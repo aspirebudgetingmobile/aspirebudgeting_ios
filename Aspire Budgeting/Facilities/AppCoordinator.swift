@@ -147,12 +147,13 @@ extension AppCoordinator {
   }
 
   func addTransactionRefreshCallback() {
-//    self.contentProvider
-//      .getData(for: self.user!,
-//               from: self.selectedFile!,
-//               using: self.dataLocationMap) { (result: Result<AddTransactionMetadata>) in
-//        
-//      }
+    self.contentProvider
+      .getBatchData(for: self.user!,
+                    from: self.selectedFile!,
+                    using: self.dataLocationMap!) { (result: Result<AddTransactionMetadata>) in
+        print(result)
+        self.objectWillChange.send()
+      }
   }
 }
 

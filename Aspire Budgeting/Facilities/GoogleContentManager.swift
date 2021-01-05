@@ -12,6 +12,11 @@ protocol ContentReader {
                                          from file: File,
                                          using dataMap: [String: String],
                                          completion: @escaping (Result<T>) -> Void)
+
+  func getBatchData<T: ConstructableFromBatchRequest>(for user: User,
+                                                      from file: File,
+                                                      using dataMap: [String: String],
+                                                      completion: @escaping (Result<T>) -> Void)
 }
 
 protocol ContentWriter {
@@ -28,6 +33,8 @@ final class GoogleContentManager {
   private let kDashboard = "Dashboard"
   private let kAccountBalances = "Account Balances"
   private let kVersionLocation = "BackendData!2:2"
+  private let kTrxCategories = "trx_CategoriesList"
+  private let kTrxAccounts = "trx_AccountsList"
 
   private var supportedLegacyVersion: SupportedLegacyVersion?
 
@@ -46,6 +53,65 @@ final class GoogleContentManager {
 }
 
 extension GoogleContentManager: ContentReader {
+  func getBatchData<T: ConstructableFromBatchRequest>(for user: User,
+                                                      from file: File,
+                                                      using dataMap: [String: String],
+                                                      completion: @escaping (Result<T>) -> Void) {
+
+    if let locations = getRanges(of: T.self, from: dataMap) {
+      readSink = fileReader
+        .read(file: file, user: user, locations: locations)
+        .sink(receiveCompletion: { status in
+          switch status {
+          case .failure(let error):
+            completion(.failure(error))
+          default:
+            Logger.info("\(T.self) retrieved")
+          }
+        }, receiveValue: { valueRanges in
+          print(valueRanges)
+        })
+    } else {
+      readSink = getVersion(for: file, user: user)
+        .compactMap { self.getRanges(of: T.self, for: $0) }
+        .flatMap { self.fileReader.read(file: file, user: user, locations: $0) }
+        .sink(receiveCompletion: { status in
+          switch status {
+          case .failure(let error):
+            completion(.failure(error))
+          default:
+            Logger.info("\(T.self) retrieved")
+          }
+        }, receiveValue: { valueRanges in
+          guard let ranges = (valueRanges as? [GTLRSheets_ValueRange]) else {
+            completion(.failure(GoogleDriveManagerError.inconsistentSheet))
+            return
+          }
+          var metadata = [[String]]()
+          ranges.forEach { valueRange in
+            guard let values = (valueRange.values as? [[String]]) else {
+              completion(.failure(GoogleDriveManagerError.inconsistentSheet))
+              return
+            }
+
+            var list = [String]()
+            values.forEach { value in
+              guard let content = value.first else {
+                Logger.error("No content found in GTLRSheets_ValueRange for ",
+                             context: valueRange.range)
+                completion(.failure(GoogleDriveManagerError.inconsistentSheet))
+                return
+              }
+              list.append(content)
+            }
+            metadata.append(list)
+          }
+          let data = T(rowsList: metadata)
+          completion(.success(data))
+        })
+    }
+  }
+
   func getData<T: ConstructableFromRows>(for user: User,
                                          from file: File,
                                          using dataMap: [String: String],
@@ -63,7 +129,7 @@ extension GoogleContentManager: ContentReader {
         .flatMap { self.fileReader.read(file: file, user: user, locations: [$0]) }
         .sink(receiveCompletion: { status in
           switch status {
-          case.failure(let error):
+          case .failure(let error):
             completion(.failure(error))
           default:
             Logger.info("\(T.self) retrieved")
@@ -121,6 +187,33 @@ extension GoogleContentManager {
         return supportedVersion
       }
       .eraseToAnyPublisher()
+  }
+
+  private func getRanges<T>(of type: T.Type, for version: SupportedLegacyVersion) -> [String]? {
+    switch T.self {
+    case is AddTransactionMetadata.Type:
+      return [getTrxCategoriesRange(for: version),
+              getTrxAccountsRange(for: version)]
+    default:
+      Logger.info("Data requested for unknown type \(T.self)")
+      return nil
+    }
+  }
+
+  private func getRanges<T>(of type: T.Type, from dataMap: [String: String]) -> [String]? {
+    switch T.self {
+    case is AddTransactionMetadata.Type:
+      guard let trxCategories = dataMap[kTrxCategories],
+            let trxAccounts = dataMap[kTrxAccounts] else {
+        Logger.error("No named range found for: ",
+                     context: "\(kTrxCategories) or \(kTrxCategories)")
+        return nil
+      }
+      return [trxCategories, trxAccounts]
+    default:
+      Logger.info("Data requested for unknown type \(T.self)")
+      return nil
+    }
   }
 
   private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> String? {
