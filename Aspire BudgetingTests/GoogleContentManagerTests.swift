@@ -63,6 +63,29 @@ final class MockAccountBalancesReader: MockRemoteFileReader {
   }
 }
 
+final class MockTrxMetadataReader: MockRemoteFileReader {
+  let vr1 = GTLRSheets_ValueRange()
+  let vr2 = GTLRSheets_ValueRange()
+  let vr3 = GTLRSheets_ValueRange()
+
+  init() {
+    vr1.values = [["3.2.0"]]
+    vr2.values = [["Cat 1"], ["Cat 2"]]
+    vr3.values = [["Acc 1"], ["Acc 2"]]
+    super.init(vr1: vr1, vr2: vr2)
+  }
+
+  override func read(file: File, user: User, locations: [String]) -> AnyPublisher<Any, Error> {
+    if idx == 0 {
+      return super.read(file: file, user: user, locations: locations)
+    }
+
+    return Future<Any, Error> { promise in
+      promise(.success([self.vr2, self.vr3]))
+    }.eraseToAnyPublisher()
+  }
+}
+
 struct MockRemoteFileWriter: RemoteFileWriter {
   func write(file: File, user: User, location: String) {
 
@@ -73,6 +96,7 @@ final class GoogleContentManagerTests: XCTestCase {
 
   let dashboardReader = MockDashboardReader()
   let accountBalancesReader = MockAccountBalancesReader()
+  let trxMetadataReader = MockTrxMetadataReader()
   let writer = MockRemoteFileWriter()
 
   let user = User(name: "Test User", authorizer: 42 as AnyObject)
@@ -133,5 +157,25 @@ final class GoogleContentManagerTests: XCTestCase {
     wait(for: [exp], timeout: 1)
 
     XCTAssertEqual("Dashboard!B8:C", accountBalancesReader.locations?.first!)
+  }
+
+  func testGetTrxMetadata() {
+    let contentManager =
+      GoogleContentManager(fileReader: trxMetadataReader, fileWriter: writer)
+
+    let exp = XCTestExpectation()
+    contentManager.getBatchData(for: user,
+                                from: file, using: dataMap) { (result: Result<AddTransactionMetadata>) in
+      switch result {
+      case .failure:
+        XCTFail()
+
+      case .success(let trxMetadata):
+        XCTAssertEqual(trxMetadata.transactionAccounts, ["Acc 1", "Acc 2"])
+        XCTAssertEqual(trxMetadata.transactionCategories, ["Cat 1", "Cat 2"])
+        exp.fulfill()
+      }
+    }
+    wait(for: [exp], timeout: 1)
   }
 }
