@@ -52,6 +52,7 @@ final class GoogleContentManager {
   }
 }
 
+// MARK: - ContentReader Implementation
 extension GoogleContentManager: ContentReader {
   func getBatchData<T: ConstructableFromBatchRequest>(for user: User,
                                                       from file: File,
@@ -61,15 +62,8 @@ extension GoogleContentManager: ContentReader {
     if let locations = getRanges(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: locations)
-        .sink(receiveCompletion: { status in
-          switch status {
-          case .failure(let error):
-            completion(.failure(error))
-          default:
-            Logger.info("\(T.self) retrieved")
-          }
-        }, receiveValue: { valueRanges in
-          print(valueRanges)
+        .sink(receiveCompletion: { _ in
+        }, receiveValue: { _ in
         })
     } else {
       readSink = getVersion(for: file, user: user)
@@ -84,12 +78,15 @@ extension GoogleContentManager: ContentReader {
           }
         }, receiveValue: { valueRanges in
           guard let ranges = (valueRanges as? [GTLRSheets_ValueRange]) else {
+            Logger.error("Conversion to [GTLRSheets_ValueRange] failed.")
             completion(.failure(GoogleDriveManagerError.inconsistentSheet))
             return
           }
           var metadata = [[String]]()
           ranges.forEach { valueRange in
             guard let values = (valueRange.values as? [[String]]) else {
+              Logger.error("Value range has no values.",
+                           context: valueRange.range!)
               completion(.failure(GoogleDriveManagerError.inconsistentSheet))
               return
             }
@@ -149,12 +146,14 @@ extension GoogleContentManager: ContentReader {
   }
 }
 
+// MARK: - ContentWriter Implementation
 extension GoogleContentManager: ContentWriter {
   func addTransaction() {
 
   }
 }
 
+// MARK: - Internal Helpers
 extension GoogleContentManager {
   private func getVersion(for file: File,
                           user: User) -> AnyPublisher<SupportedLegacyVersion, Error> {
@@ -193,7 +192,8 @@ extension GoogleContentManager {
     switch T.self {
     case is AddTransactionMetadata.Type:
       return [getTrxCategoriesRange(for: version),
-              getTrxAccountsRange(for: version)]
+              getTrxAccountsRange(for: version),
+      ]
     default:
       Logger.info("Data requested for unknown type \(T.self)")
       return nil
