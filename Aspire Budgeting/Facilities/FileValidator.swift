@@ -109,8 +109,10 @@ extension GoogleSheetsValidator {
     for range in namedRanges {
       guard let gridRange = range.range,
             let rangeName = range.name,
-            let sheetId = gridRange.sheetId,
-            let sheetName = sheetNameMap[sheetId],
+//            let sheetId = gridRange.sheetId,
+//            v3.3 of the sheet has sheetID=0 for Dashboard, whichi s treated as NULL.
+//            This is a workaround for the timebeing
+            let sheetName = sheetNameMap[gridRange.sheetId ?? 0],
             let startColumn = gridRange.startColumnIndex as? Int,
             let startRow = gridRange.startRowIndex as? Int,
             let endColumn = gridRange.endColumnIndex as? Int,
