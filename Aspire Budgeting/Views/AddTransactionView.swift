@@ -56,15 +56,17 @@ struct AddTransactionView: View {
           Text("Transaction Date: ")
         }
 
-        Picker(selection: $selectedCategory, label: Text("Select Category")) {
-          ForEach(0..<self.viewModel.transactionCategories!.count) {
-            Text(self.viewModel.transactionCategories![$0])
+        if self.viewModel.dataProvider != nil {
+          Picker(selection: $selectedCategory, label: Text("Select Category")) {
+            ForEach(0..<self.viewModel.dataProvider!.transactionCategories.count) {
+              Text(self.viewModel.dataProvider!.transactionCategories[$0])
+            }
           }
-        }
 
-        Picker(selection: $selectedAccount, label: Text("Select Account")) {
-          ForEach(0..<self.viewModel.transactionAccounts!.count) {
-            Text(self.viewModel.transactionAccounts![$0])
+          Picker(selection: $selectedAccount, label: Text("Select Account")) {
+            ForEach(0..<self.viewModel.dataProvider!.transactionAccounts.count) {
+              Text(self.viewModel.dataProvider!.transactionAccounts[$0])
+            }
           }
         }
 
@@ -86,14 +88,8 @@ struct AddTransactionView: View {
           })
         }
       }.navigationBarTitle(Text("Add Transaction"))
-    }.onTapGesture {
-      UIApplication.shared.sendAction(
-        #selector(UIResponder.resignFirstResponder),
-        to: nil,
-        from:
-          nil,
-        for: nil
-      )
+    }.onAppear {
+      self.viewModel.refresh()
     }
   }
 }

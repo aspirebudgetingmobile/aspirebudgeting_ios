@@ -5,7 +5,14 @@
 
 import Foundation
 
-struct AddTransactionViewModel {
-  private(set) var transactionCategories: [String]? = ["ABC", "DEF"]
-  private(set) var transactionAccounts: [String]? = ["GHI", "JKL"]
+typealias AddTransactionViewModel = ViewModel<AddTrxDataProvider>
+
+struct AddTrxDataProvider {
+  let transactionCategories: [String]
+  let transactionAccounts: [String]
+
+  init(metadata: AddTransactionMetadata) {
+    self.transactionCategories = metadata.transactionCategories
+    self.transactionAccounts = metadata.transactionAccounts
+  }
 }

@@ -28,7 +28,7 @@ final class AppCoordinator: ObservableObject {
     AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
   }()
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
-    AddTransactionViewModel()
+    AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
   }()
 
   private var user: User?
@@ -172,8 +172,21 @@ extension AppCoordinator {
     self.contentProvider
       .getBatchData(for: self.user!,
                     from: self.selectedFile!,
-                    using: self.dataLocationMap!) { (result: Result<AddTransactionMetadata>) in
-        print(result)
+                    using: self.dataLocationMap!) { (readResult: Result<AddTransactionMetadata>) in
+
+        let result: Result<AddTrxDataProvider>
+
+        switch readResult {
+        case .success(let metadata):
+          result = .success(AddTrxDataProvider(metadata: metadata))
+
+        case .failure(let error):
+          result = .failure(error)
+        }
+
+        self.addTransactionVM =
+          AddTransactionViewModel(result: result,
+                                  refreshAction: self.addTransactionRefreshCallback)
         self.objectWillChange.send()
       }
   }
