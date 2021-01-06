@@ -55,5 +55,3 @@ struct ViewModel<T>: AspireViewModel {
     }
   }
 }
-
-typealias DashboardViewModel = ViewModel<DashboardDataProvider>

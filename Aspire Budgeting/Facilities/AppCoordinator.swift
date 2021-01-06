@@ -148,7 +148,18 @@ extension AppCoordinator {
     self.contentProvider
       .getData(for: self.user!,
                from: self.selectedFile!,
-               using: self.dataLocationMap!) { (result: Result<AccountBalances>) in
+               using: self.dataLocationMap!) { (readResult: Result<AccountBalances>) in
+
+        let result: Result<AccountBalancesDataProvider>
+
+        switch readResult {
+        case .success(let accountBalance):
+          result = .success(AccountBalancesDataProvider(accountBalances: accountBalance))
+
+        case .failure(let error):
+          result = .failure(error)
+        }
+
         self.accountBalancesVM =
           AccountBalancesViewModel(result: result,
                                    refreshAction:
