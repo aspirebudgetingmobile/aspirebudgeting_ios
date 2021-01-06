@@ -125,7 +125,18 @@ extension AppCoordinator {
     self.contentProvider
       .getData(for: self.user!,
                from: self.selectedFile!,
-               using: self.dataLocationMap!) { (result: Result<Dashboard>) in
+               using: self.dataLocationMap!) { (readResult: Result<Dashboard>) in
+
+        let result: Result<DashboardDataProvider>
+
+        switch readResult {
+        case .success(let dashboard):
+          result = .success(DashboardDataProvider(dashboard: dashboard))
+
+        case .failure(let error):
+          result = .failure(error)
+        }
+
         self.dashboardVM =
           DashboardViewModel(result: result,
                              refreshAction: self.dashboardRefreshCallback)
