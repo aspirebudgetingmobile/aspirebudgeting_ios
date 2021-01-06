@@ -8,7 +8,6 @@ import Foundation
 protocol AspireViewModel {
   associatedtype DataProvider
 
-  var currentState: ViewModelState { get }
   var dataProvider: DataProvider? { get }
   var error: Error? { get }
   var refresh: () -> Void { get }
@@ -28,7 +27,6 @@ extension AspireViewModel {
 struct ViewModel<T>: AspireViewModel {
   typealias DataProvider = T
 
-  let currentState: ViewModelState
   let dataProvider: T?
   let error: Error?
   let refresh: () -> Void
@@ -41,17 +39,14 @@ struct ViewModel<T>: AspireViewModel {
       case .failure(let error):
         self.error = error
         self.dataProvider = nil
-        self.currentState = .error
 
       case .success(let dashboard):
         self.dataProvider = dashboard
         self.error = nil
-        self.currentState = .dataRetrieved
       }
     } else {
       self.dataProvider = nil
       self.error = nil
-      self.currentState = .isLoading
     }
   }
 }
