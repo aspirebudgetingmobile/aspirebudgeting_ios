@@ -48,8 +48,7 @@ struct AspireMasterView: View {
         .padding(.horizontal, 5)
         .background(Color.primaryBackgroundColor)
         .sheet(isPresented: $addingTransaction) {
-          Text("Work In Progress")
-//          AddTransactionView(viewModel: self.appCoordinator.addTransactionVM)
+          AddTransactionView(viewModel: self.appCoordinator.addTransactionVM)
         }
       }
     }
