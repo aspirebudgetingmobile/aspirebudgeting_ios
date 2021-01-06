@@ -6,7 +6,7 @@
 @testable import Aspire_Budgeting
 import XCTest
 
-class ViewModelTests: XCTestCase {
+final class ViewModelTests: XCTestCase {
 
   var refreshCalled = false
 
