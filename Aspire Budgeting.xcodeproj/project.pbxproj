@@ -71,6 +71,7 @@
 		06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AB2C832363B4840076516E /* GoogleDriveManagerTests.swift */; };
 		06B0A21825A3BEA800E8DFBB /* AddTransactionMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */; };
 		06B0A22225A5390700E8DFBB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A22125A5390700E8DFBB /* ViewModel.swift */; };
+		06B0A23025A5448500E8DFBB /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A22F25A5448400E8DFBB /* ViewModelTests.swift */; };
 		06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFDF239C2FB700F24BF2 /* GradientTextView.swift */; };
 		06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE1239C301300F24BF2 /* AspireFonts.swift */; };
 		06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */; };
@@ -187,6 +188,7 @@
 		06AB2C832363B4840076516E /* GoogleDriveManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveManagerTests.swift; sourceTree = "<group>"; };
 		06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionMetadata.swift; sourceTree = "<group>"; };
 		06B0A22125A5390700E8DFBB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		06B0A22F25A5448400E8DFBB /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		06BAAFDF239C2FB700F24BF2 /* GradientTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTextView.swift; sourceTree = "<group>"; };
 		06BAAFE1239C301300F24BF2 /* AspireFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireFonts.swift; sourceTree = "<group>"; };
 		06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireMasterView.swift; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 				0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */,
 				0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */,
 				069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */,
+				06B0A22F25A5448400E8DFBB /* ViewModelTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -837,6 +840,7 @@
 				065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */,
 				06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */,
 				065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */,
+				06B0A23025A5448500E8DFBB /* ViewModelTests.swift in Sources */,
 				06002502236F9D9500A20C96 /* MockFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
