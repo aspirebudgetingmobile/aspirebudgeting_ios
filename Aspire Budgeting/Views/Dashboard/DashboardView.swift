@@ -13,14 +13,14 @@ struct DashboardView: View {
   var body: some View {
     VStack {
       if viewModel.error == nil {
-        if viewModel.dashboard?.groups != nil {
+        if viewModel.dataProvider?.dashboard.groups != nil {
           SearchBar(text: $searchText)
             .ignoreKeyboard()
           if searchText.isEmpty {
-            DashboardCardsListView(cardViewItems: viewModel.cardViewItems)
+            DashboardCardsListView(cardViewItems: viewModel.dataProvider!.cardViewItems)
               .padding(.vertical, 10)
           } else {
-            CategoryListView(categories: viewModel.filteredCategories(filter: searchText),
+            CategoryListView(categories: viewModel.dataProvider!.filteredCategories(filter: searchText),
                              tintColor: .materialGreen800)
           }
 

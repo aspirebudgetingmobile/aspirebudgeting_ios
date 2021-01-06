@@ -5,20 +5,19 @@
 
 import Foundation
 
-struct DashboardViewModel {
+typealias DashboardViewModel = ViewModel<DashboardDataProvider>
 
-  let currentState: ViewModelState
-  let dashboard: Dashboard?
-  let error: Error?
+struct DashboardDataProvider {
+  let dashboard: Dashboard
 
   var cardViewItems: [DashboardCardView.DashboardCardItem] {
     var items = [DashboardCardView.DashboardCardItem]()
-    for (idx, group) in dashboard!.groups.enumerated() {
+    for (idx, group) in dashboard.groups.enumerated() {
       let title = group.title
-      let availableTotal = dashboard!.availableTotalForGroup(at: idx)
-      let budgetedTotal = dashboard!.budgetedTotalForGroup(at: idx)
-      let spentTotal = dashboard!.spentTotalForGroup(at: idx)
-      var progressFactor = availableTotal /| budgetedTotal
+      let availableTotal = dashboard.availableTotalForGroup(at: idx)
+      let budgetedTotal = dashboard.budgetedTotalForGroup(at: idx)
+      let spentTotal = dashboard.spentTotalForGroup(at: idx)
+      let progressFactor = availableTotal /| budgetedTotal
 
       items.append(.init(title: title,
                          availableTotal: availableTotal,
@@ -33,47 +32,11 @@ struct DashboardViewModel {
   func filteredCategories(filter: String) -> [Category] {
     guard !filter.isEmpty else { return [Category]() }
     var categories = [Category]()
-    if let groups = dashboard?.groups {
-      categories = groups.flatMap { $0.categories
-        .filter { $0.categoryName
-          .range(of: filter, options: .caseInsensitive) != nil
-        }
+    categories = dashboard.groups.flatMap { $0.categories
+      .filter { $0.categoryName
+        .range(of: filter, options: .caseInsensitive) != nil
       }
     }
     return categories
-  }
-
-  private let refreshAction: (() -> Void)
-
-  init(result: Result<Dashboard>?,
-       refreshAction: @escaping (() -> Void)) {
-
-    self.refreshAction = refreshAction
-
-    if let result = result {
-      switch result {
-      case .failure(let error):
-        self.error = error
-        self.dashboard = nil
-        self.currentState = .error
-
-      case .success(let dashboard):
-        self.dashboard = dashboard
-        self.error = nil
-        self.currentState = .dataRetrieved
-      }
-    } else {
-      self.dashboard = nil
-      self.error = nil
-      self.currentState = .isLoading
-    }
-  }
-
-  init(refreshAction: @escaping () -> Void) {
-    self.init(result: nil, refreshAction: refreshAction)
-  }
-
-  func refresh() {
-    refreshAction()
   }
 }

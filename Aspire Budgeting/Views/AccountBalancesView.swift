@@ -18,10 +18,10 @@ struct AccountBalancesView: View {
   var body: some View {
     ZStack { //TODO: ZStack is probably not needed.
       if viewModel.error == nil {
-        if viewModel.accountBalances != nil {
+        if let accountBalances = viewModel.dataProvider?.accountBalances {
           List {
             ForEach(
-              viewModel.accountBalances!.accountBalances,
+              accountBalances.accountBalances,
               id: \.self
             ) { accountBalance in
               VStack(alignment: .leading) {
