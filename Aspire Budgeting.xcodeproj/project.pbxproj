@@ -72,6 +72,7 @@
 		06B0A21825A3BEA800E8DFBB /* AddTransactionMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */; };
 		06B0A22225A5390700E8DFBB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A22125A5390700E8DFBB /* ViewModel.swift */; };
 		06B0A23025A5448500E8DFBB /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A22F25A5448400E8DFBB /* ViewModelTests.swift */; };
+		06B0A23825A68D2700E8DFBB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0A23725A68D2700E8DFBB /* Transaction.swift */; };
 		06BAAFE0239C2FB700F24BF2 /* GradientTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFDF239C2FB700F24BF2 /* GradientTextView.swift */; };
 		06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE1239C301300F24BF2 /* AspireFonts.swift */; };
 		06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */; };
@@ -189,6 +190,7 @@
 		06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionMetadata.swift; sourceTree = "<group>"; };
 		06B0A22125A5390700E8DFBB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		06B0A22F25A5448400E8DFBB /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		06B0A23725A68D2700E8DFBB /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		06BAAFDF239C2FB700F24BF2 /* GradientTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTextView.swift; sourceTree = "<group>"; };
 		06BAAFE1239C301300F24BF2 /* AspireFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireFonts.swift; sourceTree = "<group>"; };
 		06BAAFE3239C578400F24BF2 /* AspireMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireMasterView.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalances.swift */,
 				06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */,
+				06B0A23725A68D2700E8DFBB /* Transaction.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				06BAAFE6239C5EFD00F24BF2 /* AspireSegmentedView.swift in Sources */,
 				06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */,
 				067B3C252593FB6000634EF4 /* AccountBalancesViewModel.swift in Sources */,
+				06B0A23825A68D2700E8DFBB /* Transaction.swift in Sources */,
 				06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */,
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,

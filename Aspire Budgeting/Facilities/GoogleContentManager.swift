@@ -20,7 +20,7 @@ protocol ContentReader {
 }
 
 protocol ContentWriter {
-  func addTransaction()
+  func addTransaction(_ transaction: Transaction)
 }
 
 typealias ContentProvider = ContentReader & ContentWriter
@@ -149,8 +149,8 @@ extension GoogleContentManager: ContentReader {
 
 // MARK: - ContentWriter Implementation
 extension GoogleContentManager: ContentWriter {
-  func addTransaction() {
-
+  func addTransaction(_ transaction: Transaction) {
+    print(transaction)
   }
 }
 

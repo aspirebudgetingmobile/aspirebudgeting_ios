@@ -82,7 +82,16 @@ struct AddTransactionView: View {
 
         if showAddButton {
           Button(action: {
-            print("Add Transaction")
+            let transaction = Transaction(amount: amountString,
+                                          memo: memoString,
+                                          date: selectedDate,
+                                          account: self.viewModel.dataProvider!
+                                            .transactionAccounts[selectedAccount],
+                                          category: self.viewModel.dataProvider!
+                                            .transactionCategories[selectedCategory],
+                                          transactionType: transactionType,
+                                          approvalType: approvalType)
+            self.viewModel.dataProvider?.submit(transaction)
           }, label: {
             Text("Add Transaction")
           })

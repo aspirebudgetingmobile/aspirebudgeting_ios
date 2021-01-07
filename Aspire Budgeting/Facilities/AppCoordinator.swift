@@ -178,7 +178,7 @@ extension AppCoordinator {
 
         switch readResult {
         case .success(let metadata):
-          result = .success(AddTrxDataProvider(metadata: metadata))
+          result = .success(AddTrxDataProvider(metadata: metadata, submitAction: self.submit))
 
         case .failure(let error):
           result = .failure(error)
@@ -189,6 +189,10 @@ extension AppCoordinator {
                                   refreshAction: self.addTransactionRefreshCallback)
         self.objectWillChange.send()
       }
+  }
+
+  func submit(transaction: Transaction) {
+    self.contentProvider.addTransaction(transaction)
   }
 }
 
