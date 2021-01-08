@@ -167,9 +167,11 @@ extension GoogleContentManager: ContentWriter {
     } else {
       readSink = getVersion(for: file, user: user)
         .compactMap { self.getRange(of: T.self, for: $0) }
-        .flatMap {
-          self.fileWriter.write(data: GTLRSheets_ValueRange(), file: file, user: user, location: $0)
-        }
+        .flatMap({ location -> AnyPublisher<Any, Error> in
+          let valueRange = self.createValueRange(from: data)
+          valueRange?.range = location
+          return self.fileWriter.write(data: valueRange!, file: file, user: user, location: location)
+        })
         .sink(receiveCompletion: { (status) in
           print(status)
         }, receiveValue: { (x) in
@@ -324,5 +326,65 @@ extension GoogleContentManager {
       range = "BackendData!M2:M"
     }
     return range
+  }
+
+  private func createValueRange<T>(from data: T) -> GTLRSheets_ValueRange? {
+    switch T.self {
+    case is Transaction.Type:
+      return createTransactionValueRange(from: data as! Transaction)
+    default:
+      Logger.info("ValueRange requested for unknown type \(T.self)")
+      return nil
+    }
+  }
+
+  private func createTransactionValueRange(from transaction: Transaction) -> GTLRSheets_ValueRange {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+
+    let valueRange = GTLRSheets_ValueRange()
+    valueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
+
+    var valuesToInsert = [String]()
+    valuesToInsert.append(dateFormatter.string(from: transaction.date))
+
+    if transaction.transactionType == 0 {
+      valuesToInsert.append("")
+      valuesToInsert.append(transaction.amount)
+    } else {
+      valuesToInsert.append(transaction.amount)
+      valuesToInsert.append("")
+    }
+
+    valuesToInsert.append(transaction.category)
+    valuesToInsert.append(transaction.account)
+    valuesToInsert.append(transaction.memo)
+
+    guard let supportedVersion = supportedLegacyVersion else {
+      Logger.error("Supported sheet version is nil")
+      return valueRange
+    }
+
+    let approvalType = transaction.approvalType
+
+    switch supportedVersion {
+    case .twoEight:
+      if approvalType == 0 {
+        valuesToInsert.append("🆗")
+      } else {
+        valuesToInsert.append("⏺")
+      }
+
+    case .three, .threeOne, .threeTwo, .threeThree:
+      if approvalType == 0 {
+        valuesToInsert.append("✅")
+      } else {
+        valuesToInsert.append("🅿️")
+      }
+    }
+
+    valueRange.values = [valuesToInsert]
+    return valueRange
   }
 }

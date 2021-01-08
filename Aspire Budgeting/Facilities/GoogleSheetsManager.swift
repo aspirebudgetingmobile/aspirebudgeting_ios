@@ -29,56 +29,6 @@ enum Result<T> {
 }
 
 final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
-  func write(data: GTLRSheets_ValueRange,
-             file: File,
-             user: User,
-             location: String) -> AnyPublisher<Any, Error> {
-
-    let future = Future<Any, Error> { promise in
-      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
-
-      self.append(data: data,
-                  spreadsheet: file,
-                  spreadsheetRange: location,
-                  authorizer: authorizer) { result in
-        switch result {
-        case.failure(let error):
-          promise(.failure(error))
-        case .success:
-          promise(.success(true))
-        }
-      }
-
-    }
-    .print()
-    .eraseToAnyPublisher()
-
-    return future
-  }
-
-  func read(file: File,
-            user: User,
-            locations: [String]) -> AnyPublisher<Any, Error> {
-
-    let future = Future<Any, Error> { promise in
-      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
-
-      self.fetchData(spreadsheet: file,
-                     spreadsheetRanges: locations,
-                     authorizer: authorizer) { valueRange, error in
-                      if let error = error {
-                        promise(.failure(error))
-                      } else {
-                        promise(.success(valueRange!))
-                      }
-      }
-    }
-    .print()
-    .eraseToAnyPublisher()
-
-    return future
-  }
-
   private let sheetsService: GTLRService
   private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
   private var appendQuery: GTLRSheetsQuery_SpreadsheetsValuesAppend
@@ -102,7 +52,10 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     self.getSpreadsheetsQuery = dependencies.getSpreadsheetsQuery
     self.appendQuery = dependencies.appendQuery
   }
+}
 
+// MARK: - Reading Google Sheet
+extension GoogleSheetsManager {
   private func fetchData(
     spreadsheet: File,
     spreadsheetRanges: [String],
@@ -149,6 +102,32 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     }
   }
 
+  func read(file: File,
+            user: User,
+            locations: [String]) -> AnyPublisher<Any, Error> {
+
+    let future = Future<Any, Error> { promise in
+      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
+
+      self.fetchData(spreadsheet: file,
+                     spreadsheetRanges: locations,
+                     authorizer: authorizer) { valueRange, error in
+                      if let error = error {
+                        promise(.failure(error))
+                      } else {
+                        promise(.success(valueRange!))
+                      }
+      }
+    }
+    .print()
+    .eraseToAnyPublisher()
+
+    return future
+  }
+}
+
+// MARK: - Writing to Google Sheet
+extension GoogleSheetsManager {
   private func append(data: GTLRSheets_ValueRange,
                       spreadsheet: File,
                       spreadsheetRange: String,
@@ -190,131 +169,30 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     }
   }
 
-//  private func createSheetsValueRangeFrom(
-//    amount: String,
-//    memo: String,
-//    date: Date,
-//    category: Int,
-//    account: Int,
-//    transactionType: Int,
-//    approvalType: Int
-//  ) -> GTLRSheets_ValueRange {
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.dateStyle = .medium
-//    dateFormatter.timeStyle = .none
-//
-//    let sheetsValueRange = GTLRSheets_ValueRange()
-//    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
-//    sheetsValueRange.range = "Transactions!B:H"
-//
-//    var valuesToInsert = [String]()
-//    valuesToInsert.append(dateFormatter.string(from: date))
-//
-//    if transactionType == 0 {
-//      valuesToInsert.append("")
-//      valuesToInsert.append(amount)
-//    } else {
-//      valuesToInsert.append(amount)
-//      valuesToInsert.append("")
-//    }
-//
-//    valuesToInsert.append(transactionCategories![category])
-//    valuesToInsert.append(transactionAccounts![account])
-//    valuesToInsert.append("\(memo) - Added from Aspire iOS app")
-//
-//    guard let version = aspireVersion else {
-//      fatalError("Aspire Version is nil")
-//    }
-//
-//    switch version {
-//    case .twoEight:
-//      if approvalType == 0 {
-//        valuesToInsert.append("🆗")
-//      } else {
-//        valuesToInsert.append("⏺")
-//      }
-//
-//    case .three, .threeOne, .threeTwo:
-//      if approvalType == 0 {
-//        valuesToInsert.append("✅")
-//      } else {
-//        valuesToInsert.append("🅿️")
-//      }
-//    }
-//
-//    sheetsValueRange.values = [valuesToInsert]
-//    return sheetsValueRange
-//  }
-}
+  func write(data: GTLRSheets_ValueRange,
+             file: File,
+             user: User,
+             location: String) -> AnyPublisher<Any, Error> {
 
-// MARK: Writing to Google Sheets
+    let future = Future<Any, Error> { promise in
+      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
 
-extension GoogleSheetsManager {
-  func addTransaction(
-    amount: String,
-    memo: String,
-    date: Date,
-    category: Int,
-    account: Int,
-    transactionType: Int,
-    approvalType: Int,
-    completion: @escaping (Bool) -> Void
-  ) {
-    Logger.info(
-      "Adding transaction"
-    )
+      self.append(data: data,
+                  spreadsheet: file,
+                  spreadsheetRange: location,
+                  authorizer: authorizer) { result in
+        switch result {
+        case.failure(let error):
+          promise(.failure(error))
+        case .success:
+          promise(.success(true))
+        }
+      }
 
-//    let valuesToInsert = createSheetsValueRangeFrom(
-//      amount: amount,
-//      memo: memo,
-//      date: date,
-//      category: category,
-//      account: account,
-//      transactionType: transactionType,
-//      approvalType: approvalType
-//    )
+    }
+    .print()
+    .eraseToAnyPublisher()
 
-    //    guard let authorizer = self.authorizer else {
-    //      os_log(
-    //        "Aspire version is nil",
-    //        log: .sheetsManager,
-    //        type: .error
-    //      )
-    //      error = GoogleDriveManagerError.nilAuthorizer
-    //      return
-    //    }
-
-    //    sheetsService.authorizer = authorizer
-    //
-    //    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(
-    //      withObject: valuesToInsert,
-    //      spreadsheetId: defaultFile!.id,
-    //      range: valuesToInsert.range!
-    //    )
-    //
-    //    appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
-
-    //    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
-    //      if let error = error as NSError? {
-    //        if error.domain == kGTLRErrorObjectDomain {
-    //          os_log(
-    //            "Encountered kGTLRErrorObjectDomain: %{public}s",
-    //            log: .sheetsManager,
-    //            type: .error,
-    //            error.localizedDescription
-    //          )
-    //          self.error = GoogleDriveManagerError.inconsistentSheet
-    //        } else {
-    //          os_log(
-    //            "No internet connection",
-    //            log: .sheetsManager,
-    //            type: .error
-    //          )
-    //          self.error = GoogleDriveManagerError.noInternet
-    //        }
-    //      }
-    //      self.fetchAccountBalances(spreadsheet: self.defaultFile!)
-    //      completion(error == nil)
-    //    }
+    return future
   }
 }

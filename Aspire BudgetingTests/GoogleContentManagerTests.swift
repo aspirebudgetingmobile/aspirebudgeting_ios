@@ -87,7 +87,7 @@ final class MockTrxMetadataReader: MockRemoteFileReader {
 }
 
 struct MockRemoteFileWriter: RemoteFileWriter {
-  func write(file: File, user: User, location: String) {
+  func write(data: GTLRSheets_ValueRange, file: File, user: User, location: String) -> AnyPublisher<Any, Error> {
 
   }
 }
