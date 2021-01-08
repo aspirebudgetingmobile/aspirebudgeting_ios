@@ -167,14 +167,17 @@ extension GoogleContentManager: ContentWriter {
     } else {
       readSink = getVersion(for: file, user: user)
         .compactMap { self.getRange(of: T.self, for: $0) }
-        .flatMap({ location -> AnyPublisher<Any, Error> in
+        .flatMap { location -> AnyPublisher<Any, Error> in
           let valueRange = self.createValueRange(from: data)
           valueRange?.range = location
-          return self.fileWriter.write(data: valueRange!, file: file, user: user, location: location)
-        })
-        .sink(receiveCompletion: { (status) in
+          return self.fileWriter.write(data: valueRange!,
+                                       file: file,
+                                       user: user,
+                                       location: location)
+        }
+        .sink(receiveCompletion: { status in
           print(status)
-        }, receiveValue: { (x) in
+        }, receiveValue: { x in
           print(x)
         })
     }

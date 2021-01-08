@@ -196,9 +196,9 @@ extension AppCoordinator {
       .write(data: transaction,
              for: self.user!,
              to: self.selectedFile!,
-             using: self.dataLocationMap!) { (result) in
-
-    }
+             using: self.dataLocationMap!) { result in
+        print(result)
+      }
   }
 }
 

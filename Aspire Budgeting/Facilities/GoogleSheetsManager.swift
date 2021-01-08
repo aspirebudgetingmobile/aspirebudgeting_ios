@@ -28,13 +28,10 @@ enum Result<T> {
   case failure(Error)
 }
 
-final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
+final class GoogleSheetsManager: RemoteFileReaderWriter {
   private let sheetsService: GTLRService
   private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
   private var appendQuery: GTLRSheetsQuery_SpreadsheetsValuesAppend
-
-  private var logoutObserver: NSObjectProtocol?
-
   private var ticket: GTLRServiceTicket?
 
   struct Dependencies {
