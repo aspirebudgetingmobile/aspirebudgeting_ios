@@ -20,7 +20,11 @@ protocol ContentReader {
 }
 
 protocol ContentWriter {
-  func addTransaction(_ transaction: Transaction)
+  func write<T>(data: T,
+                for user: User,
+                to file: File,
+                using dataMap: [String: String],
+                completion: (Result<Any>) -> Void)
 }
 
 typealias ContentProvider = ContentReader & ContentWriter
@@ -149,8 +153,29 @@ extension GoogleContentManager: ContentReader {
 
 // MARK: - ContentWriter Implementation
 extension GoogleContentManager: ContentWriter {
-  func addTransaction(_ transaction: Transaction) {
-    print(transaction)
+  func write<T>(data: T,
+                for user: User,
+                to file: File,
+                using dataMap: [String: String],
+                completion: (Result<Any>) -> Void) {
+    if let location = getRange(of: T.self, from: dataMap) {
+      readSink = fileReader
+        .read(file: file, user: user, locations: [location])
+        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
+        }, receiveValue: { _ in //TODO: To be implemented for >3.3
+        })
+    } else {
+      readSink = getVersion(for: file, user: user)
+        .compactMap { self.getRange(of: T.self, for: $0) }
+        .flatMap {
+          self.fileWriter.write(data: GTLRSheets_ValueRange(), file: file, user: user, location: $0)
+        }
+        .sink(receiveCompletion: { (status) in
+          print(status)
+        }, receiveValue: { (x) in
+          print(x)
+        })
+    }
   }
 }
 
@@ -224,6 +249,9 @@ extension GoogleContentManager {
 
     case is Dashboard.Type:
       return self.getDashboardRange(for: version)
+
+    case is Transaction.Type:
+      return "Transactions!B:H"
 
     default:
       Logger.info("Data requested for unknown type \(T.self).")

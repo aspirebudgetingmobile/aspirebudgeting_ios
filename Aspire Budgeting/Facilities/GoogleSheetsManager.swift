@@ -15,7 +15,10 @@ protocol RemoteFileReader {
 }
 
 protocol RemoteFileWriter {
-  func write(file: File, user: User, location: String)
+  func write(data: GTLRSheets_ValueRange,
+             file: File,
+             user: User,
+             location: String) -> AnyPublisher<Any, Error>
 }
 
 typealias RemoteFileReaderWriter = RemoteFileReader & RemoteFileWriter
@@ -26,6 +29,33 @@ enum Result<T> {
 }
 
 final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
+  func write(data: GTLRSheets_ValueRange,
+             file: File,
+             user: User,
+             location: String) -> AnyPublisher<Any, Error> {
+
+    let future = Future<Any, Error> { promise in
+      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
+
+      self.append(data: data,
+                  spreadsheet: file,
+                  spreadsheetRange: location,
+                  authorizer: authorizer) { result in
+        switch result {
+        case.failure(let error):
+          promise(.failure(error))
+        case .success:
+          promise(.success(true))
+        }
+      }
+
+    }
+    .print()
+    .eraseToAnyPublisher()
+
+    return future
+  }
+
   func read(file: File,
             user: User,
             locations: [String]) -> AnyPublisher<Any, Error> {
@@ -49,37 +79,28 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     return future
   }
 
-  func write(file: File, user: User, location: String) {
-
-  }
-
-  //TODO: Remove enum
-  enum SupportedAspireVersions: String {
-    case twoEight = "2.8"
-    case three = "3.0"
-    case threeOne = "3.1.0"
-    case threeTwo = "3.2.0"
-  }
-
   private let sheetsService: GTLRService
   private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+  private var appendQuery: GTLRSheetsQuery_SpreadsheetsValuesAppend
 
   private var logoutObserver: NSObjectProtocol?
 
   private var ticket: GTLRServiceTicket?
 
-  @Published private(set) var aspireVersion: SupportedAspireVersions?
-  @Published private(set) var error: GoogleDriveManagerError?
-  @Published private(set) var transactionCategories: [String]?
-  @Published private(set) var transactionAccounts: [String]?
+  struct Dependencies {
+    let sheetsService = GTLRSheetsService()
+    let getSpreadsheetsQuery = GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+      .query(withSpreadsheetId: "")
+    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
+      .query(withObject: GTLRSheets_ValueRange(),
+             spreadsheetId: "",
+             range: "")
+  }
 
-  init(
-    sheetsService: GTLRService = GTLRSheetsService(),
-    getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
-    = GTLRSheetsQuery_SpreadsheetsValuesBatchGet.query(withSpreadsheetId: "")
-  ) {
-    self.sheetsService = sheetsService
-    self.getSpreadsheetsQuery = getSpreadsheetsQuery
+  init(dependencies: Dependencies = Dependencies()) {
+    self.sheetsService = dependencies.sheetsService
+    self.getSpreadsheetsQuery = dependencies.getSpreadsheetsQuery
+    self.appendQuery = dependencies.appendQuery
   }
 
   private func fetchData(
@@ -128,61 +149,102 @@ final class GoogleSheetsManager: ObservableObject, RemoteFileReaderWriter {
     }
   }
 
-  private func createSheetsValueRangeFrom(
-    amount: String,
-    memo: String,
-    date: Date,
-    category: Int,
-    account: Int,
-    transactionType: Int,
-    approvalType: Int
-  ) -> GTLRSheets_ValueRange {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .none
+  private func append(data: GTLRSheets_ValueRange,
+                      spreadsheet: File,
+                      spreadsheetRange: String,
+                      authorizer: GTMFetcherAuthorizationProtocol?,
+                      completion: @escaping (Result<Bool>) -> Void
+  ) {
 
-    let sheetsValueRange = GTLRSheets_ValueRange()
-    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
-    sheetsValueRange.range = "Transactions!B:H"
-
-    var valuesToInsert = [String]()
-    valuesToInsert.append(dateFormatter.string(from: date))
-
-    if transactionType == 0 {
-      valuesToInsert.append("")
-      valuesToInsert.append(amount)
-    } else {
-      valuesToInsert.append(amount)
-      valuesToInsert.append("")
+    guard let authorizer = authorizer else {
+      Logger.error(
+        "Nil authorizer while trying to append data"
+      )
+      completion(.failure(GoogleDriveManagerError.nilAuthorizer))
+      return
     }
 
-    valuesToInsert.append(transactionCategories![category])
-    valuesToInsert.append(transactionAccounts![account])
-    valuesToInsert.append("\(memo) - Added from Aspire iOS app")
+    sheetsService.authorizer = authorizer
 
-    guard let version = aspireVersion else {
-      fatalError("Aspire Version is nil")
-    }
+    appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
+      .query(withObject: data,
+             spreadsheetId: spreadsheet.id,
+             range: spreadsheetRange)
 
-    switch version {
-    case .twoEight:
-      if approvalType == 0 {
-        valuesToInsert.append("🆗")
+    appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
+
+    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
+      if let error = error as NSError? {
+        if error.domain == kGTLRErrorObjectDomain {
+          Logger.error("Encountered kGTLRErrorObjectDomain: ",
+                       context: error.localizedDescription)
+        } else {
+          Logger.error("No internet connection")
+        }
+        completion(.failure(error))
       } else {
-        valuesToInsert.append("⏺")
-      }
-
-    case .three, .threeOne, .threeTwo:
-      if approvalType == 0 {
-        valuesToInsert.append("✅")
-      } else {
-        valuesToInsert.append("🅿️")
+        Logger.info("Data appended at: ",
+                    context: spreadsheetRange)
+        completion(.success(true))
       }
     }
-
-    sheetsValueRange.values = [valuesToInsert]
-    return sheetsValueRange
   }
+
+//  private func createSheetsValueRangeFrom(
+//    amount: String,
+//    memo: String,
+//    date: Date,
+//    category: Int,
+//    account: Int,
+//    transactionType: Int,
+//    approvalType: Int
+//  ) -> GTLRSheets_ValueRange {
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateStyle = .medium
+//    dateFormatter.timeStyle = .none
+//
+//    let sheetsValueRange = GTLRSheets_ValueRange()
+//    sheetsValueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
+//    sheetsValueRange.range = "Transactions!B:H"
+//
+//    var valuesToInsert = [String]()
+//    valuesToInsert.append(dateFormatter.string(from: date))
+//
+//    if transactionType == 0 {
+//      valuesToInsert.append("")
+//      valuesToInsert.append(amount)
+//    } else {
+//      valuesToInsert.append(amount)
+//      valuesToInsert.append("")
+//    }
+//
+//    valuesToInsert.append(transactionCategories![category])
+//    valuesToInsert.append(transactionAccounts![account])
+//    valuesToInsert.append("\(memo) - Added from Aspire iOS app")
+//
+//    guard let version = aspireVersion else {
+//      fatalError("Aspire Version is nil")
+//    }
+//
+//    switch version {
+//    case .twoEight:
+//      if approvalType == 0 {
+//        valuesToInsert.append("🆗")
+//      } else {
+//        valuesToInsert.append("⏺")
+//      }
+//
+//    case .three, .threeOne, .threeTwo:
+//      if approvalType == 0 {
+//        valuesToInsert.append("✅")
+//      } else {
+//        valuesToInsert.append("🅿️")
+//      }
+//    }
+//
+//    sheetsValueRange.values = [valuesToInsert]
+//    return sheetsValueRange
+//  }
 }
 
 // MARK: Writing to Google Sheets
@@ -202,15 +264,15 @@ extension GoogleSheetsManager {
       "Adding transaction"
     )
 
-    let valuesToInsert = createSheetsValueRangeFrom(
-      amount: amount,
-      memo: memo,
-      date: date,
-      category: category,
-      account: account,
-      transactionType: transactionType,
-      approvalType: approvalType
-    )
+//    let valuesToInsert = createSheetsValueRangeFrom(
+//      amount: amount,
+//      memo: memo,
+//      date: date,
+//      category: category,
+//      account: account,
+//      transactionType: transactionType,
+//      approvalType: approvalType
+//    )
 
     //    guard let authorizer = self.authorizer else {
     //      os_log(
