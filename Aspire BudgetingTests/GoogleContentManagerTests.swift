@@ -92,6 +92,9 @@ struct MockRemoteFileWriter: RemoteFileWriter {
              user: User,
              location: String) -> AnyPublisher<Any, Error> {
 
+    Future<Any, Error> { promise in
+      promise(.success(true))
+    }.eraseToAnyPublisher()
   }
 }
 
