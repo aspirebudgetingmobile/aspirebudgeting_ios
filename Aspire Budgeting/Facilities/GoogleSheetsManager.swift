@@ -35,10 +35,10 @@ final class GoogleSheetsManager: RemoteFileReaderWriter {
   private var ticket: GTLRServiceTicket?
 
   struct Dependencies {
-    let sheetsService = GTLRSheetsService()
-    let getSpreadsheetsQuery = GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+    var sheetsService = GTLRSheetsService()
+    var getSpreadsheetsQuery = GTLRSheetsQuery_SpreadsheetsValuesBatchGet
       .query(withSpreadsheetId: "")
-    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
+    var appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
       .query(withObject: GTLRSheets_ValueRange(),
              spreadsheetId: "",
              range: "")
