@@ -28,10 +28,33 @@ enum Result<T> {
   case failure(Error)
 }
 
+protocol GSMDependencyCreator {
+  var sheetsService: GTLRSheetsService { get }
+  var readQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet { get }
+
+  func appendQuery(with object: GTLRSheets_ValueRange,
+                   spreadsheetId: String,
+                   range: String) -> GTLRSheetsQuery_SpreadsheetsValuesAppend
+}
+
+struct GSMDependencies: GSMDependencyCreator {
+  var sheetsService = GTLRSheetsService()
+  var readQuery = GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+    .query(withSpreadsheetId: "")
+
+  func appendQuery(with object: GTLRSheets_ValueRange,
+                   spreadsheetId: String,
+                   range: String) -> GTLRSheetsQuery_SpreadsheetsValuesAppend {
+    GTLRSheetsQuery_SpreadsheetsValuesAppend
+      .query(withObject: object,
+             spreadsheetId: spreadsheetId,
+             range: range)
+  }
+}
+
 final class GoogleSheetsManager: RemoteFileReaderWriter {
   private let sheetsService: GTLRService
-  private let getSpreadsheetsQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
-  private var appendQuery: GTLRSheetsQuery_SpreadsheetsValuesAppend
+  private let readQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
   private var ticket: GTLRServiceTicket?
 
   struct Dependencies {
@@ -44,10 +67,9 @@ final class GoogleSheetsManager: RemoteFileReaderWriter {
              range: "")
   }
 
-  init(dependencies: Dependencies = Dependencies()) {
+  init(dependencies: GSMDependencyCreator = GSMDependencies()) {
     self.sheetsService = dependencies.sheetsService
-    self.getSpreadsheetsQuery = dependencies.getSpreadsheetsQuery
-    self.appendQuery = dependencies.appendQuery
+    self.readQuery = dependencies.readQuery
   }
 }
 
@@ -68,12 +90,12 @@ extension GoogleSheetsManager {
     }
 
     sheetsService.authorizer = authorizer
-    getSpreadsheetsQuery.isQueryInvalid = false
+    readQuery.isQueryInvalid = false
 
-    getSpreadsheetsQuery.spreadsheetId = spreadsheet.id
-    getSpreadsheetsQuery.ranges = spreadsheetRanges
+    readQuery.spreadsheetId = spreadsheet.id
+    readQuery.ranges = spreadsheetRanges
 
-    ticket = sheetsService.executeQuery(getSpreadsheetsQuery) { _, data, error in
+    ticket = sheetsService.executeQuery(readQuery) { _, data, error in
       if let valueRanges = (data as? GTLRSheets_BatchGetValuesResponse)?.valueRanges {
         Logger.info(
           "Read succesful from Google Sheets: ",
@@ -109,11 +131,11 @@ extension GoogleSheetsManager {
       self.fetchData(spreadsheet: file,
                      spreadsheetRanges: locations,
                      authorizer: authorizer) { valueRange, error in
-                      if let error = error {
-                        promise(.failure(error))
-                      } else {
-                        promise(.success(valueRange!))
-                      }
+        if let error = error {
+          promise(.failure(error))
+        } else {
+          promise(.success(valueRange!))
+        }
       }
     }
     .print()
@@ -142,7 +164,7 @@ extension GoogleSheetsManager {
 
     sheetsService.authorizer = authorizer
 
-    appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
+    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
       .query(withObject: data,
              spreadsheetId: spreadsheet.id,
              range: spreadsheetRange)

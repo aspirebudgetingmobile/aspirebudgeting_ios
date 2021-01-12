@@ -8,6 +8,44 @@ import Combine
 import GoogleAPIClientForREST
 import XCTest
 
+struct MockGSMDependencies: GSMDependencyCreator {
+  var sheetsService: GTLRSheetsService {
+    let fakeResponse = GTLRSheets_BatchGetValuesResponse()
+
+    if let fakeVR = self.fakeValueRange {
+      fakeResponse.valueRanges = [fakeVR]
+    }
+
+    let mockService = GTLRSheetsService
+      .mockService(withFakedObject: fakeResponse,
+                   fakedError: fakeError)
+
+    return mockService
+  }
+
+  var readQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet {
+    GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+      .query(withSpreadsheetId: "42")
+  }
+
+  func appendQuery(with object: GTLRSheets_ValueRange,
+                   spreadsheetId: String,
+                   range: String) -> GTLRSheetsQuery_SpreadsheetsValuesAppend {
+    GTLRSheetsQuery_SpreadsheetsValuesAppend
+      .query(withObject: GTLRSheets_ValueRange(),
+             spreadsheetId: "",
+             range: "")
+  }
+
+  let fakeValueRange: GTLRSheets_ValueRange?
+  let fakeError: Error?
+
+  init(fakeValueRange: GTLRSheets_ValueRange?, fakeError: Error?) {
+    self.fakeError = fakeError
+    self.fakeValueRange = fakeValueRange
+  }
+}
+
 final class GoogleSheetsManagerTests: XCTestCase {
   var sinkCancellable: AnyCancellable?
 
@@ -15,26 +53,10 @@ final class GoogleSheetsManagerTests: XCTestCase {
     let fakeValueRange = GTLRSheets_ValueRange()
     fakeValueRange.values = [["A", "B"]]
 
-    let fakeResponse = GTLRSheets_BatchGetValuesResponse()
-    fakeResponse.valueRanges = [fakeValueRange]
+    let mockDependencies = MockGSMDependencies(fakeValueRange: fakeValueRange,
+                                               fakeError: nil)
 
-    let mockService = GTLRSheetsService
-      .mockService(withFakedObject: fakeResponse,
-                   fakedError: nil)
-
-    let mockReadQuery = GTLRSheetsQuery_SpreadsheetsValuesBatchGet
-      .query(withSpreadsheetId: "42")
-
-    let mockAppendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
-      .query(withObject: GTLRSheets_ValueRange(),
-             spreadsheetId: "",
-             range: "")
-
-    let deps = GoogleSheetsManager.Dependencies(sheetsService: mockService,
-                                                getSpreadsheetsQuery: mockReadQuery,
-                                                appendQuery: mockAppendQuery)
-
-    let sheetsManager = GoogleSheetsManager(dependencies: deps)
+    let sheetsManager = GoogleSheetsManager(dependencies: mockDependencies)
 
     let expectation = XCTestExpectation()
     sinkCancellable = sheetsManager
