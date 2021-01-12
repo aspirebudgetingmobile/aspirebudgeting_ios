@@ -87,8 +87,14 @@ final class MockTrxMetadataReader: MockRemoteFileReader {
 }
 
 struct MockRemoteFileWriter: RemoteFileWriter {
-  func write(file: File, user: User, location: String) {
+  func write(data: GTLRSheets_ValueRange,
+             file: File,
+             user: User,
+             location: String) -> AnyPublisher<Any, Error> {
 
+    Future<Any, Error> { promise in
+      promise(.success(true))
+    }.eraseToAnyPublisher()
   }
 }
 
@@ -164,18 +170,20 @@ final class GoogleContentManagerTests: XCTestCase {
       GoogleContentManager(fileReader: trxMetadataReader, fileWriter: writer)
 
     let exp = XCTestExpectation()
-    contentManager.getBatchData(for: user,
-                                from: file, using: dataMap) { (result: Result<AddTransactionMetadata>) in
-      switch result {
-      case .failure:
-        XCTFail()
+    contentManager
+      .getBatchData(for: user,
+                    from: file,
+                    using: dataMap) { (result: Result<AddTransactionMetadata>) in
+        switch result {
+        case .failure:
+          XCTFail()
 
-      case .success(let trxMetadata):
-        XCTAssertEqual(trxMetadata.transactionAccounts, ["Acc 1", "Acc 2"])
-        XCTAssertEqual(trxMetadata.transactionCategories, ["Cat 1", "Cat 2"])
-        exp.fulfill()
+        case .success(let trxMetadata):
+          XCTAssertEqual(trxMetadata.transactionAccounts, ["Acc 1", "Acc 2"])
+          XCTAssertEqual(trxMetadata.transactionCategories, ["Cat 1", "Cat 2"])
+          exp.fulfill()
+        }
       }
-    }
     wait(for: [exp], timeout: 1)
   }
 }

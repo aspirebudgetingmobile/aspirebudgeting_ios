@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
   @EnvironmentObject var userManager: GoogleUserManager
   @EnvironmentObject var driveManager: GoogleDriveManager
-  @EnvironmentObject var sheetsManager: GoogleSheetsManager
   @EnvironmentObject var appCoordinator: AppCoordinator
 
   var needsLocalAuth: Bool {

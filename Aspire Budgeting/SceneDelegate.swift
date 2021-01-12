@@ -58,7 +58,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let contentView = ContentView()
       .environmentObject(userManager)
       .environmentObject(driveManager)
-      .environmentObject(sheetsManager)
       .environmentObject(objectFactory.appCoordinator)
 
     // Use a UIHostingController as window root view controller.

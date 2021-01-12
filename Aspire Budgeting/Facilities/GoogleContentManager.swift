@@ -20,10 +20,22 @@ protocol ContentReader {
 }
 
 protocol ContentWriter {
-  func addTransaction()
+  func write<T>(data: T,
+                for user: User,
+                to file: File,
+                using dataMap: [String: String],
+                completion: (Result<Any>) -> Void)
 }
 
 typealias ContentProvider = ContentReader & ContentWriter
+
+enum SupportedLegacyVersion: String {
+  case twoEight = "2.8"
+  case three = "3.0"
+  case threeOne = "3.1.0"
+  case threeTwo = "3.2.0"
+  case threeThree = "3.3.0"
+}
 
 final class GoogleContentManager {
   private let fileReader: RemoteFileReader
@@ -37,14 +49,6 @@ final class GoogleContentManager {
   private let kTrxAccounts = "trx_AccountsList"
 
   private var supportedLegacyVersion: SupportedLegacyVersion?
-
-  enum SupportedLegacyVersion: String {
-    case twoEight = "2.8"
-    case three = "3.0"
-    case threeOne = "3.1.0"
-    case threeTwo = "3.2.0"
-    case threeThree = "3.3.0"
-  }
 
   init(fileReader: RemoteFileReader,
        fileWriter: RemoteFileWriter) {
@@ -149,8 +153,34 @@ extension GoogleContentManager: ContentReader {
 
 // MARK: - ContentWriter Implementation
 extension GoogleContentManager: ContentWriter {
-  func addTransaction() {
-
+  func write<T>(data: T,
+                for user: User,
+                to file: File,
+                using dataMap: [String: String],
+                completion: (Result<Any>) -> Void) {
+    if let location = getRange(of: T.self, from: dataMap) {
+      readSink = fileReader
+        .read(file: file, user: user, locations: [location])
+        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
+        }, receiveValue: { _ in //TODO: To be implemented for >3.3
+        })
+    } else {
+      readSink = getVersion(for: file, user: user)
+        .compactMap { self.getRange(of: T.self, for: $0) }
+        .flatMap { location -> AnyPublisher<Any, Error> in
+          let valueRange = self.createValueRange(from: data)
+          valueRange?.range = location
+          return self.fileWriter.write(data: valueRange!,
+                                       file: file,
+                                       user: user,
+                                       location: location)
+        }
+        .sink(receiveCompletion: { status in
+          print(status)
+        }, receiveValue: { x in
+          print(x)
+        })
+    }
   }
 }
 
@@ -225,6 +255,9 @@ extension GoogleContentManager {
     case is Dashboard.Type:
       return self.getDashboardRange(for: version)
 
+    case is Transaction.Type:
+      return "Transactions!B:H"
+
     default:
       Logger.info("Data requested for unknown type \(T.self).")
       return nil
@@ -296,5 +329,21 @@ extension GoogleContentManager {
       range = "BackendData!M2:M"
     }
     return range
+  }
+
+  private func createValueRange<T>(from data: T) -> GTLRSheets_ValueRange? {
+    guard let supportedVersion = supportedLegacyVersion else {
+      Logger.error("Supported sheet version is nil")
+      return nil
+    }
+
+    switch T.self {
+    case is Transaction.Type:
+      return ValueRangeCreator.valueRange(from: data as! Transaction,
+                                          for: supportedVersion)
+    default:
+      Logger.info("ValueRange requested for unknown type \(T.self)")
+      return nil
+    }
   }
 }
