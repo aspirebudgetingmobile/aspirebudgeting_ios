@@ -53,13 +53,20 @@ struct GSMDependencies: GSMDependencyCreator {
 }
 
 final class GoogleSheetsManager: RemoteFileReaderWriter {
-  private let sheetsService: GTLRService
-  private let readQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet
+  private let dependencies: GSMDependencyCreator
+
+  private var sheetsService: GTLRService {
+    dependencies.sheetsService
+  }
+
+  private var readQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet {
+    dependencies.readQuery
+  }
+
   private var ticket: GTLRServiceTicket?
 
   init(dependencies: GSMDependencyCreator = GSMDependencies()) {
-    self.sheetsService = dependencies.sheetsService
-    self.readQuery = dependencies.readQuery
+    self.dependencies = dependencies
   }
 }
 
@@ -154,14 +161,14 @@ extension GoogleSheetsManager {
 
     sheetsService.authorizer = authorizer
 
-    let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend
-      .query(withObject: data,
-             spreadsheetId: spreadsheet.id,
-             range: spreadsheetRange)
+    let appendQuery = dependencies
+      .appendQuery(with: data,
+                   spreadsheetId: spreadsheet.id,
+                   range: spreadsheetRange)
 
     appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
 
-    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
+    ticket = sheetsService.executeQuery(appendQuery) { _, response, error in
       if let error = error as NSError? {
         if error.domain == kGTLRErrorObjectDomain {
           Logger.error("Encountered kGTLRErrorObjectDomain: ",
@@ -171,8 +178,12 @@ extension GoogleSheetsManager {
         }
         completion(.failure(error))
       } else {
-        Logger.info("Data appended at: ",
-                    context: spreadsheetRange)
+        if let updatedRange = (response as? GTLRSheets_AppendValuesResponse)?
+            .updates?
+            .updatedRange {
+          Logger.info("Data appended at: ",
+                      context: updatedRange)
+        }
         completion(.success(true))
       }
     }
