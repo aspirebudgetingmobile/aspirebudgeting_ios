@@ -80,4 +80,34 @@ final class GoogleSheetsManagerTests: XCTestCase {
 
     wait(for: [expectation], timeout: 1)
   }
+
+  func testReadInconsistentSheet() {
+    let fakeError = NSError(domain: kGTLRErrorObjectDomain,
+                            code: 42,
+                            userInfo: nil)
+
+    let mockDependencies = MockGSMDependencies(fakeValueRange: nil, fakeError: fakeError)
+
+    let sheetsManager = GoogleSheetsManager(dependencies: mockDependencies)
+
+    let expectation = XCTestExpectation()
+    sinkCancellable = sheetsManager
+      .read(file: File(id: "id", name: "FileName"),
+            user: User(name: "User", authorizer: MockAuthorizer()),
+            locations: ["LOC"])
+      .sink(receiveCompletion: { result in
+        switch result {
+        case .failure(let error):
+          XCTAssertEqual(error as! GoogleDriveManagerError,
+                         GoogleDriveManagerError.inconsistentSheet)
+          expectation.fulfill()
+        default:
+          XCTFail()
+        }
+      }, receiveValue: { _ in
+        XCTFail()
+      })
+
+    wait(for: [expectation], timeout: 1)
+  }
 }
