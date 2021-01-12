@@ -29,6 +29,14 @@ protocol ContentWriter {
 
 typealias ContentProvider = ContentReader & ContentWriter
 
+enum SupportedLegacyVersion: String {
+  case twoEight = "2.8"
+  case three = "3.0"
+  case threeOne = "3.1.0"
+  case threeTwo = "3.2.0"
+  case threeThree = "3.3.0"
+}
+
 final class GoogleContentManager {
   private let fileReader: RemoteFileReader
   private let fileWriter: RemoteFileWriter
@@ -41,14 +49,6 @@ final class GoogleContentManager {
   private let kTrxAccounts = "trx_AccountsList"
 
   private var supportedLegacyVersion: SupportedLegacyVersion?
-
-  enum SupportedLegacyVersion: String {
-    case twoEight = "2.8"
-    case three = "3.0"
-    case threeOne = "3.1.0"
-    case threeTwo = "3.2.0"
-    case threeThree = "3.3.0"
-  }
 
   init(fileReader: RemoteFileReader,
        fileWriter: RemoteFileWriter) {
@@ -332,62 +332,18 @@ extension GoogleContentManager {
   }
 
   private func createValueRange<T>(from data: T) -> GTLRSheets_ValueRange? {
+    guard let supportedVersion = supportedLegacyVersion else {
+      Logger.error("Supported sheet version is nil")
+      return nil
+    }
+
     switch T.self {
     case is Transaction.Type:
-      return createTransactionValueRange(from: data as! Transaction)
+      return ValueRangeCreator.valueRange(from: data as! Transaction,
+                                          for: supportedVersion)
     default:
       Logger.info("ValueRange requested for unknown type \(T.self)")
       return nil
     }
-  }
-
-  private func createTransactionValueRange(from transaction: Transaction) -> GTLRSheets_ValueRange {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .none
-
-    let valueRange = GTLRSheets_ValueRange()
-    valueRange.majorDimension = kGTLRSheets_ValueRange_MajorDimension_Rows
-
-    var valuesToInsert = [String]()
-    valuesToInsert.append(dateFormatter.string(from: transaction.date))
-
-    if transaction.transactionType == 0 {
-      valuesToInsert.append("")
-      valuesToInsert.append(transaction.amount)
-    } else {
-      valuesToInsert.append(transaction.amount)
-      valuesToInsert.append("")
-    }
-
-    valuesToInsert.append(transaction.category)
-    valuesToInsert.append(transaction.account)
-    valuesToInsert.append(transaction.memo)
-
-    guard let supportedVersion = supportedLegacyVersion else {
-      Logger.error("Supported sheet version is nil")
-      return valueRange
-    }
-
-    let approvalType = transaction.approvalType
-
-    switch supportedVersion {
-    case .twoEight:
-      if approvalType == 0 {
-        valuesToInsert.append("🆗")
-      } else {
-        valuesToInsert.append("⏺")
-      }
-
-    case .three, .threeOne, .threeTwo, .threeThree:
-      if approvalType == 0 {
-        valuesToInsert.append("✅")
-      } else {
-        valuesToInsert.append("🅿️")
-      }
-    }
-
-    valueRange.values = [valuesToInsert]
-    return valueRange
   }
 }

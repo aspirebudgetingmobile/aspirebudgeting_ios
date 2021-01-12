@@ -15,6 +15,7 @@
 		0600250A237511C300A20C96 /* LocalAuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002509237511C300A20C96 /* LocalAuthorizationManager.swift */; };
 		0601E3E024FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */; };
 		0601E3E224FD9335005E3C9D /* MockSpreadsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */; };
+		060494D325AD215C00922C3B /* ValueRangeCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060494D225AD215C00922C3B /* ValueRangeCreator.swift */; };
 		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
 		06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157E9F2411E831000161C3 /* AspireBugTracker.swift */; };
@@ -134,6 +135,7 @@
 		06002509237511C300A20C96 /* LocalAuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationManager.swift; sourceTree = "<group>"; };
 		0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSheetsValidatorTests.swift; sourceTree = "<group>"; };
 		0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSpreadsheet.swift; sourceTree = "<group>"; };
+		060494D225AD215C00922C3B /* ValueRangeCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRangeCreator.swift; sourceTree = "<group>"; };
 		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
 		06157E9F2411E831000161C3 /* AspireBugTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTracker.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */,
 				06EA080924F4637700927FE5 /* FileValidator.swift */,
 				069F830725003EBB009DD3E9 /* GoogleContentManager.swift */,
+				060494D225AD215C00922C3B /* ValueRangeCreator.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -771,6 +774,7 @@
 				06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */,
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,
+				060494D325AD215C00922C3B /* ValueRangeCreator.swift in Sources */,
 				06AB2C8223627B2D0076516E /* File.swift in Sources */,
 				06C70393259C02E700A4ADD4 /* AddTransactionViewModel.swift in Sources */,
 				061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */,
