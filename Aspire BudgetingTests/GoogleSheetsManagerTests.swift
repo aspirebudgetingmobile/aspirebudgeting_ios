@@ -10,17 +10,9 @@ import XCTest
 
 struct MockGSMDependencies: GSMDependencyCreator {
   var sheetsService: GTLRSheetsService {
-    let fakeResponse = GTLRSheets_BatchGetValuesResponse()
-
-    if let fakeVR = self.fakeValueRange {
-      fakeResponse.valueRanges = [fakeVR]
-    }
-
-    let mockService = GTLRSheetsService
-      .mockService(withFakedObject: fakeResponse,
+    GTLRSheetsService
+      .mockService(withFakedObject: fakeObject,
                    fakedError: fakeError)
-
-    return mockService
   }
 
   var readQuery: GTLRSheetsQuery_SpreadsheetsValuesBatchGet {
@@ -32,17 +24,17 @@ struct MockGSMDependencies: GSMDependencyCreator {
                    spreadsheetId: String,
                    range: String) -> GTLRSheetsQuery_SpreadsheetsValuesAppend {
     GTLRSheetsQuery_SpreadsheetsValuesAppend
-      .query(withObject: GTLRSheets_ValueRange(),
-             spreadsheetId: "",
-             range: "")
+      .query(withObject: object,
+             spreadsheetId: spreadsheetId,
+             range: range)
   }
 
-  let fakeValueRange: GTLRSheets_ValueRange?
+  let fakeObject: GTLRObject?
   let fakeError: Error?
 
-  init(fakeValueRange: GTLRSheets_ValueRange?, fakeError: Error?) {
+  init(fakeObject: GTLRObject?, fakeError: Error?) {
     self.fakeError = fakeError
-    self.fakeValueRange = fakeValueRange
+    self.fakeObject = fakeObject
   }
 }
 
@@ -50,10 +42,14 @@ final class GoogleSheetsManagerTests: XCTestCase {
   var sinkCancellable: AnyCancellable?
 
   func testReadSuccess() {
+    let fakeResponse = GTLRSheets_BatchGetValuesResponse()
+
     let fakeValueRange = GTLRSheets_ValueRange()
     fakeValueRange.values = [["A", "B"]]
 
-    let mockDependencies = MockGSMDependencies(fakeValueRange: fakeValueRange,
+    fakeResponse.valueRanges = [fakeValueRange]
+
+    let mockDependencies = MockGSMDependencies(fakeObject: fakeResponse,
                                                fakeError: nil)
 
     let sheetsManager = GoogleSheetsManager(dependencies: mockDependencies)
@@ -86,7 +82,7 @@ final class GoogleSheetsManagerTests: XCTestCase {
                             code: 42,
                             userInfo: nil)
 
-    let mockDependencies = MockGSMDependencies(fakeValueRange: nil, fakeError: fakeError)
+    let mockDependencies = MockGSMDependencies(fakeObject: nil, fakeError: fakeError)
 
     let sheetsManager = GoogleSheetsManager(dependencies: mockDependencies)
 
@@ -106,6 +102,42 @@ final class GoogleSheetsManagerTests: XCTestCase {
         }
       }, receiveValue: { _ in
         XCTFail()
+      })
+
+    wait(for: [expectation], timeout: 1)
+  }
+
+  func testAppendSuccess() {
+    let fakeValueRange = GTLRSheets_ValueRange()
+    fakeValueRange.values = [["A", "B"]]
+
+    let updateValueResponse = GTLRSheets_UpdateValuesResponse()
+    updateValueResponse.updatedRange = "UpdatedRange"
+
+    let appendValueResponse = GTLRSheets_AppendValuesResponse()
+    appendValueResponse.updates = updateValueResponse
+
+    let mockDependencies = MockGSMDependencies(fakeObject: appendValueResponse, fakeError: nil)
+
+    let sheetsManager = GoogleSheetsManager(dependencies: mockDependencies)
+
+    let expectation = XCTestExpectation()
+    sinkCancellable = sheetsManager
+      .write(data: fakeValueRange,
+             file: File(id: "id", name: "FileName"),
+             user: User(name: "User", authorizer: MockAuthorizer()),
+             location: "LOC")
+      .sink(receiveCompletion: { result in
+        switch result {
+        case .failure:
+          XCTFail()
+        default:
+          expectation.fulfill()
+        }
+      }, receiveValue: { result in
+        XCTAssert(result is Bool)
+        XCTAssertTrue(result as! Bool)
+        expectation.fulfill()
       })
 
     wait(for: [expectation], timeout: 1)
