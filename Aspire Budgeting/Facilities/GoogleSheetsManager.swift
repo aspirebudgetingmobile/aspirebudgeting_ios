@@ -161,7 +161,7 @@ extension GoogleSheetsManager {
 
     appendQuery.valueInputOption = kGTLRSheetsValueInputOptionUserEntered
 
-    ticket = sheetsService.executeQuery(appendQuery) { _, _, error in
+    ticket = sheetsService.executeQuery(appendQuery) { _, response, error in
       if let error = error as NSError? {
         if error.domain == kGTLRErrorObjectDomain {
           Logger.error("Encountered kGTLRErrorObjectDomain: ",
@@ -171,8 +171,12 @@ extension GoogleSheetsManager {
         }
         completion(.failure(error))
       } else {
-        Logger.info("Data appended at: ",
-                    context: spreadsheetRange)
+        if let updatedRange = (response as? GTLRSheets_AppendValuesResponse)?
+            .updates?
+            .updatedRange {
+          Logger.info("Data appended at: ",
+                      context: updatedRange)
+        }
         completion(.success(true))
       }
     }
