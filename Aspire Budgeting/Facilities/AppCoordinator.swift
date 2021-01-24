@@ -191,7 +191,7 @@ extension AppCoordinator {
       }
   }
 
-  func submit(transaction: Transaction, callback: @escaping (Result<Any>) -> Void) {
+  func submit(transaction: Transaction, callback: @escaping SubmitResultHandler) {
     self.contentProvider
       .write(data: transaction,
              for: self.user!,
