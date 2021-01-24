@@ -24,7 +24,7 @@ protocol ContentWriter {
                 for user: User,
                 to file: File,
                 using dataMap: [String: String],
-                completion: (Result<Any>) -> Void)
+                completion: @escaping (Result<Any>) -> Void)
 }
 
 typealias ContentProvider = ContentReader & ContentWriter
@@ -157,7 +157,7 @@ extension GoogleContentManager: ContentWriter {
                 for user: User,
                 to file: File,
                 using dataMap: [String: String],
-                completion: (Result<Any>) -> Void) {
+                completion: @escaping (Result<Any>) -> Void) {
     if let location = getRange(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: [location])
@@ -176,9 +176,14 @@ extension GoogleContentManager: ContentWriter {
                                        location: location)
         }
         .sink(receiveCompletion: { status in
-          print(status)
-        }, receiveValue: { x in
-          print(x)
+          switch status {
+          case .failure(let error):
+            completion(.failure(error))
+          default:
+            Logger.info("\(T.self) written")
+          }
+        }, receiveValue: { result in
+          completion(.success(result))
         })
     }
   }

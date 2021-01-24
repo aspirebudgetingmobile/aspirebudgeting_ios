@@ -191,13 +191,13 @@ extension AppCoordinator {
       }
   }
 
-  func submit(transaction: Transaction) {
+  func submit(transaction: Transaction, resultHandler: @escaping SubmitResultHandler) {
     self.contentProvider
       .write(data: transaction,
              for: self.user!,
              to: self.selectedFile!,
              using: self.dataLocationMap!) { result in
-        print(result)
+        resultHandler(result)
       }
   }
 }

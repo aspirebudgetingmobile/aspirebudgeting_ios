@@ -186,4 +186,33 @@ final class GoogleContentManagerTests: XCTestCase {
       }
     wait(for: [exp], timeout: 1)
   }
+
+  func testWriteTransaction() {
+    let contentManager =
+      GoogleContentManager(fileReader: trxMetadataReader, fileWriter: writer)
+
+    let transaction = Transaction(amount: "$50",
+                                  memo: "Memo",
+                                  date: Date(),
+                                  account: "Account",
+                                  category: "Category",
+                                  transactionType: 0,
+                                  approvalType: 0)
+    let exp = XCTestExpectation()
+    contentManager.write(data: transaction,
+                         for: user,
+                         to: file,
+                         using: dataMap) { result in
+      switch result {
+      case .success(let val):
+        XCTAssertTrue(val as! Bool)
+        exp.fulfill()
+
+      default:
+        XCTFail()
+      }
+      exp.fulfill()
+    }
+    wait(for: [exp], timeout: 1)
+  }
 }

@@ -7,6 +7,7 @@ import SwiftUI
 
 struct AddTransactionView: View {
   let viewModel: AddTransactionViewModel
+
   var dateFormatter: DateFormatter {
     let formatter = DateFormatter()
     formatter.dateStyle = .long
@@ -23,6 +24,9 @@ struct AddTransactionView: View {
 
   @State private var transactionType = -1
   @State private var approvalType = -1
+
+  @State private var showAlert = false
+  @State private var alertText = ""
 
   var showAddButton: Bool {
     !amountString.isEmpty &&
@@ -41,6 +45,16 @@ struct AddTransactionView: View {
     self.memoString = ""
     self.transactionType = -1
     self.approvalType = -1
+  }
+
+  func callback(result: Result<Any>) {
+    switch result {
+    case .success:
+      alertText = "Transaction added"
+    case .failure(let error):
+      alertText = error.localizedDescription
+    }
+    showAlert = true
   }
 
   var body: some View {
@@ -91,10 +105,13 @@ struct AddTransactionView: View {
                                             .transactionCategories[selectedCategory],
                                           transactionType: transactionType,
                                           approvalType: approvalType)
-            self.viewModel.dataProvider?.submit(transaction)
+            self.viewModel.dataProvider?.submit(transaction, self.callback)
           }, label: {
             Text("Add Transaction")
           })
+          .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertText))
+          }
         }
       }.navigationBarTitle(Text("Add Transaction"))
     }.onAppear {
