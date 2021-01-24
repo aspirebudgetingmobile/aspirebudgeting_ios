@@ -108,7 +108,8 @@ struct AddTransactionView: View {
             self.viewModel.dataProvider?.submit(transaction, self.callback)
           }, label: {
             Text("Add Transaction")
-          }).alert(isPresented: $showAlert) {
+          })
+          .alert(isPresented: $showAlert) {
             Alert(title: Text(alertText))
           }
         }

@@ -7,7 +7,7 @@ import Foundation
 
 typealias AddTransactionViewModel = ViewModel<AddTrxDataProvider>
 
-class AddTrxDataProvider: ObservableObject {
+final class AddTrxDataProvider: ObservableObject {
   let transactionCategories: [String]
   let transactionAccounts: [String]
   let submit: (Transaction, @escaping (Result<Any>) -> Void) -> Void
