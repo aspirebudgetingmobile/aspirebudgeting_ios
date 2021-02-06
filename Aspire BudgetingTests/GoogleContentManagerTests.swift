@@ -196,8 +196,8 @@ final class GoogleContentManagerTests: XCTestCase {
                                   date: Date(),
                                   account: "Account",
                                   category: "Category",
-                                  transactionType: 0,
-                                  approvalType: 0)
+                                  transactionType: .inflow,
+                                  approvalType: .pending)
     let exp = XCTestExpectation()
     contentManager.write(data: transaction,
                          for: user,
