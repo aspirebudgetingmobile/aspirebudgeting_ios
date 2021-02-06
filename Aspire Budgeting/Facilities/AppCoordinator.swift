@@ -191,6 +191,22 @@ extension AppCoordinator {
       }
   }
 
+  func transactionsRefreshCallback() {
+    self.contentProvider
+      .getData(for: self.user!,
+               from: self.selectedFile!,
+               using: self.dataLocationMap!) { (readResult: Result<Transactions>) in
+
+        switch readResult {
+        case .success(let transactions):
+          print(transactions)
+
+        case .failure(let error):
+          print(error)
+        }
+      }
+  }
+
   func submit(transaction: Transaction, resultHandler: @escaping SubmitResultHandler) {
     self.contentProvider
       .write(data: transaction,

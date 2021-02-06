@@ -263,6 +263,9 @@ extension GoogleContentManager {
     case is Transaction.Type:
       return "Transactions!B:H"
 
+    case is Transactions.Type:
+      return "Transactions!B9:H"
+
     default:
       Logger.info("Data requested for unknown type \(T.self).")
       return nil

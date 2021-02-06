@@ -34,6 +34,7 @@
 		065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C71792381ED1D00DB46B2 /* DashboardTests.swift */; };
 		065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717B2382075200DB46B2 /* DashboardCardView.swift */; };
 		065C718023838E9100DB46B2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717F23838E9100DB46B2 /* Colors.swift */; };
+		065D909525CF2FCB00185786 /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065D909425CF2FCB00185786 /* TransactionsView.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		066C3F31244E4732003CDE73 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */; };
@@ -154,6 +155,7 @@
 		065C71792381ED1D00DB46B2 /* DashboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTests.swift; sourceTree = "<group>"; };
 		065C717B2382075200DB46B2 /* DashboardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCardView.swift; sourceTree = "<group>"; };
 		065C717F23838E9100DB46B2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		065D909425CF2FCB00185786 /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				06BE37B1251ED2D0000CF5C9 /* AspireProgressBar.swift */,
 				06BE37CF251F9BA4000CF5C9 /* CategoryListView.swift */,
 				068B129F258EB2A5006B64FE /* BannerView.swift */,
+				065D909425CF2FCB00185786 /* TransactionsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				065C7153237FAC3200DB46B2 /* AspireButton.swift in Sources */,
 				06BE37AE251ECB50000CF5C9 /* AspireNumberView.swift in Sources */,
 				06C2BFFD2500A151007B3D73 /* TabBarView.swift in Sources */,
+				065D909525CF2FCB00185786 /* TransactionsView.swift in Sources */,
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
 				060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */,

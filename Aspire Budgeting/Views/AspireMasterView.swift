@@ -35,6 +35,11 @@ struct AspireMasterView: View {
               .onAppear {
                 self.navTitle = "Accounts"
               }
+          } else if selectedTab == 2 {
+            TransactionsView()
+              .onAppear {
+                self.navTitle = "Transactions"
+              }
           }
         }
         .frame(height: UIScreen.main.bounds.height - 200)
