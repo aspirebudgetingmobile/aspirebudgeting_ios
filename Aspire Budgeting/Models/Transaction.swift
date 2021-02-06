@@ -24,7 +24,6 @@ enum ApprovalType {
   }
 }
 
-
 enum TransactionType {
   case inflow
   case outflow
