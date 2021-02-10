@@ -14,15 +14,27 @@ struct TransactionsView: View {
         if let transactions = viewModel.dataProvider?.transactions.transactions {
           List {
             ForEach(transactions.reversed(), id: \.self) { transaction in
-              VStack {
-                HStack {
-                  Text(transaction.date.description)
+              HStack {
+                Image("moneyBag")
+                VStack(alignment: .leading) {
                   Text(transaction.category)
-                  Text(transaction.amount)
+                    .font(.nunitoBold(size: 16))
+                  Text(transaction.date.description)
+                    .font(.karlaRegular(size: 14))
+                  Text(transaction.account)
+                    .font(.karlaRegular(size: 14))
+                  if transaction.approvalType == .pending {
+                    Text("Pending")
+                      .font(.karlaRegular(size: 14))
+                  }
+                  if transaction.approvalType == .approved {
+                    Text("Approved")
+                      .font(.karlaRegular(size: 14))
+                  }
                 }
-                HStack {
-                  Text(transaction.memo)
-                }
+                Spacer()
+                Text(transaction.amount)
+                  .font(.nunitoBold(size: 16))
               }
             }
           }
