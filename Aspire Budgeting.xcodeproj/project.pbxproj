@@ -35,6 +35,7 @@
 		065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717B2382075200DB46B2 /* DashboardCardView.swift */; };
 		065C718023838E9100DB46B2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C717F23838E9100DB46B2 /* Colors.swift */; };
 		065D909525CF2FCB00185786 /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065D909425CF2FCB00185786 /* TransactionsView.swift */; };
+		065D90A325CF82ED00185786 /* TransactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065D90A225CF82ED00185786 /* TransactionsViewModel.swift */; };
 		065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03CF236DEF78005AED12 /* ErrorBannerView.swift */; };
 		065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065F03D1236E2385005AED12 /* DashboardRow.swift */; };
 		066C3F31244E4732003CDE73 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */; };
@@ -156,6 +157,7 @@
 		065C717B2382075200DB46B2 /* DashboardCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCardView.swift; sourceTree = "<group>"; };
 		065C717F23838E9100DB46B2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		065D909425CF2FCB00185786 /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
+		065D90A225CF82ED00185786 /* TransactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewModel.swift; sourceTree = "<group>"; };
 		065F03CF236DEF78005AED12 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
 		065F03D1236E2385005AED12 /* DashboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRow.swift; sourceTree = "<group>"; };
 		066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				067B3C242593FB6000634EF4 /* AccountBalancesViewModel.swift */,
 				06C70392259C02E700A4ADD4 /* AddTransactionViewModel.swift */,
 				06B0A22125A5390700E8DFBB /* ViewModel.swift */,
+				065D90A225CF82ED00185786 /* TransactionsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -812,6 +815,7 @@
 				06BE37D0251F9BA4000CF5C9 /* CategoryListView.swift in Sources */,
 				06ED8A67235A908E009BA6A7 /* ContentView.swift in Sources */,
 				06C2C0012500A19F007B3D73 /* MockProvider.swift in Sources */,
+				065D90A325CF82ED00185786 /* TransactionsViewModel.swift in Sources */,
 				06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,

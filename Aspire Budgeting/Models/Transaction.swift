@@ -29,7 +29,7 @@ enum TransactionType {
   case outflow
 }
 
-struct Transaction {
+struct Transaction: Hashable {
   let amount: String
   let memo: String
   let date: Date
@@ -47,7 +47,7 @@ struct Transactions: ConstructableFromRows {
     dateFormatter.dateStyle = .short
     dateFormatter.timeStyle = .none
 
-    transactions = rows.map { row in
+    transactions = rows.map { row in //TODO: Put safety check for array size
       let date = dateFormatter.date(from: row[0]) ?? Date()
       let (amount, transactionType) =
         row[1].isEmpty ? (row[2], TransactionType.inflow) : (row[1], TransactionType.outflow)
