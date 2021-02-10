@@ -30,6 +30,10 @@ final class AppCoordinator: ObservableObject {
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
     AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
   }()
+  private(set) lazy var transactionsVM: TransactionsViewModel = {
+    TransactionsViewModel(refreshAction:
+                            self.transactionsRefreshCallback)
+  }()
 
   private var user: User?
 
@@ -187,6 +191,29 @@ extension AppCoordinator {
         self.addTransactionVM =
           AddTransactionViewModel(result: result,
                                   refreshAction: self.addTransactionRefreshCallback)
+        self.objectWillChange.send()
+      }
+  }
+
+  func transactionsRefreshCallback() {
+    self.contentProvider
+      .getData(for: self.user!,
+               from: self.selectedFile!,
+               using: self.dataLocationMap!) { (readResult: Result<Transactions>) in
+
+        let result: Result<TransactionsDataProvider>
+
+        switch readResult {
+        case .success(let transactions):
+          result = .success(TransactionsDataProvider(transactions: transactions))
+
+        case .failure(let error):
+          result = .failure(error)
+        }
+
+        self.transactionsVM =
+          TransactionsViewModel(result: result,
+                                refreshAction: self.transactionsRefreshCallback)
         self.objectWillChange.send()
       }
   }

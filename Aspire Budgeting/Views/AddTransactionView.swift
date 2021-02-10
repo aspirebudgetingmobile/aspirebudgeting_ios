@@ -22,8 +22,8 @@ struct AddTransactionView: View {
   @State private var selectedCategory = -1
   @State private var selectedAccount = -1
 
-  @State private var transactionType = -1
-  @State private var approvalType = -1
+  @State private var transactionType = TransactionType.outflow
+  @State private var approvalType = ApprovalType.pending
 
   @State private var showAlert = false
   @State private var alertText = ""
@@ -31,9 +31,7 @@ struct AddTransactionView: View {
   var showAddButton: Bool {
     !amountString.isEmpty &&
       selectedCategory != -1 &&
-      selectedAccount != -1 &&
-      transactionType != -1 &&
-      approvalType != -1
+      selectedAccount != -1
   }
 
   func getDateString() -> String {
@@ -43,8 +41,6 @@ struct AddTransactionView: View {
   func clearInputs() {
     self.amountString = ""
     self.memoString = ""
-    self.transactionType = -1
-    self.approvalType = -1
   }
 
   func callback(result: Result<Any>) {
@@ -85,13 +81,13 @@ struct AddTransactionView: View {
         }
 
         Picker(selection: $transactionType, label: Text("Transaction Type")) {
-          Text("Inflow").tag(0)
-          Text("Outflow").tag(1)
+          Text("Inflow").tag(TransactionType.inflow)
+          Text("Outflow").tag(TransactionType.outflow)
         }.pickerStyle(SegmentedPickerStyle())
 
         Picker(selection: $approvalType, label: Text("Approval Type")) {
-          Text("Approved").tag(0)
-          Text("Pending").tag(1)
+          Text("Approved").tag(ApprovalType.approved)
+          Text("Pending").tag(ApprovalType.pending)
         }.pickerStyle(SegmentedPickerStyle())
 
         if showAddButton {

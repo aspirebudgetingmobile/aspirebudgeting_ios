@@ -20,7 +20,7 @@ enum ValueRangeCreator {
     var valuesToInsert = [String]()
     valuesToInsert.append(dateFormatter.string(from: transaction.date))
 
-    if transaction.transactionType == 0 {
+    if transaction.transactionType == .inflow {
       valuesToInsert.append("")
       valuesToInsert.append(transaction.amount)
     } else {
@@ -36,14 +36,14 @@ enum ValueRangeCreator {
 
     switch version {
     case .twoEight:
-      if approvalType == 0 {
+      if approvalType == .approved {
         valuesToInsert.append("🆗")
       } else {
         valuesToInsert.append("⏺")
       }
 
     case .three, .threeOne, .threeTwo, .threeThree:
-      if approvalType == 0 {
+      if approvalType == .approved {
         valuesToInsert.append("✅")
       } else {
         valuesToInsert.append("🅿️")
