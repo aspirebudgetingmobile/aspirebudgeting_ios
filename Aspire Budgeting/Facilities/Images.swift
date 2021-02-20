@@ -11,6 +11,7 @@ extension Image {
   static let magnifyingGlass = Image(systemName: "magnifyingglass")
   static let multiplyCircleFill = Image(systemName: "multiply.circle.fill")
   static let sheetsIcon = Image("sheetsIcon")
+  static let bankIcon = Image("bankIcon")
 
   static let dollarSignCircle = Image(systemName: "dollarsign.circle")
   static let yenSignCircle = Image(systemName: "yensign.circle")

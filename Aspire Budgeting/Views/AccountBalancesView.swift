@@ -19,28 +19,38 @@ struct AccountBalancesView: View {
     ZStack { //TODO: ZStack is probably not needed.
       if viewModel.error == nil {
         if let accountBalances = viewModel.dataProvider?.accountBalances {
-          List {
+          ScrollView {
             ForEach(
               accountBalances.accountBalances,
               id: \.self
             ) { accountBalance in
-              VStack(alignment: .leading) {
-                Text(accountBalance.accountName)
-                  .foregroundColor(Color.primaryTextColor)
-                  .font(.nunitoSemiBold(size: 20))
+              BaseCardView(minY: 0, curY: 0, baseColor: .accountBalanceCardColor) {
+                GeometryReader { geo in
+                  ZStack {
+                    Image.bankIcon
+                      .resizable()
+                      .scaledToFit()
+                      .frame(width: geo.frame(in: .global).width,
+                             height: geo.frame(in: .global).height,
+                             alignment: .center)
 
-                Text(accountBalance.balance.stringValue)
-                  .padding(.horizontal)
-                  .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
-                  .font(.nunitoSemiBold(size: 25))
-                  .frame(maxWidth: .infinity, alignment: .leading)
+                    VStack {
+                      Text(accountBalance.accountName)
+                        .foregroundColor(Color.white)
+                        .font(.nunitoSemiBold(size: 20))
 
-                Text(accountBalance.additionalText)
-                  .padding(.horizontal)
-                  .foregroundColor(Color.primaryTextColor)
-                  .font(.nunitoRegular(size: 12))
-                  .frame(maxWidth: .infinity, alignment: .leading)
+                      Text(accountBalance.balance.stringValue)
+                        .foregroundColor(self.getColorForNumber(number: accountBalance.balance))
+                        .font(.nunitoSemiBold(size: 25))
+
+                      Text(accountBalance.additionalText)
+                        .foregroundColor(Color.white)
+                        .font(.nunitoRegular(size: 12))
+                    }
+                  }
+                }
               }
+              .padding(.horizontal)
             }
           }
         } else {
