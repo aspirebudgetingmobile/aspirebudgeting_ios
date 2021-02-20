@@ -5,6 +5,12 @@
 
 import Foundation
 
+extension Collection {
+  subscript (safe index: Index) -> Element? {
+    indices.contains(index) ? self[index] : nil
+  }
+}
+
 enum ApprovalType {
   case pending
   case approved
@@ -47,7 +53,7 @@ struct Transactions: ConstructableFromRows {
     dateFormatter.dateStyle = .short
     dateFormatter.timeStyle = .none
 
-    transactions = rows.map { row in //TODO: Put safety check for array size
+    transactions = rows.filter { $0.count == 7 }.map { row in
       let date = dateFormatter.date(from: row[0]) ?? Date()
       let (amount, transactionType) =
         row[1].isEmpty ? (row[2], TransactionType.inflow) : (row[1], TransactionType.outflow)
