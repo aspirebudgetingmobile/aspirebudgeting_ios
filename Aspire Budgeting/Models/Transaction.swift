@@ -5,6 +5,11 @@
 
 import Foundation
 
+extension String {
+  func caseInsensitiveCompare(_ other: String) -> Bool {
+    self.caseInsensitiveCompare(other) == .orderedSame
+  }
+}
 extension Collection {
   subscript (safe index: Index) -> Element? {
     indices.contains(index) ? self[index] : nil
@@ -43,6 +48,15 @@ struct Transaction: Hashable {
   let category: String
   let transactionType: TransactionType
   let approvalType: ApprovalType
+}
+
+extension Transaction {
+  func contains(_ text: String) -> Bool {
+    self.amount.caseInsensitiveCompare(text) ||
+      self.memo.contains(text) ||
+      self.account.contains(text) ||
+      self.category.contains(text)
+  }
 }
 
 struct Transactions: ConstructableFromRows {
