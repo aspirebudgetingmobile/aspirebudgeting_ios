@@ -13,18 +13,21 @@ struct TransactionsView: View {
   var body: some View {
     VStack {
       if viewModel.error == nil {
-        SearchBar(text: $searchText)
-          .ignoreKeyboard()
+        searchBar
         if let transactions = viewModel.dataProvider?.filtered(by: searchText) {
           List {
             ForEach(transactions.reversed(), id: \.self) { transaction in
               HStack {
-                Image("moneyBag")
+                arrowFor(type: transaction.transactionType)
                 VStack(alignment: .leading) {
                   Text(transaction.category)
                     .font(.nunitoBold(size: 16))
-                  Text(transaction.date.description)
+                  Text(viewModel.dataProvider!.formattedDate(for: transaction.date))
                     .font(.karlaRegular(size: 14))
+                  if !transaction.memo.isEmpty {
+                    Text(transaction.memo)
+                      .font(.karlaRegular(size: 14))
+                  }
                   Text(transaction.account)
                     .font(.karlaRegular(size: 14))
                   if transaction.approvalType == .pending {
@@ -39,8 +42,11 @@ struct TransactionsView: View {
                 Spacer()
                 Text(transaction.amount)
                   .font(.nunitoBold(size: 16))
+                  .foregroundColor(
+                    transaction.transactionType == .inflow ? .expenseGreen : .expenseRed
+                  )
               }
-            }
+            }.listRowBackground(Color.primaryBackgroundColor)
           }
         } else {
           GeometryReader { geo in
@@ -56,6 +62,32 @@ struct TransactionsView: View {
     }
     .onAppear {
       self.viewModel.refresh()
+    }
+  }
+}
+
+extension TransactionsView {
+  private var searchBar: some View {
+    SearchBar(text: $searchText)
+      .ignoreKeyboard()
+  }
+
+  private var arrowDown: some View {
+    Image(systemName: "arrow.down.circle")
+      .foregroundColor(.expenseGreen)
+  }
+
+  private var arrowUp: some View {
+    Image(systemName: "arrow.up.circle")
+      .foregroundColor(.expenseRed)
+  }
+
+  private func arrowFor(type: TransactionType) -> AnyView {
+    switch type {
+    case .inflow:
+      return AnyView(arrowDown)
+    case .outflow:
+      return AnyView(arrowUp)
     }
   }
 }

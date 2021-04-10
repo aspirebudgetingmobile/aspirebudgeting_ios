@@ -56,6 +56,9 @@ extension Color {
 
   static let accountBalanceCardColor = Color("accountBalanceCardColor")
 
+  static let expenseRed = Color("expenseRed")
+  static let expenseGreen = Color("expenseGreen")
+
   static let materialRed800 = Color(#colorLiteral(red: 0.7758955956, green: 0.1865674257, blue: 0.1419894099, alpha: 1))
   static let materialPink800 = Color(#colorLiteral(red: 0.7418284416, green: 0.1682539582, blue: 0.4153811634, alpha: 1))
   static let materialPurple800 = Color(#colorLiteral(red: 0.4969367385, green: 0.2022175491, blue: 0.668427527, alpha: 1))
