@@ -6,12 +6,16 @@
 import SwiftUI
 
 struct TransactionsView: View {
+  @State private var searchText = ""
+
   let viewModel: TransactionsViewModel
 
   var body: some View {
     VStack {
       if viewModel.error == nil {
-        if let transactions = viewModel.dataProvider?.transactions.transactions {
+        SearchBar(text: $searchText)
+          .ignoreKeyboard()
+        if let transactions = viewModel.dataProvider?.filtered(by: searchText) {
           List {
             ForEach(transactions.reversed(), id: \.self) { transaction in
               HStack {
