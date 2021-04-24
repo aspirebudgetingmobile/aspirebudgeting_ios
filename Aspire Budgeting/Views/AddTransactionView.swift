@@ -56,7 +56,12 @@ struct AddTransactionView: View {
   var body: some View {
     NavigationView {
       Form {
-        TextField("Amount", text: $amountString).keyboardType(.decimalPad)
+        AspireTextField(
+          text: $amountString,
+          placeHolder: "Amount",
+          keyboardType: .decimalPad,
+          leftImage: Image.bankNote
+        )
 
         TextField("Memo", text: $memoString)
 
