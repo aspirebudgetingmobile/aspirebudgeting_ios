@@ -96,8 +96,8 @@ struct AddTransactionView: View {
                 .font(.nunitoSemiBold(size: 20))
             }
           ) {
-            ForEach(0..<self.viewModel.dataProvider!.categoriesFiltered(by: searchText).count) {
-              Text(self.viewModel.dataProvider!.categoriesFiltered(by: searchText)[$0])
+            ForEach(0..<self.viewModel.dataProvider!.transactionCategories.count) {
+              Text(self.viewModel.dataProvider!.transactionCategories[$0])
             }.navigationBarTitle(Text("Select Category"))
           }
 
@@ -148,7 +148,8 @@ struct AddTransactionView: View {
           }
         }
       }.navigationBarTitle(Text("Add Transaction"))
-    }.onAppear {
+    }
+    .onAppear {
       self.viewModel.refresh()
     }
   }
