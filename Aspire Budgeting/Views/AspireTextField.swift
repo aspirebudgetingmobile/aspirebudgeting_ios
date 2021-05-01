@@ -33,7 +33,7 @@ struct AspireTextField: View {
           leftImage!
             .resizable()
             .scaledToFit()
-            .frame(width: 40, height: 40, alignment: .center)
+            .frame(width: 30, height: 30, alignment: .center)
         }
 
         TextField(placeholder, text: $text)

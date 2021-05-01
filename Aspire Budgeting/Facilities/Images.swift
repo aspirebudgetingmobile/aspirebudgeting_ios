@@ -31,4 +31,7 @@ extension Image {
   static let minigraphUp = Image("minigraph_up")
   static let minigraphDown = Image("minigraph_down")
   static let bankNote = Image(systemName: "banknote")
+  static let scribble = Image(systemName: "scribble")
+  static let envelope = Image(systemName: "envelope")
+  static let creditCard = Image(systemName: "creditcard")
 }
