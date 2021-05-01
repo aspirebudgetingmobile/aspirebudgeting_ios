@@ -147,7 +147,9 @@ struct AddTransactionView: View {
             Alert(title: Text(alertText))
           }
         }
-      }.navigationBarTitle(Text("Add Transaction"))
+      }
+      .navigationBarTitle(Text("Add Transaction"))
+      .background(Color.primaryBackgroundColor)
     }
     .onAppear {
       self.viewModel.refresh()
