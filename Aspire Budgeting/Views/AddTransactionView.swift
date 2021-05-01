@@ -63,22 +63,55 @@ struct AddTransactionView: View {
           leftImage: Image.bankNote
         )
 
-        TextField("Memo", text: $memoString)
+        AspireTextField(
+          text: $memoString,
+          placeHolder: "Memo",
+          keyboardType: .default,
+          leftImage: Image.scribble
+        )
 
         DatePicker(selection: $selectedDate,
                    in: ...Date(),
                    displayedComponents: .date) {
-          Text("Transaction Date: ")
+          HStack {
+            Image(systemName: "calendar")
+              .resizable()
+              .scaledToFit()
+              .frame(width: 30, height: 30, alignment: .center)
+
+            Text("Date: ")
+              .font(.nunitoSemiBold(size: 20))
+          }
         }
 
         if self.viewModel.dataProvider != nil {
-          Picker(selection: $selectedCategory, label: Text("Select Category")) {
+          Picker(
+            selection: $selectedCategory,
+            label: HStack {
+              Image.envelope
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 30, alignment: .center)
+              Text("Select Category")
+                .font(.nunitoSemiBold(size: 20))
+            }
+          ) {
             ForEach(0..<self.viewModel.dataProvider!.transactionCategories.count) {
               Text(self.viewModel.dataProvider!.transactionCategories[$0])
-            }
+            }.navigationBarTitle(Text("Select Category"))
           }
 
-          Picker(selection: $selectedAccount, label: Text("Select Account")) {
+          Picker(
+            selection: $selectedAccount,
+            label: HStack {
+              Image.creditCard
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 30, alignment: .center)
+              Text("Select Account")
+                .font(.nunitoSemiBold(size: 20))
+            }
+            ) {
             ForEach(0..<self.viewModel.dataProvider!.transactionAccounts.count) {
               Text(self.viewModel.dataProvider!.transactionAccounts[$0])
             }
@@ -114,8 +147,11 @@ struct AddTransactionView: View {
             Alert(title: Text(alertText))
           }
         }
-      }.navigationBarTitle(Text("Add Transaction"))
-    }.onAppear {
+      }
+      .navigationBarTitle(Text("Add Transaction"))
+      .background(Color.primaryBackgroundColor)
+    }
+    .onAppear {
       self.viewModel.refresh()
     }
   }
