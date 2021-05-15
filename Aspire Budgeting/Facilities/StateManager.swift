@@ -13,6 +13,7 @@ enum AppState: Equatable {
   case localAuthFailed
   case needsLocalAuthentication
   case hasDefaultSheet
+  case changeSheet
 }
 
 enum AppStateEvent {
@@ -20,6 +21,7 @@ enum AppStateEvent {
   case enteredBackground
   case hasDefaultFile
   case verifiedExternally
+  case changeSheet
 }
 
 protocol AppStateManager {
@@ -44,11 +46,12 @@ final class StateManager: AppStateManager {
       .localAuthFailed,
       .hasDefaultSheet,
       .needsLocalAuthentication,
-      .loggedOut,
+      .loggedOut
     ]
-    transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut]
+    transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut, .changeSheet]
     transitions[.needsLocalAuthentication] = [.authenticatedLocally, .localAuthFailed]
     transitions[.localAuthFailed] = [.authenticatedLocally]
+    transitions[.changeSheet] = [.hasDefaultSheet]
 
     return transitions
   }()
@@ -107,6 +110,9 @@ extension StateManager {
 
     case .hasDefaultFile:
       foundDefaultFile()
+
+    case .changeSheet:
+      changeSheet()
     }
   }
 }
@@ -137,5 +143,9 @@ extension StateManager {
 
   private func foundDefaultFile() {
     self.transition(to: .hasDefaultSheet)
+  }
+
+  private func changeSheet() {
+    self.transition(to: .changeSheet)
   }
 }
