@@ -34,6 +34,9 @@ final class AppCoordinator: ObservableObject {
     TransactionsViewModel(refreshAction:
                             self.transactionsRefreshCallback)
   }()
+  private(set) lazy var settingsVM: SettingsViewModel = {
+    SettingsViewModel(fileName: selectedFile!.name, changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
+  }()
 
   private var user: User?
 
@@ -98,7 +101,10 @@ final class AppCoordinator: ObservableObject {
         self.appDefaults.addDataLocationMap(map: dataMap)
         self.stateManager.processEvent(event: .hasDefaultFile)
         self.selectedFile = file
-
+        self.settingsVM = SettingsViewModel(
+          fileName: file.name,
+          changeSheet: self.changeSheet,
+          fileSelectorVM: self.fileSelectorVM)
       case .error(let error):
         self.remoteFileManager.currentState.value = .error(error: error)
       }
@@ -227,6 +233,19 @@ extension AppCoordinator {
         resultHandler(result)
       }
   }
+
+  func changeSheet() {
+    self.appDefaults.clearDefaultFile()
+    handle(state: .changeSheet)
+    self.fileSelectorVM = FileSelectorViewModel()
+    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
+    self.accountBalancesVM = AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+    self.addTransactionVM = AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
+    self.transactionsVM = TransactionsViewModel(refreshAction:
+                                                      self.transactionsRefreshCallback)
+    handle(state: .authenticatedLocally)
+    self.objectWillChange.send()
+  }
 }
 
 // MARK: - State Management
@@ -250,6 +269,9 @@ extension AppCoordinator {
       self.stateManager.processEvent(event: .hasDefaultFile)
       self.selectedFile = file
       self.dataLocationMap = self.appDefaults.getDataLocationMap()
+
+    case .changeSheet:
+      self.stateManager.processEvent(event: .changeSheet)
 
     default:
       print("The current state is \(state)")

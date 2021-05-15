@@ -10,6 +10,7 @@ protocol AppDefaults {
   func addDefault(file: File)
   func addDataLocationMap(map: [String: String])
   func getDataLocationMap() -> [String: String]
+  func clearDefaultFile()
 }
 
 protocol AppUserDefaults {
@@ -68,5 +69,9 @@ struct AppDefaultsManager: AppDefaults {
       return [String: String]()
     }
     return map
+  }
+
+  func clearDefaultFile() {
+    userDefaults.removeObject(forKey: defaultFileKey)
   }
 }

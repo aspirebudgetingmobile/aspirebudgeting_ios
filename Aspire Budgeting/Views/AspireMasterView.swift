@@ -12,7 +12,7 @@ struct AspireMasterView: View {
                      TabBarItem(imageName: "creditcard", title: "Accounts"),
                      TabBarItem(imageName: "arrow.up.arrow.down", title: "Transactions"),
                      TabBarItem(imageName: "gear", title: "Settings"),
-                     ]
+  ]
 
   @State private var selectedTab = 0
   @State private var navTitle: String = ""
@@ -39,6 +39,11 @@ struct AspireMasterView: View {
             TransactionsView(viewModel: appCoordinator.transactionsVM)
               .onAppear {
                 self.navTitle = "Transactions"
+              }
+          } else if selectedTab == 3 {
+            SettingsView(viewModel: appCoordinator.settingsVM)
+              .onAppear {
+                self.navTitle = "Settings"
               }
           }
         }
