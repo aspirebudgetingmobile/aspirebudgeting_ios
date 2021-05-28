@@ -10,8 +10,8 @@ import GoogleAPIClientForREST
 protocol ContentReader {
   func getData<T: ConstructableFromRows>(for user: User,
                                          from file: File,
-                                         using dataMap: [String: String],
-                                         completion: @escaping (Result<T>) -> Void)
+                                         using dataMap: [String: String]
+                                         ) -> AnyPublisher<T, Error>
 
   func getBatchData<T: ConstructableFromBatchRequest>(for user: User,
                                                       from file: File,
@@ -67,8 +67,8 @@ extension GoogleContentManager: ContentReader {
     if let locations = getRanges(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: locations)
-        .sink(receiveCompletion: { _ in // TODO: To be implemented for >3.3
-        }, receiveValue: { _ in // TODO: To be implemented for >3.3
+        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
+        }, receiveValue: { _ in //TODO: To be implemented for >3.3
         })
     } else {
       readSink = getVersion(for: file, user: user)
@@ -114,41 +114,40 @@ extension GoogleContentManager: ContentReader {
     }
   }
 
-  func getData<T: ConstructableFromRows>(for user: User,
-                                         from file: File,
-                                         using dataMap: [String: String],
-                                         completion: @escaping (Result<T>) -> Void) {
-
-    if let location = getRange(of: T.self, from: dataMap) {
-      readSink = fileReader
-        .read(file: file, user: user, locations: [location])
-        .sink(receiveCompletion: { _ in // TODO: To be implemented for >3.3
-        }, receiveValue: { _ in // TODO: To be implemented for >3.3
-        })
-    } else {
-      readSink = getVersion(for: file, user: user)
-        .compactMap { self.getRange(of: T.self, for: $0) }
-        .flatMap { self.fileReader.read(file: file, user: user, locations: [$0]) }
-        .sink(receiveCompletion: { status in
-          switch status {
-          case .failure(let error):
-            completion(.failure(error))
-          default:
-            Logger.info("\(T.self) retrieved")
-          }
-        }, receiveValue: { valueRanges in
-          guard let rows =
-                  (valueRanges as? [GTLRSheets_ValueRange])?
-                  .first?
-                  .values as? [[String]] else {
-            completion(.failure(GoogleDriveManagerError.inconsistentSheet))
-            return
-          }
-          let data = T(rows: rows)
-          completion(.success(data))
-        })
+  func getData<T: ConstructableFromRows>(
+    for user: User,
+    from file: File,
+    using dataMap: [String: String]
+  ) -> AnyPublisher<T, Error> {
+    getRange(of: T.self, from: dataMap)
+      .flatMap { location -> AnyPublisher<String?, Never> in
+        guard let location = location else {
+          return self.getVersion(for: file, user: user)
+            .assertNoFailure()
+            .flatMap { (supportedVersion: SupportedLegacyVersion) -> AnyPublisher<String?, Never> in
+              self.getRange(of: T.self, for: supportedVersion)
+            }
+            .eraseToAnyPublisher()
+        }
+        return Just(location).eraseToAnyPublisher()
+      }
+      .compactMap { $0 }
+      .mapError { $0 as Error }
+      .flatMap {
+        self.fileReader.read(file: file, user: user, locations: [$0])
+      }
+      .tryMap {
+        guard
+          let rows =
+            ($0 as? [GTLRSheets_ValueRange])?
+            .first?
+            .values as? [[String]] else {
+          throw GoogleDriveManagerError.inconsistentSheet
+        }
+        return T(rows: rows)
+      }
+      .eraseToAnyPublisher()
     }
-  }
 }
 
 // MARK: - ContentWriter Implementation
@@ -158,34 +157,34 @@ extension GoogleContentManager: ContentWriter {
                 to file: File,
                 using dataMap: [String: String],
                 completion: @escaping (Result<Any>) -> Void) {
-    if let location = getRange(of: T.self, from: dataMap) {
-      readSink = fileReader
-        .read(file: file, user: user, locations: [location])
-        .sink(receiveCompletion: { _ in // TODO: To be implemented for >3.3
-        }, receiveValue: { _ in // TODO: To be implemented for >3.3
-        })
-    } else {
-      readSink = getVersion(for: file, user: user)
-        .compactMap { self.getRange(of: T.self, for: $0) }
-        .flatMap { location -> AnyPublisher<Any, Error> in
-          let valueRange = self.createValueRange(from: data)
-          valueRange?.range = location
-          return self.fileWriter.write(data: valueRange!,
-                                       file: file,
-                                       user: user,
-                                       location: location)
-        }
-        .sink(receiveCompletion: { status in
-          switch status {
-          case .failure(let error):
-            completion(.failure(error))
-          default:
-            Logger.info("\(T.self) written")
-          }
-        }, receiveValue: { result in
-          completion(.success(result))
-        })
-    }
+//    if let location = getRange(of: T.self, from: dataMap) {
+//      readSink = fileReader
+//        .read(file: file, user: user, locations: [location])
+//        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
+//        }, receiveValue: { _ in //TODO: To be implemented for >3.3
+//        })
+//    } else {
+//      readSink = getVersion(for: file, user: user)
+//        .compactMap { self.getRange(of: T.self, for: $0) }
+//        .flatMap { location -> AnyPublisher<Any, Error> in
+//          let valueRange = self.createValueRange(from: data)
+//          valueRange?.range = location
+//          return self.fileWriter.write(data: valueRange!,
+//                                       file: file,
+//                                       user: user,
+//                                       location: location)
+//        }
+//        .sink(receiveCompletion: { status in
+//          switch status {
+//          case .failure(let error):
+//            completion(.failure(error))
+//          default:
+//            Logger.info("\(T.self) written")
+//          }
+//        }, receiveValue: { result in
+//          completion(.success(result))
+//        })
+//    }
   }
 }
 
@@ -252,27 +251,29 @@ extension GoogleContentManager {
     }
   }
 
-  private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> String? {
+  private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> AnyPublisher<String?, Never> {
+    let range: String
     switch T.self {
     case is AccountBalances.Type:
-      return self.getAccountBalancesRange(for: version)
+      range = self.getAccountBalancesRange(for: version)
 
     case is Dashboard.Type:
-      return self.getDashboardRange(for: version)
+      range = self.getDashboardRange(for: version)
 
     case is Transaction.Type:
-      return "Transactions!B:H"
+      range = "Transactions!B:H"
 
     case is Transactions.Type:
-      return "Transactions!B9:H"
+      range = "Transactions!B9:H"
 
     default:
       Logger.info("Data requested for unknown type \(T.self).")
-      return nil
+      return Just(nil).eraseToAnyPublisher()
     }
+    return Just(range).eraseToAnyPublisher()
   }
 
-  private func getRange<T>(of type: T.Type, from dataMap: [String: String]) -> String? {
+  private func getRange<T>(of type: T.Type, from dataMap: [String: String]) -> AnyPublisher<String?, Never> {
     var dataLocationKey = ""
     switch T.self {
     case is AccountBalances.Type:
@@ -283,9 +284,9 @@ extension GoogleContentManager {
 
     default:
       Logger.info("Data requested for unknown type \(T.self).")
-      return nil
+      return Just(nil).eraseToAnyPublisher()
     }
-    return dataMap[dataLocationKey]
+    return Just(dataMap[dataLocationKey]).eraseToAnyPublisher()
   }
 
   private func getAccountBalancesRange(for supportedVersion: SupportedLegacyVersion)
