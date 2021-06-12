@@ -34,8 +34,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // This delegate does not imply the connecting scene or session are new (see
     // `application:configurationForConnectingSceneSession` instead).
 
-    objectFactory.bugTracker.start()
-
     if driveManager == nil {
       driveManager = objectFactory.driveManager
     }

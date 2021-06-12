@@ -18,11 +18,6 @@
 		060494D325AD215C00922C3B /* ValueRangeCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060494D225AD215C00922C3B /* ValueRangeCreator.swift */; };
 		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
-		06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157E9F2411E831000161C3 /* AspireBugTracker.swift */; };
-		06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA32411EC7A000161C3 /* InstabugCredentials.swift */; };
-		06157EA62411F22D000161C3 /* instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06157EA52411F22D000161C3 /* instabug.plist */; };
-		06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */; };
-		06157EAC24131235000161C3 /* bad_instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06157EAB24131235000161C3 /* bad_instabug.plist */; };
 		061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF2F239DB75700A684EB /* AddTransactionView.swift */; };
 		061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AspireTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
@@ -112,7 +107,6 @@
 		06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A68235A9090009BA6A7 /* Assets.xcassets */; };
 		06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */; };
 		06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6D235A9090009BA6A7 /* LaunchScreen.storyboard */; };
-		06F121F42429A66600BC4766 /* instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06F121F32429A66600BC4766 /* instabug.plist */; };
 		06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D224390D84005E5A13 /* AspireSegmentedItem.swift */; };
 		06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D424391357005E5A13 /* AccountBalancesView.swift */; };
 		06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalances.swift */; };
@@ -142,10 +136,6 @@
 		060494D225AD215C00922C3B /* ValueRangeCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRangeCreator.swift; sourceTree = "<group>"; };
 		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
-		06157E9F2411E831000161C3 /* AspireBugTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireBugTracker.swift; sourceTree = "<group>"; };
-		06157EA32411EC7A000161C3 /* InstabugCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentials.swift; sourceTree = "<group>"; };
-		06157EA52411F22D000161C3 /* instabug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = instabug.plist; sourceTree = "<group>"; };
-		06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentialsTests.swift; sourceTree = "<group>"; };
 		06157EAB24131235000161C3 /* bad_instabug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bad_instabug.plist; sourceTree = "<group>"; };
 		061EEF2F239DB75700A684EB /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		061EEF3123A1F7D300A684EB /* AspireTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireTextField.swift; sourceTree = "<group>"; };
@@ -353,7 +343,6 @@
 				0685BBBA250EC80400728228 /* Karla-Regular.ttf */,
 				06C6B5A024EF3DE900968C60 /* Nunito-Bold.ttf */,
 				066C3F30244E4732003CDE73 /* Nunito-SemiBold.ttf */,
-				06157EA52411F22D000161C3 /* instabug.plist */,
 				069FDF972384F4AC0023E86A /* Rubik-Light.ttf */,
 				069FDF952384F43E0023E86A /* Rubik-Regular.ttf */,
 				069FDF932384F3840023E86A /* Rubik-Medium.ttf */,
@@ -376,8 +365,6 @@
 				065C717F23838E9100DB46B2 /* Colors.swift */,
 				06BAAFE1239C301300F24BF2 /* AspireFonts.swift */,
 				06A227B123EF768200B5BAF0 /* AspireVersionInfo.swift */,
-				06157E9F2411E831000161C3 /* AspireBugTracker.swift */,
-				06157EA32411EC7A000161C3 /* InstabugCredentials.swift */,
 				06BD7EAE24DDEA81003C5D32 /* Images.swift */,
 				062F2BBC24EB13C9004830F8 /* AppCoordinator.swift */,
 				062F2BBE24EEDA7D004830F8 /* AppDefaults.swift */,
@@ -495,7 +482,6 @@
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
 				065C71792381ED1D00DB46B2 /* DashboardTests.swift */,
-				06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */,
 				0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */,
 				0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */,
 				069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */,
@@ -621,7 +607,6 @@
 				060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */,
 				069FDF962384F43E0023E86A /* Rubik-Regular.ttf in Resources */,
 				06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */,
-				06157EA62411F22D000161C3 /* instabug.plist in Resources */,
 				066C3F31244E4732003CDE73 /* Nunito-SemiBold.ttf in Resources */,
 				06A0DAA8235BF99400AEF9FE /* credentials.plist in Resources */,
 				06C6B5A124EF3DE900968C60 /* Nunito-Bold.ttf in Resources */,
@@ -638,9 +623,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06A9604C235FC27D0058EE64 /* credentials.plist in Resources */,
-				06F121F42429A66600BC4766 /* instabug.plist in Resources */,
 				06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */,
-				06157EAC24131235000161C3 /* bad_instabug.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,13 +819,11 @@
 				06BAAFE2239C301300F24BF2 /* AspireFonts.swift in Sources */,
 				0685BBB7250EC74800728228 /* BaseCardView.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
-				06157EA02411E831000161C3 /* AspireBugTracker.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
 				060024FE236F99DA00A20C96 /* Category.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
 				069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */,
-				06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,7 +833,6 @@
 			files = (
 				06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */,
 				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
-				06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */,
 				069F830A25005CA9009DD3E9 /* GoogleContentManagerTests.swift in Sources */,
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,

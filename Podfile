@@ -9,7 +9,6 @@ target 'Aspire Budgeting' do
   pod 'GoogleAPIClientForREST/Sheets'
   pod 'GoogleAPIClientForREST/Drive'
   pod 'GoogleSignIn'
-  pod 'Instabug'
   target 'Aspire BudgetingTests' do
     inherit! :search_paths
     # Pods for testing
