@@ -244,6 +244,7 @@ extension AppCoordinator {
     self.transactionsVM = TransactionsViewModel(refreshAction:
                                                       self.transactionsRefreshCallback)
     handle(state: .authenticatedLocally)
+    Logger.info("Sheet changed")
     self.objectWillChange.send()
   }
 }

@@ -8,6 +8,7 @@ import SwiftUI
 struct SettingsView: View {
   let viewModel: SettingsViewModel
 
+  @State private var showShareSheet = false
   var body: some View {
     Form {
       Section(footer:
@@ -18,7 +19,12 @@ struct SettingsView: View {
         Button("Change Sheet") {
           viewModel.changeSheet()
         }
+        Button("Export Log File") {
+            showShareSheet = true
+        }
       }
+    }.sheet(isPresented: $showShareSheet) {
+      ShareSheet(activityItems: [logURL])
     }
   }
 }
