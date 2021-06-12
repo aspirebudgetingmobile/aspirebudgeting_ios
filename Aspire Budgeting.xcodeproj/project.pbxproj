@@ -111,6 +111,7 @@
 		06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D424391357005E5A13 /* AccountBalancesView.swift */; };
 		06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalances.swift */; };
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
+		3EDC12D1267564AE006A133D /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC12D0267564AE006A133D /* ShareSheet.swift */; };
 		8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */; };
 /* End PBXBuildFile section */
 
@@ -234,6 +235,7 @@
 		06F9A8D424391357005E5A13 /* AccountBalancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalancesView.swift; sourceTree = "<group>"; };
 		06F9A8D6243917EF005E5A13 /* AccountBalances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalances.swift; sourceTree = "<group>"; };
 		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
+		3EDC12D0267564AE006A133D /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.debug.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_BudgetingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		847C77A94AB6399935241E26 /* Pods-Aspire BudgetingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.release.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				068B129F258EB2A5006B64FE /* BannerView.swift */,
 				065D909425CF2FCB00185786 /* TransactionsView.swift */,
 				06BC51B9264F47C400E4BC8B /* SettingsView.swift */,
+				3EDC12D0267564AE006A133D /* ShareSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,
 				062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */,
+				3EDC12D1267564AE006A133D /* ShareSheet.swift in Sources */,
 				06B0A22225A5390700E8DFBB /* ViewModel.swift in Sources */,
 				0685BBB9250EC76600728228 /* DashboardCardsListView.swift in Sources */,
 				069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */,
