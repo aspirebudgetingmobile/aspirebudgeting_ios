@@ -19,8 +19,6 @@
 		060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */; };
 		060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */; };
 		06157EA42411EC7A000161C3 /* InstabugCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA32411EC7A000161C3 /* InstabugCredentials.swift */; };
-		06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */; };
-		06157EAC24131235000161C3 /* bad_instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06157EAB24131235000161C3 /* bad_instabug.plist */; };
 		061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF2F239DB75700A684EB /* AddTransactionView.swift */; };
 		061EEF3223A1F7D300A684EB /* AspireTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EEF3123A1F7D300A684EB /* AspireTextField.swift */; };
 		061F103823776D1700089D11 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061F103723776D1700089D11 /* StateManager.swift */; };
@@ -110,7 +108,6 @@
 		06ED8A69235A9090009BA6A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A68235A9090009BA6A7 /* Assets.xcassets */; };
 		06ED8A6C235A9090009BA6A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */; };
 		06ED8A6F235A9090009BA6A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06ED8A6D235A9090009BA6A7 /* LaunchScreen.storyboard */; };
-		06F121F42429A66600BC4766 /* instabug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06F121F32429A66600BC4766 /* instabug.plist */; };
 		06F9A8D324390D84005E5A13 /* AspireSegmentedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D224390D84005E5A13 /* AspireSegmentedItem.swift */; };
 		06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D424391357005E5A13 /* AccountBalancesView.swift */; };
 		06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalances.swift */; };
@@ -141,7 +138,6 @@
 		060CDA69238F6AD2005CD74B /* CollapsedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedCardView.swift; sourceTree = "<group>"; };
 		060CDA6C238F78BA005CD74B /* ExpandedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedCardView.swift; sourceTree = "<group>"; };
 		06157EA32411EC7A000161C3 /* InstabugCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentials.swift; sourceTree = "<group>"; };
-		06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstabugCredentialsTests.swift; sourceTree = "<group>"; };
 		06157EAB24131235000161C3 /* bad_instabug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bad_instabug.plist; sourceTree = "<group>"; };
 		061EEF2F239DB75700A684EB /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		061EEF3123A1F7D300A684EB /* AspireTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireTextField.swift; sourceTree = "<group>"; };
@@ -489,7 +485,6 @@
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
 				065C71792381ED1D00DB46B2 /* DashboardTests.swift */,
-				06157EA924130EEB000161C3 /* InstabugCredentialsTests.swift */,
 				0601E3DF24FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift */,
 				0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */,
 				069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */,
@@ -631,9 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06A9604C235FC27D0058EE64 /* credentials.plist in Resources */,
-				06F121F42429A66600BC4766 /* instabug.plist in Resources */,
 				06A96050235FC9F50058EE64 /* bad_credentials.plist in Resources */,
-				06157EAC24131235000161C3 /* bad_instabug.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,7 +837,6 @@
 			files = (
 				06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */,
 				06A96054235FF2620058EE64 /* UserManagerTests.swift in Sources */,
-				06157EAA24130EEB000161C3 /* InstabugCredentialsTests.swift in Sources */,
 				069F830A25005CA9009DD3E9 /* GoogleContentManagerTests.swift in Sources */,
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
