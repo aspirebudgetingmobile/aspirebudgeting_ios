@@ -111,6 +111,8 @@
 		06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D424391357005E5A13 /* AccountBalancesView.swift */; };
 		06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalances.swift */; };
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
+		3E5B7DFA268FF026005B590D /* CategoryTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B7DF9268FF026005B590D /* CategoryTransferView.swift */; };
+		3E5B7DFC26900111005B590D /* CategoryTransferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B7DFB26900111005B590D /* CategoryTransferViewModel.swift */; };
 		3EDC12D1267564AE006A133D /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC12D0267564AE006A133D /* ShareSheet.swift */; };
 		8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */; };
 /* End PBXBuildFile section */
@@ -235,6 +237,8 @@
 		06F9A8D424391357005E5A13 /* AccountBalancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalancesView.swift; sourceTree = "<group>"; };
 		06F9A8D6243917EF005E5A13 /* AccountBalances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalances.swift; sourceTree = "<group>"; };
 		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
+		3E5B7DF9268FF026005B590D /* CategoryTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTransferView.swift; sourceTree = "<group>"; };
+		3E5B7DFB26900111005B590D /* CategoryTransferViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTransferViewModel.swift; sourceTree = "<group>"; };
 		3EDC12D0267564AE006A133D /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.debug.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_BudgetingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -311,6 +315,7 @@
 				065D909425CF2FCB00185786 /* TransactionsView.swift */,
 				06BC51B9264F47C400E4BC8B /* SettingsView.swift */,
 				3EDC12D0267564AE006A133D /* ShareSheet.swift */,
+				3E5B7DF9268FF026005B590D /* CategoryTransferView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -417,6 +422,7 @@
 				06B0A22125A5390700E8DFBB /* ViewModel.swift */,
 				065D90A225CF82ED00185786 /* TransactionsViewModel.swift */,
 				06BC51BD264F4A6500E4BC8B /* SettingsViewModel.swift */,
+				3E5B7DFB26900111005B590D /* CategoryTransferViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -789,6 +795,7 @@
 				06B0A22225A5390700E8DFBB /* ViewModel.swift in Sources */,
 				0685BBB9250EC76600728228 /* DashboardCardsListView.swift in Sources */,
 				069F830624FFFC76009DD3E9 /* DashboardViewModel.swift in Sources */,
+				3E5B7DFA268FF026005B590D /* CategoryTransferView.swift in Sources */,
 				0694C2232369EDB90039528A /* DashboardView.swift in Sources */,
 				06BC51BE264F4A6500E4BC8B /* SettingsViewModel.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
@@ -798,6 +805,7 @@
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */,
+				3E5B7DFC26900111005B590D /* CategoryTransferViewModel.swift in Sources */,
 				065C718023838E9100DB46B2 /* Colors.swift in Sources */,
 				06BC51BA264F47C400E4BC8B /* SettingsView.swift in Sources */,
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,

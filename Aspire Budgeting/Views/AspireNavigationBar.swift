@@ -9,6 +9,8 @@ struct AspireNavigationBar: View {
 
   @Binding var title: String
 
+  @State var showCategoryTransfer = false
+
   var body: some View {
     ZStack(alignment: .bottom) {
       Color.primaryBackgroundColor
@@ -21,7 +23,9 @@ struct AspireNavigationBar: View {
 
       HStack(alignment: .center) {
         Spacer()
-        Button(action: {}, label: {
+        Button(action: {
+          showCategoryTransfer = true
+        }, label: {
           Image(systemName: "repeat")
         })
         .alignmentGuide(VerticalAlignment.center, computeValue: { d in
@@ -29,6 +33,11 @@ struct AspireNavigationBar: View {
         })
       }.padding(.trailing)
     }
+    .popover(isPresented: $showCategoryTransfer, content: {
+      NavigationView {
+//        CategoryTransferView()
+      }
+    })
   }
 }
 
