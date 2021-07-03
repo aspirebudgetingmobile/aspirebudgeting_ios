@@ -21,13 +21,6 @@ protocol IGIDSignIn: AnyObject {
 
 extension GIDSignIn: IGIDSignIn {}
 
-//TODO: Remove NotificationCenter extensions
-extension Notification.Name {
-  static let authorizerUpdated = Notification.Name("authorizerUpdated")
-
-  static let logout = Notification.Name("logout")
-}
-
 protocol AspireNotificationCenter: AnyObject {
   func post(
     name aName: NSNotification.Name,
@@ -45,17 +38,14 @@ enum UserManagerState {
 }
 
 protocol UserManager {
-  var currentState: CurrentValueSubject<UserManagerState, Never> { get }
-  func authenticateWithService()
+  func authenticate() -> AnyPublisher<Result<User>, Never>
 }
 
-//TODO: Remove conformance to ObservableObject
-final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, ObservableObject {
+final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
   private let gidSignInInstance: IGIDSignIn
   private let credentials: GoogleSDKCredentials
 
-  private(set) var currentState =
-    CurrentValueSubject<UserManagerState, Never>(.notAuthenticated)
+  private let userSubject = PassthroughSubject<Result<User>, Never>()
 
   init(
     credentials: GoogleSDKCredentials,
@@ -65,11 +55,12 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     self.gidSignInInstance = gidSignInInstance
   }
 
-  func authenticateWithService() {
+  func authenticate() -> AnyPublisher<Result<User>, Never> {
     Logger.info(
       "Attempting to authenticate with Google"
     )
     fetchUser()
+    return userSubject.eraseToAnyPublisher()
   }
 
   private func fetchUser() {
@@ -88,7 +79,6 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     withError error: Error!
   ) {
     if let error = error {
-      self.currentState.value = .error(error)
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
         Logger.info(
           // swiftlint:disable line_length
@@ -100,6 +90,7 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
           "A generic error occured. %{public}s",
           context: error.localizedDescription
         )
+        userSubject.send(.failure(error))
       }
       return
     }
@@ -114,16 +105,14 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
 
     let user = User(name: user.profile.name,
                     authorizer: user.authentication.fetcherAuthorizer())
-    self.currentState.value = .authenticated(user)
+    self.userSubject.send(.success(user))
   }
 
   func signOut() {
     gidSignInInstance.signOut()
-    currentState.value = .notAuthenticated
 
     Logger.info(
       "Logging out user from Google and locally"
     )
-    self.currentState.value = .notAuthenticated
   }
 }

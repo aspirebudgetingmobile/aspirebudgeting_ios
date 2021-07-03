@@ -15,10 +15,7 @@ final class AppCoordinator: ObservableObject {
   private let fileValidator: FileValidator
   private let contentProvider: ContentProvider
 
-  private var stateManagerSink: AnyCancellable!
-  private var remoteFileManagerSink: AnyCancellable!
-  private var userManagerSink: AnyCancellable!
-  private var fileValidatorSink: AnyCancellable!
+  private var cancellables = Set<AnyCancellable>()
 
   private(set) var fileSelectorVM = FileSelectorViewModel()
   private(set) lazy var dashboardVM: DashboardViewModel = {
@@ -60,15 +57,16 @@ final class AppCoordinator: ObservableObject {
   }
 
   func start() {
-    stateManagerSink = stateManager
+    stateManager
       .currentState
       .receive(on: DispatchQueue.main)
       .sink {
         self.objectWillChange.send()
         self.handle(state: $0)
       }
+      .store(in: &cancellables)
 
-    remoteFileManagerSink = remoteFileManager
+    remoteFileManager
       .currentState
       .sink {
         self.fileSelectorVM =
@@ -76,18 +74,34 @@ final class AppCoordinator: ObservableObject {
                                 fileSelectedCallback: self.fileSelectedCallBack)
         self.objectWillChange.send()
       }
+      .store(in: &cancellables)
 
-    userManagerSink = userManager.currentState.sink {
-      switch $0 {
-      case .authenticated(let user):
-        self.user = user
-        self.stateManager.processEvent(event: .verifiedExternally)
-      default:
-        self.user = nil
+    userManager
+      .authenticate()
+      .tryMap { result in
+        switch result {
+        case let .success(user):
+          self.user = user
+        case let .failure(error):
+          throw error
+        }
       }
-    }
+      .receive(on: DispatchQueue.main)
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          Logger.info("App Start publisher sequence failed")
+        case .finished:
+          Logger.info("App started successfully")
+        }
+      } receiveValue: { _ in
+        // TODO: Transform this to a publisher to chain them up
+        self.stateManager.processEvent(event: .verifiedExternally)
+      }
+      .store(in: &cancellables)
 
-    fileValidatorSink = fileValidator.currentState.sink {
+
+    fileValidator.currentState.sink {
       switch $0 {
       case .isLoading:
         self.remoteFileManager.currentState.value = .isLoading
@@ -109,6 +123,7 @@ final class AppCoordinator: ObservableObject {
         self.remoteFileManager.currentState.value = .error(error: error)
       }
     }
+    .store(in: &cancellables)
   }
 
   func pause() {
@@ -254,7 +269,7 @@ extension AppCoordinator {
   func handle(state: AppState) {
     switch state {
     case .loggedOut:
-      userManager.authenticateWithService()
+      userManager.authenticate()
 
     case .verifiedExternally:
       self.localAuthorizer

@@ -8,7 +8,6 @@ import GoogleSignIn
 import SwiftUI
 
 struct ContentView: View {
-  @EnvironmentObject var userManager: GoogleUserManager
   @EnvironmentObject var driveManager: GoogleDriveManager
   @EnvironmentObject var appCoordinator: AppCoordinator
 

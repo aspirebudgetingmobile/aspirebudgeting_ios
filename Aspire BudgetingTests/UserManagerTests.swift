@@ -29,7 +29,7 @@ final class UserManagerTests: XCTestCase {
   }
 
   func testAuthenticateWithService() {
-    userManager.authenticateWithService()
+    userManager.authenticate()
     XCTAssertEqual(mockGIDSignIn.clientID, mockGoogleCredentials.CLIENT_ID)
     XCTAssertTrue(userManager === mockGIDSignIn.delegate)
     XCTAssertNotNil(mockGIDSignIn.scopes as? [String])
