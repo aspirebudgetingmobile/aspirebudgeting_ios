@@ -6,6 +6,8 @@
 import Foundation
 import Combine
 
+typealias SelectedFilePublisher = PassthroughSubject<File, Never>
+
 final class AppCoordinator: ObservableObject {
   private let stateManager: AppStateManager
   private let localAuthorizer: AppLocalAuthorizer
@@ -15,9 +17,12 @@ final class AppCoordinator: ObservableObject {
   private let fileValidator: FileValidator
   private let contentProvider: ContentProvider
 
+  private let selectedFilePublisher = SelectedFilePublisher()
+
   private var cancellables = Set<AnyCancellable>()
 
-  private(set) var fileSelectorVM = FileSelectorViewModel()
+  let fileSelectorVM: FileSelectorViewModel
+
   private(set) lazy var dashboardVM: DashboardViewModel = {
     DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
   }()
@@ -35,7 +40,7 @@ final class AppCoordinator: ObservableObject {
     SettingsViewModel(fileName: selectedFile!.name, changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
   }()
 
-  private var user: User?
+  @Published private(set) var user: User?
 
   private var selectedFile: File?
   private var dataLocationMap: [String: String]?
@@ -54,6 +59,13 @@ final class AppCoordinator: ObservableObject {
     self.userManager = userManager
     self.fileValidator = fileValidator
     self.contentProvider = contentProvider
+
+    self.fileSelectorVM =
+      FileSelectorViewModel(
+        fileManager: remoteFileManager,
+        userPublisher: userManager.userPublisher,
+        fileSelectedPublisher: selectedFilePublisher
+      )
   }
 
   func start() {
@@ -66,26 +78,18 @@ final class AppCoordinator: ObservableObject {
       }
       .store(in: &cancellables)
 
-    remoteFileManager
-      .currentState
-      .sink {
-        self.fileSelectorVM =
-          FileSelectorViewModel(fileManagerState: $0,
-                                fileSelectedCallback: self.fileSelectedCallBack)
-        self.objectWillChange.send()
-      }
-      .store(in: &cancellables)
+//    remoteFileManager
+//      .currentState
+//      .sink {
+//        self.fileSelectorVM =
+//          FileSelectorViewModel(fileManagerState: $0,
+//                                fileSelectedCallback: self.fileSelectedCallBack)
+//        self.objectWillChange.send()
+//      }
+//      .store(in: &cancellables)
 
     userManager
-      .authenticate()
-      .tryMap { result in
-        switch result {
-        case let .success(user):
-          self.user = user
-        case let .failure(error):
-          throw error
-        }
-      }
+      .userPublisher
       .receive(on: DispatchQueue.main)
       .sink { completion in
         switch completion {
@@ -94,17 +98,43 @@ final class AppCoordinator: ObservableObject {
         case .finished:
           Logger.info("App started successfully")
         }
-      } receiveValue: { _ in
-        // TODO: Transform this to a publisher to chain them up
-        self.stateManager.processEvent(event: .verifiedExternally)
+      } receiveValue: { result in
+        switch result {
+        case let .success(user):
+          self.user = user
+        default:
+          break
+        }
       }
       .store(in: &cancellables)
+
+    selectedFilePublisher
+      .zip(userManager.userPublisher)
+      .tryMap { (file, userResult) -> (File, User) in
+        switch userResult {
+        case let .success(user):
+          return (file, user)
+        case let .failure(error):
+          throw error
+        }
+      }
+      .sink { completion in
+        print(completion)
+      } receiveValue: { (file, user) in
+        self.fileValidator.validate(file: file, for: user)
+      }
+      .store(in: &cancellables)
+
+
+
+    userManager.authenticate()
 
 
     fileValidator.currentState.sink {
       switch $0 {
       case .isLoading:
-        self.remoteFileManager.currentState.value = .isLoading
+//        self.remoteFileManager.currentState.value = .isLoading
+      break
 
       case .dataMapRetrieved(let dataMap):
         guard let file = self.selectedFile else {
@@ -120,7 +150,8 @@ final class AppCoordinator: ObservableObject {
           changeSheet: self.changeSheet,
           fileSelectorVM: self.fileSelectorVM)
       case .error(let error):
-        self.remoteFileManager.currentState.value = .error(error: error)
+//        self.remoteFileManager.currentState.value = .error(error: error)
+      break
       }
     }
     .store(in: &cancellables)
@@ -132,9 +163,9 @@ final class AppCoordinator: ObservableObject {
 
   func resume() {
     if needsLocalAuth {
-      self.localAuthorizer.authenticateUserLocally {
-        self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
-      }
+//      self.localAuthorizer.authenticateUserLocally {
+//        self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
+//      }
     }
   }
 }
@@ -252,7 +283,7 @@ extension AppCoordinator {
   func changeSheet() {
     self.appDefaults.clearDefaultFile()
     handle(state: .changeSheet)
-    self.fileSelectorVM = FileSelectorViewModel()
+//    self.fileSelectorVM = FileSelectorViewModel()
     self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
     self.accountBalancesVM = AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
     self.addTransactionVM = AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
@@ -269,17 +300,19 @@ extension AppCoordinator {
   func handle(state: AppState) {
     switch state {
     case .loggedOut:
-      userManager.authenticate()
+//      userManager.authenticate()
+    break
 
     case .verifiedExternally:
-      self.localAuthorizer
-        .authenticateUserLocally {
-          self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
-        }
+//      self.localAuthorizer
+//        .authenticateUserLocally {
+//          self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
+//        }
+    break
 
     case .authenticatedLocally:
       guard let file = self.appDefaults.getDefaultFile() else {
-        remoteFileManager.getFileList(for: self.user!)
+//        remoteFileManager.getFileList(for: self.user!)
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
@@ -302,7 +335,7 @@ extension AppCoordinator {
   }
 
   var isLoggedOut: Bool {
-    stateManager.isLoggedOut
+    user == nil
   }
 
   var hasDefaultSheet: Bool {

@@ -7,14 +7,14 @@ import GoogleSignIn
 import SwiftUI
 
 struct FileSelectorView: View {
-  let viewModel: FileSelectorViewModel
+  @ObservedObject var viewModel: FileSelectorViewModel
 
   var files: [File] {
-    viewModel.getFiles() ?? [File]()
+    viewModel.files
   }
 
   var error: Error? {
-    viewModel.getError()
+    viewModel.error
   }
 
   var filteredFiles: [File] {
@@ -27,18 +27,22 @@ struct FileSelectorView: View {
 
   var body: some View {
     VStack {
-      if viewModel.currentState == .isLoading {
+      if viewModel.files.isEmpty {
         LoadingView()
       }
 
-      if viewModel.currentState == .dataRetrieved {
+      if viewModel.error != nil {
+        Text("Error Occured: \(error?.localizedDescription ?? "")")
+      }
+
+      if !viewModel.files.isEmpty {
         NavigationView {
           VStack {
             SearchBar(text: $searchText)
             List(filteredFiles) { file in
               Button(
                 action: {
-                  self.viewModel.fileSelectedCallback?(file)
+                  self.viewModel.selected(file: file)
                 }, label: {
                   HStack {
                     Image.sheetsIcon
@@ -52,31 +56,30 @@ struct FileSelectorView: View {
           }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
         }
       }
-
-      if viewModel.currentState == .error {
-        Text("Error Occured: \(error?.localizedDescription ?? "")")
-      }
+    }
+    .onAppear {
+      viewModel.getFiles()
     }
   }
 }
 
-struct FileSelectorView_Previews: PreviewProvider {
-  static let files = [File(id: "abc", name: "File 1"),
-                      File(id: "def", name: "File 2"),
-  ]
-
-  static let viewModel =
-    FileSelectorViewModel(fileManagerState:
-                            .filesRetrieved(files: FileSelectorView_Previews.files),
-                          fileSelectedCallback: nil)
-  static var previews: some View {
-    Group {
-      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
-
-      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
-        .environment(\.colorScheme, .dark)
-
-      FileSelectorView(viewModel: FileSelectorViewModel())
-    }
-  }
-}
+//struct FileSelectorView_Previews: PreviewProvider {
+//  static let files = [File(id: "abc", name: "File 1"),
+//                      File(id: "def", name: "File 2"),
+//  ]
+//
+//  static let viewModel =
+//    FileSelectorViewModel(fileManagerState:
+//                            .filesRetrieved(files: FileSelectorView_Previews.files),
+//                          fileSelectedCallback: nil)
+//  static var previews: some View {
+//    Group {
+//      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+//
+//      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+//        .environment(\.colorScheme, .dark)
+//
+//      FileSelectorView(viewModel: FileSelectorViewModel())
+//    }
+//  }
+//}

@@ -3,6 +3,7 @@
 // Aspire Budgeting
 //
 
+import Combine
 import Foundation
 
 enum ViewModelState {
@@ -11,53 +12,54 @@ enum ViewModelState {
   case error
 }
 
-struct FileSelectorViewModel {
+class FileSelectorViewModel: ObservableObject {
 
-  let fileManagerState: RemoteFileManagerState
+  @Published private(set) var files = [File]()
+  @Published private(set) var error: Error?
 
-  typealias FileSelectedCallBack = (File) -> Void
-  let fileSelectedCallback: FileSelectedCallBack?
+  let selectedFilePublisher: SelectedFilePublisher
 
-  init(fileManagerState: RemoteFileManagerState,
-       fileSelectedCallback: FileSelectedCallBack?) {
-    self.fileSelectedCallback = fileSelectedCallback
-    self.fileManagerState = fileManagerState
+  private var cancellables = Set<AnyCancellable>()
+  private let fileManager: RemoteFileManager
+  private let userPublisher: AnyPublisher<Result<User>, Never>
+
+  init(
+    fileManager: RemoteFileManager,
+    userPublisher: AnyPublisher<Result<User>, Never>,
+    fileSelectedPublisher: SelectedFilePublisher
+  ) {
+    self.fileManager = fileManager
+    self.userPublisher = userPublisher
+    self.selectedFilePublisher = fileSelectedPublisher
   }
 
-  init() {
-    self.init(fileManagerState:
-                .filesRetrieved(files: [File]()),
-              fileSelectedCallback: nil)
+  func getFiles() {
+    userPublisher
+      .tryMap { result -> User in
+        switch result {
+        case let .success(user):
+          return user
+        case let .failure(error):
+          throw error
+        }
+      }
+      .flatMap {
+        self.fileManager.getFileList(for: $0)
+      }
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          self.error = error
+        case .finished:
+          Logger.info("Files retrieved")
+        }
+      } receiveValue: { files in
+        self.files = files
+      }
+      .store(in: &cancellables)
   }
 
-  var currentState: ViewModelState {
-    switch fileManagerState {
-    case .isLoading:
-      return .isLoading
-
-    case .filesRetrieved:
-      return .dataRetrieved
-
-    case .error:
-      return .error
-    }
-  }
-
-  func getFiles() -> [File]? {
-    switch fileManagerState {
-    case .filesRetrieved(let files):
-      return files
-    default:
-      return nil
-    }
-  }
-
-  func getError() -> Error? {
-    switch fileManagerState {
-    case .error(let error):
-      return error
-    default:
-      return nil
-    }
+  func selected(file: File) {
+    selectedFilePublisher.send(file)
   }
 }

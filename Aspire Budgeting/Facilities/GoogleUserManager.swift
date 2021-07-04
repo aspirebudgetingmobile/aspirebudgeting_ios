@@ -38,14 +38,25 @@ enum UserManagerState {
 }
 
 protocol UserManager {
-  func authenticate() -> AnyPublisher<Result<User>, Never>
+  var userPublisher: AnyPublisher<Result<User>, Never> { get }
+  func authenticate()
 }
 
 final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
+  private var user: User?
+
   private let gidSignInInstance: IGIDSignIn
   private let credentials: GoogleSDKCredentials
 
-  private let userSubject = PassthroughSubject<Result<User>, Never>()
+  private let userSubject = CurrentValueSubject<Result<User>?, Never>(nil)
+  var userPublisher: AnyPublisher<Result<User>, Never> {
+    userSubject
+      .compactMap { result in
+        guard let result = result else { return nil }
+        return result
+      }
+      .eraseToAnyPublisher()
+  }
 
   init(
     credentials: GoogleSDKCredentials,
@@ -55,12 +66,11 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
     self.gidSignInInstance = gidSignInInstance
   }
 
-  func authenticate() -> AnyPublisher<Result<User>, Never> {
+  func authenticate() {
     Logger.info(
       "Attempting to authenticate with Google"
     )
     fetchUser()
-    return userSubject.eraseToAnyPublisher()
   }
 
   private func fetchUser() {
@@ -90,7 +100,7 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
           "A generic error occured. %{public}s",
           context: error.localizedDescription
         )
-        userSubject.send(.failure(error))
+        userSubject.value = .failure(error)
       }
       return
     }
@@ -98,14 +108,16 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
     self.signIn(user: user)
   }
 
-  private func signIn(user: GIDGoogleUser) {
+  private func signIn(user gUser: GIDGoogleUser) {
     Logger.info(
       "User authenticated with Google successfully."
     )
 
-    let user = User(name: user.profile.name,
-                    authorizer: user.authentication.fetcherAuthorizer())
-    self.userSubject.send(.success(user))
+    let user = User(name: gUser.profile.name,
+                    authorizer: gUser.authentication.fetcherAuthorizer())
+
+    self.user = user
+    userSubject.value = .success(user)
   }
 
   func signOut() {
