@@ -3,7 +3,7 @@
 // Aspire Budgeting
 //
 
-struct AspireSheet {
+struct AspireSheet: Codable {
   let file: File
   let dataMap: [String: String]
 }

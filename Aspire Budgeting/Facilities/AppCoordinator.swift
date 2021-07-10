@@ -43,8 +43,11 @@ final class AppCoordinator: ObservableObject {
 
   @Published private(set) var user: User?
 
+  // TODO: Remove these two
   private var selectedFile: File?
   private var dataLocationMap: [String: String]?
+
+  private var selectedSheet: AspireSheet?
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
@@ -80,7 +83,8 @@ final class AppCoordinator: ObservableObject {
       .$aspireSheet
       .compactMap { $0 }
       .sink { aspireSheet in
-        Logger.debug("Aspire Sheet changed")
+        self.selectedSheet = aspireSheet
+        self.appDefaults.addDefault(sheet: aspireSheet)
       }
       .store(in: &cancellables)
     stateManager
@@ -187,11 +191,6 @@ final class AppCoordinator: ObservableObject {
 
 // MARK: - Callbacks
 extension AppCoordinator {
-  func fileSelectedCallBack(file: File) {
-    self.selectedFile = file
-    fileValidator.validate(file: file, for: self.user!)
-  }
-
   func dashboardRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
@@ -326,13 +325,13 @@ extension AppCoordinator {
     break
 
     case .authenticatedLocally:
-      guard let file = self.appDefaults.getDefaultFile() else {
+      guard let sheet = self.appDefaults.getDefaultSheet() else {
 //        remoteFileManager.getFileList(for: self.user!)
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
-      self.selectedFile = file
-      self.dataLocationMap = self.appDefaults.getDataLocationMap()
+      self.selectedFile = sheet.file
+      self.dataLocationMap = sheet.dataMap
 
     case .changeSheet:
       self.stateManager.processEvent(event: .changeSheet)

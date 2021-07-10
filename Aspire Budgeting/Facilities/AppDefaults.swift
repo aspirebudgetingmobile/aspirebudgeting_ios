@@ -6,10 +6,8 @@
 import Foundation
 
 protocol AppDefaults {
-  func getDefaultFile() -> File?
-  func addDefault(file: File)
-  func addDataLocationMap(map: [String: String])
-  func getDataLocationMap() -> [String: String]
+  func addDefault(sheet: AspireSheet)
+  func getDefaultSheet() -> AspireSheet?
   func clearDefaultFile()
 }
 
@@ -24,54 +22,77 @@ extension UserDefaults: AppUserDefaults {}
 
 struct AppDefaultsManager: AppDefaults {
   private let userDefaults: AppUserDefaults
-  private let defaultFileKey: String
-  private let dataMapKey: String
+  private let defaultSheetKey: String
 
-  init(userDefaults: AppUserDefaults = UserDefaults(),
-       defaultFileKey: String = "Aspire_Sheet",
-       dataMapKey: String = "Aspire_DataMap") {
+  init(
+    userDefaults: AppUserDefaults = UserDefaults(),
+    defaultSheetKey: String = "Aspire_Sheet"
+  ) {
     self.userDefaults = userDefaults
-    self.defaultFileKey = defaultFileKey
-    self.dataMapKey = dataMapKey
+    self.defaultSheetKey = defaultSheetKey
   }
 
-  func getDefaultFile() -> File? {
-    guard let data = userDefaults.data(forKey: defaultFileKey),
-      let file = try? JSONDecoder().decode(File.self, from: data) else {
-      Logger.info(
-        "No default file found"
-      )
-      return nil
-    }
-
-    Logger.info(
-      "Default file found."
-    )
-    return file
-  }
-
-  func addDefault(file: File) {
+  func addDefault(sheet: AspireSheet) {
     do {
-      let data = try JSONEncoder().encode(file)
-      userDefaults.set(data, forKey: defaultFileKey)
+      let data = try JSONEncoder().encode(sheet)
+      userDefaults.set(data, forKey: defaultSheetKey)
     } catch {
       fatalError("This should've never happened!!")
     }
   }
 
-  func addDataLocationMap(map: [String: String]) {
-    userDefaults.set(map, forKey: dataMapKey)
-  }
-
-  func getDataLocationMap() -> [String: String] {
-    guard let map = userDefaults
-            .dictionary(forKey: self.dataMapKey) as? [String: String] else {
-      return [String: String]()
+  func getDefaultSheet() -> AspireSheet? {
+    guard let data = userDefaults.data(forKey: defaultSheetKey),
+      let sheet = try? JSONDecoder().decode(AspireSheet.self, from: data) else {
+      Logger.info(
+        "No default sheet found"
+      )
+      return nil
     }
-    return map
+
+    Logger.info(
+      "Default sheet found: \(sheet.file.name)"
+    )
+    return sheet
   }
+//
+//  func getDefaultFile() -> File? {
+//    guard let data = userDefaults.data(forKey: defaultFileKey),
+//      let file = try? JSONDecoder().decode(File.self, from: data) else {
+//      Logger.info(
+//        "No default file found"
+//      )
+//      return nil
+//    }
+//
+//    Logger.info(
+//      "Default file found."
+//    )
+//    return file
+//  }
+//
+//  func addDefault(file: File) {
+//    do {
+//      let data = try JSONEncoder().encode(file)
+//      userDefaults.set(data, forKey: defaultFileKey)
+//    } catch {
+//      fatalError("This should've never happened!!")
+//    }
+//  }
+//
+//  func addDataLocationMap(map: [String: String]) {
+//    userDefaults.set(map, forKey: dataMapKey)
+//  }
+//
+//  func getDataLocationMap() -> [String: String] {
+//    guard let map = userDefaults
+//            .dictionary(forKey: self.dataMapKey) as? [String: String] else {
+//      return [String: String]()
+//    }
+//    return map
+//  }
 
   func clearDefaultFile() {
-    userDefaults.removeObject(forKey: defaultFileKey)
+    userDefaults.removeObject(forKey: defaultSheetKey)
   }
 }
