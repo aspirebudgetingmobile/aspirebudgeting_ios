@@ -39,12 +39,10 @@ final class AppCoordinator: ObservableObject {
 //  }()
 
   @Published private(set) var user: User?
-
+  @Published private(set) var selectedSheet: AspireSheet?
   // TODO: Remove these two
   private var selectedFile: File?
   private var dataLocationMap: [String: String]?
-
-  private var selectedSheet: AspireSheet?
 
   init(stateManager: AppStateManager,
        localAuthorizer: AppLocalAuthorizer,
@@ -63,6 +61,9 @@ final class AppCoordinator: ObservableObject {
   }
 
   func start(for user: User) {
+    self.user = user
+    self.selectedSheet = appDefaults.getDefaultSheet()
+
     fileSelectorVM = FileSelectorViewModel(
       fileManager: remoteFileManager,
       fileValidator: fileValidator,
@@ -107,8 +108,8 @@ extension AppCoordinator {
   func dashboardRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
-               from: self.selectedFile!,
-               using: self.dataLocationMap!) { (readResult: Result<Dashboard>) in
+               from: self.selectedSheet!.file,
+               using: self.selectedSheet!.dataMap) { (readResult: Result<Dashboard>) in
 
         let result: Result<DashboardDataProvider>
 
@@ -130,8 +131,8 @@ extension AppCoordinator {
   func accountBalancesRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
-               from: self.selectedFile!,
-               using: self.dataLocationMap!) { (readResult: Result<AccountBalances>) in
+               from: self.selectedSheet!.file,
+               using: self.selectedSheet!.dataMap) { (readResult: Result<AccountBalances>) in
 
         let result: Result<AccountBalancesDataProvider>
 
@@ -154,8 +155,8 @@ extension AppCoordinator {
   func addTransactionRefreshCallback() {
     self.contentProvider
       .getBatchData(for: self.user!,
-                    from: self.selectedFile!,
-                    using: self.dataLocationMap!) { (readResult: Result<AddTransactionMetadata>) in
+                    from: self.selectedSheet!.file,
+                    using: self.selectedSheet!.dataMap) { (readResult: Result<AddTransactionMetadata>) in
 
         let result: Result<AddTrxDataProvider>
 
@@ -177,8 +178,8 @@ extension AppCoordinator {
   func transactionsRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
-               from: self.selectedFile!,
-               using: self.dataLocationMap!) { (readResult: Result<Transactions>) in
+               from: self.selectedSheet!.file,
+               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
 
         let result: Result<TransactionsDataProvider>
 
@@ -201,8 +202,8 @@ extension AppCoordinator {
     self.contentProvider
       .write(data: transaction,
              for: self.user!,
-             to: self.selectedFile!,
-             using: self.dataLocationMap!) { result in
+             to: self.selectedSheet!.file,
+             using: self.selectedSheet!.dataMap) { result in
         resultHandler(result)
       }
   }
@@ -268,6 +269,6 @@ extension AppCoordinator {
   }
 
   var hasDefaultSheet: Bool {
-    stateManager.hasDefaultSheet
+    selectedSheet != nil
   }
 }
