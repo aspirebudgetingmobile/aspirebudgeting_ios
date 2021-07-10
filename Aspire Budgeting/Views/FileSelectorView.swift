@@ -9,6 +9,7 @@ import SwiftUI
 struct FileSelectorView: View {
   @ObservedObject var viewModel: FileSelectorViewModel
 
+  @State private(set) var showingAlert = false
   var files: [File] {
     viewModel.files
   }
@@ -29,10 +30,6 @@ struct FileSelectorView: View {
     VStack {
       if viewModel.files.isEmpty {
         LoadingView()
-      }
-
-      if viewModel.error != nil {
-        Text("Error Occured: \(error?.localizedDescription ?? "")")
       }
 
       if !viewModel.files.isEmpty {
@@ -56,7 +53,14 @@ struct FileSelectorView: View {
           }.background(Color.primaryBackgroundColor.edgesIgnoringSafeArea(.all))
         }
       }
-    }
+    }.alert(isPresented: $showingAlert, content: {
+      Alert(title: Text("Error Occured"),
+            message: Text("\(viewModel.error?.localizedDescription ?? "")"),
+            dismissButton: .cancel())
+    })
+    .onReceive(viewModel.$error, perform: { error in
+      self.showingAlert = error != nil
+    })
     .onAppear {
       viewModel.getFiles()
     }

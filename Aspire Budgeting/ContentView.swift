@@ -8,7 +8,7 @@ import GoogleSignIn
 import SwiftUI
 
 struct ContentView: View {
-  @EnvironmentObject var driveManager: GoogleDriveManager
+  @ObservedObject var authenticationManager: AuthenticationManager
   @EnvironmentObject var appCoordinator: AppCoordinator
 
   var needsLocalAuth: Bool {
@@ -16,7 +16,7 @@ struct ContentView: View {
   }
 
   var isLoggedOut: Bool {
-    appCoordinator.isLoggedOut
+    authenticationManager.isLoggedOut
   }
 
   var hasDefaultSheet: Bool {

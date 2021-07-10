@@ -112,6 +112,8 @@
 		06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalances.swift */; };
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
 		3E5B7DFE2690AFEE005B590D /* Publisher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */; };
+		3ED459FF269965D9001563E3 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED459FE269965D9001563E3 /* AuthenticationManager.swift */; };
+		3ED45A01269A1102001563E3 /* AspireSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED45A00269A1102001563E3 /* AspireSheet.swift */; };
 		3EDC12D1267564AE006A133D /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC12D0267564AE006A133D /* ShareSheet.swift */; };
 		8D52A640C3D198885D3A12E6 /* Pods_Aspire_Budgeting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8996E894932F10AFA501C123 /* Pods_Aspire_Budgeting.framework */; };
 /* End PBXBuildFile section */
@@ -237,6 +239,8 @@
 		06F9A8D6243917EF005E5A13 /* AccountBalances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalances.swift; sourceTree = "<group>"; };
 		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
 		3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extensions.swift"; sourceTree = "<group>"; };
+		3ED459FE269965D9001563E3 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		3ED45A00269A1102001563E3 /* AspireSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSheet.swift; sourceTree = "<group>"; };
 		3EDC12D0267564AE006A133D /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		4BDD7B19DBCA1DE955C8F5D1 /* Pods-Aspire BudgetingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire BudgetingTests.debug.xcconfig"; path = "Target Support Files/Pods-Aspire BudgetingTests/Pods-Aspire BudgetingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aspire_BudgetingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -328,6 +332,7 @@
 				06F9A8D6243917EF005E5A13 /* AccountBalances.swift */,
 				06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */,
 				06B0A23725A68D2700E8DFBB /* Transaction.swift */,
+				3ED45A00269A1102001563E3 /* AspireSheet.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -377,6 +382,7 @@
 				069F830725003EBB009DD3E9 /* GoogleContentManager.swift */,
 				060494D225AD215C00922C3B /* ValueRangeCreator.swift */,
 				3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */,
+				3ED459FE269965D9001563E3 /* AuthenticationManager.swift */,
 			);
 			path = Facilities;
 			sourceTree = "<group>";
@@ -796,6 +802,7 @@
 				06BC51BE264F4A6500E4BC8B /* SettingsViewModel.swift in Sources */,
 				06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */,
 				061EEF30239DB75700A684EB /* AddTransactionView.swift in Sources */,
+				3ED45A01269A1102001563E3 /* AspireSheet.swift in Sources */,
 				06A96052235FD2A60058EE64 /* ObjectFactory.swift in Sources */,
 				06D4528F25166C4D00BFEE02 /* CategoryDetailsView.swift in Sources */,
 				06ED8A65235A908E009BA6A7 /* SceneDelegate.swift in Sources */,
@@ -818,6 +825,7 @@
 				06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
+				3ED459FF269965D9001563E3 /* AuthenticationManager.swift in Sources */,
 				06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */,
 				068B12A0258EB2A5006B64FE /* BannerView.swift in Sources */,
 				065F03D0236DEF78005AED12 /* ErrorBannerView.swift in Sources */,

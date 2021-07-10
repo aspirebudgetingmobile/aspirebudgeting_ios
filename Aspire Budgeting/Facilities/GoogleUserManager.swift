@@ -38,23 +38,17 @@ enum UserManagerState {
 }
 
 protocol UserManager {
-  var userPublisher: AnyPublisher<Result<User>, Never> { get }
+  var userPublisher: AnyPublisher<User, Never> { get }
   func authenticate()
 }
 
 final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
-  private var user: User?
-
   private let gidSignInInstance: IGIDSignIn
   private let credentials: GoogleSDKCredentials
 
-  private let userSubject = CurrentValueSubject<Result<User>?, Never>(nil)
-  var userPublisher: AnyPublisher<Result<User>, Never> {
+  private let userSubject = PassthroughSubject<User, Never>()
+  var userPublisher: AnyPublisher<User, Never> {
     userSubject
-      .compactMap { result in
-        guard let result = result else { return nil }
-        return result
-      }
       .eraseToAnyPublisher()
   }
 
@@ -100,7 +94,6 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
           "A generic error occured. %{public}s",
           context: error.localizedDescription
         )
-        userSubject.value = .failure(error)
       }
       return
     }
@@ -116,8 +109,7 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
     let user = User(name: gUser.profile.name,
                     authorizer: gUser.authentication.fetcherAuthorizer())
 
-    self.user = user
-    userSubject.value = .success(user)
+    userSubject.send(user)
   }
 
   func signOut() {

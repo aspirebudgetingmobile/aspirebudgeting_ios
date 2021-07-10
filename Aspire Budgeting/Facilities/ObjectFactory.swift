@@ -61,6 +61,10 @@ final class ObjectFactory {
     GoogleContentManager(fileReader: sheetsManager, fileWriter: sheetsManager)
   }()
 
+  lazy var authenticationManager: AuthenticationManager = {
+    AuthenticationManager(userManager: userManager)
+  }()
+
   lazy var appCoordinator: AppCoordinator = {
     AppCoordinator(stateManager: stateManager,
                    localAuthorizer: localAuthorizationManager,

@@ -21,7 +21,7 @@ final class AppCoordinator: ObservableObject {
 
   private var cancellables = Set<AnyCancellable>()
 
-  let fileSelectorVM: FileSelectorViewModel
+  private(set) var fileSelectorVM: FileSelectorViewModel!
 
   private(set) lazy var dashboardVM: DashboardViewModel = {
     DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
@@ -36,9 +36,10 @@ final class AppCoordinator: ObservableObject {
     TransactionsViewModel(refreshAction:
                             self.transactionsRefreshCallback)
   }()
-  private(set) lazy var settingsVM: SettingsViewModel = {
-    SettingsViewModel(fileName: selectedFile!.name, changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
-  }()
+
+//  private(set) lazy var settingsVM: SettingsViewModel = {
+//    SettingsViewModel(fileName: selectedFile!.name, changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
+//  }()
 
   @Published private(set) var user: User?
 
@@ -60,15 +61,28 @@ final class AppCoordinator: ObservableObject {
     self.fileValidator = fileValidator
     self.contentProvider = contentProvider
 
-    self.fileSelectorVM =
-      FileSelectorViewModel(
-        fileManager: remoteFileManager,
-        userPublisher: userManager.userPublisher,
-        fileSelectedPublisher: selectedFilePublisher
-      )
+//    self.fileSelectorVM =
+//      FileSelectorViewModel(
+//        fileManager: remoteFileManager,
+//        userPublisher: userManager.userPublisher,
+//        fileSelectedPublisher: selectedFilePublisher
+//      )
   }
 
-  func start() {
+  func start(for user: User) {
+    fileSelectorVM = FileSelectorViewModel(
+      fileManager: remoteFileManager,
+      fileValidator: fileValidator,
+      user: user
+    )
+
+    fileSelectorVM
+      .$aspireSheet
+      .compactMap { $0 }
+      .sink { aspireSheet in
+        Logger.debug("Aspire Sheet changed")
+      }
+      .store(in: &cancellables)
     stateManager
       .currentState
       .receive(on: DispatchQueue.main)
@@ -88,48 +102,48 @@ final class AppCoordinator: ObservableObject {
 //      }
 //      .store(in: &cancellables)
 
-    userManager
-      .userPublisher
-      .receive(on: DispatchQueue.main)
-      .sink { completion in
-        switch completion {
-        case let .failure(error):
-          Logger.info("App Start publisher sequence failed")
-        case .finished:
-          Logger.info("App started successfully")
-        }
-      } receiveValue: { result in
-        switch result {
-        case let .success(user):
-          self.user = user
-        default:
-          break
-        }
-      }
-      .store(in: &cancellables)
+//    userManager
+//      .userPublisher
+//      .receive(on: DispatchQueue.main)
+//      .sink { completion in
+//        switch completion {
+//        case let .failure(error):
+//          Logger.info("App Start publisher sequence failed")
+//        case .finished:
+//          Logger.info("App started successfully")
+//        }
+//      } receiveValue: { result in
+//        switch result {
+//        case let .success(user):
+//          self.user = user
+//        default:
+//          break
+//        }
+//      }
+//      .store(in: &cancellables)
 
-    selectedFilePublisher
-      .zip(userManager.userPublisher)
-      .tryMap { (file, userResult) -> (File, User) in
-        switch userResult {
-        case let .success(user):
-          return (file, user)
-        case let .failure(error):
-          throw error
-        }
-      }
-      .sink { completion in
-        print(completion)
-      } receiveValue: { (file, user) in
-        self.fileValidator.validate(file: file, for: user)
-      }
-      .store(in: &cancellables)
-
-
-
-    userManager.authenticate()
+//    selectedFilePublisher
+//      .zip(userManager.userPublisher)
+//      .tryMap { (file, userResult) -> (File, User) in
+//        switch userResult {
+//        case let .success(user):
+//          return (file, user)
+//        case let .failure(error):
+//          throw error
+//        }
+//      }
+//      .sink { completion in
+//        print(completion)
+//      } receiveValue: { (file, user) in
+//        self.fileValidator.validate(file: file, for: user)
+//      }
+//      .store(in: &cancellables)
 
 
+
+//    userManager.authenticate()
+
+/*
     fileValidator.currentState.sink {
       switch $0 {
       case .isLoading:
@@ -145,16 +159,17 @@ final class AppCoordinator: ObservableObject {
         self.appDefaults.addDataLocationMap(map: dataMap)
         self.stateManager.processEvent(event: .hasDefaultFile)
         self.selectedFile = file
-        self.settingsVM = SettingsViewModel(
-          fileName: file.name,
-          changeSheet: self.changeSheet,
-          fileSelectorVM: self.fileSelectorVM)
+//        self.settingsVM = SettingsViewModel(
+//          fileName: file.name,
+//          changeSheet: self.changeSheet,
+//          fileSelectorVM: self.fileSelectorVM)
       case .error(let error):
 //        self.remoteFileManager.currentState.value = .error(error: error)
       break
       }
     }
     .store(in: &cancellables)
+ */
   }
 
   func pause() {

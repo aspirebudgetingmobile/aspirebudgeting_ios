@@ -16,7 +16,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   private var localAuthorizationManager: LocalAuthorizationManager!
   private var stateManager: StateManager!
 
-  private var stateManagerSink: AnyCancellable!
+  private var cancellables = Set<AnyCancellable>()
+
 
   lazy var userManager = {
     objectFactory.userManager
@@ -50,12 +51,24 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       stateManager = objectFactory.stateManager
     }
 
-    objectFactory.appCoordinator.start()
+    let appCoordinator = objectFactory.appCoordinator
+
+    objectFactory
+      .authenticationManager
+      .$user
+      .compactMap { $0 }
+      .sink { user in
+        appCoordinator.start(for: user)
+      }
+      .store(in: &cancellables)
+
+    objectFactory.authenticationManager.authenticateRemotely()
+//    objectFactory.appCoordinator.start()
 
     // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView()
+    let contentView = ContentView(authenticationManager: objectFactory.authenticationManager)
       .environmentObject(driveManager)
-      .environmentObject(objectFactory.appCoordinator)
+      .environmentObject(appCoordinator)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {

@@ -22,8 +22,8 @@ enum GoogleSheetsValidationError: String, Error {
 }
 
 protocol FileValidator {
-  var currentState: CurrentValueSubject<FileValidatorState, Never> { get }
-  func validate(file: File, for: User)
+//  var currentState: CurrentValueSubject<FileValidatorState, Never> { get }
+  func validate(file: File, for: User) -> AnyPublisher<AspireSheet, Error>
 }
 
 final class GoogleSheetsValidator: FileValidator {
@@ -36,7 +36,7 @@ final class GoogleSheetsValidator: FileValidator {
                                "TransactionCategories",
                               ]
 
-  private(set) var currentState = CurrentValueSubject<FileValidatorState, Never>(.isLoading)
+//  private(set) var currentState = CurrentValueSubject<FileValidatorState, Never>(.isLoading)
 
   init(sheetsService: GTLRService = GTLRSheetsService(),
        sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet = GTLRSheetsQuery_SpreadsheetsGet
@@ -45,49 +45,59 @@ final class GoogleSheetsValidator: FileValidator {
     self.sheetsQuery = sheetsQuery
   }
 
-  func validate(file: File, for user: User) {
+  func validate(file: File, for user: User) -> AnyPublisher<AspireSheet, Error> {
+    Deferred {
+      Future { [weak self] promise in
+        guard let self = self else { return }
+        self.sheetsService.authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
+        self.sheetsQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: file.id)
 
-    sheetsService.authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
-
-    sheetsQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: file.id)
-
-    currentState.value = .isLoading
-
-    sheetsService.executeQuery(sheetsQuery) { _, data, error in
-      if let error = error {
-        self.currentState.value = .error(error)
-      } else {
-        let spreadsheet = data as! GTLRSheets_Spreadsheet
-
-        let sheetNameMap: [NSNumber: String]
-        if let sheets = spreadsheet.sheets {
-          sheetNameMap = self.generateSheetNameMap(sheets: sheets)
-        } else {
-          self.currentState.value =
-            .error(GoogleSheetsValidationError.noSheetsInSpreadsheet)
-          return
-        }
-
-        if let namedRanges = spreadsheet.namedRanges {
-          if let dataMap = self.generateDataMap(namedRanges: namedRanges,
-                                                sheetNameMap: sheetNameMap) {
-            if dataMap[self.validationSet[0]] != nil,
-               dataMap[self.validationSet[1]] != nil,
-               dataMap[self.validationSet[2]] != nil {
-              self.currentState.value = .dataMapRetrieved(dataMap)
-            } else {
-              self.currentState.value =
-                .error(GoogleSheetsValidationError.invalidSheet)
-            }
+        self.sheetsService.executeQuery(self.sheetsQuery) { [weak self] _, data, error in
+          guard let self = self else { return }
+          if let error = error {
+//            self.currentState.value = .error(error)
+            promise(.failure(error))
           } else {
-            self.currentState.value =
-              .error(GoogleSheetsValidationError.internalParsingError)
+            let spreadsheet = data as! GTLRSheets_Spreadsheet
+
+            let sheetNameMap: [NSNumber: String]
+            if let sheets = spreadsheet.sheets {
+              sheetNameMap = self.generateSheetNameMap(sheets: sheets)
+            } else {
+//              self.currentState.value =
+//                .error(GoogleSheetsValidationError.noSheetsInSpreadsheet)
+              promise(.failure(GoogleSheetsValidationError.noSheetsInSpreadsheet))
+              return
+            }
+
+            if let namedRanges = spreadsheet.namedRanges {
+              if let dataMap = self.generateDataMap(namedRanges: namedRanges,
+                                                    sheetNameMap: sheetNameMap) {
+                if dataMap[self.validationSet[0]] != nil,
+                   dataMap[self.validationSet[1]] != nil,
+                   dataMap[self.validationSet[2]] != nil {
+//                  self.currentState.value = .dataMapRetrieved(dataMap)
+                  promise(.success(.init(file: file, dataMap: dataMap)))
+                } else {
+//                  self.currentState.value =
+//                    .error(GoogleSheetsValidationError.invalidSheet)
+                  promise(.failure(GoogleSheetsValidationError.invalidSheet))
+                }
+              } else {
+//                self.currentState.value =
+//                  .error(GoogleSheetsValidationError.internalParsingError)
+                promise(.failure(GoogleSheetsValidationError.internalParsingError))
+              }
+            } else {
+//              self.currentState.value = .error(GoogleSheetsValidationError.noNamedRangesInSpreadsheet)
+              promise(.failure(GoogleSheetsValidationError.noNamedRangesInSpreadsheet))
+            }
           }
-        } else {
-          self.currentState.value = .error(GoogleSheetsValidationError.noNamedRangesInSpreadsheet)
         }
       }
-    }
+    }.eraseToAnyPublisher()
+
+//    currentState.value = .isLoading
   }
 }
 
