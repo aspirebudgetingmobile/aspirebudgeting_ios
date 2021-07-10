@@ -67,23 +67,29 @@ struct FileSelectorView: View {
   }
 }
 
-// struct FileSelectorView_Previews: PreviewProvider {
-//  static let files = [File(id: "abc", name: "File 1"),
-//                      File(id: "def", name: "File 2"),
-//  ]
-//
-//  static let viewModel =
-//    FileSelectorViewModel(fileManagerState:
-//                            .filesRetrieved(files: FileSelectorView_Previews.files),
-//                          fileSelectedCallback: nil)
-//  static var previews: some View {
-//    Group {
-//      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
-//
-//      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
-//        .environment(\.colorScheme, .dark)
-//
-//      FileSelectorView(viewModel: FileSelectorViewModel())
-//    }
-//  }
-// }
+struct FileSelectorView_Previews: PreviewProvider {
+  static let files = [File(id: "abc", name: "File 1"),
+                      File(id: "def", name: "File 2"),
+  ]
+  static let fileManager = PreviewFileManager(files: files, error: nil)
+  static let aspireSheet = AspireSheet(
+    file: files[0],
+    dataMap: [String: String]()
+  )
+  static let fileValidator = PreviewValidator(aspireSheet: aspireSheet, error: nil)
+
+  static let viewModel =
+    FileSelectorViewModel(
+      fileManager: fileManager,
+      fileValidator: fileValidator,
+      user: User(name: "First lasr", authorizer: MockAuthorizer())
+    )
+  static var previews: some View {
+    Group {
+      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+
+      FileSelectorView(viewModel: FileSelectorView_Previews.viewModel)
+        .environment(\.colorScheme, .dark)
+    }
+  }
+}

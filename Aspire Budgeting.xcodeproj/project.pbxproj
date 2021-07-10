@@ -96,9 +96,7 @@
 		06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D4529225168C8900BFEE02 /* CardTotalsView.swift */; };
 		06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA080924F4637700927FE5 /* FileValidator.swift */; };
 		06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */; };
-		06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		06EA7A4C236CC6A100D70CC9 /* MockNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */; };
-		06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */; };
 		06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4F236CC8F900D70CC9 /* GoogleSheetsManager.swift */; };
 		06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */; };
 		06ED8A63235A908E009BA6A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ED8A62235A908E009BA6A7 /* AppDelegate.swift */; };
@@ -111,6 +109,8 @@
 		06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D424391357005E5A13 /* AccountBalancesView.swift */; };
 		06F9A8D7243917EF005E5A13 /* AccountBalances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9A8D6243917EF005E5A13 /* AccountBalances.swift */; };
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
+		3E1E6A0C269A5BED0089EA56 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
+		3E1E6A0D269A5C490089EA56 /* MockAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */; };
 		3E5B7DFE2690AFEE005B590D /* Publisher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */; };
 		3ED459FF269965D9001563E3 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED459FE269965D9001563E3 /* AuthenticationManager.swift */; };
 		3ED45A01269A1102001563E3 /* AspireSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED45A00269A1102001563E3 /* AspireSheet.swift */; };
@@ -473,6 +473,8 @@
 		06ED8A6A235A9090009BA6A7 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */,
+				06EA7A49236CC64000D70CC9 /* MockUser.swift */,
 				06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -487,9 +489,7 @@
 				06A96053235FF2620058EE64 /* UserManagerTests.swift */,
 				06AB2C832363B4840076516E /* GoogleDriveManagerTests.swift */,
 				06EA7A47236CC57400D70CC9 /* MockGIDSignIn.swift */,
-				06EA7A49236CC64000D70CC9 /* MockUser.swift */,
 				06EA7A4B236CC6A100D70CC9 /* MockNotificationCenter.swift */,
-				06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */,
 				06EA7A53236CD70400D70CC9 /* GoogleSheetsManagerTests.swift */,
 				06002501236F9D9500A20C96 /* MockFile.swift */,
 				065C71562380B80D00DB46B2 /* StateManagerTests.swift */,
@@ -780,6 +780,7 @@
 				067B3C252593FB6000634EF4 /* AccountBalancesViewModel.swift in Sources */,
 				06B0A23825A68D2700E8DFBB /* Transaction.swift in Sources */,
 				06D4529325168C8900BFEE02 /* CardTotalsView.swift in Sources */,
+				3E1E6A0D269A5C490089EA56 /* MockAuthorizer.swift in Sources */,
 				060CDA6D238F78BA005CD74B /* ExpandedCardView.swift in Sources */,
 				06BAAFE4239C578400F24BF2 /* AspireMasterView.swift in Sources */,
 				060494D325AD215C00922C3B /* ValueRangeCreator.swift in Sources */,
@@ -791,6 +792,7 @@
 				061F103A2377801600089D11 /* FaceIDView.swift in Sources */,
 				06B0A21825A3BEA800E8DFBB /* AddTransactionMetadata.swift in Sources */,
 				06BD7EAF24DDEA81003C5D32 /* Images.swift in Sources */,
+				3E1E6A0C269A5BED0089EA56 /* MockUser.swift in Sources */,
 				06C2BFFC2500A151007B3D73 /* TabBarItemView.swift in Sources */,
 				062F2BBD24EB13C9004830F8 /* AppCoordinator.swift in Sources */,
 				066EF45B235CF2C900E94CE4 /* BackgroundSplitColorView.swift in Sources */,
@@ -855,8 +857,6 @@
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
 				0601E3E224FD9335005E3C9D /* MockSpreadsheet.swift in Sources */,
 				0601E3E024FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift in Sources */,
-				06EA7A4A236CC64000D70CC9 /* MockUser.swift in Sources */,
-				06EA7A4E236CC71B00D70CC9 /* MockAuthorizer.swift in Sources */,
 				065C71572380B80D00DB46B2 /* StateManagerTests.swift in Sources */,
 				06EA7A48236CC57400D70CC9 /* MockGIDSignIn.swift in Sources */,
 				065C717A2381ED1D00DB46B2 /* DashboardTests.swift in Sources */,

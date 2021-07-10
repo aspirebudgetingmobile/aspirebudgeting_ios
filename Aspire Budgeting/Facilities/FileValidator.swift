@@ -8,12 +8,6 @@ import Foundation
 import GoogleAPIClientForREST
 import GTMSessionFetcher
 
-enum FileValidatorState {
-  case isLoading
-  case dataMapRetrieved([String: String])
-  case error(Error)
-}
-
 enum GoogleSheetsValidationError: String, Error {
   case noSheetsInSpreadsheet = "No sheets in spreadsheet"
   case noNamedRangesInSpreadsheet = "No named ranges in spreadsheet"
@@ -22,7 +16,6 @@ enum GoogleSheetsValidationError: String, Error {
 }
 
 protocol FileValidator {
-//  var currentState: CurrentValueSubject<FileValidatorState, Never> { get }
   func validate(file: File, for: User) -> AnyPublisher<AspireSheet, Error>
 }
 
@@ -35,8 +28,6 @@ final class GoogleSheetsValidator: FileValidator {
                                "MonthAndYear",
                                "TransactionCategories",
                               ]
-
-//  private(set) var currentState = CurrentValueSubject<FileValidatorState, Never>(.isLoading)
 
   init(sheetsService: GTLRService = GTLRSheetsService(),
        sheetsQuery: GTLRSheetsQuery_SpreadsheetsGet = GTLRSheetsQuery_SpreadsheetsGet
@@ -55,7 +46,6 @@ final class GoogleSheetsValidator: FileValidator {
         self.sheetsService.executeQuery(self.sheetsQuery) { [weak self] _, data, error in
           guard let self = self else { return }
           if let error = error {
-//            self.currentState.value = .error(error)
             promise(.failure(error))
           } else {
             let spreadsheet = data as! GTLRSheets_Spreadsheet
@@ -64,8 +54,6 @@ final class GoogleSheetsValidator: FileValidator {
             if let sheets = spreadsheet.sheets {
               sheetNameMap = self.generateSheetNameMap(sheets: sheets)
             } else {
-//              self.currentState.value =
-//                .error(GoogleSheetsValidationError.noSheetsInSpreadsheet)
               promise(.failure(GoogleSheetsValidationError.noSheetsInSpreadsheet))
               return
             }
@@ -76,16 +64,11 @@ final class GoogleSheetsValidator: FileValidator {
                 if dataMap[self.validationSet[0]] != nil,
                    dataMap[self.validationSet[1]] != nil,
                    dataMap[self.validationSet[2]] != nil {
-//                  self.currentState.value = .dataMapRetrieved(dataMap)
                   promise(.success(.init(file: file, dataMap: dataMap)))
                 } else {
-//                  self.currentState.value =
-//                    .error(GoogleSheetsValidationError.invalidSheet)
                   promise(.failure(GoogleSheetsValidationError.invalidSheet))
                 }
               } else {
-//                self.currentState.value =
-//                  .error(GoogleSheetsValidationError.internalParsingError)
                 promise(.failure(GoogleSheetsValidationError.internalParsingError))
               }
             } else {
@@ -97,8 +80,6 @@ final class GoogleSheetsValidator: FileValidator {
         }
       }
     }.eraseToAnyPublisher()
-
-//    currentState.value = .isLoading
   }
 }
 
@@ -155,4 +136,28 @@ extension GoogleSheetsValidator {
 
     return result
   }
+}
+
+struct PreviewValidator: FileValidator {
+  let aspireSheet: AspireSheet?
+  let error: Error?
+
+  init(aspireSheet: AspireSheet?, error: Error?) {
+    self.aspireSheet = aspireSheet
+    self.error = error
+  }
+
+  func validate(file: File, for: User) -> AnyPublisher<AspireSheet, Error> {
+    if let error = error {
+      return Fail(error: error).eraseToAnyPublisher()
+    }
+
+    if let aspireSheet = aspireSheet {
+      return Just(aspireSheet).setFailureType(to: Error.self).eraseToAnyPublisher()
+    }
+
+    fatalError("One or the other param must be set")
+  }
+
+
 }

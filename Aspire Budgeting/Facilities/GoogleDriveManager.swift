@@ -86,3 +86,25 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
     }.eraseToAnyPublisher()
   }
 }
+
+final class PreviewFileManager: RemoteFileManager {
+  let files: [File]?
+  let error: Error?
+
+  internal init(files: [File]?, error: Error?) {
+    self.files = files
+    self.error = error
+  }
+
+  func getFileList(for user: User) -> AnyPublisher<[File], Error> {
+    if let error = error {
+      return Fail(error: error).eraseToAnyPublisher()
+    }
+
+    if let files = files {
+      return Just(files).setFailureType(to: Error.self).eraseToAnyPublisher()
+    }
+
+    fatalError("One or the other param must be set")
+  }
+}
