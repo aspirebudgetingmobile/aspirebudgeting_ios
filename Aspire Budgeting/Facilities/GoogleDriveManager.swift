@@ -10,8 +10,6 @@ import GoogleSignIn
 import GTMSessionFetcher
 
 protocol RemoteFileManager {
-//  var currentState: CurrentValueSubject<RemoteFileManagerState, Never> { get }
-//  func getFileList(for user: User)
   func getFileList(for user: User) -> AnyPublisher<[File], Error>
 }
 
@@ -22,7 +20,6 @@ enum RemoteFileManagerState {
 }
 
 enum GoogleDriveManagerError: String, Error {
-  case nilAuthorizer
   case inconsistentSheet = "Inconsistency found in the selected sheet."
   case noInternet = "No Internet connection available"
 }
