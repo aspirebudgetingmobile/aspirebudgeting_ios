@@ -3,7 +3,6 @@
 //  Aspire BudgetingTests
 //
 
-@testable import Aspire_Budgeting
 import Foundation
 import GoogleSignIn
 import GTMSessionFetcher

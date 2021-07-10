@@ -158,6 +158,4 @@ struct PreviewValidator: FileValidator {
 
     fatalError("One or the other param must be set")
   }
-
-
 }

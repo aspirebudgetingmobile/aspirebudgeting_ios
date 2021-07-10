@@ -6,8 +6,6 @@
 import Foundation
 import Combine
 
-typealias SelectedFilePublisher = PassthroughSubject<File, Never>
-
 final class AppCoordinator: ObservableObject {
   private let stateManager: AppStateManager
   private let localAuthorizer: AppLocalAuthorizer
@@ -16,8 +14,6 @@ final class AppCoordinator: ObservableObject {
   private let userManager: UserManager
   private let fileValidator: FileValidator
   private let contentProvider: ContentProvider
-
-  private let selectedFilePublisher = SelectedFilePublisher()
 
   private var cancellables = Set<AnyCancellable>()
 
@@ -64,13 +60,6 @@ final class AppCoordinator: ObservableObject {
     self.userManager = userManager
     self.fileValidator = fileValidator
     self.contentProvider = contentProvider
-
-//    self.fileSelectorVM =
-//      FileSelectorViewModel(
-//        fileManager: remoteFileManager,
-//        userPublisher: userManager.userPublisher,
-//        fileSelectedPublisher: selectedFilePublisher
-//      )
   }
 
   func start(for user: User) {
@@ -88,6 +77,8 @@ final class AppCoordinator: ObservableObject {
         self.appDefaults.addDefault(sheet: aspireSheet)
       }
       .store(in: &cancellables)
+
+    // TODO: Remove
     stateManager
       .currentState
       .receive(on: DispatchQueue.main)
@@ -96,82 +87,6 @@ final class AppCoordinator: ObservableObject {
         self.handle(state: $0)
       }
       .store(in: &cancellables)
-
-//    remoteFileManager
-//      .currentState
-//      .sink {
-//        self.fileSelectorVM =
-//          FileSelectorViewModel(fileManagerState: $0,
-//                                fileSelectedCallback: self.fileSelectedCallBack)
-//        self.objectWillChange.send()
-//      }
-//      .store(in: &cancellables)
-
-//    userManager
-//      .userPublisher
-//      .receive(on: DispatchQueue.main)
-//      .sink { completion in
-//        switch completion {
-//        case let .failure(error):
-//          Logger.info("App Start publisher sequence failed")
-//        case .finished:
-//          Logger.info("App started successfully")
-//        }
-//      } receiveValue: { result in
-//        switch result {
-//        case let .success(user):
-//          self.user = user
-//        default:
-//          break
-//        }
-//      }
-//      .store(in: &cancellables)
-
-//    selectedFilePublisher
-//      .zip(userManager.userPublisher)
-//      .tryMap { (file, userResult) -> (File, User) in
-//        switch userResult {
-//        case let .success(user):
-//          return (file, user)
-//        case let .failure(error):
-//          throw error
-//        }
-//      }
-//      .sink { completion in
-//        print(completion)
-//      } receiveValue: { (file, user) in
-//        self.fileValidator.validate(file: file, for: user)
-//      }
-//      .store(in: &cancellables)
-//    userManager.authenticate()
-
-/*
-    fileValidator.currentState.sink {
-      switch $0 {
-      case .isLoading:
-//        self.remoteFileManager.currentState.value = .isLoading
-      break
-
-      case .dataMapRetrieved(let dataMap):
-        guard let file = self.selectedFile else {
-          fatalError("Selected file is nil. This should never happen.")
-        }
-        self.dataLocationMap = dataMap
-        self.appDefaults.addDefault(file: file)
-        self.appDefaults.addDataLocationMap(map: dataMap)
-        self.stateManager.processEvent(event: .hasDefaultFile)
-        self.selectedFile = file
-//        self.settingsVM = SettingsViewModel(
-//          fileName: file.name,
-//          changeSheet: self.changeSheet,
-//          fileSelectorVM: self.fileSelectorVM)
-      case .error(let error):
-//        self.remoteFileManager.currentState.value = .error(error: error)
-      break
-      }
-    }
-    .store(in: &cancellables)
- */
   }
 
   func pause() {
