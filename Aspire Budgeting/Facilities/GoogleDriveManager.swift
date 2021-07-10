@@ -10,8 +10,7 @@ import GoogleSignIn
 import GTMSessionFetcher
 
 protocol RemoteFileManager {
-  var currentState: CurrentValueSubject<RemoteFileManagerState, Never> { get }
-  func getFileList(for user: User)
+  func getFileList(for user: User) -> AnyPublisher<[File], Error>
 }
 
 enum RemoteFileManagerState {
@@ -21,12 +20,11 @@ enum RemoteFileManagerState {
 }
 
 enum GoogleDriveManagerError: String, Error {
-  case nilAuthorizer
   case inconsistentSheet = "Inconsistency found in the selected sheet."
   case noInternet = "No Internet connection available"
 }
 
-//TODO: Remove conformance to ObservableObject
+// TODO: Remove conformance to ObservableObject
 final class GoogleDriveManager: ObservableObject, RemoteFileManager {
   static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name)"
   static let spreadsheetMIME: String = "application/vnd.google-apps.spreadsheet"
@@ -39,10 +37,7 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
 
   private var ticket: GTLRServiceTicket?
 
-  private(set) var currentState =
-    CurrentValueSubject<RemoteFileManagerState, Never>(.isLoading)
-
-  //TODO: Remove @Published properties
+  // TODO: Remove @Published properties
   @Published private(set) var fileList = [File]()
   @Published private(set) var error: Error?
 
@@ -54,45 +49,62 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
     self.googleFilesListQuery = googleFilesListQuery
   }
 
-  func getFileList(for user: User) {
-    guard let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol else {
-      currentState.value = .error(error: GoogleDriveManagerError.nilAuthorizer)
-      return
+  func getFileList(for user: User) -> AnyPublisher<[File], Error> {
+    Deferred {
+      Future { [weak self] promise in
+        guard let self = self else { return }
+        self.driveService.authorizer = user.authorizer
+        self.driveService.shouldFetchNextPages = true
+
+        self.googleFilesListQuery.fields = GoogleDriveManager.queryFields
+        self.googleFilesListQuery.q = "mimeType='\(GoogleDriveManager.spreadsheetMIME)'"
+        self.ticket =
+          self.driveService
+          .executeQuery(self.googleFilesListQuery) { [weak self] _, driveFileList, error in
+            guard let self = self else {
+              return
+            }
+            self.googleFilesListQuery.isQueryInvalid = false
+
+            if let error = error {
+              Logger.error(
+                "Error while getting list of files from Google Drive.",
+                context: error.localizedDescription
+              )
+              promise(.failure(error))
+            } else {
+              if let driveFileList = driveFileList as? GTLRDrive_FileList,
+                 let files = driveFileList.files {
+                Logger.info(
+                  "File list retrieved. Converting to local model."
+                )
+                promise(.success(files.map(File.init)))
+              }
+            }
+          }
+      }
+    }.eraseToAnyPublisher()
+  }
+}
+
+final class PreviewFileManager: RemoteFileManager {
+  let files: [File]?
+  let error: Error?
+
+  internal init(files: [File]?, error: Error?) {
+    self.files = files
+    self.error = error
+  }
+
+  func getFileList(for user: User) -> AnyPublisher<[File], Error> {
+    if let error = error {
+      return Fail(error: error).eraseToAnyPublisher()
     }
 
-    fileList.removeAll()
-
-    driveService.authorizer = authorizer
-    driveService.shouldFetchNextPages = true
-
-    googleFilesListQuery.fields = GoogleDriveManager.queryFields
-    googleFilesListQuery.q = "mimeType='\(GoogleDriveManager.spreadsheetMIME)'"
-    ticket = driveService.executeQuery(
-      googleFilesListQuery
-    ) { [weak self] _, driveFileList, error in
-      guard let weakSelf = self else {
-        return
-      }
-      weakSelf.googleFilesListQuery.isQueryInvalid = false
-
-      if let error = error {
-        Logger.error(
-          "Error while getting list of files from Google Drive.",
-          context: error.localizedDescription
-        )
-        weakSelf.currentState.value = .error(error: error)
-        weakSelf.error = error
-      } else {
-        if let driveFileList = driveFileList as? GTLRDrive_FileList,
-          let files = driveFileList.files {
-          Logger.info(
-            "File list retrieved. Converting to local model."
-            )
-          weakSelf.fileList = files
-            .map { File(driveFile: $0) }
-          weakSelf.currentState.value = .filesRetrieved(files: weakSelf.fileList)
-        }
-      }
+    if let files = files {
+      return Just(files).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
+
+    fatalError("One or the other param must be set")
   }
 }

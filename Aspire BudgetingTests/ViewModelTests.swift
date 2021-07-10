@@ -1,7 +1,7 @@
 //
 // ViewModelTests.swift
 // Aspire BudgetingTests
-//
+// swiftlint:disable empty_xctest_method overridden_super_call
 
 @testable import Aspire_Budgeting
 import XCTest

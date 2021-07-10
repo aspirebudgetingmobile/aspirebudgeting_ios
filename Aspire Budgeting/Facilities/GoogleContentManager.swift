@@ -67,8 +67,8 @@ extension GoogleContentManager: ContentReader {
     if let locations = getRanges(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: locations)
-        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
-        }, receiveValue: { _ in //TODO: To be implemented for >3.3
+        .sink(receiveCompletion: { _ in // TODO: To be implemented for >3.3
+        }, receiveValue: { _ in // TODO: To be implemented for >3.3
         })
     } else {
       readSink = getVersion(for: file, user: user)
@@ -122,8 +122,8 @@ extension GoogleContentManager: ContentReader {
     if let location = getRange(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: [location])
-        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
-        }, receiveValue: { _ in //TODO: To be implemented for >3.3
+        .sink(receiveCompletion: { _ in // TODO: To be implemented for >3.3
+        }, receiveValue: { _ in // TODO: To be implemented for >3.3
         })
     } else {
       readSink = getVersion(for: file, user: user)
@@ -161,8 +161,8 @@ extension GoogleContentManager: ContentWriter {
     if let location = getRange(of: T.self, from: dataMap) {
       readSink = fileReader
         .read(file: file, user: user, locations: [location])
-        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
-        }, receiveValue: { _ in //TODO: To be implemented for >3.3
+        .sink(receiveCompletion: { _ in // TODO: To be implemented for >3.3
+        }, receiveValue: { _ in // TODO: To be implemented for >3.3
         })
     } else {
       readSink = getVersion(for: file, user: user)

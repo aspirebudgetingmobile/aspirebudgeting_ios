@@ -3,6 +3,7 @@
 // Aspire Budgeting
 //
 
+import Combine
 import Foundation
 
 enum ViewModelState {
@@ -11,53 +12,61 @@ enum ViewModelState {
   case error
 }
 
-struct FileSelectorViewModel {
+final class FileSelectorViewModel: ObservableObject {
 
-  let fileManagerState: RemoteFileManagerState
+  @Published private(set) var files = [File]()
+  @Published private(set) var error: Error?
+  @Published private(set) var aspireSheet: AspireSheet?
 
-  typealias FileSelectedCallBack = (File) -> Void
-  let fileSelectedCallback: FileSelectedCallBack?
+  private var cancellables = Set<AnyCancellable>()
+  private let fileManager: RemoteFileManager
+  private let fileValidator: FileValidator
+  private let user: User
 
-  init(fileManagerState: RemoteFileManagerState,
-       fileSelectedCallback: FileSelectedCallBack?) {
-    self.fileSelectedCallback = fileSelectedCallback
-    self.fileManagerState = fileManagerState
+  init(
+    fileManager: RemoteFileManager,
+    fileValidator: FileValidator,
+    user: User
+  ) {
+    self.fileManager = fileManager
+    self.fileValidator = fileValidator
+    self.user = user
   }
 
-  init() {
-    self.init(fileManagerState:
-                .filesRetrieved(files: [File]()),
-              fileSelectedCallback: nil)
+  func getFiles() {
+    self.fileManager.getFileList(for: user)
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          self.error = error
+          Logger.info("Failed to retrieve files: \(error)")
+        case .finished:
+          Logger.info("Files retrieved")
+        }
+      } receiveValue: { files in
+        self.files = files
+      }
+      .store(in: &cancellables)
   }
 
-  var currentState: ViewModelState {
-    switch fileManagerState {
-    case .isLoading:
-      return .isLoading
-
-    case .filesRetrieved:
-      return .dataRetrieved
-
-    case .error:
-      return .error
-    }
-  }
-
-  func getFiles() -> [File]? {
-    switch fileManagerState {
-    case .filesRetrieved(let files):
-      return files
-    default:
-      return nil
-    }
-  }
-
-  func getError() -> Error? {
-    switch fileManagerState {
-    case .error(let error):
-      return error
-    default:
-      return nil
-    }
+  func selected(file: File) {
+    fileValidator
+      .validate(file: file, for: user)
+      .sink { [weak self] completion in
+        guard let self = self else { return }
+        switch completion {
+        case let .failure(error):
+          self.error = error
+          self.aspireSheet = nil
+          Logger.info("Failed to validate: \(file.name) with error: \(error)")
+        case .finished:
+          Logger.info("Aspire Sheet selected : \(file.name)")
+        }
+      } receiveValue: { [weak self] aspireSheet in
+        guard let self = self else { return }
+        self.aspireSheet = aspireSheet
+        self.error = nil
+      }
+      .store(in: &cancellables)
   }
 }

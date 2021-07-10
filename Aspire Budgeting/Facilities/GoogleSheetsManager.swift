@@ -75,17 +75,9 @@ extension GoogleSheetsManager {
   private func fetchData(
     spreadsheet: File,
     spreadsheetRanges: [String],
-    authorizer: GTMFetcherAuthorizationProtocol?,
+    authorizer: GTMFetcherAuthorizationProtocol,
     completion: @escaping ([GTLRSheets_ValueRange]?, Error?) -> Void
   ) {
-    guard let authorizer = authorizer else {
-      Logger.error(
-        "Nil authorizer while trying to fetch data"
-      )
-      completion(nil, GoogleDriveManagerError.nilAuthorizer)
-      return
-    }
-
     sheetsService.authorizer = authorizer
     readQuery.isQueryInvalid = false
 
@@ -123,11 +115,9 @@ extension GoogleSheetsManager {
             locations: [String]) -> AnyPublisher<Any, Error> {
 
     let future = Future<Any, Error> { promise in
-      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
-
       self.fetchData(spreadsheet: file,
                      spreadsheetRanges: locations,
-                     authorizer: authorizer) { valueRange, error in
+                     authorizer: user.authorizer) { valueRange, error in
         if let error = error {
           promise(.failure(error))
         } else {
@@ -147,18 +137,9 @@ extension GoogleSheetsManager {
   private func append(data: GTLRSheets_ValueRange,
                       spreadsheet: File,
                       spreadsheetRange: String,
-                      authorizer: GTMFetcherAuthorizationProtocol?,
+                      authorizer: GTMFetcherAuthorizationProtocol,
                       completion: @escaping (Result<Bool>) -> Void
   ) {
-
-    guard let authorizer = authorizer else {
-      Logger.error(
-        "Nil authorizer while trying to append data"
-      )
-      completion(.failure(GoogleDriveManagerError.nilAuthorizer))
-      return
-    }
-
     sheetsService.authorizer = authorizer
 
     let appendQuery = dependencies
@@ -195,12 +176,10 @@ extension GoogleSheetsManager {
              location: String) -> AnyPublisher<Any, Error> {
 
     let future = Future<Any, Error> { promise in
-      let authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
-
       self.append(data: data,
                   spreadsheet: file,
                   spreadsheetRange: location,
-                  authorizer: authorizer) { result in
+                  authorizer: user.authorizer) { result in
         switch result {
         case.failure(let error):
           promise(.failure(error))

@@ -10,7 +10,7 @@ import XCTest
 
 final class GoogleSheetsValidatorTests: XCTestCase {
 
-  var validatorSink: AnyCancellable?
+  var cancellables = Set<AnyCancellable>()
 
   let mockFile = File(id: "abc", name: "ABC")
   let mockUser = User(name: "Eggs", authorizer: MockAuthorizer())
@@ -54,26 +54,30 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
 
-    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
-    validator.validate(file: mockFile, for: mockUser)
+    let validator = GoogleSheetsValidator(
+      sheetsService: mockService,
+      sheetsQuery: query
+    )
 
     let exp = XCTestExpectation()
-    exp.expectedFulfillmentCount = 2
 
-    validatorSink = validator.currentState.sink {
-      switch $0 {
-      case .isLoading:
-        exp.fulfill()
+    validator
+      .validate(file: mockFile, for: mockUser)
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          XCTAssertEqual(error as! GoogleSheetsValidationError,
+                         GoogleSheetsValidationError.invalidSheet)
+          exp.fulfill()
 
-      case .error(let error):
-        XCTAssertEqual(error as! GoogleSheetsValidationError,
-                       GoogleSheetsValidationError.invalidSheet)
-        exp.fulfill()
+        case.finished:
+          XCTFail("Unexpected Success")
+        }
+      } receiveValue: { _ in
 
-      default:
-        XCTFail()
       }
-    }
+      .store(in: &cancellables)
+
     wait(for: [exp], timeout: 1)
   }
 
@@ -82,26 +86,29 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
 
-    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
-    validator.validate(file: mockFile, for: mockUser)
+    let validator = GoogleSheetsValidator(
+      sheetsService: mockService,
+      sheetsQuery: query
+    )
 
     let exp = XCTestExpectation()
-    exp.expectedFulfillmentCount = 2
 
-    validatorSink = validator.currentState.sink {
-      switch $0 {
-      case .isLoading:
-        exp.fulfill()
+    validator
+      .validate(file: mockFile, for: mockUser)
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          XCTAssertEqual(error as! GoogleSheetsValidationError,
+                         GoogleSheetsValidationError.noSheetsInSpreadsheet)
+          exp.fulfill()
 
-      case .error(let error):
-        XCTAssertEqual(error as! GoogleSheetsValidationError,
-                       GoogleSheetsValidationError.noSheetsInSpreadsheet)
-        exp.fulfill()
+        case.finished:
+          XCTFail("Unexpected Success")
+        }
+      } receiveValue: { _ in
 
-      default:
-        XCTFail()
       }
-    }
+      .store(in: &cancellables)
     wait(for: [exp], timeout: 1)
   }
 
@@ -110,25 +117,28 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     let mockService = GTLRService.mockService(withFakedObject: nil, fakedError: mockError)
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
 
-    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
-    validator.validate(file: mockFile, for: mockUser)
+    let validator = GoogleSheetsValidator(
+      sheetsService: mockService,
+      sheetsQuery: query
+    )
 
     let exp = XCTestExpectation()
-    exp.expectedFulfillmentCount = 2
 
-    validatorSink = validator.currentState.sink {
-      switch $0 {
-      case .isLoading:
-        exp.fulfill()
+    validator
+      .validate(file: mockFile, for: mockUser)
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          XCTAssertEqual(error as NSError, mockError)
+          exp.fulfill()
 
-      case .error(let error):
-        XCTAssertEqual(error as NSError, mockError)
-        exp.fulfill()
-      default:
-        XCTFail()
+        case.finished:
+          XCTFail("Unexpected Success")
+        }
+      } receiveValue: { _ in
+
       }
-    }
-
+      .store(in: &cancellables)
     wait(for: [exp], timeout: 1)
   }
 
@@ -167,29 +177,32 @@ final class GoogleSheetsValidatorTests: XCTestCase {
     let mockService = GTLRService.mockService(withFakedObject: mockSpreadsheet, fakedError: nil)
     let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: "abc")
 
-    let validator = GoogleSheetsValidator(sheetsService: mockService, sheetsQuery: query)
-    validator.validate(file: mockFile, for: mockUser)
+    let validator = GoogleSheetsValidator(
+      sheetsService: mockService,
+      sheetsQuery: query
+    )
 
     let exp = XCTestExpectation()
-    exp.expectedFulfillmentCount = 2
-    validatorSink = validator.currentState.sink {
-      switch $0 {
-      case .dataMapRetrieved(let dataMap):
-        XCTAssertNotNil(dataMap["MonthAndYear"])
-        XCTAssertEqual(dataMap["MonthAndYear"]!, "Sheet2!K13:K13")
-        XCTAssertNotNil(dataMap["ClearedSymbols"])
-        XCTAssertEqual(dataMap["ClearedSymbols"]!, "Sheet1!F8:F8")
-        XCTAssertNotNil(dataMap["TransactionCategories"])
-        XCTAssertEqual(dataMap["TransactionCategories"]!, "Sheet1!AJ24:AN28")
-        exp.fulfill()
 
-      case .isLoading:
-        exp.fulfill()
-
-      default:
-        XCTFail()
+    validator
+      .validate(file: mockFile, for: mockUser)
+      .sink { completion in
+        switch completion {
+        case .failure:
+          XCTFail("Unexpected Failure")
+        case .finished:
+          exp.fulfill()
+        }
+      } receiveValue: { aspireSheet in
+        XCTAssertNotNil(aspireSheet.dataMap["MonthAndYear"])
+        XCTAssertEqual(aspireSheet.dataMap["MonthAndYear"]!, "Sheet2!K13:K13")
+        XCTAssertNotNil(aspireSheet.dataMap["ClearedSymbols"])
+        XCTAssertEqual(aspireSheet.dataMap["ClearedSymbols"]!, "Sheet1!F8:F8")
+        XCTAssertNotNil(aspireSheet.dataMap["TransactionCategories"])
+        XCTAssertEqual(aspireSheet.dataMap["TransactionCategories"]!, "Sheet1!AJ24:AN28")
+        XCTAssertEqual(aspireSheet.file, self.mockFile)
       }
-    }
+      .store(in: &cancellables)
     wait(for: [exp], timeout: 1)
   }
 

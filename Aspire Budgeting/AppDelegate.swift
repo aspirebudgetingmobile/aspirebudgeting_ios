@@ -1,7 +1,7 @@
 //
 //  AppDelegate.swift
 //  Aspire Budgeting
-// swiftlint:disable final_class
+//
 
 import SwiftyBeaver
 import UIKit

@@ -15,12 +15,10 @@ final class AppCoordinator: ObservableObject {
   private let fileValidator: FileValidator
   private let contentProvider: ContentProvider
 
-  private var stateManagerSink: AnyCancellable!
-  private var remoteFileManagerSink: AnyCancellable!
-  private var userManagerSink: AnyCancellable!
-  private var fileValidatorSink: AnyCancellable!
+  private var cancellables = Set<AnyCancellable>()
 
-  private(set) var fileSelectorVM = FileSelectorViewModel()
+  private(set) var fileSelectorVM: FileSelectorViewModel!
+
   private(set) lazy var dashboardVM: DashboardViewModel = {
     DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
   }()
@@ -34,12 +32,15 @@ final class AppCoordinator: ObservableObject {
     TransactionsViewModel(refreshAction:
                             self.transactionsRefreshCallback)
   }()
-  private(set) lazy var settingsVM: SettingsViewModel = {
-    SettingsViewModel(fileName: selectedFile!.name, changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
-  }()
 
-  private var user: User?
+//  private(set) lazy var settingsVM: SettingsViewModel = {
+//    SettingsViewModel(fileName: selectedFile!.name,
+//  changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
+//  }()
 
+  @Published private(set) var user: User?
+  @Published private(set) var selectedSheet: AspireSheet?
+  // TODO: Remove these two
   private var selectedFile: File?
   private var dataLocationMap: [String: String]?
 
@@ -59,56 +60,34 @@ final class AppCoordinator: ObservableObject {
     self.contentProvider = contentProvider
   }
 
-  func start() {
-    stateManagerSink = stateManager
+  func start(for user: User) {
+    self.user = user
+    self.selectedSheet = appDefaults.getDefaultSheet()
+
+    fileSelectorVM = FileSelectorViewModel(
+      fileManager: remoteFileManager,
+      fileValidator: fileValidator,
+      user: user
+    )
+
+    fileSelectorVM
+      .$aspireSheet
+      .compactMap { $0 }
+      .sink { aspireSheet in
+        self.selectedSheet = aspireSheet
+        self.appDefaults.addDefault(sheet: aspireSheet)
+      }
+      .store(in: &cancellables)
+
+    // TODO: Remove
+    stateManager
       .currentState
       .receive(on: DispatchQueue.main)
       .sink {
         self.objectWillChange.send()
         self.handle(state: $0)
       }
-
-    remoteFileManagerSink = remoteFileManager
-      .currentState
-      .sink {
-        self.fileSelectorVM =
-          FileSelectorViewModel(fileManagerState: $0,
-                                fileSelectedCallback: self.fileSelectedCallBack)
-        self.objectWillChange.send()
-      }
-
-    userManagerSink = userManager.currentState.sink {
-      switch $0 {
-      case .authenticated(let user):
-        self.user = user
-        self.stateManager.processEvent(event: .verifiedExternally)
-      default:
-        self.user = nil
-      }
-    }
-
-    fileValidatorSink = fileValidator.currentState.sink {
-      switch $0 {
-      case .isLoading:
-        self.remoteFileManager.currentState.value = .isLoading
-
-      case .dataMapRetrieved(let dataMap):
-        guard let file = self.selectedFile else {
-          fatalError("Selected file is nil. This should never happen.")
-        }
-        self.dataLocationMap = dataMap
-        self.appDefaults.addDefault(file: file)
-        self.appDefaults.addDataLocationMap(map: dataMap)
-        self.stateManager.processEvent(event: .hasDefaultFile)
-        self.selectedFile = file
-        self.settingsVM = SettingsViewModel(
-          fileName: file.name,
-          changeSheet: self.changeSheet,
-          fileSelectorVM: self.fileSelectorVM)
-      case .error(let error):
-        self.remoteFileManager.currentState.value = .error(error: error)
-      }
-    }
+      .store(in: &cancellables)
   }
 
   func pause() {
@@ -117,25 +96,20 @@ final class AppCoordinator: ObservableObject {
 
   func resume() {
     if needsLocalAuth {
-      self.localAuthorizer.authenticateUserLocally {
-        self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
-      }
+//      self.localAuthorizer.authenticateUserLocally {
+//        self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
+//      }
     }
   }
 }
 
 // MARK: - Callbacks
 extension AppCoordinator {
-  func fileSelectedCallBack(file: File) {
-    self.selectedFile = file
-    fileValidator.validate(file: file, for: self.user!)
-  }
-
   func dashboardRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
-               from: self.selectedFile!,
-               using: self.dataLocationMap!) { (readResult: Result<Dashboard>) in
+               from: self.selectedSheet!.file,
+               using: self.selectedSheet!.dataMap) { (readResult: Result<Dashboard>) in
 
         let result: Result<DashboardDataProvider>
 
@@ -157,8 +131,8 @@ extension AppCoordinator {
   func accountBalancesRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
-               from: self.selectedFile!,
-               using: self.dataLocationMap!) { (readResult: Result<AccountBalances>) in
+               from: self.selectedSheet!.file,
+               using: self.selectedSheet!.dataMap) { (readResult: Result<AccountBalances>) in
 
         let result: Result<AccountBalancesDataProvider>
 
@@ -181,8 +155,8 @@ extension AppCoordinator {
   func addTransactionRefreshCallback() {
     self.contentProvider
       .getBatchData(for: self.user!,
-                    from: self.selectedFile!,
-                    using: self.dataLocationMap!) { (readResult: Result<AddTransactionMetadata>) in
+                    from: self.selectedSheet!.file,
+                    using: self.selectedSheet!.dataMap) { (readResult: Result<AddTransactionMetadata>) in
 
         let result: Result<AddTrxDataProvider>
 
@@ -204,8 +178,8 @@ extension AppCoordinator {
   func transactionsRefreshCallback() {
     self.contentProvider
       .getData(for: self.user!,
-               from: self.selectedFile!,
-               using: self.dataLocationMap!) { (readResult: Result<Transactions>) in
+               from: self.selectedSheet!.file,
+               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
 
         let result: Result<TransactionsDataProvider>
 
@@ -228,8 +202,8 @@ extension AppCoordinator {
     self.contentProvider
       .write(data: transaction,
              for: self.user!,
-             to: self.selectedFile!,
-             using: self.dataLocationMap!) { result in
+             to: self.selectedSheet!.file,
+             using: self.selectedSheet!.dataMap) { result in
         resultHandler(result)
       }
   }
@@ -237,10 +211,12 @@ extension AppCoordinator {
   func changeSheet() {
     self.appDefaults.clearDefaultFile()
     handle(state: .changeSheet)
-    self.fileSelectorVM = FileSelectorViewModel()
+//    self.fileSelectorVM = FileSelectorViewModel()
     self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-    self.accountBalancesVM = AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
-    self.addTransactionVM = AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
+    self.accountBalancesVM =
+      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+    self.addTransactionVM =
+      AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
     self.transactionsVM = TransactionsViewModel(refreshAction:
                                                       self.transactionsRefreshCallback)
     handle(state: .authenticatedLocally)
@@ -254,22 +230,24 @@ extension AppCoordinator {
   func handle(state: AppState) {
     switch state {
     case .loggedOut:
-      userManager.authenticateWithService()
+//      userManager.authenticate()
+    break
 
     case .verifiedExternally:
-      self.localAuthorizer
-        .authenticateUserLocally {
-          self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
-        }
+//      self.localAuthorizer
+//        .authenticateUserLocally {
+//          self.stateManager.processEvent(event: .authenticatedLocally(result: $0))
+//        }
+    break
 
     case .authenticatedLocally:
-      guard let file = self.appDefaults.getDefaultFile() else {
-        remoteFileManager.getFileList(for: self.user!)
+      guard let sheet = self.appDefaults.getDefaultSheet() else {
+//        remoteFileManager.getFileList(for: self.user!)
         return
       }
       self.stateManager.processEvent(event: .hasDefaultFile)
-      self.selectedFile = file
-      self.dataLocationMap = self.appDefaults.getDataLocationMap()
+      self.selectedFile = sheet.file
+      self.dataLocationMap = sheet.dataMap
 
     case .changeSheet:
       self.stateManager.processEvent(event: .changeSheet)
@@ -287,10 +265,10 @@ extension AppCoordinator {
   }
 
   var isLoggedOut: Bool {
-    stateManager.isLoggedOut
+    user == nil
   }
 
   var hasDefaultSheet: Bool {
-    stateManager.hasDefaultSheet
+    selectedSheet != nil
   }
 }

@@ -21,13 +21,6 @@ protocol IGIDSignIn: AnyObject {
 
 extension GIDSignIn: IGIDSignIn {}
 
-//TODO: Remove NotificationCenter extensions
-extension Notification.Name {
-  static let authorizerUpdated = Notification.Name("authorizerUpdated")
-
-  static let logout = Notification.Name("logout")
-}
-
 protocol AspireNotificationCenter: AnyObject {
   func post(
     name aName: NSNotification.Name,
@@ -45,17 +38,19 @@ enum UserManagerState {
 }
 
 protocol UserManager {
-  var currentState: CurrentValueSubject<UserManagerState, Never> { get }
-  func authenticateWithService()
+  var userPublisher: AnyPublisher<User?, Never> { get }
+  func authenticate()
 }
 
-//TODO: Remove conformance to ObservableObject
-final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, ObservableObject {
+final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
   private let gidSignInInstance: IGIDSignIn
   private let credentials: GoogleSDKCredentials
 
-  private(set) var currentState =
-    CurrentValueSubject<UserManagerState, Never>(.notAuthenticated)
+  private let userSubject = PassthroughSubject<User?, Never>()
+  var userPublisher: AnyPublisher<User?, Never> {
+    userSubject
+      .eraseToAnyPublisher()
+  }
 
   init(
     credentials: GoogleSDKCredentials,
@@ -65,7 +60,7 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     self.gidSignInInstance = gidSignInInstance
   }
 
-  func authenticateWithService() {
+  func authenticate() {
     Logger.info(
       "Attempting to authenticate with Google"
     )
@@ -88,7 +83,6 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     withError error: Error!
   ) {
     if let error = error {
-      self.currentState.value = .error(error)
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
         Logger.info(
           // swiftlint:disable line_length
@@ -107,23 +101,24 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager, Observa
     self.signIn(user: user)
   }
 
-  private func signIn(user: GIDGoogleUser) {
+  private func signIn(user gUser: GIDGoogleUser) {
     Logger.info(
       "User authenticated with Google successfully."
     )
 
-    let user = User(name: user.profile.name,
-                    authorizer: user.authentication.fetcherAuthorizer())
-    self.currentState.value = .authenticated(user)
+    let user = User(
+      name: gUser.profile.name,
+      authorizer: gUser.authentication.fetcherAuthorizer()
+    )
+
+    userSubject.send(user)
   }
 
   func signOut() {
     gidSignInInstance.signOut()
-    currentState.value = .notAuthenticated
-
     Logger.info(
       "Logging out user from Google and locally"
     )
-    self.currentState.value = .notAuthenticated
+    userSubject.send(nil)
   }
 }

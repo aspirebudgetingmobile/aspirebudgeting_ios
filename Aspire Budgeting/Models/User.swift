@@ -4,12 +4,13 @@
 //
 
 import Foundation
+import GTMSessionFetcher
 
 struct User {
   let name: String
-  let authorizer: AnyObject?
+  let authorizer: GTMFetcherAuthorizationProtocol
 
-  init(name: String, authorizer: AnyObject?) {
+  init(name: String, authorizer: GTMFetcherAuthorizationProtocol) {
     self.name = name
     self.authorizer = authorizer
   }

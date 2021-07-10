@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-//TODO: Delete
+// TODO: Delete
 struct AspireSegmentedView: View {
   @Binding var selectedSegment: Int
 

@@ -3,6 +3,7 @@
 //  Aspire BudgetingTests
 //
 
+import Combine
 import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
@@ -23,13 +24,14 @@ final class UserManagerTests: XCTestCase {
     gidSignInInstance: mockGIDSignIn
   )
 
+  var cancellables = Set<AnyCancellable>()
   override func setUp() {
     super.setUp()
     mockGIDSignIn.clientID = mockGoogleCredentials.CLIENT_ID
   }
 
   func testAuthenticateWithService() {
-    userManager.authenticateWithService()
+    userManager.authenticate()
     XCTAssertEqual(mockGIDSignIn.clientID, mockGoogleCredentials.CLIENT_ID)
     XCTAssertTrue(userManager === mockGIDSignIn.delegate)
     XCTAssertNotNil(mockGIDSignIn.scopes as? [String])
@@ -41,69 +43,38 @@ final class UserManagerTests: XCTestCase {
       ]
     )
     XCTAssertTrue(mockGIDSignIn.restoreCalled)
-
-    let expectation = XCTestExpectation()
-    _ = userManager.currentState.sink { state in
-      switch state {
-      case .notAuthenticated:
-        expectation.fulfill()
-      default:
-        XCTFail("Expected state to be .notAuthenticated")
-      }
-    }
-  }
-
-  func testSignInPublishesNoUserError() {
-    let error = NSError(
-      domain: "Test",
-      code: GIDSignInErrorCode.hasNoAuthInKeychain.rawValue,
-      userInfo: nil
-    )
-
-    userManager.sign(nil, didSignInFor: nil, withError: error)
-
-    let expectation = XCTestExpectation()
-    _ = userManager.currentState.sink { state in
-      switch state {
-      case .error(let error):
-      print(error)
-        XCTAssertEqual(GIDSignInErrorCode.hasNoAuthInKeychain.rawValue, (error as NSError).code)
-        expectation.fulfill()
-      default:
-        XCTFail()
-      }
-    }
   }
 
   func testSignIn() {
     let mockUser = MockUser()
-    userManager.sign(nil, didSignInFor: mockUser, withError: nil)
 
-    let expectation = XCTestExpectation()
-    _ = userManager.currentState.sink { state in
-      switch state {
-      case .authenticated(let user):
+    let exp = XCTestExpectation()
+    userManager
+      .userPublisher
+      .compactMap { $0 }
+      .sink { user in
         XCTAssertEqual(user.name, mockUser.profile.name)
-        expectation.fulfill()
-      default:
-        XCTFail()
+        exp.fulfill()
       }
-    }
+      .store(in: &cancellables)
+
+    userManager.sign(nil, didSignInFor: mockUser, withError: nil)
+    wait(for: [exp], timeout: 1)
   }
 
   func testSignOut() {
-    userManager.signOut()
+    let exp = XCTestExpectation()
+    userManager
+      .userPublisher
+      .sink { user in
+        XCTAssertNil(user)
+        exp.fulfill()
+      }
+      .store(in: &cancellables)
 
+    userManager.signOut()
     XCTAssertTrue(mockGIDSignIn.signOutCalled)
 
-    let expectation = XCTestExpectation()
-    _ = userManager.currentState.sink { state in
-      switch state {
-      case .notAuthenticated:
-        expectation.fulfill()
-      default:
-        XCTFail("Expected state to be notAuthenticated.")
-      }
-    }
+    wait(for: [exp], timeout: 1)
   }
 }
