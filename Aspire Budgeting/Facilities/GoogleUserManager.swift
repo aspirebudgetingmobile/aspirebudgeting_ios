@@ -38,7 +38,7 @@ enum UserManagerState {
 }
 
 protocol UserManager {
-  var userPublisher: AnyPublisher<User, Never> { get }
+  var userPublisher: AnyPublisher<User?, Never> { get }
   func authenticate()
 }
 
@@ -46,8 +46,8 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
   private let gidSignInInstance: IGIDSignIn
   private let credentials: GoogleSDKCredentials
 
-  private let userSubject = PassthroughSubject<User, Never>()
-  var userPublisher: AnyPublisher<User, Never> {
+  private let userSubject = PassthroughSubject<User?, Never>()
+  var userPublisher: AnyPublisher<User?, Never> {
     userSubject
       .eraseToAnyPublisher()
   }
@@ -106,17 +106,19 @@ final class GoogleUserManager: NSObject, GIDSignInDelegate, UserManager {
       "User authenticated with Google successfully."
     )
 
-    let user = User(name: gUser.profile.name,
-                    authorizer: gUser.authentication.fetcherAuthorizer())
+    let user = User(
+      name: gUser.profile.name,
+      authorizer: gUser.authentication.fetcherAuthorizer()
+    )
 
     userSubject.send(user)
   }
 
   func signOut() {
     gidSignInInstance.signOut()
-
     Logger.info(
       "Logging out user from Google and locally"
     )
+    userSubject.send(nil)
   }
 }
