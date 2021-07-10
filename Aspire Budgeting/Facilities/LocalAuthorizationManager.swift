@@ -25,7 +25,7 @@ final class LocalAuthorizationManager: AppLocalAuthorizer {
         Logger.info(
           "Authenticating user locally"
         )
-        
+
         let context = self.context
         context.localizedCancelTitle = "Cancel"
 

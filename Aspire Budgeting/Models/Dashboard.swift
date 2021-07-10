@@ -30,7 +30,7 @@ struct Dashboard: ConstructableFromRows {
     var groups = [Group]()
 
     for row in rows where row.count == 10 {
-      if row[0] == "✦" { //Group Row
+      if row[0] == "✦" { // Group Row
         if !title.isEmpty {
           groups.append(Group(title: title, categories: categories))
           categories.removeAll()

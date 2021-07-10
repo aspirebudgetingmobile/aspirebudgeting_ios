@@ -38,7 +38,8 @@ final class AppCoordinator: ObservableObject {
   }()
 
 //  private(set) lazy var settingsVM: SettingsViewModel = {
-//    SettingsViewModel(fileName: selectedFile!.name, changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
+//    SettingsViewModel(fileName: selectedFile!.name,
+//  changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
 //  }()
 
   @Published private(set) var user: User?
@@ -142,9 +143,6 @@ final class AppCoordinator: ObservableObject {
 //        self.fileValidator.validate(file: file, for: user)
 //      }
 //      .store(in: &cancellables)
-
-
-
 //    userManager.authenticate()
 
 /*
@@ -299,8 +297,10 @@ extension AppCoordinator {
     handle(state: .changeSheet)
 //    self.fileSelectorVM = FileSelectorViewModel()
     self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-    self.accountBalancesVM = AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
-    self.addTransactionVM = AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
+    self.accountBalancesVM =
+      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+    self.addTransactionVM =
+      AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
     self.transactionsVM = TransactionsViewModel(refreshAction:
                                                       self.transactionsRefreshCallback)
     handle(state: .authenticatedLocally)

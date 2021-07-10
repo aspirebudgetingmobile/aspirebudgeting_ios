@@ -16,7 +16,7 @@ struct AccountBalancesView: View {
   }
 
   var body: some View {
-    ZStack { //TODO: ZStack is probably not needed.
+    ZStack { // TODO: ZStack is probably not needed.
       if viewModel.error == nil {
         if let accountBalances = viewModel.dataProvider?.accountBalances {
           ScrollView {
@@ -72,8 +72,8 @@ struct AccountBalancesView: View {
   }
 }
 
-//struct AccountBalancesView_Previews: PreviewProvider {
+// struct AccountBalancesView_Previews: PreviewProvider {
 //  static var previews: some View {
 //    AccountBalancesView(viewModel: <#AccountBalancesViewModel#>)
 //  }
-//}
+// }

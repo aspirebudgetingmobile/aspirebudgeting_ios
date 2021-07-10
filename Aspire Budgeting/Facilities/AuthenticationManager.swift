@@ -5,21 +5,21 @@
 
 import Combine
 
-class AuthenticationManager: ObservableObject {
+final class AuthenticationManager: ObservableObject {
 
   private let userManager: UserManager
   private var cancellables = Set<AnyCancellable>()
 
   @Published private(set) var user: User?
 
-  public var isLoggedOut: Bool {
+  var isLoggedOut: Bool {
     user == nil
   }
 
-  public init(userManager: UserManager) {
+  init(userManager: UserManager) {
     self.userManager = userManager
   }
-  
+
   func authenticateRemotely() {
     userManager
       .userPublisher
@@ -27,7 +27,7 @@ class AuthenticationManager: ObservableObject {
         self.user = user
       }
       .store(in: &cancellables)
-    
+
     userManager.authenticate()
   }
 }

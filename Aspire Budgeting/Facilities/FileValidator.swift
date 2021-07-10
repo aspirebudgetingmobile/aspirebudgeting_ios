@@ -49,7 +49,7 @@ final class GoogleSheetsValidator: FileValidator {
     Deferred {
       Future { [weak self] promise in
         guard let self = self else { return }
-        self.sheetsService.authorizer = user.authorizer as? GTMFetcherAuthorizationProtocol
+        self.sheetsService.authorizer = user.authorizer
         self.sheetsQuery = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: file.id)
 
         self.sheetsService.executeQuery(self.sheetsQuery) { [weak self] _, data, error in
@@ -89,8 +89,9 @@ final class GoogleSheetsValidator: FileValidator {
                 promise(.failure(GoogleSheetsValidationError.internalParsingError))
               }
             } else {
-//              self.currentState.value = .error(GoogleSheetsValidationError.noNamedRangesInSpreadsheet)
-              promise(.failure(GoogleSheetsValidationError.noNamedRangesInSpreadsheet))
+              promise(
+                .failure(GoogleSheetsValidationError.noNamedRangesInSpreadsheet)
+              )
             }
           }
         }

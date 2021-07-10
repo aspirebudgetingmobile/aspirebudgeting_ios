@@ -1,7 +1,7 @@
 //
 //  AspireMasterView.swift
 //  Aspire Budgeting
-//
+// swiftlint:disable inclusive_language
 
 import SwiftUI
 

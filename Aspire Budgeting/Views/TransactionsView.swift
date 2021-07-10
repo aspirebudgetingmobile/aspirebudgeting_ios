@@ -92,8 +92,8 @@ extension TransactionsView {
   }
 }
 
-//struct TransactionsView_Previews: PreviewProvider {
+// struct TransactionsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TransactionsView()
 //    }
-//}
+// }

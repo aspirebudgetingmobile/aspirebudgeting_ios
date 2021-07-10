@@ -20,8 +20,11 @@ struct DashboardView: View {
             DashboardCardsListView(cardViewItems: viewModel.dataProvider!.cardViewItems)
               .padding(.vertical, 10)
           } else {
-            CategoryListView(categories: viewModel.dataProvider!.filteredCategories(filter: searchText),
-                             tintColor: .materialGreen800)
+            CategoryListView(
+              categories: viewModel
+                .dataProvider!
+                .filteredCategories(filter: searchText),
+              tintColor: .materialGreen800)
           }
 
         } else {

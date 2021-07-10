@@ -1,7 +1,7 @@
 //
 //  FileSelectorView.swift
 //  Aspire Budgeting
-//
+//  swiftlint:disable trailing_closure
 
 import GoogleSignIn
 import SwiftUI
@@ -67,7 +67,7 @@ struct FileSelectorView: View {
   }
 }
 
-//struct FileSelectorView_Previews: PreviewProvider {
+// struct FileSelectorView_Previews: PreviewProvider {
 //  static let files = [File(id: "abc", name: "File 1"),
 //                      File(id: "def", name: "File 2"),
 //  ]
@@ -86,4 +86,4 @@ struct FileSelectorView: View {
 //      FileSelectorView(viewModel: FileSelectorViewModel())
 //    }
 //  }
-//}
+// }

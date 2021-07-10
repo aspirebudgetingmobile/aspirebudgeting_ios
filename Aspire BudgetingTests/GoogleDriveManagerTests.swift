@@ -63,7 +63,7 @@ final class GoogleDriveManagerTests: XCTestCase {
         switch completion {
         case let .failure(error):
           let nsError = error as NSError
-          XCTAssertEqual(mockError.code, nsError.code)
+          XCTAssertEqual(mockError, nsError)
           exp.fulfill()
         case .finished:
           XCTFail("Unexpected success")

@@ -105,7 +105,7 @@ final class GoogleContentManagerTests: XCTestCase {
   let trxMetadataReader = MockTrxMetadataReader()
   let writer = MockRemoteFileWriter()
 
-  let user = User(name: "Test User", authorizer: 42 as AnyObject)
+  let user = User(name: "Test User", authorizer: MockAuthorizer())
   let file = File(id: "test_file", name: "Test File")
   let dataMap = ["A": "B"]
 

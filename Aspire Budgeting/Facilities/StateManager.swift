@@ -46,7 +46,7 @@ final class StateManager: AppStateManager {
       .localAuthFailed,
       .hasDefaultSheet,
       .needsLocalAuthentication,
-      .loggedOut
+      .loggedOut,
     ]
     transitions[.hasDefaultSheet] = [.needsLocalAuthentication, .loggedOut, .changeSheet]
     transitions[.needsLocalAuthentication] = [.authenticatedLocally, .localAuthFailed]

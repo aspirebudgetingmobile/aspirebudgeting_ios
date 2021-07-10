@@ -3,6 +3,7 @@
 //  Aspire BudgetingTests
 //
 
+import Combine
 import GoogleAPIClientForREST
 import GoogleSignIn
 import GTMSessionFetcher
@@ -23,6 +24,7 @@ final class UserManagerTests: XCTestCase {
     gidSignInInstance: mockGIDSignIn
   )
 
+  var cancellables = Set<AnyCancellable>()
   override func setUp() {
     super.setUp()
     mockGIDSignIn.clientID = mockGoogleCredentials.CLIENT_ID
@@ -45,32 +47,34 @@ final class UserManagerTests: XCTestCase {
 
   func testSignIn() {
     let mockUser = MockUser()
-    userManager.sign(nil, didSignInFor: mockUser, withError: nil)
 
     let exp = XCTestExpectation()
-    _ = userManager
+    userManager
       .userPublisher
       .compactMap { $0 }
       .sink { user in
         XCTAssertEqual(user.name, mockUser.profile.name)
         exp.fulfill()
       }
+      .store(in: &cancellables)
 
+    userManager.sign(nil, didSignInFor: mockUser, withError: nil)
     wait(for: [exp], timeout: 1)
   }
 
   func testSignOut() {
-    userManager.signOut()
-
-    XCTAssertTrue(mockGIDSignIn.signOutCalled)
-
     let exp = XCTestExpectation()
-    _ = userManager
+    userManager
       .userPublisher
       .sink { user in
         XCTAssertNil(user)
         exp.fulfill()
       }
+      .store(in: &cancellables)
+
+    userManager.signOut()
+    XCTAssertTrue(mockGIDSignIn.signOutCalled)
+
     wait(for: [exp], timeout: 1)
   }
 }

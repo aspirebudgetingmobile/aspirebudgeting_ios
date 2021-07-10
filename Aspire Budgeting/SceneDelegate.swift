@@ -18,7 +18,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   private var cancellables = Set<AnyCancellable>()
 
-
   lazy var userManager = {
     objectFactory.userManager
   }()

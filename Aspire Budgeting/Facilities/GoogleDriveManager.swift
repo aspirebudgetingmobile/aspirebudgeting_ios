@@ -24,7 +24,7 @@ enum GoogleDriveManagerError: String, Error {
   case noInternet = "No Internet connection available"
 }
 
-//TODO: Remove conformance to ObservableObject
+// TODO: Remove conformance to ObservableObject
 final class GoogleDriveManager: ObservableObject, RemoteFileManager {
   static let queryFields: String = "kind,nextPageToken,files(mimeType,id,kind,name)"
   static let spreadsheetMIME: String = "application/vnd.google-apps.spreadsheet"
@@ -37,7 +37,7 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
 
   private var ticket: GTLRServiceTicket?
 
-  //TODO: Remove @Published properties
+  // TODO: Remove @Published properties
   @Published private(set) var fileList = [File]()
   @Published private(set) var error: Error?
 
@@ -73,16 +73,15 @@ final class GoogleDriveManager: ObservableObject, RemoteFileManager {
               )
               promise(.failure(error))
             } else {
-            if let driveFileList = driveFileList as? GTLRDrive_FileList,
-              let files = driveFileList.files {
-              Logger.info(
-                "File list retrieved. Converting to local model."
+              if let driveFileList = driveFileList as? GTLRDrive_FileList,
+                 let files = driveFileList.files {
+                Logger.info(
+                  "File list retrieved. Converting to local model."
                 )
-              promise(.success(files.map(File.init)))
+                promise(.success(files.map(File.init)))
+              }
             }
           }
-        }
-
       }
     }.eraseToAnyPublisher()
   }

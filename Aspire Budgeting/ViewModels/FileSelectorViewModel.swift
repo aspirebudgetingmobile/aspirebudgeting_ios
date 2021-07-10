@@ -12,7 +12,7 @@ enum ViewModelState {
   case error
 }
 
-class FileSelectorViewModel: ObservableObject {
+final class FileSelectorViewModel: ObservableObject {
 
   @Published private(set) var files = [File]()
   @Published private(set) var error: Error?
