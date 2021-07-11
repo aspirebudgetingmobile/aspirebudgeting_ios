@@ -109,47 +109,58 @@ extension AppCoordinator {
     self.contentProvider
       .getData(for: self.user!,
                from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap) { (readResult: Result<Dashboard>) in
-
-        let result: Result<DashboardDataProvider>
-
-        switch readResult {
-        case .success(let dashboard):
-          result = .success(DashboardDataProvider(dashboard: dashboard))
-
-        case .failure(let error):
-          result = .failure(error)
-        }
-
-        self.dashboardVM =
-          DashboardViewModel(result: result,
-                             refreshAction: self.dashboardRefreshCallback)
-        self.objectWillChange.send()
+               using: self.selectedSheet!.dataMap)
+      .sink { completion in
+        print(completion)
+      } receiveValue: { (dashboard: Dashboard) in
+        print(dashboard)
       }
+      .store(in: &cancellables)
+
+//    self.contentProvider
+//      .getData(for: self.user!,
+//               from: self.selectedSheet!.file,
+//               using: self.selectedSheet!.dataMap) { (readResult: Result<Dashboard>) in
+//
+//        let result: Result<DashboardDataProvider>
+//
+//        switch readResult {
+//        case .success(let dashboard):
+//          result = .success(DashboardDataProvider(dashboard: dashboard))
+//
+//        case .failure(let error):
+//          result = .failure(error)
+//        }
+//
+//        self.dashboardVM =
+//          DashboardViewModel(result: result,
+//                             refreshAction: self.dashboardRefreshCallback)
+//        self.objectWillChange.send()
+//      }
   }
 
   func accountBalancesRefreshCallback() {
-    self.contentProvider
-      .getData(for: self.user!,
-               from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap) { (readResult: Result<AccountBalances>) in
-
-        let result: Result<AccountBalancesDataProvider>
-
-        switch readResult {
-        case .success(let accountBalance):
-          result = .success(AccountBalancesDataProvider(accountBalances: accountBalance))
-
-        case .failure(let error):
-          result = .failure(error)
-        }
-
-        self.accountBalancesVM =
-          AccountBalancesViewModel(result: result,
-                                   refreshAction:
-                                    self.accountBalancesRefreshCallback)
-        self.objectWillChange.send()
-      }
+//    self.contentProvider
+//      .getData(for: self.user!,
+//               from: self.selectedSheet!.file,
+//               using: self.selectedSheet!.dataMap) { (readResult: Result<AccountBalances>) in
+//
+//        let result: Result<AccountBalancesDataProvider>
+//
+//        switch readResult {
+//        case .success(let accountBalance):
+//          result = .success(AccountBalancesDataProvider(accountBalances: accountBalance))
+//
+//        case .failure(let error):
+//          result = .failure(error)
+//        }
+//
+//        self.accountBalancesVM =
+//          AccountBalancesViewModel(result: result,
+//                                   refreshAction:
+//                                    self.accountBalancesRefreshCallback)
+//        self.objectWillChange.send()
+//      }
   }
 
   func addTransactionRefreshCallback() {
@@ -176,26 +187,26 @@ extension AppCoordinator {
   }
 
   func transactionsRefreshCallback() {
-    self.contentProvider
-      .getData(for: self.user!,
-               from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
-
-        let result: Result<TransactionsDataProvider>
-
-        switch readResult {
-        case .success(let transactions):
-          result = .success(TransactionsDataProvider(transactions: transactions))
-
-        case .failure(let error):
-          result = .failure(error)
-        }
-
-        self.transactionsVM =
-          TransactionsViewModel(result: result,
-                                refreshAction: self.transactionsRefreshCallback)
-        self.objectWillChange.send()
-      }
+//    self.contentProvider
+//      .getData(for: self.user!,
+//               from: self.selectedSheet!.file,
+//               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
+//
+//        let result: Result<TransactionsDataProvider>
+//
+//        switch readResult {
+//        case .success(let transactions):
+//          result = .success(TransactionsDataProvider(transactions: transactions))
+//
+//        case .failure(let error):
+//          result = .failure(error)
+//        }
+//
+//        self.transactionsVM =
+//          TransactionsViewModel(result: result,
+//                                refreshAction: self.transactionsRefreshCallback)
+//        self.objectWillChange.send()
+//      }
   }
 
   func submit(transaction: Transaction, resultHandler: @escaping SubmitResultHandler) {

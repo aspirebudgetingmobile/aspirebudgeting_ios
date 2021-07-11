@@ -120,19 +120,12 @@ extension GoogleContentManager: ContentReader {
     using dataMap: [String: String]
   ) -> AnyPublisher<T, Error> {
     getRange(of: T.self, from: dataMap)
-      .flatMap { location -> AnyPublisher<String?, Never> in
-        guard let location = location else {
-          return self.getVersion(for: file, user: user)
-            .assertNoFailure()
-            .flatMap { (supportedVersion: SupportedLegacyVersion) -> AnyPublisher<String?, Never> in
-              self.getRange(of: T.self, for: supportedVersion)
-            }
-            .eraseToAnyPublisher()
-        }
-        return Just(location).eraseToAnyPublisher()
+      .catch { _ in
+        return self.getVersion(for: file, user: user)
+          .flatMap { (supportedVersion: SupportedLegacyVersion) -> AnyPublisher<String, Error> in
+            self.getRange(of: T.self, for: supportedVersion)
+          }
       }
-      .compactMap { $0 }
-      .mapError { $0 as Error }
       .flatMap {
         self.fileReader.read(file: file, user: user, locations: [$0])
       }
@@ -251,7 +244,7 @@ extension GoogleContentManager {
     }
   }
 
-  private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> AnyPublisher<String?, Never> {
+  private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> AnyPublisher<String, Error> {
     let range: String
     switch T.self {
     case is AccountBalances.Type:
@@ -268,12 +261,13 @@ extension GoogleContentManager {
 
     default:
       Logger.info("Data requested for unknown type \(T.self).")
-      return Just(nil).eraseToAnyPublisher()
+      // TODO: Change to appropriate error
+      return Fail(error: GoogleSheetsValidationError.invalidSheet).eraseToAnyPublisher()
     }
-    return Just(range).eraseToAnyPublisher()
+    return Just(range).setFailureType(to: Error.self).eraseToAnyPublisher()
   }
 
-  private func getRange<T>(of type: T.Type, from dataMap: [String: String]) -> AnyPublisher<String?, Never> {
+  private func getRange<T>(of type: T.Type, from dataMap: [String: String]) -> AnyPublisher<String, Error> {
     var dataLocationKey = ""
     switch T.self {
     case is AccountBalances.Type:
@@ -284,9 +278,16 @@ extension GoogleContentManager {
 
     default:
       Logger.info("Data requested for unknown type \(T.self).")
-      return Just(nil).eraseToAnyPublisher()
+      // TODO: appropriate error
+      return Fail(error: GoogleSheetsValidationError.invalidSheet).eraseToAnyPublisher()
     }
-    return Just(dataMap[dataLocationKey]).eraseToAnyPublisher()
+
+    guard let range = dataMap[dataLocationKey] else {
+      // TODO: appropriate error
+      return Fail(error: GoogleSheetsValidationError.invalidSheet).eraseToAnyPublisher()
+    }
+
+    return Just(range).setFailureType(to: Error.self).eraseToAnyPublisher()
   }
 
   private func getAccountBalancesRange(for supportedVersion: SupportedLegacyVersion)
