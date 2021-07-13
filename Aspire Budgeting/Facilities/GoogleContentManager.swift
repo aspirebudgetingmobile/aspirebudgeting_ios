@@ -121,7 +121,7 @@ extension GoogleContentManager: ContentReader {
   ) -> AnyPublisher<T, Error> {
     getRange(of: T.self, from: dataMap)
       .catch { _ in
-        return self.getVersion(for: file, user: user)
+        self.getVersion(for: file, user: user)
           .flatMap { (supportedVersion: SupportedLegacyVersion) -> AnyPublisher<String, Error> in
             self.getRange(of: T.self, for: supportedVersion)
           }
@@ -244,7 +244,10 @@ extension GoogleContentManager {
     }
   }
 
-  private func getRange<T>(of type: T.Type, for version: SupportedLegacyVersion) -> AnyPublisher<String, Error> {
+  private func getRange<T>(
+    of type: T.Type,
+    for version: SupportedLegacyVersion
+  ) -> AnyPublisher<String, Error> {
     let range: String
     switch T.self {
     case is AccountBalances.Type:
@@ -267,7 +270,10 @@ extension GoogleContentManager {
     return Just(range).setFailureType(to: Error.self).eraseToAnyPublisher()
   }
 
-  private func getRange<T>(of type: T.Type, from dataMap: [String: String]) -> AnyPublisher<String, Error> {
+  private func getRange<T>(
+    of type: T.Type,
+    from dataMap: [String: String]
+  ) -> AnyPublisher<String, Error> {
     var dataLocationKey = ""
     switch T.self {
     case is AccountBalances.Type:

@@ -7,38 +7,39 @@ import SwiftUI
 
 struct DashboardView: View {
 
-  let viewModel: DashboardViewModel
+  @ObservedObject var viewModel: DashboardViewModel
   @State private var searchText = ""
+  @State private(set) var showingAlert = false
 
   var body: some View {
     VStack {
-      if viewModel.error == nil {
-        if viewModel.dataProvider?.dashboard.groups != nil {
-          SearchBar(text: $searchText)
-            .ignoreKeyboard()
-          if searchText.isEmpty {
-            DashboardCardsListView(cardViewItems: viewModel.dataProvider!.cardViewItems)
-              .padding(.vertical, 10)
-          } else {
-            CategoryListView(
-              categories: viewModel
-                .dataProvider!
-                .filteredCategories(filter: searchText),
-              tintColor: .materialGreen800)
-          }
-
-        } else {
-          GeometryReader { geo in
-            LoadingView(height: geo.frame(in: .local).size.height)
-          }
+      if self.viewModel.isLoading {
+        GeometryReader {
+          LoadingView(height: $0.frame(in: .local).size.height)
         }
       } else {
-        ZStack {
-          Rectangle().foregroundColor(Colors.aspireGray).edgesIgnoringSafeArea(.all)
-          ErrorBannerView(error: viewModel.error!)
+        SearchBar(text: $searchText)
+          .ignoreKeyboard()
+
+        if searchText.isEmpty {
+          DashboardCardsListView(cardViewItems: viewModel.cardViewItems)
+            .padding(.vertical, 10)
+        } else {
+          CategoryListView(
+            categories: viewModel
+              .filteredCategories(filter: searchText),
+            tintColor: .materialGreen800)
         }
       }
     }
+    .alert(isPresented: $showingAlert, content: {
+      Alert(title: Text("Error Occured"),
+            message: Text("\(viewModel.error?.localizedDescription ?? "")"),
+            dismissButton: .cancel())
+    })
+    .onReceive(viewModel.$error, perform: { error in
+      self.showingAlert = error != nil
+    })
     .background(Color.primaryBackgroundColor)
       .onAppear {
         self.viewModel.refresh()

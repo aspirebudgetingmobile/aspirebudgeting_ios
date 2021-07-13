@@ -18,10 +18,8 @@ final class AppCoordinator: ObservableObject {
   private var cancellables = Set<AnyCancellable>()
 
   private(set) var fileSelectorVM: FileSelectorViewModel!
+  private(set) var dashboardVM: DashboardViewModel!
 
-  private(set) lazy var dashboardVM: DashboardViewModel = {
-    DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-  }()
   private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
     AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
   }()
@@ -40,6 +38,8 @@ final class AppCoordinator: ObservableObject {
 
   @Published private(set) var user: User?
   @Published private(set) var selectedSheet: AspireSheet?
+  @Published private(set) var isLoading = false
+
   // TODO: Remove these two
   private var selectedFile: File?
   private var dataLocationMap: [String: String]?
@@ -60,6 +60,17 @@ final class AppCoordinator: ObservableObject {
     self.contentProvider = contentProvider
   }
 
+  private func setupViewModels(for user: User, sheet: AspireSheet) {
+    self.dashboardVM =
+      DashboardViewModel(
+        publisher: self.contentProvider
+          .getData(
+            for: user,
+            from: sheet.file,
+            using: sheet.dataMap)
+      )
+  }
+
   func start(for user: User) {
     self.user = user
     self.selectedSheet = appDefaults.getDefaultSheet()
@@ -70,14 +81,21 @@ final class AppCoordinator: ObservableObject {
       user: user
     )
 
-    fileSelectorVM
-      .$aspireSheet
-      .compactMap { $0 }
-      .sink { aspireSheet in
-        self.selectedSheet = aspireSheet
-        self.appDefaults.addDefault(sheet: aspireSheet)
-      }
-      .store(in: &cancellables)
+    if let selectedSheet = self.selectedSheet {
+      setupViewModels(for: user, sheet: selectedSheet)
+    } else {
+      fileSelectorVM
+        .$aspireSheet
+        .compactMap { $0 }
+        .sink { [weak self] aspireSheet in
+          guard let self = self else { return }
+          self.selectedSheet = aspireSheet
+          self.appDefaults.addDefault(sheet: aspireSheet)
+          self.setupViewModels(for: user, sheet: aspireSheet)
+        }
+        .store(in: &cancellables)
+
+    }
 
     // TODO: Remove
     stateManager
@@ -105,40 +123,6 @@ final class AppCoordinator: ObservableObject {
 
 // MARK: - Callbacks
 extension AppCoordinator {
-  func dashboardRefreshCallback() {
-    self.contentProvider
-      .getData(for: self.user!,
-               from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap)
-      .sink { completion in
-        print(completion)
-      } receiveValue: { (dashboard: Dashboard) in
-        print(dashboard)
-      }
-      .store(in: &cancellables)
-
-//    self.contentProvider
-//      .getData(for: self.user!,
-//               from: self.selectedSheet!.file,
-//               using: self.selectedSheet!.dataMap) { (readResult: Result<Dashboard>) in
-//
-//        let result: Result<DashboardDataProvider>
-//
-//        switch readResult {
-//        case .success(let dashboard):
-//          result = .success(DashboardDataProvider(dashboard: dashboard))
-//
-//        case .failure(let error):
-//          result = .failure(error)
-//        }
-//
-//        self.dashboardVM =
-//          DashboardViewModel(result: result,
-//                             refreshAction: self.dashboardRefreshCallback)
-//        self.objectWillChange.send()
-//      }
-  }
-
   func accountBalancesRefreshCallback() {
 //    self.contentProvider
 //      .getData(for: self.user!,
@@ -223,7 +207,7 @@ extension AppCoordinator {
     self.appDefaults.clearDefaultFile()
     handle(state: .changeSheet)
 //    self.fileSelectorVM = FileSelectorViewModel()
-    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
+//    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
     self.accountBalancesVM =
       AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
     self.addTransactionVM =

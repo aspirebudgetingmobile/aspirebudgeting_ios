@@ -113,8 +113,7 @@ extension GoogleSheetsManager {
   func read(file: File,
             user: User,
             locations: [String]) -> AnyPublisher<Any, Error> {
-
-    let future = Future<Any, Error> { promise in
+    Future<Any, Error> { promise in
       self.fetchData(spreadsheet: file,
                      spreadsheetRanges: locations,
                      authorizer: user.authorizer) { valueRange, error in
@@ -125,10 +124,7 @@ extension GoogleSheetsManager {
         }
       }
     }
-    .print()
     .eraseToAnyPublisher()
-
-    return future
   }
 }
 
