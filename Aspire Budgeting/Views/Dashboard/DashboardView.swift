@@ -3,6 +3,7 @@
 //  Aspire Budgeting
 //
 
+import Combine
 import SwiftUI
 
 struct DashboardView: View {
@@ -58,8 +59,14 @@ extension View {
   }
 }
 
-// struct DashboardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DashboardView()
-//    }
-// }
+ struct DashboardView_Previews: PreviewProvider {
+    static var previews: some View {
+      DashboardView(
+        viewModel: DashboardViewModel(
+          publisher: Just(MockProvider.dashboard)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+        )
+      )
+    }
+ }

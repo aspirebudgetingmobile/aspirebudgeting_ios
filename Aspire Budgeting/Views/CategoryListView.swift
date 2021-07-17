@@ -49,7 +49,7 @@ struct CategoryListView: View {
 
 struct CategoryListView_Previews: PreviewProvider {
   static var previews: some View {
-    CategoryListView(categories: MockProvider.cardViewItems[0].categories,
+    CategoryListView(categories: MockProvider.cardViewItems3[0].categories,
                      tintColor: .materialBrown800)
   }
 }

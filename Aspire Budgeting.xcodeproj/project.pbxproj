@@ -112,6 +112,7 @@
 		3E1E6A0C269A5BED0089EA56 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		3E1E6A0D269A5C490089EA56 /* MockAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */; };
 		3E5B7DFE2690AFEE005B590D /* Publisher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */; };
+		3E7DAAF726A1463600D55A35 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7DAAF626A1463600D55A35 /* DashboardViewModelTests.swift */; };
 		3ED459FF269965D9001563E3 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED459FE269965D9001563E3 /* AuthenticationManager.swift */; };
 		3ED45A01269A1102001563E3 /* AspireSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED45A00269A1102001563E3 /* AspireSheet.swift */; };
 		3EDC12D1267564AE006A133D /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC12D0267564AE006A133D /* ShareSheet.swift */; };
@@ -239,6 +240,7 @@
 		06F9A8D6243917EF005E5A13 /* AccountBalances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalances.swift; sourceTree = "<group>"; };
 		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
 		3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extensions.swift"; sourceTree = "<group>"; };
+		3E7DAAF626A1463600D55A35 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
 		3ED459FE269965D9001563E3 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		3ED45A00269A1102001563E3 /* AspireSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspireSheet.swift; sourceTree = "<group>"; };
 		3EDC12D0267564AE006A133D /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
@@ -411,6 +413,8 @@
 		06C2BFFF2500A18B007B3D73 /* PreviewProvider */ = {
 			isa = PBXGroup;
 			children = (
+				06EA7A49236CC64000D70CC9 /* MockUser.swift */,
+				06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */,
 				06C2C0002500A19F007B3D73 /* MockProvider.swift */,
 			);
 			path = PreviewProvider;
@@ -473,8 +477,6 @@
 		06ED8A6A235A9090009BA6A7 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */,
-				06EA7A49236CC64000D70CC9 /* MockUser.swift */,
 				06ED8A6B235A9090009BA6A7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -498,6 +500,7 @@
 				0601E3E124FD9335005E3C9D /* MockSpreadsheet.swift */,
 				069F830925005CA9009DD3E9 /* GoogleContentManagerTests.swift */,
 				06B0A22F25A5448400E8DFBB /* ViewModelTests.swift */,
+				3E7DAAF626A1463600D55A35 /* DashboardViewModelTests.swift */,
 			);
 			path = "Aspire BudgetingTests";
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 				069F830A25005CA9009DD3E9 /* GoogleContentManagerTests.swift in Sources */,
 				06EA7A54236CD70400D70CC9 /* GoogleSheetsManagerTests.swift in Sources */,
 				06AB2C842363B4840076516E /* GoogleDriveManagerTests.swift in Sources */,
+				3E7DAAF726A1463600D55A35 /* DashboardViewModelTests.swift in Sources */,
 				06A96049235FBDC90058EE64 /* GoogleSDKCredentialsTests.swift in Sources */,
 				0601E3E224FD9335005E3C9D /* MockSpreadsheet.swift in Sources */,
 				0601E3E024FB15A6005E3C9D /* GoogleSheetsValidatorTests.swift in Sources */,
