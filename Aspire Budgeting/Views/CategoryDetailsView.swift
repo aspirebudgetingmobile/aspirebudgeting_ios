@@ -93,7 +93,7 @@ struct CardExpandedView_Previews: PreviewProvider {
                    spentTotal: AspireNumber(stringValue: "-$30"),
                    availableTotal: AspireNumber(stringValue: "40"),
                    categories: MockProvider
-                    .cardViewItems[0]
+                    .cardViewItems3[0]
                     .categories,
                    tintColor: .materialDeepPurple800)
 

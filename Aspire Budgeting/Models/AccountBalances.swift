@@ -21,6 +21,14 @@ struct AccountBalances: ConstructableFromRows {
     accountBalances = AccountBalances.parse(metadata: rows)
   }
 
+  init() {
+    self.accountBalances = .init()
+  }
+
+  var isEmpty: Bool {
+    accountBalances.isEmpty
+  }
+
   private static func parse(metadata: [[String]]) -> [AccountBalance] {
     var accountBalances = [AccountBalance]()
     var accountName: String?

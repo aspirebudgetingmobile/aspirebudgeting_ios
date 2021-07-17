@@ -56,6 +56,6 @@ extension DashboardCardsListView {
 
 struct CardListView_Previews: PreviewProvider {
   static var previews: some View {
-    DashboardCardsListView(cardViewItems: MockProvider.cardViewItems)
+    DashboardCardsListView(cardViewItems: MockProvider.cardViewItems3)
   }
 }

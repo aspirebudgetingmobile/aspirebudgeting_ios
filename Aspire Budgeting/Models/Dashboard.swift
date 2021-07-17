@@ -6,7 +6,7 @@
 import Foundation
 
 struct Dashboard: ConstructableFromRows {
-  struct Group {
+struct Group: Equatable {
     let title: String
     let categories: [Category]
   }
@@ -87,5 +87,11 @@ extension Dashboard {
 
   func spentTotalForGroup(at idx: Int) -> AspireNumber {
     getTotalOf(type: .spent, at: idx)
+  }
+}
+
+extension Dashboard: Equatable {
+  static func == (lhs: Dashboard, rhs: Dashboard) -> Bool {
+    lhs.groups == rhs.groups
   }
 }

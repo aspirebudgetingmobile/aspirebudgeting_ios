@@ -3,14 +3,27 @@
 // Aspire Budgeting
 //
 
-import Foundation
+import Combine
 
-typealias DashboardViewModel = ViewModel<DashboardDataProvider>
+final class DashboardViewModel: ObservableObject {
+  let publisher: AnyPublisher<Dashboard, Error>
+  var cancellables = Set<AnyCancellable>()
 
-struct DashboardDataProvider {
-  let dashboard: Dashboard
+  @Published private(set) var dashboard: Dashboard?
+  @Published private(set) var error: Error?
+
+  var isLoading: Bool {
+    dashboard == nil && error == nil
+  }
+
+  init(publisher: AnyPublisher<Dashboard, Error>) {
+    self.publisher = publisher
+  }
 
   var cardViewItems: [DashboardCardView.DashboardCardItem] {
+    guard let dashboard = dashboard else {
+      return .init()
+    }
     var items = [DashboardCardView.DashboardCardItem]()
     for (idx, group) in dashboard.groups.enumerated() {
       let title = group.title
@@ -30,7 +43,7 @@ struct DashboardDataProvider {
   }
 
   func filteredCategories(filter: String) -> [Category] {
-    guard !filter.isEmpty else { return [Category]() }
+    guard !filter.isEmpty, let dashboard = dashboard else { return .init() }
     var categories = [Category]()
     categories = dashboard.groups.flatMap { $0.categories
       .filter { $0.categoryName
@@ -38,5 +51,24 @@ struct DashboardDataProvider {
       }
     }
     return categories
+  }
+
+  func refresh() {
+    cancellables.removeAll()
+
+    publisher
+      .sink { completion in
+        switch completion {
+        case let .failure(error):
+          self.error = error
+
+        case .finished:
+          Logger.info("Dashboard fetched.")
+        }
+      } receiveValue: {
+        self.dashboard = $0
+      }
+      .store(in: &cancellables)
+
   }
 }
