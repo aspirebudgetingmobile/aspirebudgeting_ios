@@ -4,7 +4,6 @@
 //
 
 import Combine
-import Foundation
 
 final class DashboardViewModel: ObservableObject {
   let publisher: AnyPublisher<Dashboard, Error>

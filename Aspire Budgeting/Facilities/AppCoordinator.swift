@@ -19,10 +19,8 @@ final class AppCoordinator: ObservableObject {
 
   private(set) var fileSelectorVM: FileSelectorViewModel!
   private(set) var dashboardVM: DashboardViewModel!
+  private(set) var accountBalancesVM: AccountBalancesViewModel!
 
-  private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
-    AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
-  }()
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
     AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
   }()
@@ -63,6 +61,15 @@ final class AppCoordinator: ObservableObject {
   private func setupViewModels(for user: User, sheet: AspireSheet) {
     self.dashboardVM =
       DashboardViewModel(
+        publisher: self.contentProvider
+          .getData(
+            for: user,
+            from: sheet.file,
+            using: sheet.dataMap)
+      )
+
+    self.accountBalancesVM =
+      AccountBalancesViewModel(
         publisher: self.contentProvider
           .getData(
             for: user,
@@ -123,30 +130,6 @@ final class AppCoordinator: ObservableObject {
 
 // MARK: - Callbacks
 extension AppCoordinator {
-  func accountBalancesRefreshCallback() {
-//    self.contentProvider
-//      .getData(for: self.user!,
-//               from: self.selectedSheet!.file,
-//               using: self.selectedSheet!.dataMap) { (readResult: Result<AccountBalances>) in
-//
-//        let result: Result<AccountBalancesDataProvider>
-//
-//        switch readResult {
-//        case .success(let accountBalance):
-//          result = .success(AccountBalancesDataProvider(accountBalances: accountBalance))
-//
-//        case .failure(let error):
-//          result = .failure(error)
-//        }
-//
-//        self.accountBalancesVM =
-//          AccountBalancesViewModel(result: result,
-//                                   refreshAction:
-//                                    self.accountBalancesRefreshCallback)
-//        self.objectWillChange.send()
-//      }
-  }
-
   func addTransactionRefreshCallback() {
     self.contentProvider
       .getBatchData(for: self.user!,
@@ -208,8 +191,8 @@ extension AppCoordinator {
     handle(state: .changeSheet)
 //    self.fileSelectorVM = FileSelectorViewModel()
 //    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-    self.accountBalancesVM =
-      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+//    self.accountBalancesVM =
+//      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
     self.addTransactionVM =
       AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
     self.transactionsVM = TransactionsViewModel(refreshAction:
