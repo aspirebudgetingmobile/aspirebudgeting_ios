@@ -132,9 +132,10 @@ final class AppCoordinator: ObservableObject {
 extension AppCoordinator {
   func addTransactionRefreshCallback() {
     self.contentProvider
-      .getBatchData(for: self.user!,
-                    from: self.selectedSheet!.file,
-                    using: self.selectedSheet!.dataMap) { (readResult: Result<AddTransactionMetadata>) in
+      .getBatchData(
+        for: self.user!,
+        from: self.selectedSheet!.file,
+        using: self.selectedSheet!.dataMap) { (readResult: Result<AddTransactionMetadata>) in
 
         let result: Result<AddTrxDataProvider>
 
