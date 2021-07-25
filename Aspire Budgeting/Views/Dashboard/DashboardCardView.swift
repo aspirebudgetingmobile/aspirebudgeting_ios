@@ -118,7 +118,7 @@ extension DashboardCardView {
 
 // MARK: - Internal Types
 extension DashboardCardView {
-  struct DashboardCardItem {
+  struct DashboardCardItem: Equatable {
     let title: String
     let availableTotal: AspireNumber
     let budgetedTotal: AspireNumber

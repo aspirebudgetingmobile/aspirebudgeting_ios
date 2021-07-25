@@ -18,13 +18,9 @@ final class AppCoordinator: ObservableObject {
   private var cancellables = Set<AnyCancellable>()
 
   private(set) var fileSelectorVM: FileSelectorViewModel!
+  private(set) var dashboardVM: DashboardViewModel!
+  private(set) var accountBalancesVM: AccountBalancesViewModel!
 
-  private(set) lazy var dashboardVM: DashboardViewModel = {
-    DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-  }()
-  private(set) lazy var accountBalancesVM: AccountBalancesViewModel = {
-    AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
-  }()
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
     AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
   }()
@@ -40,6 +36,8 @@ final class AppCoordinator: ObservableObject {
 
   @Published private(set) var user: User?
   @Published private(set) var selectedSheet: AspireSheet?
+  @Published private(set) var isLoading = false
+
   // TODO: Remove these two
   private var selectedFile: File?
   private var dataLocationMap: [String: String]?
@@ -60,6 +58,26 @@ final class AppCoordinator: ObservableObject {
     self.contentProvider = contentProvider
   }
 
+  private func setupViewModels(for user: User, sheet: AspireSheet) {
+    self.dashboardVM =
+      DashboardViewModel(
+        publisher: self.contentProvider
+          .getData(
+            for: user,
+            from: sheet.file,
+            using: sheet.dataMap)
+      )
+
+    self.accountBalancesVM =
+      AccountBalancesViewModel(
+        publisher: self.contentProvider
+          .getData(
+            for: user,
+            from: sheet.file,
+            using: sheet.dataMap)
+      )
+  }
+
   func start(for user: User) {
     self.user = user
     self.selectedSheet = appDefaults.getDefaultSheet()
@@ -70,14 +88,21 @@ final class AppCoordinator: ObservableObject {
       user: user
     )
 
-    fileSelectorVM
-      .$aspireSheet
-      .compactMap { $0 }
-      .sink { aspireSheet in
-        self.selectedSheet = aspireSheet
-        self.appDefaults.addDefault(sheet: aspireSheet)
-      }
-      .store(in: &cancellables)
+    if let selectedSheet = self.selectedSheet {
+      setupViewModels(for: user, sheet: selectedSheet)
+    } else {
+      fileSelectorVM
+        .$aspireSheet
+        .compactMap { $0 }
+        .sink { [weak self] aspireSheet in
+          guard let self = self else { return }
+          self.selectedSheet = aspireSheet
+          self.appDefaults.addDefault(sheet: aspireSheet)
+          self.setupViewModels(for: user, sheet: aspireSheet)
+        }
+        .store(in: &cancellables)
+
+    }
 
     // TODO: Remove
     stateManager
@@ -105,58 +130,12 @@ final class AppCoordinator: ObservableObject {
 
 // MARK: - Callbacks
 extension AppCoordinator {
-  func dashboardRefreshCallback() {
-    self.contentProvider
-      .getData(for: self.user!,
-               from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap) { (readResult: Result<Dashboard>) in
-
-        let result: Result<DashboardDataProvider>
-
-        switch readResult {
-        case .success(let dashboard):
-          result = .success(DashboardDataProvider(dashboard: dashboard))
-
-        case .failure(let error):
-          result = .failure(error)
-        }
-
-        self.dashboardVM =
-          DashboardViewModel(result: result,
-                             refreshAction: self.dashboardRefreshCallback)
-        self.objectWillChange.send()
-      }
-  }
-
-  func accountBalancesRefreshCallback() {
-    self.contentProvider
-      .getData(for: self.user!,
-               from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap) { (readResult: Result<AccountBalances>) in
-
-        let result: Result<AccountBalancesDataProvider>
-
-        switch readResult {
-        case .success(let accountBalance):
-          result = .success(AccountBalancesDataProvider(accountBalances: accountBalance))
-
-        case .failure(let error):
-          result = .failure(error)
-        }
-
-        self.accountBalancesVM =
-          AccountBalancesViewModel(result: result,
-                                   refreshAction:
-                                    self.accountBalancesRefreshCallback)
-        self.objectWillChange.send()
-      }
-  }
-
   func addTransactionRefreshCallback() {
     self.contentProvider
-      .getBatchData(for: self.user!,
-                    from: self.selectedSheet!.file,
-                    using: self.selectedSheet!.dataMap) { (readResult: Result<AddTransactionMetadata>) in
+      .getBatchData(
+        for: self.user!,
+        from: self.selectedSheet!.file,
+        using: self.selectedSheet!.dataMap) { (readResult: Result<AddTransactionMetadata>) in
 
         let result: Result<AddTrxDataProvider>
 
@@ -176,26 +155,26 @@ extension AppCoordinator {
   }
 
   func transactionsRefreshCallback() {
-    self.contentProvider
-      .getData(for: self.user!,
-               from: self.selectedSheet!.file,
-               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
-
-        let result: Result<TransactionsDataProvider>
-
-        switch readResult {
-        case .success(let transactions):
-          result = .success(TransactionsDataProvider(transactions: transactions))
-
-        case .failure(let error):
-          result = .failure(error)
-        }
-
-        self.transactionsVM =
-          TransactionsViewModel(result: result,
-                                refreshAction: self.transactionsRefreshCallback)
-        self.objectWillChange.send()
-      }
+//    self.contentProvider
+//      .getData(for: self.user!,
+//               from: self.selectedSheet!.file,
+//               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
+//
+//        let result: Result<TransactionsDataProvider>
+//
+//        switch readResult {
+//        case .success(let transactions):
+//          result = .success(TransactionsDataProvider(transactions: transactions))
+//
+//        case .failure(let error):
+//          result = .failure(error)
+//        }
+//
+//        self.transactionsVM =
+//          TransactionsViewModel(result: result,
+//                                refreshAction: self.transactionsRefreshCallback)
+//        self.objectWillChange.send()
+//      }
   }
 
   func submit(transaction: Transaction, resultHandler: @escaping SubmitResultHandler) {
@@ -212,9 +191,9 @@ extension AppCoordinator {
     self.appDefaults.clearDefaultFile()
     handle(state: .changeSheet)
 //    self.fileSelectorVM = FileSelectorViewModel()
-    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-    self.accountBalancesVM =
-      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
+//    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
+//    self.accountBalancesVM =
+//      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
     self.addTransactionVM =
       AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
     self.transactionsVM = TransactionsViewModel(refreshAction:
