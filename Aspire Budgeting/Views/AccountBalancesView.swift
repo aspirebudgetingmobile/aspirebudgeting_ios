@@ -3,6 +3,7 @@
 //  Aspire Budgeting
 //
 
+import Combine
 import SwiftUI
 
 struct AccountBalancesView: View {
@@ -74,8 +75,13 @@ struct AccountBalancesView: View {
   }
 }
 
-// struct AccountBalancesView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    AccountBalancesView(viewModel: <#AccountBalancesViewModel#>)
-//  }
-// }
+struct AccountBalancesView_Previews: PreviewProvider {
+  static var previews: some View {
+    AccountBalancesView(viewModel: .init(
+      publisher: Just(MockProvider.accountBalances)
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
+    )
+    )
+  }
+}

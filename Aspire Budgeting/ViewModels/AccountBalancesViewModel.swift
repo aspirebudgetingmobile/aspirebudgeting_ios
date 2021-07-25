@@ -4,12 +4,6 @@
 //
 import Combine
 
-//typealias AccountBalancesViewModel = ViewModel<AccountBalancesDataProvider>
-//
-//struct AccountBalancesDataProvider {
-//  let accountBalances: AccountBalances
-//}
-
 final class AccountBalancesViewModel: ObservableObject {
 
   let publisher: AnyPublisher<AccountBalances, Error>

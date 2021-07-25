@@ -92,4 +92,13 @@ enum MockProvider {
       ),
     ]
   }
+
+  static var accountBalances: AccountBalances {
+    AccountBalances(rows: [
+      ["Account 1", "$1234"],
+      ["Additional text 1"],
+      ["Account 2", "$234"],
+      ["Additional text 2"],
+    ])
+  }
 }
