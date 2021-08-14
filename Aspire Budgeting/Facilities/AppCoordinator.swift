@@ -20,13 +20,10 @@ final class AppCoordinator: ObservableObject {
   private(set) var fileSelectorVM: FileSelectorViewModel!
   private(set) var dashboardVM: DashboardViewModel!
   private(set) var accountBalancesVM: AccountBalancesViewModel!
+  private(set) var transactionsVM: TransactionsViewModel!
 
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
     AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
-  }()
-  private(set) lazy var transactionsVM: TransactionsViewModel = {
-    TransactionsViewModel(refreshAction:
-                            self.transactionsRefreshCallback)
   }()
 
 //  private(set) lazy var settingsVM: SettingsViewModel = {
@@ -70,6 +67,15 @@ final class AppCoordinator: ObservableObject {
 
     self.accountBalancesVM =
       AccountBalancesViewModel(
+        publisher: self.contentProvider
+          .getData(
+            for: user,
+            from: sheet.file,
+            using: sheet.dataMap)
+      )
+
+    self.transactionsVM =
+      TransactionsViewModel(
         publisher: self.contentProvider
           .getData(
             for: user,
@@ -190,14 +196,8 @@ extension AppCoordinator {
   func changeSheet() {
     self.appDefaults.clearDefaultFile()
     handle(state: .changeSheet)
-//    self.fileSelectorVM = FileSelectorViewModel()
-//    self.dashboardVM = DashboardViewModel(refreshAction: self.dashboardRefreshCallback)
-//    self.accountBalancesVM =
-//      AccountBalancesViewModel(refreshAction: self.accountBalancesRefreshCallback)
     self.addTransactionVM =
       AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
-    self.transactionsVM = TransactionsViewModel(refreshAction:
-                                                      self.transactionsRefreshCallback)
     handle(state: .authenticatedLocally)
     Logger.info("Sheet changed")
     self.objectWillChange.send()
