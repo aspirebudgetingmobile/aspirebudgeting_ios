@@ -41,10 +41,10 @@ struct AspireMasterView: View {
                 self.navTitle = "Transactions"
               }
           } else if selectedTab == 3 {
-//            SettingsView(viewModel: appCoordinator.settingsVM)
-//              .onAppear {
-//                self.navTitle = "Settings"
-//              }
+            SettingsView(viewModel: appCoordinator.settingsVM)
+              .onAppear {
+                self.navTitle = "Settings"
+              }
           }
         }
         .frame(height: UIScreen.main.bounds.height - 200)
