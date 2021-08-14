@@ -69,6 +69,5 @@ final class DashboardViewModel: ObservableObject {
         self.dashboard = $0
       }
       .store(in: &cancellables)
-
   }
 }
