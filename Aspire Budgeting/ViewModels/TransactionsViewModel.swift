@@ -55,7 +55,7 @@ final class TransactionsViewModel: ObservableObject {
           self.error = error
 
         case .finished:
-          Logger.info("Dashboard fetched.")
+          Logger.info("Trsansactions fetched.")
         }
       } receiveValue: {
         self.transactions = $0
