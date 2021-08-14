@@ -21,15 +21,11 @@ final class AppCoordinator: ObservableObject {
   private(set) var dashboardVM: DashboardViewModel!
   private(set) var accountBalancesVM: AccountBalancesViewModel!
   private(set) var transactionsVM: TransactionsViewModel!
+  private(set) var settingsVM: SettingsViewModel!
 
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
     AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
   }()
-
-//  private(set) lazy var settingsVM: SettingsViewModel = {
-//    SettingsViewModel(fileName: selectedFile!.name,
-//  changeSheet: self.changeSheet, fileSelectorVM: self.fileSelectorVM)
-//  }()
 
   @Published private(set) var user: User?
   @Published private(set) var selectedSheet: AspireSheet?
@@ -82,6 +78,15 @@ final class AppCoordinator: ObservableObject {
             from: sheet.file,
             using: sheet.dataMap)
       )
+
+    self.settingsVM =
+      SettingsViewModel(
+        fileName: sheet.file.name,
+        changeSheet: {
+
+        },
+        fileSelectorVM: fileSelectorVM
+      )
   }
 
   func start(for user: User) {
@@ -94,20 +99,19 @@ final class AppCoordinator: ObservableObject {
       user: user
     )
 
+    fileSelectorVM
+      .$aspireSheet
+      .compactMap { $0 }
+      .sink { [weak self] aspireSheet in
+        guard let self = self else { return }
+        self.selectedSheet = aspireSheet
+        self.appDefaults.addDefault(sheet: aspireSheet)
+        self.setupViewModels(for: user, sheet: aspireSheet)
+      }
+      .store(in: &cancellables)
+
     if let selectedSheet = self.selectedSheet {
       setupViewModels(for: user, sheet: selectedSheet)
-    } else {
-      fileSelectorVM
-        .$aspireSheet
-        .compactMap { $0 }
-        .sink { [weak self] aspireSheet in
-          guard let self = self else { return }
-          self.selectedSheet = aspireSheet
-          self.appDefaults.addDefault(sheet: aspireSheet)
-          self.setupViewModels(for: user, sheet: aspireSheet)
-        }
-        .store(in: &cancellables)
-
     }
 
     // TODO: Remove

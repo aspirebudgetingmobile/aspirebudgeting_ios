@@ -9,6 +9,8 @@ struct SettingsView: View {
   let viewModel: SettingsViewModel
 
   @State private var showShareSheet = false
+  @State private var showFileSelector = false
+
   var body: some View {
     Form {
       Section(footer:
@@ -17,7 +19,7 @@ struct SettingsView: View {
                   Text("App Version: \(AspireVersionInfo.version).\(AspireVersionInfo.build)")
                 }) {
         Button("Change Sheet") {
-          viewModel.changeSheet()
+          showFileSelector = true
         }
         Button("Export Log File") {
             showShareSheet = true
@@ -25,6 +27,16 @@ struct SettingsView: View {
       }
     }.sheet(isPresented: $showShareSheet) {
       ShareSheet(activityItems: [logURL])
+    }
+    .sheet(isPresented: $showFileSelector) {
+      FileSelectorView(viewModel: viewModel.fileSelectorVM)
+    }
+    .onReceive(
+      viewModel
+        .fileSelectorVM
+        .$aspireSheet
+        .compactMap { $0 }) { _ in
+      showFileSelector = false
     }
   }
 }
