@@ -43,7 +43,7 @@ struct AddTransactionView: View {
     self.memoString = ""
   }
 
-  func callback(result: Result<Any>) {
+  func callback(result: Result<Void>) {
     switch result {
     case .success:
       alertText = "Transaction added"

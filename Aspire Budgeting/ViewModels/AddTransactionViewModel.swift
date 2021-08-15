@@ -6,7 +6,7 @@
 import Foundation
 
 typealias AddTransactionViewModel = ViewModel<AddTrxDataProvider>
-typealias SubmitResultHandler = (Result<Any>) -> Void
+typealias SubmitResultHandler = (Result<Void>) -> Void
 struct AddTrxDataProvider {
   let transactionCategories: [String]
   let transactionAccounts: [String]

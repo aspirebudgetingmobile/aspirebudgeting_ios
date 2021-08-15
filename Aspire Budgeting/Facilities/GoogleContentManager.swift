@@ -23,8 +23,7 @@ protocol ContentWriter {
   func write<T>(data: T,
                 for user: User,
                 to file: File,
-                using dataMap: [String: String],
-                completion: @escaping (Result<Any>) -> Void)
+                using dataMap: [String: String]) -> AnyPublisher<Void, Error>
 }
 
 typealias ContentProvider = ContentReader & ContentWriter
@@ -148,36 +147,27 @@ extension GoogleContentManager: ContentWriter {
   func write<T>(data: T,
                 for user: User,
                 to file: File,
-                using dataMap: [String: String],
-                completion: @escaping (Result<Any>) -> Void) {
-//    if let location = getRange(of: T.self, from: dataMap) {
-//      readSink = fileReader
-//        .read(file: file, user: user, locations: [location])
-//        .sink(receiveCompletion: { _ in //TODO: To be implemented for >3.3
-//        }, receiveValue: { _ in //TODO: To be implemented for >3.3
-//        })
-//    } else {
-//      readSink = getVersion(for: file, user: user)
-//        .compactMap { self.getRange(of: T.self, for: $0) }
-//        .flatMap { location -> AnyPublisher<Any, Error> in
-//          let valueRange = self.createValueRange(from: data)
-//          valueRange?.range = location
-//          return self.fileWriter.write(data: valueRange!,
-//                                       file: file,
-//                                       user: user,
-//                                       location: location)
-//        }
-//        .sink(receiveCompletion: { status in
-//          switch status {
-//          case .failure(let error):
-//            completion(.failure(error))
-//          default:
-//            Logger.info("\(T.self) written")
-//          }
-//        }, receiveValue: { result in
-//          completion(.success(result))
-//        })
-//    }
+                using dataMap: [String: String]) -> AnyPublisher<Void, Error> {
+    getRange(of: T.self, from: dataMap)
+      .catch { _ in
+        self.getVersion(for: file, user: user)
+          .flatMap { (supportedVersion: SupportedLegacyVersion) -> AnyPublisher<String, Error> in
+            self.getRange(of: T.self, for: supportedVersion)
+          }
+      }
+      .flatMap { location -> AnyPublisher<Any, Error> in
+        let valueRange = self.createValueRange(from: data)
+        valueRange?.range = location
+        return self.fileWriter
+          .write(
+            data: valueRange!,
+            file: file,
+            user: user,
+            location: location
+          )
+      }
+      .map { _ in }
+      .eraseToAnyPublisher()
   }
 }
 
