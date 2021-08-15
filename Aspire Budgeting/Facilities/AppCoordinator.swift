@@ -164,37 +164,24 @@ extension AppCoordinator {
       }
   }
 
-  func transactionsRefreshCallback() {
-//    self.contentProvider
-//      .getData(for: self.user!,
-//               from: self.selectedSheet!.file,
-//               using: self.selectedSheet!.dataMap) { (readResult: Result<Transactions>) in
-//
-//        let result: Result<TransactionsDataProvider>
-//
-//        switch readResult {
-//        case .success(let transactions):
-//          result = .success(TransactionsDataProvider(transactions: transactions))
-//
-//        case .failure(let error):
-//          result = .failure(error)
-//        }
-//
-//        self.transactionsVM =
-//          TransactionsViewModel(result: result,
-//                                refreshAction: self.transactionsRefreshCallback)
-//        self.objectWillChange.send()
-//      }
-  }
-
   func submit(transaction: Transaction, resultHandler: @escaping SubmitResultHandler) {
     self.contentProvider
-      .write(data: transaction,
-             for: self.user!,
-             to: self.selectedSheet!.file,
-             using: self.selectedSheet!.dataMap) { result in
-        resultHandler(result)
-      }
+      .write(
+        data: transaction,
+        for: self.user!,
+        to: self.selectedSheet!.file,
+        using: self.selectedSheet!.dataMap
+      )
+      .sink { completion in
+        switch completion {
+        case .finished:
+          resultHandler(.success(()))
+
+        case let .failure(error):
+          resultHandler(.failure(error))
+        }
+      } receiveValue: { _ in }
+      .store(in: &cancellables)
   }
 
   func changeSheet() {
