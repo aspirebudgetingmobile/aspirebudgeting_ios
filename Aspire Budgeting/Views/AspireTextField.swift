@@ -6,6 +6,7 @@
 import SwiftUI
 
 struct AspireTextField: View {
+  @Environment(\.colorScheme) var colorScheme
   @Binding var text: String
 
   let placeholder: String
@@ -39,7 +40,7 @@ struct AspireTextField: View {
         TextField(placeholder, text: $text)
           .keyboardType(keyboardType)
           .padding(.horizontal)
-          .foregroundColor(Color(red: 0.208, green: 0.216, blue: 0.282))
+          .foregroundColor(colorScheme == .light ? Color(red: 0.208, green: 0.216, blue: 0.282) : .white)
           .font(.nunitoSemiBold(size: 20))
           .disabled(disabled)
           .frame(height: 40)

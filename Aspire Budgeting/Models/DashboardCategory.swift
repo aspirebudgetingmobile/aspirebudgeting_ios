@@ -3,7 +3,7 @@
 //  Aspire Budgeting
 //
 
-struct Category: Hashable, Equatable {
+struct DashboardCategory: Hashable, Equatable {
   let categoryName: String
   let available: AspireNumber
   let spent: AspireNumber

@@ -7,7 +7,7 @@ import SwiftUI
 
 #warning("Remove DashboardRow")
 struct DashboardRow: View {
-  var categoryRow: Category
+  var categoryRow: DashboardCategory
 
   var body: some View {
     VStack(alignment: .leading) {

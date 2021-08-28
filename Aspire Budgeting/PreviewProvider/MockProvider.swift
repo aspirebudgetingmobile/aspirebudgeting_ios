@@ -23,7 +23,7 @@ enum MockProvider {
                                spentTotal: AspireNumber(stringValue: "$50"),
                                progressFactor: 0.25,
                                categories: [
-                                Category(row: ["",
+                                DashboardCategory(row: ["",
                                                "",
                                                "Dummy Category",
                                                "$30",
@@ -42,7 +42,7 @@ enum MockProvider {
                                spentTotal: AspireNumber(stringValue: "$50"),
                                progressFactor: 0.5,
                                categories: [
-                                Category(row: ["", "", "", "", "", "", "", "", "", ""]), ]))
+                                DashboardCategory(row: ["", "", "", "", "", "", "", "", "", ""]), ]))
 
     cardViewItems.append(.init(title: "Savings",
                                availableTotal: AspireNumber(stringValue: "$0"),
@@ -50,7 +50,7 @@ enum MockProvider {
                                spentTotal: AspireNumber(stringValue: "$50"),
                                progressFactor: 0.7,
                                categories: [
-                                Category(row: ["", "", "", "", "", "", "", "", "", ""]), ]))
+                                DashboardCategory(row: ["", "", "", "", "", "", "", "", "", ""]), ]))
 
     return cardViewItems
   }

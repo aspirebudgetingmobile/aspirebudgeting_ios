@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060024FE236F99DA00A20C96 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* Category.swift */; };
+		060024FE236F99DA00A20C96 /* DashboardCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FD236F99DA00A20C96 /* DashboardCategory.swift */; };
 		06002500236F9A8000A20C96 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060024FF236F9A8000A20C96 /* Dashboard.swift */; };
 		06002502236F9D9500A20C96 /* MockFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06002501236F9D9500A20C96 /* MockFile.swift */; };
 		060025042373BB5C00A20C96 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060025032373BB5C00A20C96 /* Nunito-Regular.ttf */; };
@@ -111,6 +111,10 @@
 		2D3CFAC19EDA97C0B481206D /* Pods_Aspire_BudgetingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE46AC8D5C124DF9507C36 /* Pods_Aspire_BudgetingTests.framework */; };
 		3E1E6A0C269A5BED0089EA56 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A49236CC64000D70CC9 /* MockUser.swift */; };
 		3E1E6A0D269A5C490089EA56 /* MockAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EA7A4D236CC71B00D70CC9 /* MockAuthorizer.swift */; };
+		3E43670326D9C00F001421A8 /* CategoryTransferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E43670226D9C00F001421A8 /* CategoryTransferViewModel.swift */; };
+		3E43670526D9C2AB001421A8 /* TrxCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E43670426D9C2AB001421A8 /* TrxCategory.swift */; };
+		3E43670926D9C647001421A8 /* CategoryTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E43670826D9C647001421A8 /* CategoryTransferView.swift */; };
+		3E43670B26DA0477001421A8 /* CategoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E43670A26DA0477001421A8 /* CategoryTransfer.swift */; };
 		3E5B7DFE2690AFEE005B590D /* Publisher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */; };
 		3E7DAAF726A1463600D55A35 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7DAAF626A1463600D55A35 /* DashboardViewModelTests.swift */; };
 		3ED459FF269965D9001563E3 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED459FE269965D9001563E3 /* AuthenticationManager.swift */; };
@@ -130,7 +134,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		060024FD236F99DA00A20C96 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		060024FD236F99DA00A20C96 /* DashboardCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCategory.swift; sourceTree = "<group>"; };
 		060024FF236F9A8000A20C96 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		06002501236F9D9500A20C96 /* MockFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFile.swift; sourceTree = "<group>"; };
 		060025032373BB5C00A20C96 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
@@ -239,6 +243,10 @@
 		06F9A8D424391357005E5A13 /* AccountBalancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalancesView.swift; sourceTree = "<group>"; };
 		06F9A8D6243917EF005E5A13 /* AccountBalances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalances.swift; sourceTree = "<group>"; };
 		3C0B0E1283F182D53EBD85B3 /* Pods-Aspire Budgeting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aspire Budgeting.debug.xcconfig"; path = "Target Support Files/Pods-Aspire Budgeting/Pods-Aspire Budgeting.debug.xcconfig"; sourceTree = "<group>"; };
+		3E43670226D9C00F001421A8 /* CategoryTransferViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTransferViewModel.swift; sourceTree = "<group>"; };
+		3E43670426D9C2AB001421A8 /* TrxCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrxCategory.swift; sourceTree = "<group>"; };
+		3E43670826D9C647001421A8 /* CategoryTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTransferView.swift; sourceTree = "<group>"; };
+		3E43670A26DA0477001421A8 /* CategoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTransfer.swift; sourceTree = "<group>"; };
 		3E5B7DFD2690AFEE005B590D /* Publisher+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extensions.swift"; sourceTree = "<group>"; };
 		3E7DAAF626A1463600D55A35 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
 		3ED459FE269965D9001563E3 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -319,6 +327,7 @@
 				065D909425CF2FCB00185786 /* TransactionsView.swift */,
 				06BC51B9264F47C400E4BC8B /* SettingsView.swift */,
 				3EDC12D0267564AE006A133D /* ShareSheet.swift */,
+				3E43670826D9C647001421A8 /* CategoryTransferView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -328,13 +337,15 @@
 			children = (
 				066EF45D235CF74500E94CE4 /* User.swift */,
 				06AB2C8123627B2D0076516E /* File.swift */,
-				060024FD236F99DA00A20C96 /* Category.swift */,
+				060024FD236F99DA00A20C96 /* DashboardCategory.swift */,
 				060024FF236F9A8000A20C96 /* Dashboard.swift */,
 				069FDF9923878CD10023E86A /* AspireNumber.swift */,
 				06F9A8D6243917EF005E5A13 /* AccountBalances.swift */,
 				06B0A21725A3BEA800E8DFBB /* AddTransactionMetadata.swift */,
 				06B0A23725A68D2700E8DFBB /* Transaction.swift */,
 				3ED45A00269A1102001563E3 /* AspireSheet.swift */,
+				3E43670426D9C2AB001421A8 /* TrxCategory.swift */,
+				3E43670A26DA0477001421A8 /* CategoryTransfer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -430,6 +441,7 @@
 				06B0A22125A5390700E8DFBB /* ViewModel.swift */,
 				065D90A225CF82ED00185786 /* TransactionsViewModel.swift */,
 				06BC51BD264F4A6500E4BC8B /* SettingsViewModel.swift */,
+				3E43670226D9C00F001421A8 /* CategoryTransferViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -775,6 +787,7 @@
 				066EF462235D4FBD00E94CE4 /* SignInView.swift in Sources */,
 				065F03D2236E2385005AED12 /* DashboardRow.swift in Sources */,
 				060CDA6A238F6AD2005CD74B /* CollapsedCardView.swift in Sources */,
+				3E43670326D9C00F001421A8 /* CategoryTransferViewModel.swift in Sources */,
 				062F2BBF24EEDA7E004830F8 /* AppDefaults.swift in Sources */,
 				066C3F352453560E003CDE73 /* AspireRadioControl.swift in Sources */,
 				06C6B59F24EF372E00968C60 /* SearchBar.swift in Sources */,
@@ -814,6 +827,8 @@
 				066EF459235CE07C00E94CE4 /* GoogleSignInButton.swift in Sources */,
 				06F9A8D524391357005E5A13 /* AccountBalancesView.swift in Sources */,
 				065C718023838E9100DB46B2 /* Colors.swift in Sources */,
+				3E43670B26DA0477001421A8 /* CategoryTransfer.swift in Sources */,
+				3E43670926D9C647001421A8 /* CategoryTransferView.swift in Sources */,
 				06BC51BA264F47C400E4BC8B /* SettingsView.swift in Sources */,
 				066EF464235E92AF00E94CE4 /* GoogleDriveManager.swift in Sources */,
 				066C3F33244E67CD003CDE73 /* AspirePickerButton.swift in Sources */,
@@ -830,6 +845,7 @@
 				06EA080A24F4637700927FE5 /* FileValidator.swift in Sources */,
 				061F103823776D1700089D11 /* StateManager.swift in Sources */,
 				06A227B223EF768200B5BAF0 /* AspireVersionInfo.swift in Sources */,
+				3E43670526D9C2AB001421A8 /* TrxCategory.swift in Sources */,
 				3ED459FF269965D9001563E3 /* AuthenticationManager.swift in Sources */,
 				06C6B5A324F2165E00968C60 /* LoadingView.swift in Sources */,
 				068B12A0258EB2A5006B64FE /* BannerView.swift in Sources */,
@@ -841,7 +857,7 @@
 				0685BBB7250EC74800728228 /* BaseCardView.swift in Sources */,
 				06C5C6A823690AEB00862196 /* FileSelectorView.swift in Sources */,
 				066EF45E235CF74500E94CE4 /* User.swift in Sources */,
-				060024FE236F99DA00A20C96 /* Category.swift in Sources */,
+				060024FE236F99DA00A20C96 /* DashboardCategory.swift in Sources */,
 				06EA7A50236CC8F900D70CC9 /* GoogleSheetsManager.swift in Sources */,
 				065C717C2382075200DB46B2 /* DashboardCardView.swift in Sources */,
 				069F830825003EBB009DD3E9 /* GoogleContentManager.swift in Sources */,

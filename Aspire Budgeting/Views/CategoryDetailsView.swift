@@ -77,7 +77,7 @@ extension CategoryDetailsView {
     let budgetedTotal: AspireNumber
     let spentTotal: AspireNumber
     let availableTotal: AspireNumber
-    let categories: [Category]
+    let categories: [DashboardCategory]
     let tintColor: Color
   }
 }

@@ -42,9 +42,9 @@ final class DashboardViewModel: ObservableObject {
     return items
   }
 
-  func filteredCategories(filter: String) -> [Category] {
+  func filteredCategories(filter: String) -> [DashboardCategory] {
     guard !filter.isEmpty, let dashboard = dashboard else { return .init() }
-    var categories = [Category]()
+    var categories = [DashboardCategory]()
     categories = dashboard.groups.flatMap { $0.categories
       .filter { $0.categoryName
         .range(of: filter, options: .caseInsensitive) != nil

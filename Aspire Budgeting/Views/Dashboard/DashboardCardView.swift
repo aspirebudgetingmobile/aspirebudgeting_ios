@@ -124,7 +124,7 @@ extension DashboardCardView {
     let budgetedTotal: AspireNumber
     let spentTotal: AspireNumber
     let progressFactor: Double
-    let categories: [Category]
+    let categories: [DashboardCategory]
   }
 }
 
@@ -137,7 +137,7 @@ struct DashboardCardView_Previews: PreviewProvider {
                           budgetedTotal: AspireNumber(stringValue: "$40"),
                           spentTotal: AspireNumber(stringValue: "$30"),
                           progressFactor: 0.5,
-                          categories: [Category.init(row: ["$1",
+                          categories: [DashboardCategory.init(row: ["$1",
                                                            "$1",
                                                            "$1",
                                                            "$1",
