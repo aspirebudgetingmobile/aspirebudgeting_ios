@@ -252,6 +252,12 @@ extension GoogleContentManager {
     case is Transactions.Type:
       range = "Transactions!B9:H"
 
+    case is TrxCategories.Type:
+      range = self.getTrxCategoriesRange(for: version)
+
+    case is CategoryTransfer.Type:
+      range = "Category Transfers!B:F"
+
     default:
       Logger.info("Data requested for unknown type \(T.self).")
       // TODO: Change to appropriate error
@@ -347,6 +353,9 @@ extension GoogleContentManager {
     case is Transaction.Type:
       return ValueRangeCreator.valueRange(from: data as! Transaction,
                                           for: supportedVersion)
+
+    case is CategoryTransfer.Type:
+      return ValueRangeCreator.valuerange(from: data as! CategoryTransfer)
     default:
       Logger.info("ValueRange requested for unknown type \(T.self)")
       return nil

@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct CategoryListView: View {
-  let categories: [Category]
+  let categories: [DashboardCategory]
   let tintColor: Color
 
   private func getAuxillaryText(spent: AspireNumber, budgeted: AspireNumber) -> String {

@@ -22,6 +22,7 @@ final class AppCoordinator: ObservableObject {
   private(set) var accountBalancesVM: AccountBalancesViewModel!
   private(set) var transactionsVM: TransactionsViewModel!
   private(set) var settingsVM: SettingsViewModel!
+  private(set) var categoryTransferViewModel: CategoryTransferViewModel!
 
   private(set) lazy var addTransactionVM: AddTransactionViewModel = {
     AddTransactionViewModel(refreshAction: self.addTransactionRefreshCallback)
@@ -86,6 +87,18 @@ final class AppCoordinator: ObservableObject {
 
         },
         fileSelectorVM: fileSelectorVM
+      )
+
+    categoryTransferViewModel =
+      CategoryTransferViewModel(
+        categoriesPublisher: contentProvider
+          .getData(for: user,
+                   from: sheet.file,
+                   using: sheet.dataMap),
+        submitter: { [unowned self] categoryTransfer in
+          self.contentProvider
+            .write(data: categoryTransfer, for: user, to: sheet.file, using: sheet.dataMap)
+        }
       )
   }
 

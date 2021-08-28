@@ -8,7 +8,7 @@ import Foundation
 struct Dashboard: ConstructableFromRows {
 struct Group: Equatable {
     let title: String
-    let categories: [Category]
+    let categories: [DashboardCategory]
   }
 
   private enum TotalType {
@@ -26,7 +26,7 @@ struct Group: Equatable {
 
   private static func parse(rows: [[String]]) -> [Group] {
     var title = ""
-    var categories = [Category]()
+    var categories = [DashboardCategory]()
     var groups = [Group]()
 
     for row in rows where row.count == 10 {
@@ -37,7 +37,7 @@ struct Group: Equatable {
         }
         title = row[2]
       } else {
-        let categoryRow = Category(row: row)
+        let categoryRow = DashboardCategory(row: row)
         categories.append(categoryRow)
       }
     }
