@@ -33,7 +33,7 @@ struct AspireNavigationBar: View {
         })
       }.padding(.trailing)
     }
-    .popover(isPresented: $showCategoryTransfer, content: {
+    .sheet(isPresented: $showCategoryTransfer, content: {
       NavigationView {
         CategoryTransferView(viewModel: appCoordinator.categoryTransferViewModel)
       }
