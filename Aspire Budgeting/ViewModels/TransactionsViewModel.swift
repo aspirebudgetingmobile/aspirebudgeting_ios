@@ -55,6 +55,7 @@ final class TransactionsViewModel: ObservableObject {
           self.error = error
 
         case .finished:
+          self.error = nil
           Logger.info("Trsansactions fetched.")
         }
       } receiveValue: {
